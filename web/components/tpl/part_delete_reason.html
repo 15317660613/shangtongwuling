@@ -1,0 +1,47 @@
+<!--
+File   : part_delete_reason.html
+Created: 2018-12-22 17:20
+Author : Qitian
+Description: 删除零件-填写原因模态框
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<style>
+    .layui-layer-title {
+        font-size: 20px;
+        padding-top: 8px;
+    }
+
+    .import-title {
+        color: #ff0000;
+        font-size: 22px;
+        font-weight: 700;
+        margin-right: 15px;
+    }
+
+    .layui-tpl-container .p-form {
+        overflow: visible;
+    }
+</style>
+<div class="layui-tpl-container">
+    <div class="layui-form p-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 删除原因</label>
+            <div class="layui-input-block">
+                <input type="hidden"  id="delete-suppliernum"/>
+                <input type="hidden"  id="delete-latestpartnum"/>
+                <input type="hidden"  id="delete-partskey"/>
+                <input type="text" id="delete-reason" placeholder="请输入删除原因" class="layui-input" required="">
+            </div>
+        </div>
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="submit-delete">确定</button>
+            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="cancel-delete">取消</button>
+        </div>
+    </div>
+</div>

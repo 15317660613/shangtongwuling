@@ -1,0 +1,210 @@
+<style>
+</style>
+
+<div class="layui-upload1">
+  <div id="pick">选择一个文件</div>
+  <div id="remind" style="color: red;"></div>
+  <div class="layui-upload-list">
+    <table class="layui-table">
+      <thead>
+        <tr>
+        <th style="width:100px">文件名</th>
+        <th>状态</th>
+        <th style="width:300px">进度</th>
+        <th>操作</th>
+      	</tr>
+      </thead>
+      <tbody id="promiseList">
+      </tbody>
+    </table>
+  </div>
+<!--   <button type="button" class="layui-btn" id="testListAction">开始上传</button> -->
+</div>
+<script>
+var uploader
+    layui.use(['upload', 'laydate', 'form', 'admin', 'config','element'], function () {
+        var upload = layui.upload;
+        var $ = layui.jquery;
+        var config = layui.config;
+        var fileParrentId = window.fileParrentId;
+        var taskordernumber = window.taskno;
+        var startNumber=0;
+        var endNumber=0;
+        debugger;
+        WebUploader.Uploader.register({
+        	'name': 'webUploaderHookCommand',
+        	'before-send-file': 'beforeSendFile',
+        	"before-send": "beforeSend"
+        }, {
+        	beforeSendFile: function(file) {
+        		var task = new WebUploader.Deferred();
+        		fileName = file.name;
+        		fileSize = file.size;
+        		(new WebUploader.Uploader()).md5File(file, 0, 10 * 1024 * 1024).progress(function(percentage) {}).then(function(val) {
+        			fileMd5 = val;
+        			var url = admin.formatUrl('/api-edu/ppap/taskorder/checkchunk');
+        			var data = {
+                	    type : 0 ,
+    					fileMd5:fileMd5,
+                        fileName: file.name,
+                        fileSize:file.size,
+                        mimetype:file.type,
+                        fileExt:file.ext,
+                        fileParrentId:fileParrentId
+        			};
+        			$.ajax({
+        				type: "POST",
+        				url: url,
+        				data: data,
+        				cache: false,
+        				async: false, // 同步
+        				timeout: 1000, // todo 超时的话，只能认为该分片未上传过
+        				dataType: "json",
+        				error: function(XMLHttpRequest, textStatus, errorThrown) {
+        					file.statusText = 'server_error';
+        					task.reject();
+        				}
+        			}).then(function(data, textStatus, jqXHR) {
+        				if(data.respCode == "200") {
+        					if(data.ok) {
+        						task.resolve();
+        					} else {
+        						file.statusText = 'file_existed';
+        						task.reject();
+        					}
+        				} else {
+        					task.reject();
+        				}
+        			});
+        		});
+        		return task.promise();
+        	},
+        	beforeSend: function(block) {
+            	debugger;
+        		var task = new WebUploader.Deferred();
+        		var url = admin.formatUrl('/api-edu/ppap/taskorder/checkchunk');
+        		var data = {
+        		    type : 1 ,
+        		    fileName: fileName,
+    				// 文件唯一表示
+                    fileMd5:fileMd5,
+                    // 当前分块下标
+                    chunk:block.chunk,
+                    // 当前分块大小
+                    chunkSize:block.end-block.start,
+                    fileParrentId:fileParrentId
+        		};
+        		chunkSize = block.end-block.start;
+        		$.ajax({
+        			type: "POST",
+        			url: url,
+        			data: data,
+        			cache: false,
+        			async: false, // 同步
+        			timeout: 1000, // todo 超时的话，只能认为该分片未上传过
+        			dataType: "json"
+        		}).then(function(data, textStatus, jqXHR) {
+        			if(data.respCode == "200") {
+    					if(data.ok) {
+    						task.resolve();
+    					} else {
+    						file.statusText = 'file_existed';
+    						task.reject();
+    					}
+    				} else {
+    					task.reject();
+    				}
+        		});
+        		this.owner.options.formData.fileMd5 = fileMd5;
+        		//this.owner.options.formData.chunkSize = chunkSize;
+        		return task.promise();
+        	}
+        });
+
+        if(fileParrentId == 1) {
+            $("#remind").html("文件支持：pdf、png、gif、jpg、bmp、tif;单个文件大小不超过200M")
+          uploader = WebUploader.create({
+            swf : 'assets/libs/webuploader/Uploader.swf',
+            server : admin.formatUrl('/api-edu/ppap/taskorder/supplierCommitPromiseFileUpload'),
+            pick : '#pick',
+            // accept :'pdf,png,gif,jpg,bmp,tif',
+            accept: {
+              title: 'intoTypes',
+              extensions: 'pdf,png,gif,jpg,bmp,tif',
+              mimeTypes: 'pdf,png,gif,jpg,bmp,tif'
+            },
+            resize : false,
+            chunked:true,
+            chunkSize:5242880,
+            chunkRetry: false,
+            threads: 2,
+            formData :{"filetype":fileParrentId, "taskordernumber":taskordernumber, "chunkSize":5242880}
+          });
+        } else {
+          $("#remind").html("文件支持：xls、xlsx、et、ett;单个文件大小不超过200M")
+          uploader = WebUploader.create({
+            swf : 'assets/libs/webuploader/Uploader.swf',
+            server : admin.formatUrl('/api-edu/ppap/taskorder/supplierCommitPromiseFileUpload'),
+            pick : '#pick',
+            // accept :'xls,xlsx,et,ett',
+            // exts : 'xls|xlsx|et|ett',
+            accept: {
+              title: 'intoTypes',
+              extensions: 'xls,xlsx,et,ett',
+              mimeTypes: 'xls,xlsx,et,ett'
+            },
+            resize : false,
+            chunked:true,
+            chunkSize:5242880,
+            chunkRetry: false,
+            threads: 2,
+            formData :{"filetype":fileParrentId, "taskordernumber":taskordernumber, "chunkSize":5242880}
+          });
+        }
+
+		uploader.on('fileQueued', function(file) {
+			startNumber = startNumber+1
+			$("#promiseList").append('<tr id="tr_'+file.id+'">'
+					+ '<td>'+file.name+'</td>'
+					+ '<td><div id="'+file.id+'">未上传</div></td>'
+					+ '<td><div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="promise_'+file.id+'">'
+      			    + '<div class="layui-progress-bar layui-bg-green" lay-percent="0%"></div>'
+      			    + '</div></td>'
+					+ '<td><div id="btn_'+file.id+'"><button type="button" class="layui-btn layui-btn-xs"  onclick="singleUpload(\''+file.id+'\')">开始上传</button></div></td>'
+					+ '</tr>');
+			 element.render();
+		});
+	 
+		uploader.on('uploadProgress',
+						function(file, percentage) {
+            var brefi = percentage * 100;
+			element.progress('promise_'+file.id, brefi.toFixed(2) + '%')
+			var $li = $('#' + file.id).text('上传中');
+	 
+ 		});
+		
+	 
+		uploader.on('uploadSuccess', function(file) {
+			$('#' + file.id).text('已上传');
+			$('#btn_'+file.id).html('')
+		});
+	 
+		uploader.on('uploadError', function(file) {
+			$('#' + file.id).text('上传出错');
+			var div = '<button type="button" class="layui-btn layui-btn-xs layui-btn-danger"  onclick="singleUpload(\''+file.id+'\')">重新上传</button>';
+			$('#btn_'+file.id).html(div)
+		});
+	 
+		uploader.on('uploadComplete', function(file) {
+			endNumber=endNumber+1
+			if(startNumber == endNumber){
+				parent.layer.closeAll();
+			}
+		});
+    })
+    function singleUpload(fileId){
+		uploader.upload(fileId);
+		$("#btn_"+fileId).html("");
+	}
+
+</script>

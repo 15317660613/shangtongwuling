@@ -1,0 +1,631 @@
+<!--
+File   : supplier.html
+Created: Tuesday September 18th 2018 8:39:12 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified:  November 22th 2018 5:41:31 pm
+Modified By  : wm
+-----
+Description: 系统管理 - 供应商管理
+-----
+HISTORY:
+-->
+<style>
+    @media screen and (min-width: 1366px) and (max-width: 1920px) {
+        .layui-card-body .layui-table-body {
+            max-height: 407px;
+        }
+        #agencySelect .layui-table-body {
+            max-height: 390px;
+        }
+    }
+    
+    @media screen and (min-width: 1920px) {
+        .layui-card-body .layui-table-body {
+            max-height: 390px;
+        }
+    }
+    
+    .search-inline .layui-input {
+        width: 170px;
+    }
+    
+    .xm-select-parent .xm-form-selected dl[xid="roleName"] {
+        width: 180%;
+    }
+</style>
+<div class="layui-row layui-col-space15">
+    <!-- 左侧 -->
+    <div class="layui-col-md12 autoScrollLeft">
+        <div class="layui-card">
+            <div class="layui-card-header">供应商管理</div>
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <!-- 左侧 -->
+                        <div class="layui-inline">
+                            <div class="layui-inline search-inline">
+                                <select name="companycode" id="supplierCode" lay-search>
+                                    <option value="">选择供应商名称</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline search-inline">
+                                <select name="roleid" id="roleId" xm-select="roleName">
+                                    <option value="">选择角色</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline search-inline">
+                                <select name="jobcode" id="jobCode" lay-search>
+                                    <option value="">选择职位</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline search-item">
+                                <i class="layui-icon layui-icon-search"></i>
+                                <input type="text" name="username" id="username" placeholder="输入用户姓名" class="layui-input" autocomplete="off">
+                            </div>
+                            <div class="layui-inline">
+                                <button id="btn_search_user" class="layui-btn layui-btn-sm layui-btn-normal" lay-filter="btn_search_user" lay-submit>查询</button>
+                            </div>
+                            <div class="layui-inline">
+                                <button id="btn_reset_user" class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_reset_user" lay-submit>重置</button>
+                            </div>
+                        </div>
+                        <!-- 右侧 -->
+                        <div class="layui-inline layui-pull-right">
+                            <div class="layui-inline">
+                                <button id="btn_add_supplier" class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_add_supplier" lay-submit>
+                                    <i class="layui-icon layui-icon-add-1"></i>新增供应商用户
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 下部表格容器 -->
+                <table id="tableContent-supplier" lay-filter="tableContent-supplier"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="control-1">
+    <a class="table-control-btn" lay-event="view">查看</a>
+    <a class="table-control-btn" lay-event="edit">编辑</a>
+    <a class="table-control-btn table-control-btn-danger" lay-event="del">删除</a>
+</script>
+
+<script>
+    // 初始化 layui
+    layui.use(['table', 'formSelects', 'treeSelect'], function() {
+        var table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            treeSelect = layui.treeSelect,
+            formSelects = layui.formSelects;
+
+        // 渲染左侧表格
+        var renderTable = function() {
+            // 渲染表格
+            table.render({
+                elem: '#tableContent-supplier',
+                id: 'tableContent-supplier',
+                url: admin.formatUrl('/api/sys/edum05user/list'),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                // height: 490,
+                cols: [
+                    [{
+                        title: '序号',
+                        type: 'numbers',
+                        fixed: 'left'
+                    }, {
+                        field: 'companycode',
+                        title: '供应商编码'
+                    }, {
+                        field: 'companyname',
+                        title: '供应商名称'
+                    }, {
+                        field: 'rolename',
+                        title: '角色'
+                    }, {
+                        field: 'jobname',
+                        title: '就职岗位'
+                    }, {
+                        field: 'usercode',
+                        title: '登录名'
+                    }, {
+                        field: 'username',
+                        title: '姓名'
+                    }, {
+                        field: 'joindate',
+                        title: '入职日期'
+                    }, {
+                        field: 'resigndate',
+                        title: '离职日期'
+                    }, {
+                        field: 'email',
+                        title: '邮箱地址',
+                        minWidth: 120
+                    }, {
+                        field: 'phone',
+                        title: '联系方式',
+                        minWidth: 120
+                    }, {
+                        templet: '#control-1',
+                        title: '操作',
+                        fixed: 'right',
+                        align: 'center',
+                        width: 140,
+                        unresize: true
+                    }]
+                ],
+                cellMinWidth: 120,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'page', //'pageNo',
+                    limitName: 'pageSize'
+                }
+            });
+        }
+
+        // 初始化，执行一次渲染表格树
+        // renderTable();
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.adc.addTableCache('tableContent-supplier');
+
+        // 初始化搜索列表
+        function getSelects() {
+            // 初始化供应商列表
+            admin.req('/api/sys/hpm09supplier', {}, function(res) {
+                var arr = res.data,
+                    elem = $('#supplierCode'),
+                    option = ''
+                for (var i = 0; i < arr.length; i++) {
+                    option += '<option value="' + arr[i].supplierCode + '">' + arr[i].supplierName + '</option>';
+                }
+                elem.append(option);
+                form.render('select');
+            });
+            // 初始化供应商角色列表
+            admin.req('/api/sys/edum05user/getRoleCombo', {}, function(res) {
+                var arr = res.data,
+                    elem = $('#roleId');
+                for (var i = 0; i < arr.length; i++) {
+                    elem.append('<option value="' + arr[i].roleId + '">' + arr[i].roleName + '</option>');
+                }
+                formSelects.render('roleName');
+                formSelects.btns('roleName', []);
+            });
+            // 初始化职位选择列表
+            admin.req('/api/sys/edum05user/getJobInfoList', {}, function(res) {
+                var arr = res.data,
+                    elem = $('#jobCode'),
+                    option = ''
+                for (var i = 0; i < arr.length; i++) {
+                    option += '<option value="' + arr[i].jobcode + '">' + arr[i].jobname + '</option>';
+                }
+                elem.append(option);
+                form.render('select');
+            });
+        }
+        /*  */
+
+        // 初始化机构名搜索列表
+        /*admin.req('/api/sys/org/listOrgByOrgName', {}, function (res) {
+            var arr = res.data,
+                tmparr = [];
+            for (var i = 0; i < arr.length; i++) {
+                tmparr.push({
+                    name: arr[i].name,
+                    value: arr[i].id,
+                    id: arr[i].id,
+                    parentId: arr[i].parentId
+                });
+            }
+            formSelectArr = admin.toTree(tmparr);
+            formSelects.data('orgId', 'local', {
+                arr: formSelectArr
+            });
+            formSelects.btns('orgId', []);
+        });*/
+
+        // 搜索
+        form.on('submit(btn_search_user)', function(data) {
+            var searchValue = data.field;
+            searchValue.reload = new Date().getTime();
+            table.reload('tableContent-supplier', {
+                where: searchValue
+            });
+        });
+        // 重置
+        form.on('submit(btn_reset_user)', function() {
+            $('#jobCode').val('');
+            formSelects.value('roleName', []);
+            $('#supplierCode').val('');
+            $('#username').val('');
+            form.render('select');
+            table.reload('tableContent-supplier', {
+                where: {
+                    companycode: '',
+                    roleid: '',
+                    jobcode: '',
+                    username: '',
+                    reload: new Date().getTime()
+                }
+            });
+        });
+
+        // 监听工具条事件
+        // 主要是编辑和删除
+        table.on('tool(tableContent-supplier)', function(obj) {
+            // 获取点击列的数据
+            var data = obj.data;
+            var layEvent = obj.event;
+            // 判断操作类型
+            if (layEvent === 'del') {
+                // 删除菜单
+                layer.confirm('确定删除供应商：' + data.usname + ' 吗？', {
+                    icon: 3,
+                    title: '提示'
+                }, function() {
+                    admin.req('/api/sys/hpm05user/' + data.usid, {}, function(data) {
+                        if (data.ok) {
+                            layer.msg('删除供应商成功！', {
+                                icon: 1
+                            });
+                            table.reload('tableContent-supplier', {
+                                where: {
+                                    reload: new Date().getTime()
+                                }
+                            });
+                        } else {
+                            return layer.msg('删除供应商失败：' + data.message, {
+                                icon: 5
+                            });
+                        }
+                    }, {
+                        method: 'delete'
+                    });
+                });
+            } else if (layEvent === 'edit') {
+                // 编辑
+                popMenu('edit', data);
+            } else if (layEvent === 'view') {
+                // 查看
+                viewDetail(data);
+            }
+        });
+        // 新增 按钮事件
+        $('#btn_add_supplier').on('click', function() {
+            popMenu('add');
+        });
+
+
+        // 弹出框
+        function popMenu(type, data) {
+            // 判断操作事件
+            if (type === 'add') {
+                var title = '新增供应商用户';
+                data = {};
+            } else if (type === 'edit') {
+                var title = '编辑供应商用户：' + data.usname
+            }
+            data.type = type;
+
+            admin.popupCenter({
+                title: title,
+                area: ['450px', '77%'],
+                path: 'components/tpl/system_supplier_user_add_edit_tpl.html',
+                finish: function() {
+                    table.reload('tableContent-supplier', {
+                        where: {
+                            reload: new Date().getTime()
+                        }
+                    });
+                },
+                success: function() {
+                    setFormValue(data);
+                    admin.req('/api/sys/hpm09supplier', {}, function(res) {
+                        var arr = res.data,
+                            elem = $('#companyName'),
+                            elem1 = $('#companyCode'),
+                            option = '<option value=""></option>',
+                            option1 = '<option value=""></option>';
+                        for (var i = 0; i < arr.length; i++) {
+                            option += '<option value="' + arr[i].supplierName + '">' + arr[i].supplierName + '</option>';
+                            option1 += '<option value="' + arr[i].supplierCode + '">' + arr[i].supplierCode + '</option>';
+                        }
+                        elem.append(option);
+                        elem1.append(option1);
+                        form.render();
+                    });
+                    // 初始化角色列表
+                    admin.req('/api/sys/edum05user/getRoleCombo', {},
+                        function(res) {
+                            var arr = res.data,
+                                formSelectArr = [];
+                            for (var i = 0; i < arr.length; i++) {
+                                formSelectArr.push({
+                                    name: arr[i].roleName,
+                                    value: arr[i].roleId
+                                });
+                            }
+                            formSelects.data('roleName_pop', 'local', {
+                                arr: formSelectArr
+                            });
+                            formSelects.btns('roleName_pop', []);
+
+                            if (type === 'edit') {
+                                var selectArr = [];
+                                selectArr = data.roleId.split(',');
+                                layui.formSelects.value('roleName_pop', selectArr);
+                            }
+                        });
+                    // 职位列表
+                    admin.req('/api/sys/edum05user/getJobInfoList', {}, function(res) {
+                        var arr = res.data,
+                            elem = $('#jobTree_pop'),
+                            option = '<option value=""></option>'
+                        for (var i = 0; i < arr.length; i++) {
+                            option += '<option value="' + arr[i].jobcode + '">' + arr[i].jobname + '</option>';
+                        }
+                        elem.append(option);
+                        form.render('select');
+                    });
+                    // form.render();
+                    // getPlaceName(0, 'section', data);
+
+
+                }
+            });
+        }
+
+        // 职位选择回调
+        form.on('select(jobcode)', function(data) {
+            if (data.value) {
+                $("#jobName").val(data.elem[data.elem.selectedIndex].text);
+            } else {
+                $("#jobName").val("");
+            }
+        });
+        // 风险分析供应商代码选择回调
+        form.on('select(companyCode)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("api/risk/analysis/supplier/" + loreGpId, {}, function(res) {
+                    data = res.data;
+                    $("#companyName").val(data.suppliername);
+                    form.render('select');
+                });
+            } else {
+                $("#companyName").val("");
+                form.render('select');
+            }
+        });
+        // 风险分析供应商名称选择回调
+        form.on('select(companyName)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("/api/risk/analysis/supplier-fuzzy?supplierName=" + loreGpId, {}, function(res) {
+                    data = res.data[0];
+                    $("#companyCode").val(data.supplierCode);
+                    form.render('select');
+                });
+            } else {
+                $("#companyCode").val("");
+                form.render('select');
+            }
+        });
+
+
+        var getPlaceName = function(scode, sname, data) {
+            // 区域
+            admin.req('/api/sys/com02placename?supercode=' + scode, {}, function(d) {
+                var datas = d.data;
+                if (sname == 'section') {
+                    $('select[name=' + sname + ']').append(
+                        '<option value="">请选择区域</option>');
+                } else if (sname == 'province') {
+                    $('select[name=' + sname + ']').append(
+                        '<option value="">请选择省</option>');
+                } else if (sname == 'city') {
+                    $('select[name=' + sname + ']').append(
+                        '<option value="">请选择市</option>');
+                }
+                for (var i = 0; i < datas.length; i++) {
+                    var select = '';
+                    if (data.hasOwnProperty(sname) && data[sname] === datas[i].gbcode) {
+                        select = 'selected';
+                    }
+                    var html = '<option value="' + datas[i].gbcode + '" ' +
+                        select + '>' + datas[i].ssxname + '</option>';
+                    $('select[name=' + sname + ']').append(html);
+                }
+                form.render('select');
+            });
+        };
+
+        form.on('select(supplier-section)', function(data) {
+            province = data.value;
+            getPlaceName(province, 'province', {});
+            form.render('select');
+        });
+        form.on('select(supplier-province)', function(data) {
+            city = data.value;
+            getPlaceName(city, 'city', {});
+            form.render('select');
+        });
+
+        // 设置表单内容
+        function setFormValue(obj) {
+            var inputs = $('.layui-tpl-container').find('input'),
+                title = $('.layui-tpl-container .layui-card-header'),
+                formNames = ['usid', 'type', 'usname', 'account',
+                    'userCode', 'officePhone', 'cellPhoneNumber', 'homeAddress',
+                    'postalCode', 'email', 'contactAddress', 'userState'
+                ];
+
+            obj.title && title.text(obj.title);
+            for (var i = 0; i < formNames.length; i++) {
+                if (obj[formNames[i]]) {
+                    $('.layui-tpl-container  input[name="' + formNames[i] + '"]').val(obj[formNames[i]]);
+                } else {
+                    $('.layui-tpl-container  input[name="' + formNames[i] + '"]').val('');
+                }
+            }
+        }
+
+        // 表单提交
+        form.on('submit(save_SupplierUser)', function(data) {
+            // 获取表单数据
+            var d = data.field,
+                elem = data.elem;
+
+            $(elem).attr('disabled', true);
+
+            // 判断是编辑还是新增
+            // 设置不同的 HTTP 方法，和提示信息
+            if (d.type === 'add') {
+                var ajaxType = 'POST',
+                    ajaxName = '新增供应商';
+            } else if (d.type === 'edit') {
+                var ajaxType = 'PUT',
+                    ajaxName = '编辑供应商';
+            }
+
+            d.roleid = d.roleid ? d.roleid.split(',') : [];
+            // d.orgsstr = d.orgName ? d.orgName.split(',') : [];
+
+            // 删除和提交信息无关的元素
+            delete d.type;
+            // 发送请求
+            admin.req('/api/sys/edum05user/addEduM05User', d, function(data) {
+                $(elem).attr('disabled', false);
+                if (data.ok) {
+                    layer.msg(ajaxName + '成功！', {
+                        icon: 1
+                    });
+                    admin.finishPopupCenter();
+                } else {
+                    return layer.msg(ajaxName + '失败：' + data.message, {
+                        icon: 5
+                    });
+                }
+            }, {
+                method: ajaxType
+            });
+
+        });
+        // 取消按钮
+        // form.on('submit(cancle_SupplierUser)', function(data) {
+        //     admin.closePopupCenter();
+        // });
+
+        // 查看
+        function viewDetail(data) {
+            var roles = [],
+                orgs = [];
+            for (var i = 0; i < data.roles.length; i++) {
+                roles.push(data.roles[i].name);
+            }
+            for (var i = 0; i < data.orgs.length; i++) {
+                orgs.push(data.orgs[i].name);
+            }
+            admin.popupCenter({
+                title: '查看供应商详细信息',
+                path: 'components/tpl/system_supplierUser_tpl_view.html',
+                finish: function() {},
+                success: function() {
+                    var vmUserDetail = $('#== 200').vm({
+                        usid: data.usid ? data.usid : '-',
+                        usname: data.usname ? data.usname : '-',
+                        account: data.account ? data.account : '-',
+                        roles: roles.length > 0 ? roles.join(',') : '-',
+                        orgs: orgs.length > 0 ? orgs.join(',') : '-',
+                        userCode: data.userCode ? data.userCode : '-',
+                        officePhone: data.officePhone ? data.officePhone : '-',
+                        cellPhoneNumber: data.cellPhoneNumber ? data.cellPhoneNumber : '-',
+                        homeAddress: data.homeAddress ? data.homeAddress : '-',
+                        postalCode: data.postalCode ? data.postalCode : '-',
+                        email: data.email ? data.email : '-',
+                        contactAddress: data.contactAddress ? data.contactAddress : '-',
+                        userState: data.userState ? data.userState : '-'
+                    });
+                }
+            });
+        }
+        form.verify({
+            cellPhoneNumber: function(value, item) {
+                if (value !== '' && !(/^1\d{10}$/.test(value))) {
+                    return '请输入 11 位手机号码';
+                }
+            },
+            officePhone: function(value, item) {
+                if (value !== '' &&
+                    !(/^\d{8}$/.test(value)) &&
+                    !(/^\d{1,4}-\d{8}$/.test(value)) &&
+                    !(/^\d{1,4}-\d{8}-\d{1,5}$/.test(value)) &&
+                    !(/^\d{8}\/\d{8}$/.test(value))
+                ) {
+                    return '请输入正确的办公电话，格式如下：<br/>84370000<br/>022-84370000<br/>022-84370000-0000<br/>84370000/84370000';
+                }
+            },
+            postalCode: function(value, item) {
+                if (value !== '' && !(/^\d{6}$/.test(value))) {
+                    return '请输入 6 位邮政编码';
+                }
+            },
+            DIYemail: function(value, item) {
+                if (value !== '' && !(
+                    /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-_.])+[A-Za-z\d]{2,4}$/
+                        .test(value))) {
+                    return '请输入正确的邮箱';
+                }
+            }
+        });
+
+        // 初始化页面
+        function init() {
+            renderTable();
+            getSelects();
+        }
+
+        // 执行初始化操作
+        init();
+    });
+</script>

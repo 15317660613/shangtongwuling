@@ -1,0 +1,114 @@
+<div class="admin-user">
+    <!-- 正常模式 -->
+    <div class="admin-user-show">
+        <div class="avatar">
+            <div style="margin: 14px auto;width: 65px;height: 65px;line-height: 61px;font-size: 10px;">
+                <div class="avatar-text"></div>
+            </div>
+        </div>
+        <span>{{ userName }}</span>
+        <!-- <p>
+            <i class="layui-icon layui-icon-circle-dot"></i>当前在线人数 <strong id="online-user">-</strong>
+        </p>-->
+        <i class="layui-icon layui-icon-shrink-right side-hide" ew-event="flexible"></i>
+    </div>
+    <!-- 侧边栏隐藏模式 -->
+    <div class="admin-user-hide">
+        <div class="avatar">
+            <div ew-event="flexible" style="margin: 8px auto;width: 40px;height: 40px;line-height: 36px;font-size: 6px;">
+                <div class="avatar-text"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-side-scroll">
+    <ul class="layui-nav layui-nav-tree">
+        <script id="sideNav" type="text/html">
+            {{#  layui.each(d, function(index, item){ }}
+            {{# if(!item.hidden){ }}
+            <li class="layui-nav-item">
+                <a href="{{item.url}}"><img src="../assets/images/icon/{{item.icon}}.png" alt="icon" onerror='this.src="../assets/images/icon/icon-default.png"'><cite>{{ item.name }}</cite></a>
+                {{# if(item.subMenus&&item.subMenus.length>0){ }}
+                <dl class="layui-nav-child">
+                    {{# layui.each(item.subMenus, function(index, subItem){ }}
+                    {{# if(!subItem.hidden){ }}
+                    <dd>
+                        <a href="{{ subItem.url }}">{{ subItem.name }}</a>
+                        {{# if(subItem.subMenus&&subItem.subMenus.length>0){ }}
+                        <dl class="layui-nav-child">
+                            {{# layui.each(subItem.subMenus, function(index, thrItem){ }}
+                            {{# if(!thrItem.hidden){ }}
+                            <dd>
+                                <a href="{{ thrItem.url }}">{{ thrItem.name }}</a>
+								{{# if(thrItem.subMenus&&thrItem.subMenus.length>0){ }}
+								<dl class="layui-nav-child">
+								    {{# layui.each(thrItem.subMenus, function(index, forthItem){ }}
+								    {{# if(!forthItem.hidden){ }}
+								    <dd>
+								        <a href="{{ forthItem.url }}">{{ forthItem.name }}</a>
+										{{# if(forthItem.subMenus&&forthItem.subMenus.length>0){ }}
+										<dl class="layui-nav-child">
+										    {{# layui.each(forthItem.subMenus, function(index, fifthItem){ }}
+										    {{# if(!fifthItem.hidden){ }}
+										    <dd>
+										        <a href="{{ fifthItem.url }}">{{ fifthItem.name }}</a>
+												{{# if(fifthItem.subMenus&&fifthItem.subMenus.length>0){ }}
+												<dl class="layui-nav-child">
+												    {{# layui.each(fifthItem.subMenus, function(index, sixthItem){ }}
+												    {{# if(!sixthItem.hidden){ }}
+												    <dd>
+												        <a href="{{ sixthItem.url }}">{{ sixthItem.name }}</a>
+												    </dd>
+												    {{# } }}
+												    {{# }); }}
+												</dl>
+												{{# } }}
+										    </dd>
+										    {{# } }}
+										    {{# }); }}
+										</dl>
+										{{# } }}
+								    </dd>
+								    {{# } }}
+								    {{# }); }}
+								</dl>
+								{{# } }}
+                            </dd>
+                            {{# } }}
+                            {{# }); }}
+                        </dl>
+                        {{# } }}
+                    </dd>
+                    {{# } }}
+                    {{# }); }}
+                </dl>
+                {{# } }}
+            </li>
+            {{# } }}
+            {{#  }); }}
+        </script>
+    </ul>
+</div>
+
+<script>
+    layui.use([], function () {
+        var config = layui.config,
+            userInfo = config.getAccount();
+        // 设置头像
+
+        (function () {
+            // if (userInfo.avatar) {
+                $('.avatar').empty();
+                var image = $('<img/>');
+                var imageSrc = '/assets/images/avatar/default_person.png';
+                // var imageSrc = userInfo.avatar.indexOf('/') < 0 ? '/api-edu/sys/file/' + userInfo.avatar + '/download' : userInfo.avatar;
+                image.attr('src', imageSrc);
+                $('.avatar').html(image);
+                $('.admin-user-hide').find('img').attr('ew-event', 'flexible');
+            // } else {
+            //     $('.avatar .avatar-text').text(userInfo.userName.charAt(0));
+            // }
+        })();
+    });
+</script>

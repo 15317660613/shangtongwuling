@@ -1,0 +1,245 @@
+<link rel="stylesheet" href="../../assets/css/course.css">
+<style>
+    .layui-card-body {
+        width: 55%;
+        margin: 0 auto;
+    }
+    
+    .courseContent-right {
+        align-items: baseline;
+    }
+    
+    .studyProgress {
+        float: right;
+    }
+    
+    .chapter {
+        line-height: 40px;
+        background-color: #ccc;
+        padding-left: 10px
+    }
+    
+    .chapterListItem {
+        display: flex;
+        justify-content: space-between;
+        line-height: 40px;
+    }
+    
+    .courseContent {
+        margin-bottom: 10px;
+    }
+    
+    .courseContent-center {
+        border-left: 1px solid #eee;
+        padding-left: 10px;
+    }
+    
+    .chapterList {
+        padding: 10px;
+    }
+    
+    .courseDetailTitle {
+        margin-right: 20px;
+    }
+    
+    input {
+        width: 40px !important;
+    }
+</style>
+<div class="course_detail layui-card">
+    <div class="layui-card-body">
+        <div class="course-header courseContent">
+
+
+        </div>
+        <table id="chapterList"></table>
+    </div>
+</div>
+<!-- <script id="img" type="text/html">
+
+</script> -->
+<script id="course" type="text/html">
+    <div class="img">
+        <img src="{{d.fileUrl}}" alt="">
+    </div>
+    <div class="courseContent-center">
+        <div><span class="courseDetailTitle">{{d.courseName}}</span>
+            <button class="layui-btn layui-btn-xs layui-btn-danger">学习中</button>
+        </div>
+        <div>主讲：<span class="teacher">{{d.teacher}}</span></div>
+        <div>时长：<span id="courseTime">{{d.last}}</span>小时（共<span id="chapterNum">{{d.sectionNum}}</span>讲）<span class="studyProgress">学习进度： <span id="progressNum">{{d.studyPercent}}</span>%</span>
+        </div>
+        <div>课程简介：<span>{{d.courseAbstract}}</span></div>
+    </div>
+    <div class="courseContent-right">
+        <button class="layui-btn layui-btn-xs layui-btn-normal" id="back">返回</button>
+    </div>
+</script>
+
+<script>
+    var admin;
+    layui.use(['admin', 'layer', 'table', 'laytpl'], function() {
+        admin = layui.admin;
+        var layer = layui.layer;
+        var table = layui.table;
+        var laytpl = layui.laytpl;
+        var search = admin.GetRequest();
+        // 返回
+        $('.courseContent').on('click', '#back', function() {
+            //debugger
+            // location.href = search.pageLink + '#!ADC_academy_course';
+            window.open(search.pageLink + '#!ADC_academy_course', '_self');
+            // location.reload(true);
+        });
+        // 课程详情列表
+        function renderTable(data) {
+            table.render({
+                elem: '#chapterList',
+                where: data,
+                url: admin.formatUrl('/api/training/course/book/list'),
+                parseData: function(res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                request: {
+                    pageName: 'page', //页码的参数名称，默认：page
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                cols: [
+                    [{
+                        title: '章节列表（点击下面的章节名称进行学习）',
+                        field: 'textbookName',
+                        templet: function(d) {
+                            return '<i class="layui-icon layui-icon-triangle-r"></i><a href="javascript:void(0)" onclick="openWin(\'' + d.fileUrl + '\', \'' + d.textbookId + '\', \'' + d.progress + '\', \'' + d.last + '\', this)"><span>第' + d.sort + '讲</span><span>' + d.textbookName + '</span><span>(共' + (d.tbType === 'O' ? (d.last + '页') : formatSeconds(d.last)) + ')</span></a>'
+                        }
+                    }, {
+                        title: '',
+                        field: 'supplierCode',
+                        align: 'right',
+                        width: 200,
+                        templet: function(d) {
+                            return '<span>' + (d.isOver === 0 ? '学习中' : '已学完') + '</span><span>(已学' + (d.tbType === 'O' ? (d.progress + '页') : formatSeconds(d.progress)) + ')</span>'
+                        }
+                    }]
+                ],
+                // height: 511,
+                page: true,
+                done: function(res, curr, count) {
+
+                }
+            })
+        }
+
+        var playSecond = localStorage.getItem('playSecond');
+        var playEnd = localStorage.getItem('playEnd');
+        var end = localStorage.getItem('playSecond');
+
+        // 向后台传递参数
+        function postProgress(progress) {
+            admin.req('/api/training/course/book/page?planId=' + localStorage.getItem('planId') + '&courseId=' + localStorage.getItem('courseId') + '&textbookId=' + localStorage.getItem('textbookId') + '&progress=' + progress, {}, function(res) {
+                renderTable(admin.GetRequest());
+                admin.req('/api/training/course/course/detail', admin.GetRequest(), function(res) {
+                    laytpl(course.innerHTML).render(res.data, function(html) {
+                        $('.courseContent').html(html);
+                    });
+                });
+            }, {
+                method: 'PUT'
+            })
+        }
+
+        function postEndProgress(progress) {
+            admin.req('/api/training/course/book/over?planId=' + localStorage.getItem('planId') + '&courseId=' + localStorage.getItem('courseId') + '&textbookId=' + localStorage.getItem('textbookId') + '&progress=' + progress, {}, function(res) {
+                renderTable(admin.GetRequest());
+                admin.req('/api/training/course/course/detail', admin.GetRequest(), function(res) {
+                    laytpl(course.innerHTML).render(res.data, function(html) {
+                        $('.courseContent').html(html);
+                    });
+                });
+            }, {
+                method: 'PUT'
+            })
+        }
+
+        if (playSecond && !playEnd) {
+            postProgress(playSecond);
+        }
+        if (playEnd) {
+            postEndProgress(playSecond);
+        }
+
+        if (!playSecond) {
+            renderTable(admin.GetRequest());
+            admin.req('/api/training/course/course/detail', admin.GetRequest(), function(res) {
+                laytpl(course.innerHTML).render(res.data, function(html) {
+                    $('.courseContent').html(html);
+                });
+            });
+        }
+
+        function formatSeconds(value) {
+            var secondTime = parseInt(value); // 秒
+            var minuteTime = 0; // 分
+            var hourTime = 0; // 小时
+            if (secondTime > 60) { //如果秒数大于60，将秒数转换成整数
+                //获取分钟，除以60取整数，得到整数分钟
+                minuteTime = parseInt(secondTime / 60);
+                //获取秒数，秒数取佘，得到整数秒数
+                secondTime = parseInt(secondTime % 60);
+                //如果分钟大于60，将分钟转换成小时
+                if (minuteTime > 60) {
+                    //获取小时，获取分钟除以60，得到整数小时
+                    hourTime = parseInt(minuteTime / 60);
+                    //获取小时后取佘的分，获取分钟除以60取佘的分
+                    minuteTime = parseInt(minuteTime % 60);
+                }
+            }
+            var result = "" + parseInt(secondTime) + "秒";
+
+            if (minuteTime > 0) {
+                result = "" + parseInt(minuteTime) + "分" + result;
+            }
+            if (hourTime > 0) {
+                result = "" + parseInt(hourTime) + "小时" + result;
+            }
+            return result;
+        }
+
+    });
+    // 打开新窗口学习教材
+    function openWin(url, textbookId, progress, last, obj) {
+        var suffix = url.substring(url.lastIndexOf('.') + 1);
+        var progressNum = parseInt(progress);
+        var courseName = $('.courseDetailTitle').text();
+        var bookName = $(obj).text().substring(0, $(obj).text().indexOf('('));
+
+        if (progress == '0' || progress == last) {
+            progressNum = 1;
+        }
+        if (progress == '0') {
+            admin.req('/api/training/course/book/start?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId, {}, function(res) {
+                if (res.ok) {
+                    if (suffix === 'pdf') {
+                        window.open('/components/academy/office.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0] + '&src=' + url);
+                    } else {
+                        window.open('/components/academy/vedio.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0] + '&src=' + url);
+                    }
+                } else {
+                    layer.msg(res.message);
+                }
+            }, {
+                method: 'PUT'
+            })
+        } else {
+            if (suffix === 'pdf') {
+                window.open('/components/academy/office.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0] + '&src=' + url);
+            } else {
+                window.open('/components/academy/vedio.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0] + '&src=' + url);
+            }
+        }
+    };
+</script>

@@ -1,0 +1,412 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+li,
+input,
+select,
+button,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    color: #FFFFFF;
+    font-family: "微软雅黑";
+}
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    float: left;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #FFFFFF;
+}
+
+.header-right {
+    width: 50%;
+}
+
+.header-right-list {
+    float: right;
+}
+
+.header-right .header-right-list li {
+    height: 56px;
+    line-height: 56px;
+    margin-right: 17px;
+    padding-left: 24px;
+}
+
+.header-right .header-right-list li:first-child {
+    background: url("../images/datashow/help.png") no-repeat left center;
+}
+
+.header-right .header-right-list li:nth-child(2) {
+    background: url("../images/datashow/book.png") no-repeat left center;
+}
+
+.header-right .header-right-list li:last-child {
+    padding: 0;
+}
+
+ul li a {
+    color: #FFFFFF
+}
+
+.loginOut {
+    border-left: 1px solid #FFFFFF;
+    padding-left: 10px;
+}
+
+.header {
+    height: 56px;
+    background-color: rgba(52, 165, 251, 1);
+}
+
+.header .header-left {
+    float: left;
+}
+
+.header .header-right {
+    float: right;
+}
+
+.header .header-left .logo {
+    width: 220px;
+    height: 56px;
+    line-height: 56px;
+    margin-left: 5%;
+    background: url("../images/datashow/header.png") no-repeat 10px 5px;
+    padding-left: 70px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.content {
+    width: 100%;
+    position: absolute;
+    top: 56px;
+    bottom: 0;
+    background: url("../images/datashow/bg1.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+.content-header {
+    height: 65px;
+    background: url("../images/datashow/content-header-bg.png");
+    background-size: 100% 100%;
+    font-size: 16px;
+}
+
+.content-header-tab {
+    overflow: hidden;
+    width: 45%;
+    height: 65px;
+    line-height: 60px;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+ul.content-header-tab li {
+    width: 16%;
+    text-align: center;
+    cursor: pointer;
+    color: #9FE8FD;
+    font-size: 20px;
+}
+
+ul.content-header-tab li:hover {
+    color: #FFFFFF
+}
+
+.content-body {
+    position: absolute;
+    top: 65px;
+    bottom: 0;
+    width: 100%;
+}
+
+.content-body-left {
+    float: left;
+}
+
+.content-body-right {
+    float: right;
+}
+
+.content-body-left,
+.content-body-right {
+    width: 30%;
+    height: 100%;
+}
+
+.content-body-center {
+    height: 100%;
+}
+
+.search,
+.export {
+    height: 8%;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    padding-left: 5%;
+}
+
+.search-input {
+    width: 33%;
+    height: 60%;
+    background: url("../images/datashow/140_40.png") no-repeat;
+    background-size: 100% 100%;
+    border: none;
+}
+
+.search-button,
+#export {
+    height: 60%;
+    margin-left: 2%;
+    width: 10%;
+    background: url("../images/datashow/50_40.png") no-repeat;
+    background-size: 100% 100%;
+    border: none;
+    color: #9BE3F9;
+    cursor: pointer;
+}
+
+.bar-left,
+.pie-left,
+.bar-right,
+.pie-right {
+    margin-left: 5%;
+    height: 44%;
+    background: url("../images/datashow/chart-bg.png") no-repeat;
+    background-size: 100% 100%;
+    padding-top: 3%;
+    box-sizing: border-box;
+}
+
+.pie-left,
+.pie-right {
+    margin-top: 3%;
+}
+
+@media screen and (min-width: 1366px) and (max-width: 1920px) {
+    .bar-title,
+    .pie-title {
+        font-size: 12px
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .bar-title,
+    .pie-title {
+        font-size: 16px
+    }
+}
+
+.bar-title,
+.pie-title {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    height: 14%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url("../images/datashow/title.png") no-repeat;
+    background-size: 100% 100%;
+    font-weight: 600;
+}
+
+#bar-left-chart {
+    width: 90%;
+    height: 83%;
+    margin: 0 auto;
+}
+
+#bar-right-chart {
+    width: 90%;
+    height: 83%;
+    margin: 0 auto;
+}
+
+#pie-left-chart {
+    width: 90%;
+    height: 83%;
+    margin: 0 auto;
+}
+
+#pie-right-chart {
+    width: 90%;
+    height: 83%;
+    margin: 0 auto;
+}
+
+#main {
+    width: 50%;
+    height: 86%;
+    margin: 0 auto;
+    top: 12%;
+    left: 25%;
+}
+
+.export {
+    padding-right: 5%;
+    justify-content: flex-end;
+}
+
+.bar-right,
+.pie-right {
+    margin-right: 5%;
+    margin-left: 0;
+}
+
+.map-title {
+    background: url(../images/datashow/map-title-bg.png) no-repeat;
+    background-size: 100% 100%;
+    width: 23%;
+    height: 10%;
+    left: 39%;
+    top: 8%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.search-input {
+    color: #FFFFFF;
+    padding-left: 5px;
+}
+
+.map-title-text {
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.contruy,
+.province,
+.city {
+    cursor: pointer;
+}
+
+
+/* .layui-table-view .layui-table {
+    width: 100%;
+} */
+
+.layui-laydate-main {
+    width: 205px!important;
+    height: 230px;
+}
+
+.laydate-month-list>li {
+    margin: 8px 0!important;
+}
+
+input::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.table-control-btn {
+    color: #2487DA;
+    font-size: 12px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.table-control-btn:hover {
+    color: #2487DA;
+}
+
+
+/* 加skin皮肤样式 */
+
+.whiteStyle .layui-layer-title {
+    background: #FFF;
+    color: #000;
+    font-size: 16px;
+    border: none;
+}
+
+.layui-title-text {
+    font-weight: 600;
+}
+
+
+/* 日期选择控件中的确定按钮样式 */
+
+.layui-laydate .laydate-btns-confirm {
+    background-color: #1890FF;
+    color: white;
+}
+
+.layui-laydate .laydate-btns-confirm:hover {
+    opacity: 0.7;
+    color: white;
+}
+
+.layui-table-view .layui-table td,
+.layui-table-view .layui-table th {
+    padding: 2px 0;
+}
+
+
+/* 风险信息详情表格主体的最高高度 */
+
+.layui-table-body {
+    max-height: 330px;
+    overflow-y: auto;
+}
+
+
+/* 无数据显示图片 */
+
+.nodatastyle {
+    background: url("../images/nodatatransparent.png") no-repeat center 44px;
+    background-size: '23%';
+}
+
+
+/*  */
+
+.header .layui-nav-bar {
+    height: 2px;
+    top: 0 !important;
+    background-color: transparent
+}

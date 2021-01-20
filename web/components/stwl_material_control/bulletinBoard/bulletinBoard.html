@@ -1,0 +1,1032 @@
+<!--
+File   : parts_ptr_application.html
+Created: 2019-01-04
+Author : 苑立杰
+Description: 零件PTR申请
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+
+<div class="layui-row layui-col-space15" id="parts_ptr_application" v-loading="true">
+    <!--by ma 2019-04-12-->
+    <div class="layui-col-md12 autoScrollLeft" style="padding-top: 0px">
+        <div class="layui-card layui-col-md9"style="padding-right: 20px">
+            <!--by ma 2019-04-12-->
+            <div class="g-search" style="margin-top: 6px">
+                <form class="layui-form search-form" lay-filter="search-form-ptr-application">
+                    <div class="g-search-title" @click="openPanel(event)">
+                        <div class="g-search-l g-title-l"><label>查询条件设置</label></div>
+                    </div>
+                    <div class="layui-form-item" style="height: 240px; padding-right: 50px;">
+                        <!-- 数据表格顶部控制栏 -->
+                        <div class="layui-form" style="padding: 0 0 1% 0;">
+                            <div class="layui-row">
+                                <div class="layui-col-md4  serch-box">
+                                    <label class="layui-form-label"><span style="color: red;">*</span>主题:</label>
+                                    <div class="layui-input-block">
+                                        <select id="pstatus" lay-search="latestpartnum" placeholder="请选择" name="pstatus"
+                                                lay-filter="pstatus" class="params-item">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4  serch-box">
+                                    <label class="layui-form-label"><span style="color: red;">*</span>时间范围:</label>
+                                    <div class="layui-input-block">
+                                        <select id="status" lay-search="latestpartnum" placeholder="请选择" name="status"
+                                                lay-filter="status" class="params-item">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4  serch-box">
+                                    <label class="layui-form-label"><span style="color: red;">*</span>发布时间:</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" id="time" placeholder="请选择" name="time">
+                                        </div>
+                                </div>
+                                <div class="layui-col-md4  serch-box">
+                                    <label class="layui-form-label"><span style="color: red;">*</span>发布基地:</label>
+                                    <div class="layui-input-block">
+                                        <select id="base" lay-search="latestpartnum" placeholder="请选择" name="base"
+                                                lay-filter="base" class="params-item">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4  serch-box">
+                                    <label class="layui-form-label"><span style="color: red;">*</span>是否查看:</label>
+                                    <div class="layui-input-block">
+                                        <select id="islook" lay-search="latestpartnum" placeholder="请选择" name="islook"
+                                                lay-filter="islook" class="params-item">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md4  serch-box">
+                                    <div class="layui-form-item">
+                                        <div style="display: flex; justify-content: center; align-items: center;">
+                                            <div class="layui-inline">
+                                                <button class="layui-btn layui-btn-normal layui-btn-sm" type="button" @click='searchClick()'>
+                                                    查询
+                                                </button>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button type="button" class=" layui-btn layui-btn-primary layui-btn-sm" @click='resetClick()'>
+                                                    重置
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="clear: both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-card layui-col-md3">
+            <div class="layui-card">
+                <!--by ma 2019-04-12-->
+                <div class="g-search" style="margin-top: 6px">
+                    <form class="layui-form search-form" lay-filter="search-form-ptr-application">
+                        <div class="g-search-title">
+                            <div class="g-search-l g-title-l"><label>重要公告</label></div>
+                        </div>
+                        <div class="layui-form-item" style="height: 240px;">
+                                <div class="layui-row layui-col-lg4">
+                                    <div class="scroll-wrap banner-div">
+                                        <ul class="scroll-con fn-left banner-ul" id="banner">
+                                            <li  class="banner-li" v-for='(item,index) in bannerData' :key="index">
+                                                <span class="tab"></span>{{item.title}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>  
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+        <div class="layui-card layui-col-md12">
+            <div class="g-tableList">
+                <div class="layui-form">
+                    <div class="g-tableList-title">
+                        <div class="g-table-l g-title-l"><label>查询结果</label></div>
+                    </div>
+                    <div class="g-btn-group-div">
+                        <div>
+                            <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;" @click="addMainTableData">新建公告</button>
+                            <button class="layui-btn layui-btn-sm g-btn-green" style="width: 85px;" @click="submitChicked">批量提交</button>
+                            <button class="layui-btn layui-btn-sm g-btn-red" style="width: 85px;" @click="deleteChicked">批量删除</button>
+                        </div>
+                    </div>
+                    <div class="g-table-round">
+                        <table-com 
+                                :table-data='tableData' 
+                                :cols='cols'
+                                @tableoperation="tableoperation"
+                                ref="datatable"
+                        ></table-com>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 提交公告弹框 -->
+    <div class="layui-card layui-col-md12" id="Postbox" action="" lay-filter="example" style="display: none;">
+        <div class="Postbox-title"><p>确认提交公告吗?</p></div>
+        <div class="postbox">
+            <button class="layui-btn layui-btn-sm g-btn-red" style="width: 85px;" @click="post">提交</button>
+            <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;"  @click="close">取消</button>
+        </div> 
+    </div>
+    <!-- 删除公告弹框 -->
+    <div class="layui-card layui-col-md12" id="Delete" action="" lay-filter="example" style="display: none;">
+        <div class="Postbox-title"><p>确认删除公告吗?</p></div>
+        <div class="postbox">
+            <button class="layui-btn layui-btn-sm g-btn-red" style="width: 85px;" @click="remove">删除</button>
+            <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;"  @click="close">取消</button>
+        </div> 
+    </div>
+    <!-- 审批公告弹框 -->
+    <div class="layui-card layui-col-md12" id="examineandapprove" action="" lay-filter="example" style="display: none;">
+        <div class="layui-form">
+            <div class="layui-form-item" style="margin-top: 20px;">
+                <label class="layui-form-label" style="width:40px;"><span style="color: red;">*</span>审批:</label>
+                <div class="layui-input-block" style="margin-left: 70px;" id="isExamine">
+                    <input type="radio" name="examine" value="true" title="同意" checked>
+                    <input type="radio" name="examine" value="false" title="驳回">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text" style="margin-top: 20px;">
+                <label class="layui-form-label" style="width:40px;">备注</label>
+                <div class="layui-input-block" style="margin-left: 70px;">
+                  <textarea placeholder="请输入内容" class="layui-textarea"  id='examineText' style="height: 105px; width:95%; resize: none;"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="postbox">
+            <button class="layui-btn layui-btn-sm g-btn-red" style="width: 85px;" @click="examineandapprove">确认</button>
+            <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;"  @click="close">取消</button>
+        </div> 
+    </div>
+    <!-- 修改公告弹框 -->
+    <div class="layui-card layui-col-md12" id="modification" action="" lay-filter="example" style="display: none;">
+        <div class="Postbox-title"><p>修改公告</p></div>
+        <div class="postbox">
+            <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;" @click="modification">保存</button>
+            <button class="layui-btn layui-btn-sm g-btn-red" style="width: 85px;"  @click="close">取消</button>
+        </div> 
+    </div>
+    <!-- 查看公告是否已读弹框 -->
+    <div class="layui-card layui-col-md12" id="check" action="" lay-filter="example" style="display: none;">
+            <div class="copmResult result" style=" display: flex; justify-content: center; align-items: center; padding-top: 20px;padding-bottom: 50px; flex-direction: column;">
+                <div style="float: left; width: 1000px;">
+                    <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;" @click="">导出</button>
+                </div>
+                <table id="examineTable" lay-filter="test" name="test"></table>
+            </div>
+    </div>
+    <!-- 选择供应商弹框 -->
+    <div class="layui-card layui-col-md12" id="supplierBox" action="" lay-filter="example" style="display: none;">
+                <div id="supplier" class="demo-transfer"></div>
+        <div class="postbox" style="margin-top: 20px;">
+            <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;" lay-demotransferactive="getData">选择</button>
+        </div> 
+    </div>
+    <!-- 新建公告弹框 -->
+    <div class="layui-card layui-col-md12" id="newbanner" action="" lay-filter="example" style="display: none; overflow-y: scroll; height: 100%;">
+        <form class="layui-form search-form" lay-filter="search-form-content">
+            <div class="layui-form-item search-script">
+                <div class="search-content layui-col-md6">
+                    <div class="layui-col-md10 new-bulletin">
+                        <label class="layui-form-label"><span style="color: red;">*</span>标题：</label>
+                        <div class="layui-input-block">
+                            <input id="newBannerTitle" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" :disabled='disabled'>
+                        </div>
+                    </div>
+                    <div class="layui-col-md10 new-bulletin">
+                        <label class="layui-form-label"><span style="color: red;">*</span>有效期:</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="newbulletintime" placeholder="请选择" name="newbulletintime" :disabled='disabled'>
+                        </div>
+                    </div>
+                    <div class="layui-col-md10 new-bulletin">
+                        <label class="layui-form-label"><span style="color: red;">*</span>基地：</label>
+                        <div class="layui-input-block">
+                            <select id="newBase" lay-search="" placeholder="请选择" name="newBase"
+                                    lay-filter="newBase" class="params-item" :disabled='disabled'>
+                                <option value="">请选择</option>
+                                <option value="">是</option>
+                                <option value="">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-md10 new-bulletin">
+                        <label class="layui-form-label"><span style="color: red;">*</span>内容类型:</label>
+                        <div class="layui-input-block">
+                            <select id="contentType" lay-search="" placeholder="请选择" name="contentType"
+                                    lay-filter="contentType" class="params-item" :disabled='disabled'>
+                                <option value="">请选择</option>
+                                <option value="">是</option>
+                                <option value="">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-md10 new-bulletin">
+                        <label class="layui-form-label"><span style="color: red;">*</span>供应商:</label>
+                        <a class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;"  @click="transfer" :disabled='disabled'>选择</a>
+                    </div>
+                    <div class="layui-col-md10 layui-form-item new-bulletin">
+                        <label class="layui-form-label"><span style="color: red;">*</span>是否重要公告:</label>
+                        <div class="layui-input-block" id="IsPurchased">
+                            <input type="radio" name="examine" value="false" title="否" checked :disabled='disabled'>
+                            <input type="radio" name="examine" value="true" title="是" :disabled='disabled'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </form>
+        <div class="layui-col-md12 layui-form-item new-bulletin">
+                <div id="ptr-parts-round" style="padding: 20px; padding-top: 0;">
+                    <textarea id="richText" style="display: none;" :disabled='disabled'></textarea>
+                </div>
+                <div id="ptr-parts-round" style="padding: 20px; padding-top: 0;">
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" id="testList" >添加附件</button> 
+                        <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+                        <div class="layui-upload-list">
+                            <table class="layui-table">
+                                <tbody id="demoList"></tbody>
+                            </table>
+                        </div>
+                    </div> 
+                </div>
+        </div>
+        <div class="layui-col-md12 layui-form-item new-bulletin">
+            <div class="postbox">
+                <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;" @click="modification" v-if='!disabled' lay-unselect ew-event="refresh">保存</button>
+                <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;"  @click="addNeWnotice" v-if='!disabled' lay-submit lay-filter="formDemo" lay-unselect ew-event="refresh">提交</button>
+                <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 85px;"  @click="close">返回</button>
+            </div> 
+        </div>
+    </div>
+</div>
+<style>
+    .layui-table-edit {
+        height: 100%
+    !important;
+    }
+    .Banner-box {
+    padding:10px;  
+    padding-top:0;
+  }
+  .tasks-track-container {
+    height: 230px;
+}
+  .banner-div{
+    height: 16px;
+    overflow: hidden;
+    height: 100%;
+  }
+  .banner-ul {
+    height: 232px;
+    margin-top: 0px;
+    padding: 0 15px;
+  }
+  .banner-li {
+      height: 22px;
+      line-height: 22px;
+      border-bottom: 1px dashed #CCC;
+      font-size: 14px;
+      color: red;
+      width: 100%!important;
+      white-space: nowrap;/*强制在一行显示*/
+	  text-overflow:ellipsis;/*设置超出内容显示...*/
+	  overflow: hidden;/*一定不能少 超出的内容进行隐藏*/
+  }
+  .tab {
+    display: inline-block;
+    width: 0px;
+    height: 0px;
+    border: 8px solid transparent;
+    border-left: 8px solid red;
+  }
+  .serch-box{
+      padding-bottom: 30px;
+      padding-top: 30px;
+  }
+  /* 发布提示框标题 */
+  .Postbox-title{
+    height: 200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .postbox{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  .postbox button{
+      margin-bottom:30px;
+      margin-right: 30px;
+      margin-left: 30px;
+  }
+  /* 发布公告弹框样式 */
+  .new-bulletin{
+      margin-top: 5px;
+  }
+  .layui-transfer-data{
+      height: 267px!important;
+  }
+  .layui-transfer{
+    padding-left:55px;
+    padding-top: 20px;
+  }
+  /* 事件范围下拉框 */
+  .layui-laydate-range {
+    width: 547px;
+}
+</style>
+
+<script>
+    var TopVm = new Vue({
+        el: "#parts_ptr_application",
+        data: {
+            reachId:0,
+            // 删除公告id集合
+            deleteIdList:[],
+            //提交公告id集合
+            submitId:'',
+            // 发布公告id集合
+            issueIdList:[],
+            // 富文本实例对象
+            rich:null,
+            disabled:false,
+            supplieropen:null,
+            bannerData:[{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'123'},{title:'1235'},],
+            layeditData:{ 
+            tool:[
+                'strong' //加粗
+                ,'italic' //斜体
+                ,'underline' //下划线
+                ,'del' //删除线
+                ,'|' //分割
+                ,'left' //左对齐
+                ,'center' //居中对齐
+                ,'right' //右对齐
+                ,'link' //超链接
+                ,'unlink' //清除链接
+                ,'face' //表情
+                ,'image' //插入图片
+                ,'help' //帮助
+                ],
+            height: 350 //设置编辑器高度
+            },
+            layui:{},
+            comitData:{},//查询条件
+            newBulletinData:{},
+            themeList:[{xm:''},{xm:"物流公告",id:1},{xm:"断点公告",id:2},{xm:"财务公告",id:3},{xm:"系统维护公告",id:4},{xm:"生产启停通知",id:5},{xm:"其他公告类型",id:6},{xm:"产能调查公告",id:7},{xm:"SQ公告",id:8},{xm:"质量部公告",id:9}],//主题下拉框选项
+            statusList:[{xm:''},{xm:'所有公告',id:1},{xm:'近三天',id:2},{xm:'一周内',id:3},{xm:'一个月内',id:4}],//发布人下拉框选项
+            baseList:[{xm:''},{xm:'河北',id:1},{xm:'河南',id:2},{xm:"山西",id:3},{xm:'山东',id:4}],//发布基地拉框选项
+            islookList:[{xm:''},{xm:"已查看",id:'1'},{xm:'未查看',id:'2'}],//是否查看下拉选项
+            //供应商穿梭框数据
+            supplierList:[],
+            // 表格展示数据
+            tableData: [],
+             // 表格表头
+             cols:[[
+                {type:'checkbox', title: '序号', fixed: 'left', align: 'center', event: 'setSign'},
+                {
+                    title: '标题', fixed: 'left',align: 'center',width:250,templet: function (res) {
+                            return '<a class=""href="Javascript:;" lay-event="title">' + res.title + '</a>'
+                    }
+                },
+                {title: '公告类型', align: 'center',width:100,templet: function (res) {
+                        switch(res.contentType){
+                            case 1:
+                            return "物流公告"
+                            case 2:
+                            return "断点公告"
+                            case 3:
+                            return "财务公告"
+                            case 4:
+                            return "系统维护公告"
+                            case 5:
+                            return "生产启停通知"
+                            case 6:
+                            return "其他公告类型"
+                            case 7:
+                            return "产能调查公告"
+                            case 8:
+                            return "SQ公告"
+                            case 9:
+                            return "质量部公告"
+                            default:
+                            return "其他公告"
+                        }
+                    }},
+                {field: 'releaseCompany', title: '发布单位', align: 'center', event: 'setSign',width:250,},
+                {field: 'releaseName', title: '发布人', align: 'center',width:150, event: 'setSign'},
+                {field: 'createTime', title: '创建时间', align: 'center', event: 'setSign',width:200,},
+                {field: 'closingDate', title: '发布时间', align: 'center', event: 'setSign',width:150,},
+                {field: 'closingDate', title: '有效期', align: 'center', event: 'setSign',width:150,},
+                {title: '状态', align: 'center',width:200, templet: function (res) {
+                        switch(res.releaseStatus){
+                            case 1:
+                            return "已发布"
+                            case 2:
+                            return "已创建"
+                            case 3:
+                            return "已驳回"
+                            case 4:
+                            return "已提交"
+                        }
+                    }
+                },
+                {field: 'noticeCount', title: '通知供应商数量', align: 'center', event: 'setSign',width:150},
+                {
+                    title: '已查看', align: 'center',width:100,templet: function (res) {
+                            return '<a class=""href="Javascript:;" lay-event="examine">' + res.viewedCount + '</a>'
+                    }
+                },
+                {
+                    title: '未查看', align: 'center',width:100,templet: function (res) {
+                            return '<a class=""href="Javascript:;" lay-event="unexamine">' + res.notViewCount + '</a>'
+                    }
+                },
+                {
+                    title: '操作', fixed: 'right',align: 'center',width:200, templet: function (res) {
+                        switch(res.releaseStatus){
+                            case 1:
+                            return "<button  type='' class='g-btn-blue' lay-event='consult' > 查看 </button>"
+                            case 2:
+                            return "<button  type='' class='g-btn-green' lay-event='submit' > 提交 </button>" + "  <button  type='' class='g-btn-blue' lay-event='change' > 修改 </button>  " +"<button  type='' class='g-btn-red' lay-event='delete' > 删除 </button>"
+                            case 3:
+                            return "<button  type='' class='g-btn-green' lay-event='submit' > 提交 </button>" + "  <button  type='' class='g-btn-blue' lay-event='change' > 修改 </button>  " +"<button  type='' class='g-btn-red' lay-event='delete' > 删除 </button>"
+                            case 4:
+                            return "<button  type='' class='g-btn-green' lay-event='examineandapprove' > 审批 </button>"
+                        }
+                    }
+                },
+            ]],
+            // 附表表头
+            nextCols:[[
+                {type:'checkbox', title: '序号', fixed: 'left', align: 'center', event: 'setSign'},
+                {field: 'title', title: '公告标题', fixed: 'left', align: 'center', event: 'setSign'},
+                {field: 'releaseTime', title: '发布时间', fixed: 'left', align: 'center', event: 'setSign'},
+                {field: 'approvalTime', title: '供应商代码', align: 'center', event: 'setSign'},
+                {field: 'releaseCompany', title: '供应商名称', align: 'center', event: 'setSign'},
+                {field: 'releaseCompany', title: '供应商地址', align: 'center', event: 'setSign'},
+                {field: 'approvalName', title: '供应商联系人', align: 'center', event: 'setSign'},
+                {field: 'publishedTime', title: '联系方式', align: 'center', event: 'setSign'},
+                {field: 'approvalName', title: '提交人', align: 'center', event: 'setSign'},
+            ]]
+        },
+        computed: {
+        },
+        created() {
+            _That = this;
+        },
+        mounted(){
+            _That.bannerScroll();
+            _That.initLayui(function(){
+                _That.getbannerData(1);
+                _That.setSelectData();//下拉框数据初始化
+                _That.searchClick();
+            });
+        },
+        methods: {
+        // 表格内操作处理方法
+        tableoperation:function(obj){
+            var title = '';
+            var dom = '';
+            var area = ['450px', '300px'];
+            _That.disabled = false;
+            _That.submitId = '';
+            _That.deleteIdList = [];
+            _That.issueIdList = [];
+            switch(obj.event){
+                   case 'title':
+                        title = '详情';
+                        dom = '#newbanner';
+                        area = ['60%', '85%'];
+                        _That.reachText();
+                        _That.disabled = true;
+                       break;
+                   case 'consult':
+                        title = '查看';
+                        dom = '#newbanner';
+                        area = ['60%', '85%'];
+                        _That.reachText();
+                        _That.disabled = true;
+                       break;
+                   case 'submit':
+                        title = '提交';
+                        dom = '#Postbox'
+                        _That.issueIdList.push(obj.data.id);
+                       break;
+                   case 'change':
+                        title = '修改';
+                        dom = '#newbanner';
+                        area = ['60%', '85%'];
+                        _That.reachText();
+                        _That.disabled = false;
+                       break;
+                   case 'delete':
+                        title = '删除';
+                        dom = '#Delete';
+                        _That.deleteIdList.push(obj.data.id)
+                       break;
+                   case 'examineandapprove':
+                        title = '审批';
+                        dom = '#examineandapprove'
+                        _That.submitId = obj.data.id;
+                       break;
+                    case 'examine':
+                        title = '已查看公告';
+                        dom = '#check';
+                        area = ['1200px', '538px'];
+                        break;
+                    case 'unexamine':
+                        title = '未查看公告';
+                        dom = '#check';
+                        area = ['1200px', '538px'];
+                        break;
+               }
+                //    打开对应弹框
+                layer.open({
+                        type: 1,
+                        id: 'layerDemo', //防止重复弹出
+                        title: title,
+                        closeBtn: 1,
+                        area: area,
+                        shade: false,
+                        content: $(dom)
+                    });
+                    console.log(obj.event =='change');
+                    _That.renderSelect();
+                setTimeout(function(){
+                    _That.reachId++;
+                    $("#LAY_layedit_"+_That.reachId).contents().find("body[contenteditable]").prop("contenteditable",(obj.event ==='change'));
+                },10)
+                if(obj.event =='examine'||obj.event =='unexamine'){
+                    this.layui.admin.req("/api/notice/mcNotice/import/administrator", {}, function (res) {
+                        if(!res.ok){
+                            return
+                        }
+                        var seeData = [];
+                        var unSeeData = [];
+                        var tableData = [];
+                        res.data.records.forEach(function(item){
+                            item.ifSee?seeData.push(item):unSeeData.push(item);
+                        });
+                         tableData = obj.event =='examine'?seeData:unSeeData;
+                        // 渲染副表格
+                        _That.layui.table.render({
+                            elem: '#examineTable',
+                            data: tableData,
+                            cols: _That.nextCols,
+                            height:380,
+                            width:1100,
+                            page: true,//是否显示分页
+                            limits: [10, 15, 20, 50],
+                            limit: 10 //每页默认显示的数量
+                        });
+                    });
+                }
+        },
+        // 公告新增事件
+        addNeWnotice:function(){
+            _That.newBulletinData.title = $('#newBannerTitle').val();//标题
+            _That.newBulletinData.isImportance = $('#IsPurchased input[name="examine"]:checked ').val();//是否重要公告
+            _That.newBulletinData.content = _That.layui.layedit.getContent(this.rich)//富文本内容
+            this.layui.admin.req("/api/notice/mcNotice/", {
+                        closingDate:_That.newBulletinData.time,//有效截止日期
+                        contentType:_That.newBulletinData.contentType,//公告类型
+                        content:_That.newBulletinData.content,//富文本内容
+                        fileIds: _That.newBulletinData.fieldList.join(','),//文件id结合
+                        title: _That.newBulletinData.title,//标题
+                        ifImportant: _That.newBulletinData.isImportance ==='true'?true:false,//是否重要公告
+                        groupIds :['73b0476bb752451c97b7d6029ffea666']
+            }, function (res) {
+                console.log(res);
+            },{method:'POST'});
+        },
+        // 关闭弹框事件
+        close:function(){
+            layer.closeAll();
+        },
+        submitChicked:function(){
+            var tableData = this.$refs.datatable.getCheckData();
+            if(tableData.data.length<1){
+                layer.msg('请勾选要提交的公告', {
+                    time: 2000, //20s后自动关闭
+                    });
+                return
+            }
+            tableData.data.forEach(function(item){
+                _That.issueIdList.push(item.id);
+            });
+            this.post();
+        },
+        // 批量删除
+        deleteChicked:function(){
+            var tableData = this.$refs.datatable.getCheckData();
+            if(tableData.data.length<1){
+                layer.msg('请勾选要删除的公告', {
+                    time: 2000, //20s后自动关闭
+                    });
+                return
+            }
+            tableData.data.forEach(function(item){
+                _That.deleteIdList.push(item.id);
+            })
+            this.remove();
+        },
+        // 提交公告方法
+        post:function(){
+            //调用接口方法
+            this.layui.admin.req("/api/notice/mcNotice/submit",_That.issueIdList, function (res) {
+            if(!res.ok){
+            layer.msg(res.message, {
+                time: 2000, //20s后自动关闭
+                });
+                return
+            }
+            _That.searchClick();
+            _That.issueIdList = []//提交id集合置空
+            },{method:'POST'});
+            this.close();
+        },
+        // 删除公告方法
+        remove:function(){
+            //调用接口方法
+            this.layui.admin.req("/api/notice/mcNotice/delete",_That.deleteIdList,function (res) {
+                if(!res.ok){
+                layer.msg(res.message, {
+                    time: 2000, //20s后自动关闭
+                    });
+                    return
+                }
+                _That.searchClick();
+                _That.deleteIdList = [];//删除id集合置空
+            },{method:'POST'});
+            this.close();
+        },
+        // 审批公告方法
+        examineandapprove:function(){
+            //审批备注内容
+            $('#examineText').val();
+            // 审批是否同意
+           if( $('#isExamine input[name="examine"]:checked ').val()==='true'?true:false){
+                this.layui.admin.req("/api/notice/mcNotice/published",{
+                    noticeId:_That.submitId,
+                    remarks:$('#examineText').val()
+                },function (res) {
+                    console.log('发布');
+                    _That.searchClick();
+                },{method:'POST'});
+           }else{
+            this.layui.admin.req("/api/notice/mcNotice/rejected",{
+                    noticeId:_That.submitId,
+                    remarks:$('#examineText').val()
+            },function (res) {
+                _That.searchClick();
+            },{method:'POST'});
+           }
+            //调用接口方法
+            this.close();
+        },
+        // 修改公告方法
+        modification:function(){
+            console.log('修改');
+            //调用接口方法
+            this.close();
+        },
+        // layuidom渲染
+        initLayui:function(callback){
+            layui.use(['element','layedit','laydate','formSelects','form', 'adc','upload','transfer', 'layer', 'util','table'], function(){
+                _That.layui.element = layui.element //元素操作
+                _That.layui.layedit = layui.layedit;
+                _That.layui.laydate = layui.laydate;
+                _That.layui.form = layui.form;
+                _That.layui.admin = layui.adc;
+                _That.layui.formSelects = layui.formSelects;
+                _That.layui.transfer = layui.transfer;
+                _That.layui.upload = layui.upload;
+                _That.layui.transfer = layui.transfer
+                _That.layui.layer = layui.layer
+                _That.layui.util = layui.util;
+                _That.layui.table = layui.table
+                //   主题下拉框
+                _That.layui.form.on('select(pstatus)', function (data) {        //对应lay-filter
+                    console.log(data,"主题");
+                    _That.comitData.pstatus = data.value;
+                })
+                //   发布人下拉框
+                _That.layui.form.on('select(status)', function (data) {        //对应lay-filter
+                    console.log(data,'时间范围');
+                    _That.comitData.status = data.value;
+                })
+                //   发布基地下拉框
+                _That.layui.form.on('select(base)', function (data) {        //对应lay-filter
+                    console.log(data,'发布基地');
+                    _That.comitData.base = data.value;
+                })
+                //   是否查看下拉框
+                _That.layui.form.on('select(islook)', function (data) {        //对应lay-filter
+                    console.log(data,'是否查看');
+                    _That.comitData.isLook = data.value;
+                });
+                // 新建公告事件绑定、
+                // 基地下拉框
+                _That.layui.form.on('select(newBase)', function (data) {        //对应lay-filter
+                    console.log(data,'基地');
+                    _That.newBulletinData.newBase = data.value;
+                });
+                // 内容类型下拉框
+                _That.layui.form.on('select(contentType)', function (data) {        //对应lay-filter
+                    console.log(data,'内容类型');
+                    _That.newBulletinData.contentType = data.value;
+                });
+
+                _That.layui.laydate.render({ 
+                    elem: '#time',
+                    fromat: '18/08/2017',
+                    type: 'datetime',
+                    range: true,
+                    done: function(value, date, endDate){
+                            console.log(value,date,endDate);
+                            _That.comitData.time = value
+                        }
+                });
+                var nowDate = new Date;
+                _That.layui.laydate.render({ 
+                    elem: '#newbulletintime',
+                    fromat: '18/08/2017',
+                    type: 'date',
+                    // range: true,
+                    min: nowDate.toLocaleDateString(),
+                    done: function(value, date, endDate){
+                            _That.newBulletinData.time = value;
+                        }
+                });
+                callback && callback();
+            });
+        },
+        // 文件上传功能
+        upload:function(){
+            var demoListView = $('#demoList');
+                var uploadListIns = _That.layui.upload.render({
+                    elem: '#testList'
+                    ,url: '/api/notice/mcNotice/upload' //改成您自己的上传接口
+                    ,accept: 'file'
+                    ,multiple: true
+                    ,auto: false
+                    ,bindAction: '#testListAction'
+                    ,choose: function(obj){   
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    console.log(files,'4564565646');
+                    //读取本地文件
+                    obj.preview(function(index, file, result){
+                        var tr = $(['<tr id="upload-'+ index +'">'
+                        ,'<td>'+ file.name +'</td>'
+                        ,'<td>'+ (file.size/1024).toFixed(1) +'kb</td>'
+                        ,'<td>等待上传</td>'
+                        ,'<td>'
+                            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        ,'</td>'
+                        ,'</tr>'].join(''));
+                        
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function(){
+                        obj.upload(index, file);
+                        });
+                        
+                        //删除
+                        tr.find('.demo-delete').on('click', function(){
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        });
+                        demoListView.append(tr);
+                    });
+                    }
+                    ,done: function(res, index, upload){
+                        if(res.ok){ //上传成功
+                        console.log(res,'123');
+                        _That.newBulletinData.fieldList.push(res.data.fileId);
+                        // 保存上传文件的fileId
+                        var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                        tds.eq(3).html(''); //清空操作
+                        return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    }
+                    this.error(index, upload);
+                    }
+                    ,error: function(index, upload){
+                    _That.layui.admin.removeLoading();
+                    var tr = demoListView.find('tr#upload-'+ index)
+                    ,tds = tr.children();
+                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                    }
+                });
+        },
+        // 富文本编辑框渲染
+        reachText:function(){
+             _That.layui.layedit.set({
+                    uploadImage: {
+                        url: '/api/notice/mcNotice/upload' //接口url
+                        ,type: 'post' //默认post
+
+                    }
+                });
+                this.rich = _That.layui.layedit.build('richText',_That.layeditData);
+        },
+        // 滚动条滚动
+        bannerScroll:function(){
+            var roll
+            // window.clearInterval(roll);
+            var len = $(".scroll-con li").length;
+            console.log(len);
+            if(len > 9){
+                textRoll=function(){
+                    $(".scroll-wrap").find(".scroll-con").animate({
+                        marginTop : "-23px"
+                    },500,function(){
+                        $(this).css({marginTop : "0px"}).find("li:first").appendTo(this);
+                    });
+                };
+                clearInterval(roll)
+                roll = setInterval('textRoll()',2000);
+            }
+        },
+        // 加载并渲染下拉框数据
+        setSelectData:function(){
+            $('#pstatus').children().remove();
+            $.each(this.themeList, function (index, item) {
+            $('#pstatus').append(new Option(item.xm, item.id));// 主题下拉菜单里添加元素
+            });
+            $('#status').children().remove();
+            $.each(this.statusList, function (index, item) {
+            $('#status').append(new Option(item.xm, item.id));// 发布人下拉菜单里添加元素
+            });
+            $('#base').children().remove();
+            $.each(this.baseList, function (index, item) {
+            $('#base').append(new Option(item.xm, item.id));// 发布基地下拉菜单里添加元素
+            });
+            $('#islook').children().remove();
+            $.each(this.islookList, function (index, item) {
+            $('#islook').append(new Option(item.xm, item.id));// 发布基地下拉菜单里添加元素
+            });
+            layui.form.render("select");
+        },
+        // 搜索点击事件
+        searchClick:function(){
+            console.log(this.comitData);
+            // this.layui.admin.req("/api/notice/mcNotice/", {
+            //             closingDate:_That.newBulletinData.time,//有效截止日期
+            //             contentType:_That.newBulletinData.contentType,//公告类型
+            //             content:_That.newBulletinData.content,//富文本内容
+            //             fileIds: _That.newBulletinData.fieldList.join(','),//文件id结合
+            //             title: _That.newBulletinData.title,//标题
+            //             ifImportant: _That.newBulletinData.isImportance ==='true'?true:false,//是否重要公告
+            // }, function (res) {
+
+            
+            // this.getbannerData(this.comitData.status);
+            // },{method:'POST'});
+            this.layui.admin.req("/api/notice/mcNotice/page/administrator", {
+
+            }, function (res) {
+                _That.layui.admin.removeLoading();
+                if(!res.ok){
+                    layer.msg('查询失败,请从新选择查询条件', {
+                    time: 2000, //20s后自动关闭
+                    });
+                }
+                _That.tableData = res.data.records;
+                _That.layui.admin.removeLoading();
+            },{method:'GET'});
+            // // 获取公告滚动信息
+            // this.getbannerData(this.comitData.time)
+        },
+        // 重置点击事件
+        resetClick:function(index){
+            // 清空当前页面显示
+            $("#time")[0].value = '';
+            this.setSelectData();
+            // 清空请求参数数组
+            this.comitData = {};
+            _That.searchClick();
+        },
+        //请求公告滚动栏信息
+        getbannerData:function(en){
+            this.layui.admin.req("/api/notice/mcNotice/import/administrator", {
+                dateType : en
+            }, function (res) {
+                _That.bannerData = res.data.records;
+                console.log(_That.bannerData,'lzj');
+                _That.bannerScroll();
+            },{method:'GET'});
+        },
+        // 加载新建公告页面下拉框数据
+        setNewBulletinData:function(){
+            $('#contentType').children().remove();
+            $.each(this.themeList, function (index, item) {
+                $('#contentType').append(new Option(item.xm, item.id));// 主题下拉菜单里添加元素
+            });
+            $('#newBase').children().remove();
+            $.each(this.baseList, function (index, item) {
+                $('#newBase').append(new Option(item.xm, item.id));// 发布基地下拉菜单里添加元素
+            });
+            // layui.form.render("select");
+        },
+        // 发布供应商选择框
+        transfer:function(){
+            this.layui.admin.req("/api/base/baseSupplier/list", {}, function (res) {
+                res.data.forEach(function(item){
+                    _That.supplierList.push({
+                        title:item.name,
+                        value:item.id,
+                        code:item.code
+                    })
+                });
+                _That.renderTransfer();//渲染穿梭框
+            },{method:'GET'});
+            this.supplieropen =  layer.open({
+                    type: 1,
+                    title: "选择供应商",
+                    closeBtn: 1,
+                    area: ['600px','500px'],
+                    shade: false,
+                    content: $('#supplierBox')
+                });
+        },
+        // 渲染穿梭框
+        renderTransfer:function(){
+            //供应商穿梭框
+            _That.layui.transfer.render({
+                    elem: '#supplier',
+                    data: _That.supplierList,
+                    id: 'keyPro',
+                    title: ['可选供应商', '已选供应商'],
+                    showSearch: true,
+                });
+                _That.layui.util.event('lay-demotransferactive',{
+                getData:function(othis){//获取右侧数据
+                    // 穿梭框右侧数据赋值给新建上传数据集合
+                    _That.newBulletinData.supplier = _That.layui.transfer.getData('keyPro'); //唯一标识
+                    layer.close(_That.supplieropen);
+				},
+			});
+        },
+        /**
+         * description:点击新增或编辑弹出框中的‘取消’按钮执行的方法、
+         * author:zhangqi
+         * time: 2020-09-16
+         */
+        closeModal: function () {
+            layer.closeAll();
+        },
+        // 发布公告弹出页
+        addMainTableData: function (val) {
+                _That.disabled = false;
+                layer.open({
+                    type: 1,
+                    title: "新建公告",
+                    closeBtn: 1,
+                    area: ['60%', '85%'],
+                    shade: false,
+                    content: $('#newbanner')
+                });
+            _That.renderSelect();
+            // 新建上传文件id列表付初始值为空
+            _That.newBulletinData.fieldList = [];
+            _That.reachText();
+            _That.upload();
+            _That.setNewBulletinData();
+            // $("#LAY_layedit_1").contents().find("body[contenteditable]").prop("contenteditable",true);
+        },
+        // 延迟渲染下拉框
+        renderSelect:function(){
+            setTimeout(function(){
+                    _That.layui.form.render("select");
+                },200)
+        }
+    },
+       
+});
+</script>

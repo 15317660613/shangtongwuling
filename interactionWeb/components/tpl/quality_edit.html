@@ -1,0 +1,423 @@
+<style>
+    .layui-table-edit {
+        width: 100% !important;
+    }
+    
+    .layui-layer-content .layui-table-body {
+        max-height: 310px;
+    }
+</style>
+<div class="layui-card-body">
+    <div id='layer-form' class="layui-form" lay-filter="layer-form">
+        <div class="layui-row">
+            <div class="layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="requieItem">*</span>零件号</label>
+                    <div class="layui-input-block">
+                        <select name="productionAreaIdLayer" id='productionAreaIdLayer' lay-search lay-filter="productionAreaIdLayer">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 91px;padding: 5px 10px;"><span class="requieItem">*</span>测量计划名称</label>
+                    <div class="layui-input-block">
+                        <input autocomplete="off" type="text" id="planNameLayer" name="planNameLayer" placeholder="请输入测量计划名称" class="layui-input" style="width: 97%;">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="requieItem">*</span>零件名称</label>
+                    <div class="layui-input-block">
+                        <select name="teamNameIdLayer" id='teamNameIdLayer' lay-search lay-filter="teamNameIdLayer">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="requieItem">*</span>版本号</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="versionLayer" name="versionLayer" placeholder="请输入版本号" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">车型/机型</label>
+                    <div class="layui-input-block">
+                        <select name="carTypeIdLayer" id='carTypeIdLayer' lay-search lay-filter="carTypeIdLayer">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="remarkLayer" name="remarkLayer" placeholder="请输入备注" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card-header">
+        <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-add">新增</button>
+        <!--<button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-edit">修改</button>-->
+        <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-del">删除</button>
+        <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-import" style="margin-right: 1%">导入</button>
+        <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-down">导入模板下载</button>
+        <!--<button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-save">保存</button>-->
+        <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-reset">重置</button>
+    </div>
+    <table id="tableContent_detial_layer" lay-filter="tableContent_detial_layer">
+</div>
+
+<style type="text/css">
+    /* #layer-form .table-top-bar .layui-form-label{width: 100px;}*/
+    /* #layer-form .layui-form-label{float: left;margin-top: 1%;}*/
+    /* #layer-form .layui-inline{margin-top: 1%;}*/
+    
+    #layer-form .layui-form-item {
+        margin-top: 10px;
+        margin-bottom: 5px
+    }
+    
+    #layer-form .search-item3 {
+        margin-top: 1%
+    }
+    
+    #layer-form .layui-form-select,
+    #layer-form .layui-input {
+        width: 100%
+    }
+    
+    .requieItem {
+        color: red
+    }
+</style>
+<script type="text/javascript">
+    layui.use(['laydate', 'element', 'table', 'formSelects', 'upload'], function() {
+        var table = layui.table,
+            form = layui.form,
+            upload = layui.upload,
+            laydate = layui.laydate,
+            config = layui.config,
+            tableParmas = {},
+            formSelects = layui.formSelects,
+            admin = layui.admin,
+            tableBak = initBak = [];
+
+        //打开后请求弹层初始数据
+
+        admin.req('/api-edu/interaction/qualityInspectionPlan/' + $("input[name='planId']").val(), {}, function(res) {
+
+            tableBak = initBak = $("input[name='partsCode']").val() ? res.data.list : [];
+            table.render({
+                elem: '#tableContent_detial_layer',
+                id: 'tableContent_detial_layer',
+                data: tableBak,
+                // 格式化后台返回的数据
+                //item.sizeNumber||!item.characterName||!item.standardValue||!item.upperTolerance||!item.lowerTolerance
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        rowspan: '2',
+                    }, {
+                        type: 'numbers',
+                        rowspan: '2',
+                        title: 'No.'
+                    }, {
+                        field: 'sizeNumber',
+                        rowspan: '2',
+                        title: '<span class="requieItem">*</span>尺寸编号',
+                        edit: 'text'
+                    }, {
+                        field: 'specialCharacteristics',
+                        rowspan: '2',
+                        title: '<span class="requieItem">*</span>特殊特性分类',
+                        edit: 'text'
+                    }, {
+                        field: 'characterName',
+                        rowspan: '2',
+                        title: '<span class="requieItem">*</span>特性名称',
+                        edit: 'text'
+                    }, {
+                        field: 'standardValue',
+                        rowspan: '2',
+                        title: '<span class="requieItem">*</span>标准值',
+                        edit: 'text'
+                    }, {
+                        field: 'upperTolerance',
+                        rowspan: '2',
+                        title: '<span class="requieItem">*</span>上公差',
+                        edit: 'text'
+                    }, {
+                        field: 'lowerTolerance',
+                        rowspan: '2',
+                        title: '<span class="requieItem">*</span>下公差',
+                        edit: 'text'
+                    }, {
+                        field: 'inspectionEquipment',
+                        rowspan: '2',
+                        title: '检验用具',
+                        edit: 'text'
+                    }, {
+                        field: 'frequency',
+                        rowspan: '2',
+                        title: '频次',
+                        edit: 'text'
+                    }, {
+                        field: 'remark',
+                        rowspan: '2',
+                        title: '备注',
+                        edit: 'text'
+                    }]
+                ],
+                cellMinWidth: 90,
+                limit: 1000,
+                done: function() {
+                    admin.adjustDialogHeight()
+
+                }
+            });
+
+        }, {
+            method: 'get'
+        });
+
+        //文件上传
+        var uploadDetial = upload.render({
+            elem: '#detail-import' //绑定元素
+                ,
+            accept: 'file',
+            url: '/api-edu/interaction/qualityInspectionPlan/uploadPartInfo' //上传接口
+                ,
+            done: function(res) {
+                //上传完毕回调
+                //console.log(res)
+                if (res.ok) {
+                    layer.msg('文件上传成功');
+                    table.reload('tableContent_detial_layer');
+                } else {
+                    layer.msg(res.message);
+                }
+            },
+            error: function() {
+                //请求异常回调
+            }
+        });
+        //导入模板下载
+        $("#detail-down").click(function() {
+            window.location.href = '/api-edu/interaction/qualityInspectionPlan/partInfo/template';
+        })
+        multipSelect('partsCodeNameType', '#productionAreaIdLayer', 'partsCode', 'partsCode');
+
+        multipSelect('partsCodeNameType', '#teamNameIdLayer', 'partsName', 'partsName');
+
+        multipSelect('partsCodeNameType', '#carTypeIdLayer', 'carType', 'carType');
+
+        function multipSelect(url, id, name, value) {
+            //var productionArr=[],teamNameArr=[];
+            admin.req('/api-edu/interaction/qualityInspectionPlan/' + url, {}, function(res) {
+                var arr = res.data,
+                    elem = $(id);
+                //console.log(res)
+                //elem.empty().append('');
+                elem.empty().append('<option></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                form.render('select');
+
+                if ($("input[name='partsCode']").val()) {
+                    //console.log($("input[name='partsCode']").val())                        
+                    form.val("layer-form", {
+                        productionAreaIdLayer: $("input[name='partsCode']").val(),
+                        teamNameIdLayer: $("input[name='partsName']").val(),
+                        carTypeIdLayer: $("input[name='carType']").val()
+                    })
+                    form.render()
+                    $("#layer-form select").attr("disabled", true)
+                    $("#layer-form .layui-input[name!='remarkLayer']").attr("disabled", true)
+                    $("#layer-form .layui-input[name!='remarkLayer']").addClass("layui-disabled")
+                    $("#layer-form .layui-input[name='planNameLayer']").attr("disabled", false).removeClass("layui-disabled").val($("input[name='planName']").val())
+                    $("#layer-form .layui-input[name='versionLayer']").removeAttr("disabled").removeClass("layui-disabled").val($("input[name='partsVersion']").val())
+                    $("#layer-form .layui-input[name='remarkLayer']").val($("input[name='remark']").val())
+
+                } else {
+
+                    $("#layer-form select").removeAttr("disabled").val("")
+                    $("#layer-form .layui-input").removeAttr("disabled").val("")
+                    $("#layer-form .layui-input[name='remarkLayer']").val("")
+                        // $("#layer-form .layui-input[name='versionLayer']").attr("disabled", true).val("1.0")
+                    form.on('select(productionAreaIdLayer)', function(data) {
+                        arr.map(function(item) {
+                            if (item.partsCode == data.value) {
+                                //console.log(item.partsName)
+                                form.val("layer-form", {
+                                        teamNameIdLayer: item.partsName,
+                                        carTypeIdLayer: item.carType
+                                    })
+                                    /* $("#teamNameIdLayer,#carTypeIdLayer").attr("disabled",true)  */
+
+                                form.render()
+                                    /* $("#layer-form .layui-input[name!='remarkLayer']").attr("disabled",true) */
+                                $("#layer-form input[name='planNameLayer']").removeAttr("disabled").removeClass("layui-disabled")
+                                $("#layer-form input[name='versionLayer']").removeAttr("disabled")
+                            }
+                        })
+                    });
+
+                    form.on('select(teamNameIdLayer)', function(data) {
+                        arr.map(function(item) {
+                            if (item.partsName == data.value) {
+                                //console.log(item.partsName)
+                                form.val("layer-form", {
+                                        productionAreaIdLayer: item.partsCode,
+                                        carTypeIdLayer: item.carType
+                                    })
+                                    /* $("#teamNameIdLayer,#carTypeIdLayer").attr("disabled",true) */
+
+                                form.render()
+                                    /* $("#layer-form .layui-input[name!='remarkLayer']").attr("disabled",true) */
+                                $("#layer-form input[name='planNameLayer']").removeAttr("disabled")
+                            }
+                        })
+                    });
+                    //$("#layer-form .layui-input[name='planNameLayer']").attr("disabled",false).val("")
+                    //$("#layer-form .layui-input[name='versionLayer']").val(Number($("input[name='partsVersion']").val())+1)
+                }
+
+
+
+                //formSelects.render(id);
+                //formSelects.btns(id, []);
+
+            }, {
+                method: 'get'
+            });
+
+        }
+
+        function validata(data) {
+            var tag = true;
+            data.map(function(item) {
+                if (!item.sizeNumber || !item.characterName || !item.standardValue || !item.upperTolerance || !item.lowerTolerance) {
+                    tag = false;
+                    layer.msg('请检查必填项');
+                }
+            })
+            return tag;
+        }
+        $("#detail-reset").click(function() {
+                //console.log(11111111)
+                table.reload("tableContent_detial_layer", {
+                    data: initBak // 将新数据重新载入表格
+                })
+            })
+            //新增明细
+        $("#detail-add").click(function() {
+
+            var dataBak = table.cache.tableContent_detial_layer;
+
+            var type = true;
+            if (dataBak.length != 0) {
+                type = validata(dataBak)
+            }
+            if (type) {
+                var item = {
+                    "LAY_INDEX": dataBak.length,
+                    "characterName": "",
+                    "frequency": "",
+                    "id": "",
+                    "inspectionEquipment": "",
+                    "lowerTolerance": "",
+                    "qualityInspectionId": $("input[name='planId']").val() ? $("input[name='planId']").val() : "",
+                    "remark": "",
+                    "sizeNumber": "",
+                    "standardValue": "",
+                    "upperTolerance": "",
+                    time: new Date().getTime()
+                }
+                dataBak.push(item);
+                tableBak = dataBak;
+                table.reload("tableContent_detial_layer", {
+                    data: dataBak // 将新数据重新载入表格
+                })
+            }
+
+
+        })
+        $("#detail-del").click(function() {
+            var checkItem = table.checkStatus('tableContent_detial_layer');
+            var list = table.cache.tableContent_detial_layer;
+            if (checkItem.data.length == 0) {
+                layer.msg('请选择要删除的计划');
+                return
+
+            }
+            var newData = [];
+            for (var i in list) {
+                var is = true;
+                for (var item of checkItem.data) {
+                    //说明是编辑的
+                    if (item.id) {
+                        if (item.id === list[i].id) {
+                            is = false;
+                        }
+                    } else if (item.time) {
+                        if (item.time == list[i].time) {
+                            is = false;
+                        }
+                    }
+                }
+                if (is) {
+                    newData.push(list[i])
+                }
+
+            }
+            table.reload("tableContent_detial_layer", {
+                data: newData // 将新数据重新载入表格
+            })
+
+        })
+
+        function delTabeData(url, id, type) {
+            admin.req('/api-edu/interaction/qualityInspectionPlan/' + (url ? url + '/' : '') + id, {}, function(res) {
+                //layer.msg(res.data);
+                if (res.ok) {
+                    layer.msg('删除成功');
+                } else {
+                    layer.msg(res.data);
+                }
+                layer.closeAll('page');
+                //table.reload(type);
+            }, {
+                method: 'delete'
+            });
+        }
+        //保存明细
+        // $("#detail-save").click(function(){
+
+        //     var paramas={};
+        //     paramas.id='';
+        //     paramas.qualityInspectionId="ZLENQ9CFNQ"
+        //     paramas.sizeNumber="800001"                 
+        //     paramas.characterName="特性A"                 
+        //     paramas.upperTolerance="0.1"                  
+        //     paramas.standardValue="10"                    
+        //     paramas.lowerTolerance="-0.2"                 
+        //     paramas.inspectionEquipment="用具A"          
+        //     paramas.frequency="周"                       
+        //     paramas.remark="描述" 
+
+        //     admin.req('/api-edu/interaction/qualityInspection', paramas, function(res) {
+
+
+
+        //         }, {
+        //             method: 'put'
+        //         });
+
+        // })
+
+
+    })
+</script>

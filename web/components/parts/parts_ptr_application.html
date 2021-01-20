@@ -1,0 +1,1520 @@
+<!--
+File   : parts_ptr_application.html
+Created: 2019-01-04
+Author : 苑立杰
+Description: 零件PTR申请
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<link rel="stylesheet" href="../../assets/css/parts_ptr_application.css"/>
+<div class="layui-row layui-col-space15" id="parts_ptr_application">
+    <!--by ma 2019-04-12-->
+    <div class="layui-col-md12 autoScrollLeft" style="padding-top: 0px">
+        <div class="layui-card">
+            <!--by ma 2019-04-12-->
+            <div class="search" style="margin-top: 6px">
+                <form class="layui-form search-form" lay-filter="search-form-ptr-application">
+                    <div class="search-title" onclick="openPanel(this)">
+                        <div class="search-l title-l"><label>数据查找</label></div>
+                        <div class="search-r "><label id="flex2">展开</label><img
+                                src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img class="hide"
+                                                                              src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item hide">
+                        <!-- 数据表格顶部控制栏 -->
+                        <div class="layui-form" style="padding: 0 0 1% 0;">
+                            <div class="layui-row">
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">最新零件号:</label>
+                                        <!--updated by qitian 2019-02-21-->
+                                        <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title ">
+                                                <input type="text" placeholder="请选择" value="" readonly=""
+                                                       name="latestpartnum"
+                                                       class="layui-input layui-unselect params-item"
+                                                       id="search-input-latestpartnum">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="latestpartnum">
+
+                                            </dl>
+                                        </div>-->
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" name="latestpartnum" id="latestpartnum" lay-search=""
+                                            lay-filter="latestpartnum" xm-select="latestpartnum" xm-select-show-count="1" xm-select-skin="default" xm-select-search=""></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">零件名称:</label>
+                                        <!--updated by qitian 2019-02-21-->
+                                        <!--<div class="layui-input-block">
+                                            <select lay-search="" class="layui-input params-item" name="partsname"
+                                                    id="partsname"></select>
+                                        </div>-->
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" name="partsname" id="partsname" lay-search=""
+                                            lay-filter="partsname" xm-select="partsname" xm-select-show-count="1" xm-select-skin="default" xm-select-search=""></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商代码:</label>
+                                        <div class="layui-input-block">
+                                            <!--updated by qitian 2019-02-21-->
+                                            <!--<select name="suppliernum" id="suppliernum" lay-search="">-->
+                                            <!--</select>-->
+                                            <select  class="layui-input" name="suppliernum" id="suppliernum" lay-filter="suppliernum"
+                                                     xm-select="suppliernum" xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                            </select>
+                                        </div>
+                                        <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title ">
+                                                <input type="text" placeholder="请选择" value="" readonly=""
+                                                       name="suppliernum"
+                                                       class="layui-input layui-unselect params-item"
+                                                       id="search-input-suppliernum">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="suppliernum">
+
+                                            </dl>
+                                        </div>-->
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称:</label>
+                                        <div class="layui-input-block">
+                                            <select id="suppliername" class="layui-input" name="suppliername" lay-filter="suppliername"
+                                                    xm-select="suppliername" 	xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                            </select>
+                                        </div>
+                                        <!--updated by qitian 2019-02-21-->
+                                        <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title ">
+                                                <input type="text" placeholder="请选择" value="" readonly=""
+                                                       name="suppliername"
+                                                       class="layui-input layui-unselect params-item"
+                                                       id="search-input-suppliername">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="suppliername">
+
+                                            </dl>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">PE:</label>
+                                        <div class="layui-input-block">
+                                            <select lay-search="" class="layui-input params-item" name="responsiblepe"
+                                                    id="responsiblepe"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">批准状态:</label>
+                                        <div class="layui-input-block">
+                                            <!--<input type="text" class="layui-input" placeholder="全部" name="approvalstatus" id="approvalstatus" />-->
+                                            <select lay-search="" class="layui-input params-item" name="approvalstatus"
+                                                    id="approvalstatus">
+                                                <option value="">请选择</option>
+                                                <option value="2">PPAP临时批准</option>
+                                                <option value="1">PPAP批准</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">时间范围:</label>
+                                        <div id="timeFrame" class="layui-input-block">
+                                            <input name="createtime" type="text" class="layui-input" id="createTime"
+                                                   placeholder="请选择">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <div style="float: right;padding-right: 2%">
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-sm layui-btn-normal"
+                                                        type="button"
+                                                        lay-filter="search-btn-ptr-application"
+                                                        lay-submit>查询
+                                                </button>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-sm layui-btn-primary"
+                                                        type="button"
+                                                        lay-filter="reset-btn-ptr-application"
+                                                        lay-submit>重置
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="clear: both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="tableList">
+                <div class="layui-form">
+                    <div class="tableList-title" onclick="openPanel(this)">
+                        <div class="table-l title-l"><label>PTR零件列表</label></div>
+                    </div>
+                    <div style="float: right; padding-right: 1%; padding-top: 15px; padding-bottom: 5px;">
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="addItem()">新增
+                            </button>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="deleteItem()">删除
+                            </button>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="allInfoExportExcel()">总清单导出
+                            </button>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="createPtr()">启动PTR申请
+                            </button>
+                        </div>
+                    </div>
+                    <div style="color:red;font-size:10px">说明：红色记录表示此零件已存在或者已经提交过PTR申请</div>
+                    <div class="table-round">
+                        <div id="ptr-parts-round">
+                            <table id="table-task-ptr" class="table-form" lay-filter="table-task-ptr"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .layui-table-edit{
+        height: 100%!important;
+    }
+</style>
+<script>
+    // 调用接口，实现从零件库表向PTR零件表拷贝零件数据
+   /*  $.ajax({
+        url: "/api/ppap/ptrpartsdetail/copyPtrPartsDetail",
+        dataType: 'json',
+        success: function (d) {
+            console.log(d);
+        }
+    }); */
+    //var USER = {};
+    //多选数组
+    //updated by qitian 2019-02-21
+    var multipleItems = ['latestpartnum','partsname', 'suppliernum', 'suppliername'];
+    // 列表中选择的项目的id
+    var ids = [];
+    // 是否是用户点击的
+    var isUserClick = true;
+    var tableIns;
+    sessionStorage.removeItem('requestPartsObj');
+    layui.use(['table', 'laydate', 'form', 'layer', 'adc', 'formSelects'], function () {
+        var table, admin, form, layer, laydate, config, formSelects;
+        // 当前页初始化时候的数据
+        var searchIds = [];
+        table = layui.table,
+            admin = layui.adc,
+            form = layui.form,
+            config = layui.config,
+            layer = layui.layer,
+            formSelects = layui.formSelects,
+            laydate = layui.laydate;
+        formSelects.render();
+        //多选联动下拉框选择和取消事件//updated by qitian 2019-02-21
+        layui.formSelects.on('latestpartnum', function (id, vals, val, isAdd, isDisabled) {
+            admin.req("api/ppap/partslibrary/selectPartsNameByLatestpartNum?latestpartNum=" + val.value, {}, function (res) {
+                var data = res.data;
+                if(data&& data.length>0){
+                    if (isAdd) {
+                        layui.formSelects.value('partsname', [data], true);
+                    } else {
+                        layui.formSelects.value('partsname', [data], false);
+                    }
+                }
+            });
+        });
+        layui.formSelects.on('partsname', function (id, vals, val, isAdd, isDisabled) {
+            admin.req("api/ppap/partslibrary/selectLatestpartNumByPartsName?partsName=" + val.value, {}, function (res) {
+                var data = res.data;
+                if(data && data.length>0){
+                    if (isAdd) {
+                        layui.formSelects.value('latestpartnum', [data], true);
+                    } else {
+                        layui.formSelects.value('latestpartnum', [data], false);
+                    }
+                }
+            });
+        });
+        layui.formSelects.on('suppliername', function (id, vals, val, isAdd, isDisabled) {
+            admin.req("api/ppap/partslibrary/selectSuppliernumberBySuppliername?supplierName=" + val.value, {}, function (res) {
+                var data = res.data;
+                if(data){
+                    if (isAdd) {
+                        layui.formSelects.value('suppliernum', [data], true);
+                    } else {
+                        layui.formSelects.value('suppliernum', [data], false);
+                    }
+                }
+            });
+        });
+        layui.formSelects.on('suppliernum', function (id, vals, val, isAdd, isDisabled) {
+            admin.req("api/ppap/partslibrary/selectSuppliernameBySuppliernumber?supplierNumber=" + val.value, {}, function (res) {
+                var data = res.data;
+                if(data){
+                    if (isAdd) {
+                        layui.formSelects.value('suppliername', [data], true);
+                    } else {
+                        layui.formSelects.value('suppliername', [data], false);
+                    }
+                }
+            });
+        });
+        layui.formSelects.filter('latestpartnum', function(id, inputVal, val, isDisabled){
+            if(
+                val.name.indexOf(inputVal) != -1                                //文本是否包含
+            ){
+                return false;
+            }
+            return true;
+        });
+        layui.formSelects.filter('partsname', function(id, inputVal, val, isDisabled){
+            if(
+                val.name.indexOf(inputVal) != -1                                //文本是否包含
+            ){
+                return false;
+            }
+            return true;
+        });
+        layui.formSelects.filter('suppliername', function(id, inputVal, val, isDisabled){
+            if(
+                val.name.indexOf(inputVal) != -1                                //文本是否包含
+            ){
+                return false;
+            }
+            return true;
+        });
+        layui.formSelects.filter('suppliernum', function(id, inputVal, val, isDisabled){
+            if(
+                val.name.indexOf(inputVal) != -1                                //文本是否包含
+            ){
+                return false;
+            }
+            return true;
+        });
+
+        //加载下拉选择框数据
+        loadSearch();
+        //多选框监听事件
+        admin.listenMultipleSelect();
+        laydate.render({
+            elem: '#createTime'
+            , range: true
+        });
+        //供应商代码和供应商名称联动
+        tableIns = table.render({
+            elem: '#table-task-ptr'
+            , id: 'table-task-ptr'
+            , url: admin.formatUrl('/api/ppap/ptrpartsdetail/tablePage')
+            , method: 'POST'
+            // 格式化后台返回的数据
+            , parseData: function (res) { //res 即为原始返回的数据
+                if (res.respCode == 1) {
+                    return {
+                        "msg": res.message, //解析提示文本
+                    };
+                }
+                // 返回结果，进行渲染表格
+                if (res.respCode == 200) {
+                    res.respCode = 0;
+                }
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.count, //解析数据长度
+                    "data": admin.redefinedForObject(res.data.page) //解析数据列表
+                };
+            }
+            , height: 'full-308'
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', align: 'center'}
+                , {
+                    field: 'latestpartnum', title: '最新零件号', minWidth: 100, align: 'center',edit: 'text'
+                    , templet: function (d) {
+                    	if (d.repeatdata == 1) {//hub-001
+                            str = '<div style="width: 100%;height: 100%;background-color: #ff0000;">' + d.latestpartnum + '</div>';
+                        } else {
+                            str = '<div>' + d.latestpartnum + '</div>';
+                        }
+                        return str;
+                    }
+                }
+                , {
+                    field: 'partsname', title: '零件名称', minWidth: 100, align: 'center',edit: 'text'
+                    , templet: function (d) {
+                        return '<div  id=\'' + JSON.stringify(d) + '\' style="width: 100%;height: 100%; color: #188FFF">' + d.partsname + '</div>'
+                    }
+                }
+                , {field: 'initialpartnum', title: '旧零件号', minWidth: 100, align: 'center', edit: 'text'}
+                , {
+                    field: 'suppliernum', title: '供应商代码', minWidth: 100, align: 'center'
+                    , templet: function (d) {
+                        return '<div onclick="openAll2($(this))" id=\'' + JSON.stringify(d) + '\' style="width: 100%;height: 100%; color: #188FFF">' + d.suppliernum + '</div>'
+                    }
+                }
+                , {
+                    field: 'suppliername', title: '供应商名称', minWidth: 100, align: 'center'
+                    , templet: function (d) {
+                        return '<div onclick="openAll2($(this))" id=\'' + JSON.stringify(d) + '\' style="width: 100%;height: 100%; color: #188FFF">' + d.suppliername + '</div>'
+                    }
+                }
+                , {field: 'responsiblepe', title: 'PE', minWidth: 90, align: 'center', edit: 'text'}
+                , {field: 'latestewo', title: '最新EWO', minWidth: 100, align: 'center', edit: 'text'}
+                , {
+                    field: 'approvalstatus', title: '批准状态', minWidth: 150, align: 'center', templet: function (d) {
+                        if (2 == d.approvalstatus) {
+                            return '<select lay-ignore="" pid="' + d.ptrpartskey + '" class="approvalStatusSelect">\n' +
+                                '        <option value="">请选择</option>\n' +
+                                '        <option value="2" selected>PPAP临时批准</option>\n' +
+                                '        <option value="1">PPAP批准</option>\n' +
+                                '      </select>'
+                        } else if (1 == d.approvalstatus) {
+                            return '<select lay-ignore="" pid="' + d.ptrpartskey + '" class="approvalStatusSelect">\n' +
+                                '        <option value="">请选择</option>\n' +
+                                '        <option value="2">PPAP临时批准</option>\n' +
+                                '        <option value="1" selected>PPAP批准</option>\n' +
+                                '      </select>'
+                        } else {
+                            return '<select lay-ignore="" pid="' + d.ptrpartskey + '" class="approvalStatusSelect">\n' +
+                                '        <option value="">请选择</option>\n' +
+                                '        <option value="2">PPAP临时批准</option>\n' +
+                                '        <option value="1">PPAP批准</option>\n' +
+                                '      </select>'
+                        }
+                    }
+                }
+                , {
+                    field: 'latestapprovaltime',
+                    title: 'PPAP完成时间',
+                    minWidth: 140,
+                    align: 'center',
+                    templet: function (d) {
+                        return '<input readonly class="edit-laydate" style="width: 100%" value="' + (d.latestapprovaltime ? new Date(d.latestapprovaltime).Format('yyyy-MM-dd') : '') + '" placeholder="" data=\'' + JSON.stringify(d) + '\' id="ppaplatestapprovaltime" name="ppaplatestapprovaltime">'
+                    }
+                }
+            ]],
+            cellMinWidth: 110,
+            page: {
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+            },
+            limits: [10, 50, 100],
+            request: {
+                pageName: 'page',
+                limitName: 'pageSize'
+            },
+            where: {
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            },
+            done: function (res, curr, count) {
+                // 保存当前页查询出的数据
+                searchIds = [];
+                console.log(ids)
+                console.log("res", res)
+                isUserClick = false;
+                for (var i = 0; i < res.data.length; i++) {
+                    // 保存当前页查询到的id
+                    searchIds.push(res.data[i].ptrpartskey);
+                    // 如果是之前用户在分页里已经选中的数据
+                    if (ids.includes(res.data[i].ptrpartskey)) {
+                        // $(".layui-table-fixed .layui-table-body input[type=checkbox]").eq(i).prop("checked", true);
+                        // 使用模拟用户点击的方式选中
+                        $(".layui-table-fixed .layui-table-body .layui-unselect.layui-form-checkbox").eq(i).click();
+                    }
+                }
+                isUserClick = true;
+                $('.edit-laydate').each(function (index, item) {
+                    laydate.render({
+                        elem: this,
+                        done: function (value) {
+                            var obj = JSON.parse($(item).attr('data'));
+                            var ptrpartskey = obj.ptrpartskey;
+                            var data = {};
+                            if (value != "" && value != null && value != undefined) {
+                                data = {
+                                    ptrpartskey: ptrpartskey,
+                                    latestapprovaltime: value,
+                                    userId: config.getAccount().userId,
+                                    roleName: config.getAccount().roleName
+                                };
+                            } else {
+                                return false;
+                            }
+                            admin.req('/api/ppap/ptrpartsdetail/savePtrDetail', data, function (res) {
+                                if (res.respCode == 200) {
+                                    $(".layui-laypage-btn").click();
+                                } else {
+                                    layer.alert(res.message, {
+                                        icon: 5
+                                        , btn:['关闭']
+                                    })
+                                }
+                            }, {method: 'POST'})
+                        }
+                    })
+                });
+                /**
+                 * 批准装态实时保存
+                 */
+                $(".approvalStatusSelect").change(function () {
+                    var id = $(this).attr('pid');
+                    var value = $(this).val();
+                    admin.req('/api/ppap/ptrpartsdetail/savePtrDetail', {
+                        ptrpartskey: id,
+                        approvalstatus: value,
+                        userId: config.getAccount().userId,
+                        roleName: config.getAccount().roleName
+                    }, function (res) {
+                        if (res.respCode == 200) {
+                            $(".layui-laypage-btn").click();
+                        } else {
+                            layer.alert(res.message, {
+                                icon: 5
+                                , btn:['关闭']
+                            })
+                        }
+                    }, {method: 'POST'})
+                });
+                //滚动条 2019-02-22 qitian
+                var dev_obj; //layui table 父div
+                var layuitable = null; //当前的layui table
+                dev_obj = document.getElementById('ptr-parts-round'); //table的父div,名字替换成相对应的
+                if (dev_obj != null) {
+                    layuitable = dev_obj.getElementsByClassName("layui-table-main");
+                }
+                console.log(dev_obj, layuitable, sessionStorage["scrollleft" + 'ptr-parts-round']);
+                //更改滚动条位置
+                layuitable[0].scrollLeft = sessionStorage["scrollleft" + 'ptr-parts-round'];
+                // 解决了一个神奇的bug：避免表格的滚动条显示不正常
+                $(window).resize();
+            }
+        });
+        table.on('checkbox(table-task-ptr)', function (obj) {//checkbox 复选框选中事件
+            if (isUserClick) {
+                if (obj.checked) {
+                    var ptrCreateId = "";
+                    if (obj.type === 'one') {
+                        // 单选的时候，把当前行的ptrpartskey作为查询条件
+                        ptrCreateId = obj.data.ptrpartskey + ",";
+                    } else if (obj.type === 'all') {
+                        // 全选的时候，把所有ptrpartskey拼接成字符串作为查询条件
+                        $.each(table.cache['table-task-ptr'], function (index, item) {
+                            ptrCreateId += item.ptrpartskey + ",";
+                        })
+                    }
+                    //根据id查询，选中的零件当中 是否存在启动了PTR的零件,如果有返回启动了ptr的集合
+                    admin.req('/api/ppap/ptrpartsdetail/searchIsOpenPtr', {
+                        ptrCreateId: ptrCreateId,
+                        userId: config.getAccount().userId,
+                        roleName: config.getAccount().roleName
+                    }, function (data) {
+                        if (data.respCode == 200) {
+                            if (data.data != null && data.data.length > 0) {
+                                var ptrName = "";
+                                for (var i = 0; i < data.data.length; i++) {
+                                    ptrName += data.data[i].latestpartnum;
+                                    ptrName += " ";
+                                    ptrName += new Date(data.data[i].createtime).Format('yyyy-MM-dd');
+                                    ptrName += "、";
+                                }
+                                ptrName = ptrName.substring(0, ptrName.length - 1);
+                                //说明勾选的零件中有ptr已经启动的零件
+                                //询问框
+                                var index = layer.confirm(ptrName + "已完成过PTR申请，是否继续申请？", {
+                                    btn: ['确定', '取消'] //按钮
+                                }, function () {
+                                    layer.close(index);
+                                }, function () {
+                                    //取消的回调函数
+                                    //取消将已经启动了PTR的零件的勾选取消掉
+                                    if (obj.type === 'one') {
+                                        // $(obj.tr.selector).find('input[name="layTableCheckbox"]').prop("checked", false);
+                                        isUserClick = false;
+                                        $(obj.tr.selector).find('.layui-unselect.layui-form-checkbox').click();
+                                        isUserClick = true;
+                                    } else {
+
+                                    }
+                                    form.render('checkbox');
+                                });
+                            }
+                        } else {
+                            layer.alert(data.message, {
+                                icon: 5
+                                , btn:['关闭']
+                            })
+                        }
+                    }, {
+                        method: 'GET'
+                    });
+                }
+            }
+            console.log("obj", obj)
+            // console.log(searchIds)
+            // 获取表格中选中的项目
+            var checkStatus = table.checkStatus('table-task-ptr');
+            // 深拷贝
+            var unselectedIds = JSON.parse(JSON.stringify(searchIds));
+            if (obj.checked) {
+                // 当checkbox被选中时
+                if (obj.type === 'one') {
+                    // 如果选中的是单选按钮，把当前选择的项目的id放入数组
+                    if (obj.data.ptrpartskey && !ids.includes(obj.data.ptrpartskey)) {
+                        ids.push(obj.data.ptrpartskey);
+                    }
+                } else {
+                    // 如果选中的是全选按钮，把不包含在id数组中的id放入数组
+                    for (var i = 0; i < checkStatus.data.length; i++) {
+                        if (!ids.includes(checkStatus.data[i].ptrpartskey)) {
+                            ids.push(checkStatus.data[i].ptrpartskey)
+                        }
+                    }
+                }
+            } else {
+                // layui的table控件中的checkbox如果先点击全选，再取消单个项目，会无法获得第一次取消时对应的data
+                // 获取当前未被选中的项目列表
+                for (var i = 0; i < checkStatus.data.length; i++) {
+                    if (unselectedIds.includes(checkStatus.data[i].ptrpartskey)) {
+                        unselectedIds.remove(checkStatus.data[i].ptrpartskey);
+                    }
+                }
+                // 把未选择的项目从已选择数组中移除
+                for (var i = 0; i < unselectedIds.length; i++) {
+                    if (ids.includes(unselectedIds[i])) {
+                        ids.remove(unselectedIds[i]);
+                    }
+                }
+            }
+        });
+        //updated by qitian 2019-02-21
+        //监听提交
+        form.on('submit(search-btn-ptr-application)', function (data) {
+            var startOrendtime = data.field.createtime;
+            var _data = data.field;
+            if (startOrendtime != '') {
+                var createtimestart = startOrendtime.split(' - ')[0];
+                var createtimeend = startOrendtime.split(' - ')[1];
+                _data.latestapprovaltime1 = createtimestart;
+                _data.latestapprovaltime2 = createtimeend;
+            } else {
+                _data.latestapprovaltime1 = "";
+                _data.latestapprovaltime2 = "";
+            }
+//        _data.latestpartnum = $("#search-input-latestpartnum").val();
+//        _data.suppliernum = $("#search-input-suppliernum").val();
+//        _data.suppliername = $("#search-input-suppliername").val();
+            if (formSelects.value('latestpartnum').length) {
+                var latestpartnum = '';
+                for (var i = 0,len = formSelects.value('latestpartnum').length; i < len; i++) {
+                    if (formSelects.value('latestpartnum')[i].name) {
+                        latestpartnum = latestpartnum + formSelects.value('latestpartnum')[i].name + (i == len - 1 ? '' : ',');
+                    }
+                }
+                _data["latestpartnum"] = latestpartnum;
+            }
+            if (formSelects.value('partsname').length) {
+                var partsname = '';
+                console.log(formSelects.value('partsname'))
+                for (var i = 0,len = formSelects.value('partsname').length; i < len; i++) {
+                    if (formSelects.value('partsname')[i].name) {
+                        partsname = partsname + formSelects.value('partsname')[i].name + (i == len - 1 ? '' : ',');
+                    }
+                }
+                console.log(partsname);
+                _data["partsname"] = partsname;
+            }
+            if (formSelects.value('suppliernum').length) {
+                var suppliernum = '';
+                for (var i = 0,len = formSelects.value('suppliernum').length; i < len; i++) {
+                    if (formSelects.value('suppliernum')[i].name) {
+                        suppliernum = suppliernum + formSelects.value('suppliernum')[i].name + (i == len - 1 ? '' : ',');
+                    }
+                }
+                _data["suppliernum"] = suppliernum;
+            }
+            if (formSelects.value('suppliername').length) {
+                var suppliername = '';
+                console.log(formSelects.value('suppliername'))
+                for (var i = 0,len = formSelects.value('suppliername').length; i < len; i++) {
+                    if (formSelects.value('suppliername')[i].name) {
+                        suppliername = suppliername + formSelects.value('suppliername')[i].name + (i == len - 1 ? '' : ',');
+                    }
+                }
+                console.log(suppliername);
+                _data["suppliername"] = suppliername;
+            }
+            sessionStorage.setItem('requestPartsObj', JSON.stringify(_data));
+            console.log("data field:",_data);
+            //这里以搜索为例
+            table.reload('table-task-ptr', {
+                where: _data
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        });
+
+        // 监听重置reset
+        form.on('submit(reset-btn-ptr-application)', function () {
+            var resetItems = [
+                'latestpartnum',
+                'partsname',
+                'suppliernum',
+                'suppliername',
+                'responsiblepe',
+                'approvalstatus',
+                'createTime'
+            ];
+            resetForm(resetItems);
+            sessionStorage.removeItem('requestPartsObj');
+            //重新渲染所有联动的多选
+            formSelects.value('suppliernum', []);
+            formSelects.value('suppliername', []);
+            formSelects.value('latestpartnum', []);
+            formSelects.value('partsname', []);
+            loadSearch();
+            tableIns.reload('table-task-ptr', {
+                where: {
+                    userId: config.getAccount().userId,
+                    roleName: config.getAccount().roleName
+                }, page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            form.render();
+        });
+
+        form.on('select(suppliernum1)', function (data) {
+            // console.log(data.elem); //得到select原始DOM对象
+            // console.log(data.value); //得到被选中的值
+            // console.log(data.othis); //得到美化后的DOM对象
+            dataobj2.suppliernum = data.value;
+            //根据供应商代码查询名称
+            admin.req('/api/ppap/edum05user/getSupplierIdByCode', {
+                companycode: data.value,
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            }, function (res) {
+                if (res.respCode == 200) {
+                    if (data.value == '') {
+                        $('#suppliername1').val('');
+                        dataobj2.suppliername = '';
+                    } else {
+                        $('#suppliername1').val(res.data.companyname);
+                        dataobj2.suppliername = res.data.companyname;
+                    }
+
+                    form.render('select');
+                    setTimeout(function () {
+                        $('#select_input1 input').attr('id', 'searchinput1')
+                        $('#select_input1 input').attr('onblur', 'resetinput1()')
+                    }, 1);
+                    setTimeout(function () {
+                        $('#select_input2 input').attr('id', 'searchinput2')
+                        $('#select_input2 input').attr('onblur', 'resetinput2()')
+                    }, 1);
+                } else {
+                    $('#suppliername1').val('');
+                    form.render('select');
+                    setTimeout(function () {
+                        $('#select_input1 input').attr('id', 'searchinput1')
+                        $('#select_input1 input').attr('onblur', 'resetinput1()')
+                    }, 1);
+                    setTimeout(function () {
+                        $('#select_input2 input').attr('id', 'searchinput2')
+                        $('#select_input2 input').attr('onblur', 'resetinput2()')
+                    }, 1);
+                }
+            }, {method: 'GET'})
+        });
+        form.on('select(suppliername1)', function (data) {
+            // console.log(data.elem); //得到select原始DOM对象
+            // console.log(data.value); //得到被选中的值
+            // console.log(data.othis); //得到美化后的DOM对象
+            dataobj2.suppliername = data.value;
+
+            //根据供应商名称查询代码
+            admin.req('/api/ppap/edum05user/getSupplierIdByCode', {
+                companyname: data.value,
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            }, function (res) {
+                if (res.respCode == 200) {
+                    if (data.value == '') {
+                        $('#suppliernum1').val('');
+                        dataobj2.suppliernum = '';
+                    } else {
+                        $('#suppliernum1').val(res.data.companycode);
+                        dataobj2.suppliernum = res.data.companycode;
+                    }
+
+                    form.render('select')
+                    setTimeout(function () {
+                        $('#select_input1 input').attr('id', 'searchinput1')
+                        $('#select_input1 input').attr('onblur', 'resetinput1()')
+                    }, 1);
+                    setTimeout(function () {
+                        $('#select_input2 input').attr('id', 'searchinput2')
+                        $('#select_input2 input').attr('onblur', 'resetinput2()')
+                    }, 1);
+                } else {
+                    $('#suppliernum1').val('');
+                    form.render('select');
+                    setTimeout(function () {
+                        $('#select_input1 input').attr('id', 'searchinput1')
+                        $('#select_input1 input').attr('onblur', 'resetinput1()')
+                    }, 1);
+                    setTimeout(function () {
+                        $('#select_input2 input').attr('id', 'searchinput2')
+                        $('#select_input2 input').attr('onblur', 'resetinput2()')
+                    }, 1);
+                }
+            }, {method: 'GET'})
+        });
+        form.on('select(latestpartnum1)', function (data) {
+            selectdata2.latestpartnum = data.value;
+            //根据最新零件编号查询零件名称
+            var searchdata = {
+                latestpartnum: data.value,
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            };
+            $.ajax({
+                type: 'POST',
+                url: admin.formatUrl('/api/ppap/partslibrary/listPartsByCondition'),
+                data: searchdata,
+                dataType: "json",
+                success: function (res) {
+                    if (res.respCode == 200) {
+                        if (res.data.length != 0) {
+                            if (data.value == '') {
+                                $('#partsname1').val('');
+                                selectdata2.partsname = '';
+                            } else {
+                                $('#partsname1').val(res.data[0].partsname);
+                                selectdata2.partsname = res.data[0].partsname;
+                            }
+                            form.render('select');
+                            setTimeout(function () {
+                                $('#select_input3 input').attr('id', 'searchinput3')
+                                $('#select_input3 input').attr('onblur', 'resetinput3()')
+                            }, 1);
+                            setTimeout(function () {
+                                $('#select_input4 input').attr('id', 'searchinput4')
+                                $('#select_input4 input').attr('onblur', 'resetinput4()')
+                            }, 1);
+                        } else {
+                            $('#partsname1').val('');
+                            form.render('select');
+                            setTimeout(function () {
+                                $('#select_input3 input').attr('id', 'searchinput3')
+                                $('#select_input3 input').attr('onblur', 'resetinput3()')
+                            }, 1);
+                            setTimeout(function () {
+                                $('#select_input4 input').attr('id', 'searchinput4')
+                                $('#select_input4 input').attr('onblur', 'resetinput4()')
+                            }, 1);
+                        }
+                    } else {
+                        $('#partsname1').val('');
+                        form.render('select');
+                        setTimeout(function () {
+                            $('#select_input3 input').attr('id', 'searchinput3')
+                            $('#select_input3 input').attr('onblur', 'resetinput3()')
+                        }, 1);
+                        setTimeout(function () {
+                            $('#select_input4 input').attr('id', 'searchinput4')
+                            $('#select_input4 input').attr('onblur', 'resetinput4()')
+                        }, 1);
+                    }
+                }
+            });
+        });
+        form.on('select(partsname1)', function (data) {
+            selectdata2.partsname = data.value;
+            //根据最新零件编号查询零件名称
+            var searchdata = {
+                partsname: data.value,
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            };
+            $.ajax({
+                type: 'POST',
+                url: admin.formatUrl('/api/ppap/partslibrary/listPartsByCondition'),
+                data: searchdata,
+                dataType: "json",
+                success: function (res) {
+                    if (res.respCode == 200) {
+                        if (res.data.length != 0) {
+                            if (data.value == '') {
+                                $('#latestpartnum1').val('');
+                                selectdata2.latestpartnum = '';
+                            } else {
+                                $('#latestpartnum1').val(res.data[0].latestpartnum);
+                                selectdata2.latestpartnum = res.data[0].latestpartnum;
+                            }
+                            form.render('select');
+                            setTimeout(function () {
+                                $('#select_input3 input').attr('id', 'searchinput3')
+                                $('#select_input3 input').attr('onblur', 'resetinput3()')
+                            }, 1);
+                            setTimeout(function () {
+                                $('#select_input4 input').attr('id', 'searchinput4')
+                                $('#select_input4 input').attr('onblur', 'resetinput4()')
+                            }, 1);
+                        } else {
+                            $('#latestpartnum1').val('');
+                            form.render('select');
+                            setTimeout(function () {
+                                $('#select_input3 input').attr('id', 'searchinput3')
+                                $('#select_input3 input').attr('onblur', 'resetinput3()')
+                            }, 1);
+                            setTimeout(function () {
+                                $('#select_input4 input').attr('id', 'searchinput4')
+                                $('#select_input4 input').attr('onblur', 'resetinput4()')
+                            }, 1);
+                        }
+                    } else {
+                        $('#latestpartnum1').val('');
+                        form.render('select');
+                        setTimeout(function () {
+                            $('#select_input3 input').attr('id', 'searchinput3')
+                            $('#select_input3 input').attr('onblur', 'resetinput3()')
+                        }, 1);
+                        setTimeout(function () {
+                            $('#select_input4 input').attr('id', 'searchinput4')
+                            $('#select_input4 input').attr('onblur', 'resetinput4()')
+                        }, 1);
+                    }
+                }
+            });
+        });
+    });
+
+    /**
+     * 重置表单内容
+     */
+    function resetForm(resetItems) {
+        for (var i = 0; i < resetItems.length; i++) {
+            var item = $("#" + resetItems[i]);
+            switch (item.prop("tagName")) {
+                case "INPUT":
+                case "SELECT":
+                    item.val("");
+                    break;
+                case "DL":
+                    item.empty();
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @Desc 搜索下拉面板数据获取
+     * @Date 2019-01-05
+     * @Author yuanlijie
+     */
+    function loadSearch() {
+        var config = layui.config
+            ,formSelects = layui.formSelects
+            ,admin = layui.adc
+            ,form = layui.form;
+        //updated by qitian 2019-02-21
+        /*ar history = sessionStorage.getItem('requestPartsObj') ? JSON.parse(sessionStorage.getItem('requestPartsObj')) : {};
+        console.log("history:", history)*/
+        admin.req('/api/ppap/ptrpartsdetail/ptrpartsDetailItems', {
+            userId: config.getAccount().userId,
+            roleName: config.getAccount().roleName
+        }, function (res) {
+            if (res.respCode == 200 && res.data) {
+                for (var selName in res.data) {
+                    $('#' + selName).empty();
+                    //多选项
+                    if (multipleItems.includes(selName)) {
+                        //updated by qitian 2019-02-21
+                        /*if (selName == 'responsiblepe' || selName == 'approvalstatus') {
+                            admin.initMultipleSelect(selName, res.data[selName], (history && history[selName] ? history[selName] : ''));
+                        } else {*/
+                            var data = res.data;
+                            var selectData = [],selectData1 = [],selectData2 = [], selectData3 = [];
+                            var suppliername = [], suppliernum = [], latestpartnum = [], partsname = [];
+
+                            if (formSelects.value('suppliername').length) {
+                                for (var i = 0; i < formSelects.value('suppliername').length; i++) {
+                                    if (formSelects.value('suppliername')[i].name) {
+                                        suppliername.push(formSelects.value('suppliername')[i].name);
+                                    }
+                                }
+                            }
+                            if (formSelects.value('suppliernum').length) {
+                                for (var i = 0; i < formSelects.value('suppliernum').length; i++) {
+                                    if (formSelects.value('suppliernum')[i].name) {
+                                        suppliernum.push(formSelects.value('suppliernum')[i].name);
+                                    }
+                                }
+                            }
+                            for (var j = 0, length = data.suppliername.length; j < length; j++) {
+                                var selectObj = {};
+                                selectObj.name = data.suppliername[j];
+                                selectObj.value = data.suppliername[j];
+                                selectData.push(selectObj);
+
+                                var selectObj1 = {};
+                                selectObj1.name = data.suppliernum[j];
+                                selectObj1.value = data.suppliernum[j];
+                                selectData1.push(selectObj1);
+                            }
+                            //formSelect-v4下拉树插件渲染
+                            formSelects.data('suppliername', 'local', {
+                                arr: selectData
+                            });
+                            formSelects.btns('suppliername', []);
+                            formSelects.data('suppliernum', 'local', {
+                                arr: selectData1
+                            });
+                            formSelects.btns('suppliernum', []);
+                            formSelects.value('suppliername', suppliername,true);
+                            formSelects.value('suppliernum', suppliernum,true);
+
+                            if (formSelects.value('latestpartnum').length) {
+                                for (var i = 0; i < formSelects.value('latestpartnum').length; i++) {
+                                    if (formSelects.value('latestpartnum')[i].name) {
+                                        latestpartnum.push(formSelects.value('latestpartnum')[i].name);
+                                    }
+                                }
+                            }
+                            if (formSelects.value('partsname').length) {
+                                for (var i = 0; i < formSelects.value('partsname').length; i++) {
+                                    if (formSelects.value('partsname')[i].name) {
+                                        partsname.push(formSelects.value('partsname')[i].name);
+                                    }
+                                }
+                            }
+                            for (var j = 0, length = data.latestpartnum.length; j < length; j++) {
+                                var selectObj = {};
+                                selectObj.name = data.latestpartnum[j];
+                                selectObj.value = data.latestpartnum[j];
+                                selectData2.push(selectObj);
+
+                                var selectObj1 = {};
+                                selectObj1.name = data.partsname[j];
+                                selectObj1.value = data.partsname[j];
+                                selectData3.push(selectObj1);
+                            }
+                            //formSelect-v4下拉树插件渲染
+                            formSelects.data('latestpartnum', 'local', {
+                                arr: selectData2
+                            });
+                            formSelects.btns('latestpartnum', []);
+                            formSelects.data('partsname', 'local', {
+                                arr: selectData3
+                            });
+                            formSelects.btns('partsname', []);
+                            formSelects.value('latestpartnum', latestpartnum,true);
+                            formSelects.value('partsname', partsname,true);
+                       /* }*/
+                    } else {//单选项
+                        if (res.data[selName].length > 0) {
+                            $('#' + selName).append('<option value="">请选择</option>');
+                            for (var item of res.data[selName]) {
+                                if (item) {
+                                    if (history && history[selName] == item) {
+                                        $('#' + selName).append('<option value="' + item + '" selected>' + item + '</option>');
+                                    } else {
+                                        $('#' + selName).append('<option value="' + item + '">' + item + '</option>');
+                                    }
+                                }
+                            }
+                        } else {
+                            $('#' + selName).append('<option value="">没有选项</option>');
+                        }
+                        form.render('select');
+//                        $('#itemtrackingnum').next().find('dd').on('click',function (e) {
+//                            linkageByProjectItem();
+//                        })
+                    }
+                }
+            }
+        }, {
+            method: 'GET'
+        });
+    }
+
+    /**
+     * 面板 显示
+     * @param _this  当前元素this
+     */
+    function openPanel(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('收起');
+                $('#flex1').next().next().removeClass('hide');
+                $('#flex1').next().addClass('hide');
+            } else {
+                $('#flex2').html('收起')
+                $('#flex2').next().next().removeClass('hide');
+                $('#flex2').next().addClass('hide');
+            }
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('展开');
+                $('#flex1').next().next().addClass('hide');
+                $('#flex1').next().removeClass('hide');
+            } else {
+                $('#flex2').html('展开')
+                $('#flex2').next().next().addClass('hide');
+                $('#flex2').next().removeClass('hide');
+            }
+        }
+    }
+
+    /**
+     * @Desc 即时保存
+     * @Date 2019-01-05
+     * @Author yuanlijie
+     */
+    layui.table.on('edit(table-task-ptr)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+        // console.log(obj.value); //得到修改后的值
+        // console.log(obj.field); //当前编辑的字段名
+        // console.log(obj.data); //所在行的所有相关数据
+        saveItemRequest(obj.data);
+    });
+
+    /**
+     * @Desc 即时保存请求
+     * @Param obj: 请求参数对象;isModel:是否为模态框请求，是的话需要关闭模态框
+     * @Date 2019-01-05
+     * @Author yuanlijie
+     */
+    function saveItemRequest(obj, isModel) {
+        var admin = layui.adc
+            , config = layui.config;
+        obj.userId = config.getAccount().userId;
+        obj.roleName = config.getAccount().roleName;
+        admin.req('/api/ppap/ptrpartsdetail/savePtrDetail', obj, function (res) {
+            if (res.respCode == 200) {
+                //更新表格数据
+                $(".layui-laypage-btn").click();
+                loadSearch();
+            } else {
+                layer.alert(res.message, {
+                    icon: 5
+                    , btn:['关闭']
+                })
+            }
+        }, {method: 'POST'})
+    }
+
+
+    /**
+     * @Desc 新增零件
+     * @Date 2019-01-05
+     * @Author yuanlijie
+     */
+    function addItem() {
+        var allDatas = layui.table.cache['table-task-ptr']
+            , can = true;//是否可以添加标识
+        if (allDatas) {
+            for (var item of allDatas) {
+                //当所有信息都没填写不允许添加新行
+                if (!item.initialpartnum && !item.partsname && !item.latestpartnum && !item.suppliernum
+                    && !item.suppliername && !item.responsiblepe && !item.latestewo && !item.approvalstatus
+                    && !item.latestapprovaltime) {
+                    can = false;
+                }
+            }
+        }
+        if (can) {
+            var admin = layui.adc,
+                table = layui.table,
+                config = layui.config;
+            admin.req('/api/ppap/ptrpartsdetail/adPtrPartsDetail', {
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            }, function (data) {
+                if (data.respCode != -1) {
+                    //滚动条 2019-02-22 qitian
+                    sessionStorage.setItem("scrollleft" + 'ptr-parts-round',0)
+                    table.reload('table-task-ptr');
+//                    $(".layui-laypage-btn").click();
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                        , btn:['关闭']
+                    })
+                }
+            }, {
+                method: 'POST'
+            });
+        } else {
+            layer.alert('请先完善信息', {
+                icon: 5
+                , btn:['关闭']
+            })
+        }
+    }
+
+    /**
+     * @Desc 删除零件
+     * @Date 2019-01-05
+     * @Author yuanlijie
+     */
+    function deleteItem() {
+        var table = layui.table
+            ,admin = layui.adc
+            ,config = layui.config
+            , checkStatus = table.checkStatus('table-task-ptr');//获取选中项
+        if (checkStatus.data && checkStatus.data.length !== 1) {
+            layer.alert('请选择一条需要删除的零件信息', {
+                icon: 5
+                , btn:['关闭']
+            });
+            return;
+        } else {
+            var admin = layui.adc;
+            admin.req('/api/ppap/ptrpartsdetail/tablePageremovReal', {
+                ptrpartskey: checkStatus.data[0].ptrpartskey,
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            }, function (data) {
+                if (data.respCode == 200) {
+                    layer.alert(data.message, {
+                        icon: 1
+                        , btn:['关闭']
+                    });
+                    $(".layui-laypage-btn").click();
+                    //搜索功能中 下拉框 内容加载
+                    loadSearch();
+                    //删除后将删除的id去除
+                    if (ids.includes(checkStatus.data[0].ptrpartskey)) {
+                        ids.remove(checkStatus.data[0].ptrpartskey);
+                    }
+
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                        , btn:['关闭']
+                    });
+                }
+            }, {
+                method: 'POST'
+            });
+        }
+
+    }
+
+    /**
+     * 创建Ptr
+     * 2019-01-06
+     * YUANLIJIE
+     */
+    function createPtr() {
+        var admin = layui.adc
+            ,config = layui.config;
+        // var table = layui.table
+        //     , checkStatus = table.checkStatus('table-task-ptr');//获取选中项
+        // if (checkStatus.data && checkStatus.data.length == 0) {
+        if (ids.length === 0) {
+            layer.alert('请至少选择一条零件信息', {
+                icon: 5
+                , btn:['关闭']
+            });
+            return;
+        } else {
+            //启动PTR
+            //得到启动PTR的id
+            var ptrCreateId = "";
+            // for (var i = 0; i < checkStatus.data.length; i++) {
+            //     if (checkStatus.data[i].ptrpartske
+            for (var i = 0; i < ids.length; i++) {
+                if (ids[i] !== null && ids[i] !== undefined && ids[i] !== "") {
+                    ptrCreateId += ids[i];
+                    ptrCreateId += ",";
+                }
+            }
+            if (ptrCreateId === "") {
+                return;
+            }
+            var admin = layui.adc
+                , config = layui.config;
+
+            //点击启动PTR就去启动  开始启动
+            admin.req('/api/ppap/ptrpartsdetail/creatPtr', {
+                ptrCreateId: ptrCreateId,
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+            }, function (data) {
+                if (data.respCode === '200') {
+                    var ptrNumber = data.message;
+                    //updated by qitian 解决子页面中面包屑导航显示问题 bug编号14126
+                    location.href = './index.html#!ptr_parts_createinfo?ptrNumber=' + ptrNumber+'&ptrCreateId='+ptrCreateId;
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                        , btn:['关闭']
+                    });
+                }
+            }, {
+                method: 'GET'
+            });
+            // location.replace('./index.html#!parts_ptr_createinfo?'+ ptrCreateId +  '&321');
+        }
+
+    }
+
+    function allInfoExportExcel() {
+        var config = layui.config
+            ,formSelects = layui.formSelects;
+        var exportUrl = "";
+        var _session = JSON.parse(sessionStorage.getItem('requestPartsObj'));
+        if (_session) {
+            for(var key in _session) {
+                if (!(_session[key] === '' || _session[key] === undefined)) {//判断为空就不传
+                    if (exportUrl === '') {
+                        exportUrl = exportUrl + "?" + key + "=" + _session[key];
+                    } else {
+                        exportUrl = exportUrl + "&" + key + "=" + _session[key];
+                    }
+                }
+            }
+        } else {
+            var userId = config.getAccount().userId;
+            if ("" != userId) {
+                exportUrl += (exportUrl === '' ? '?' : '&') + "userId="
+                exportUrl += userId
+            }
+            var roleName = config.getAccount().roleName;
+            if ("" != roleName) {
+                exportUrl += (exportUrl === '' ? '?' : '&') + "roleName="
+                exportUrl += roleName
+            }
+        }
+       /* //var latestpartnum = $("#search-input-latestpartnum").val();
+        var latestpartnum = '';
+        if (formSelects.value('latestpartnum').length) {
+            for (var i = 0,len = formSelects.value('latestpartnum').length; i < len; i ++) {
+                latestpartnum += latestpartnum + formSelects.value('latestpartnum')[i].name + (i == len - 1 ? '' : ',');
+            }
+        }
+        if ("" != latestpartnum) {
+            exportUrl += "&latestpartnum="
+            exportUrl += latestpartnum
+        }
+        var partsname = '';
+        if (formSelects.value('partsname').length) {
+            for (var i = 0,len = formSelects.value('partsname').length; i < len; i ++) {
+                partsname += partsname + formSelects.value('partsname')[i].name + (i == len - 1 ? '' : ',');
+            }
+        }
+        if ("" != partsname) {
+            exportUrl += "&partsname="
+            exportUrl += partsname
+        }
+        var suppliernum = '';
+        if (formSelects.value('suppliernum').length) {
+            for (var i = 0,len = formSelects.value('suppliernum').length; i < len; i ++) {
+                suppliernum += suppliernum + formSelects.value('suppliernum')[i].name + (i == len - 1 ? '' : ',');
+            }
+        }
+        if ("" != suppliernum) {
+            exportUrl += "&suppliernum="
+            exportUrl += suppliernum
+        }
+        var suppliername = '';
+        if (formSelects.value('suppliername').length) {
+            for (var i = 0,len = formSelects.value('suppliername').length; i < len; i ++) {
+                suppliername += suppliername + formSelects.value('suppliername')[i].name + (i == len - 1 ? '' : ',');
+            }
+        }
+        if ("" != suppliername) {
+            exportUrl += "&suppliername="
+            exportUrl += suppliername
+        }
+        var responsiblepe = $("#responsiblepe").val();
+        if ("" != responsiblepe) {
+            exportUrl += "&responsiblepe="
+            exportUrl += responsiblepe
+        }
+        var approvalstatus = $("#approvalstatus").val();
+        if ("" != approvalstatus) {
+            exportUrl += "&approvalstatus="
+            exportUrl += approvalstatus
+        }
+        var createTime = $("#createTime").val();
+        if ("" != createTime) {
+            var latestapprovaltime1 = createTime.split(' - ')[0]
+            var latestapprovaltime2 = createTime.split(' - ')[1]
+            exportUrl += "&latestapprovaltime1="
+            exportUrl += latestapprovaltime1
+            exportUrl += "&latestapprovaltime2="
+            exportUrl += latestapprovaltime2
+        }*/
+        window.location.href = "/api/ppap/ptrpartsdetail/ptrPartsDetailExcelOutPut" + exportUrl;
+    }
+
+    //供应商代码和供应商名称联动
+    var dataobj2 = {
+        userId: layui.config.getAccount().userId,
+        roleName: layui.config.getAccount().roleName
+    };
+
+    function openAll2($this) {
+        var form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            layer = layui.layer;
+        dataobj2 = JSON.parse($this[0].id)
+        var html = '';
+        html += '<div class="layui-form" style="padding-top: 10px"><div class="layui-row"><label class="layui-form-label">供应商代码：</label>\n' +
+            '                    <div id="select_input1"  class="layui-input-block">\n' +
+            '                        <select class="layui-form-select" name="suppliernum1" id="suppliernum1"\n' +
+            '                    lay-filter="suppliernum1" lay-search=""></select>\n' +
+            '                        </div></div>' +
+            '<div class="layui-row"><label class="layui-form-label">供应商名称：</label>' +
+            '                    <div id="select_input2"  class="layui-input-block">' +
+            '                        <select class="layui-form-select" name="suppliername1" id="suppliername1"' +
+            '                    lay-filter="suppliername1" lay-search=""></select>' +
+            '                        </div></div></div>'
+        // var data = {};
+        // data = {sqe: config.getAccount().userId}
+        admin.req('/api/ppap/edum05user/getSupplierInfoAll', {
+            }, function (res) {
+            	if (res.respCode == 200 && res.data) {
+                    $('#suppliernum1').empty()
+                    $('#suppliername1').empty()
+                    $('#suppliernum1').append('<option value="">请选择</option>')
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (dataobj2.suppliernum == res.data[i].supplierCode) {
+                            $('#suppliernum1').append('<option selected="selected">' + res.data[i].supplierCode + '</option>')
+                        } else {
+                            $('#suppliernum1').append('<option>' + res.data[i].supplierCode + '</option>')
+                        }
+                    }
+                    $('#suppliername1').append('<option value="">请选择</option>')
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (dataobj2.suppliername == res.data[i].supplierName) {
+                            $('#suppliername1').append('<option selected="selected">' + res.data[i].supplierName + '</option>')
+                        } else {
+                            $('#suppliername1').append('<option>' + res.data[i].supplierName + '</option>')
+                        }
+                    }
+                    form.render('select')
+                }
+            },
+            {method: 'POST'});
+        layer.open({
+            type: 1
+            , title: '更多'
+            , area: ['400px', '200px']//设置模态框宽度
+            , content: '' + html + ''
+            , btn: ['保存']
+            , yes: function (index, layero) {
+                // delete dataobj2.responsiblepe
+                // delete dataobj2.updatetime;
+                // for (var key in dataobj2) {
+                //     if (dataobj2[key] == '') {
+                //         delete dataobj2[key]
+                //     }
+                // }
+                //按钮【按钮二】的回调
+                admin.req('/api/ppap/ptrpartsdetail/savePtrDetail', dataobj2, function (res) {
+                    if (res.respCode == 200) {
+                        layer.close(index);
+                        $(".layui-laypage-btn").click();
+                        loadSearch();
+                    } else {
+                        layer.alert('保存失败', {
+                            icon: 5
+                            , btn:['关闭']
+                        })
+                    }
+                }, {method: 'POST'})
+            }
+        });
+    }
+
+    function resetinput1() {
+        var val = $('#searchinput1').val()
+        setTimeout("$('#searchinput1').val('" + val + "')", 155)
+        dataobj2.suppliernum = val
+        dataobj2.suppliername = $('#searchinput2').val()
+    }
+
+    function resetinput2() {
+        var val = $('#searchinput2').val()
+        setTimeout("$('#searchinput2').val('" + val + "')", 155)
+        dataobj2.suppliername = val
+        dataobj2.suppliernum = $('#searchinput1').val()
+
+    }
+
+    //最新零件号和零件名称联动
+    var selectdata2 = {
+        userId: layui.config.getAccount().userId,
+        roleName: layui.config.getAccount().roleName
+    };
+    function resetinput3() {
+        var val = $('#searchinput3').val()
+        setTimeout("$('#searchinput3').val('" + val + "')", 155)
+        selectdata2.latestpartnum = val
+        selectdata2.partsname = $('#searchinput4').val()
+    }
+
+    function resetinput4() {
+        var val = $('#searchinput4').val()
+        setTimeout("$('#searchinput4').val('" + val + "')", 155)
+        selectdata2.partsname = val
+        selectdata2.latestpartnum = $('#searchinput3').val()
+
+    }
+
+    Array.prototype.remove = function (val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+            this.splice(index, 1);
+        }
+    };
+    //by ma 2019/03/10 selectFrom 添加鼠标悬停显示全部
+    $("#parts_ptr_application").on('mouseover','.xm-form-checkbox',function (){
+        var text = $(this).find("span").text()
+        $(this).attr('title',text)
+    });
+
+</script>

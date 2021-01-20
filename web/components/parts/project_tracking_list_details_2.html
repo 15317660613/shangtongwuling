@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项目单详情</title>
+    <style>
+        /* updated by qitian 2018-12-20*/
+        .layui-table-fixed .layui-table-header th {
+            height: 38px!important;
+            background-color: #fafafa;
+        }
+
+        .layui-table-fixed {
+            top: 38px;
+        }
+
+        /*updated by qitian 2019-01-23 bug编号13897*/
+        .linkage-time-block .layui-input-block {
+            line-height:30px;
+        }
+
+        /*.layui-table-box > .layui-table-header thead tr:nth-child(1) th:nth-child(1) {
+            color: #fafafa;
+        }*/
+
+        .layui-input-date {
+            text-align: center;
+            height: 27px;
+            width: 80px;
+            padding: 0;
+        }
+
+        .layui-table-cell span{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .layui-table-fixed {
+            background: #fff;
+        }
+
+        .layui-table-box {
+            overflow-x: auto;
+        }
+
+        .layui-table-header {
+            overflow: initial;
+        }
+
+        table {
+            width: 100%!important;
+        }
+
+        select {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-card" style="height: 98%;">
+    <div class="layui-card-header">项目单详情</div>
+    <!-- 卡片容器 -->
+    <!--by ma 2019-03-17 修改样式-->
+    <div class="layui-card-body" style="background-color: white">
+        <!-- 数据表格顶部控制栏 -->
+        <div class="layui-form ">
+            <!--根据整车和发动机选项，显示不同的头部-->
+            <div class="linkage-time-block">
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="pfollowcode_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="pfollowcode"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="ots1_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="ots1"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="ots2_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="ots2"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="ns_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="ns"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="stime_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="stime"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="soptime_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="soptime"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 下部表格容器 -->
+        <div id="table_div">
+            <table id="tableContent-user" lay-filter="tableContent-user"></table>
+        </div>
+        <!--页面显示--页面底部按钮-->
+        <!--<div class="operate-btns" style="text-align: left;margin-top: 20px;">
+            <button type="button" onclick="javascript:window.history.go(-1);" class="layui-btn layui-btn-primary detail">返回</button>
+        </div>-->
+    </div>
+    <!--马 2019-3-10 15:09 bug修复 项目信息维护-项目单详情-主表/副表-返回按钮显示问题 【15419】-->
+    <!--<div class="operate-btns" style="text-align: left;">
+        <button type="button" onclick="javascript:window.history.go(-1);" class="layui-btn layui-btn-primary detail">返回</button>
+    </div>-->
+    <!---马 2019-3-10 15:09 bug修复 结束-->
+</div>
+<script>
+    // 马 2019-3-12 修复附表不标红开始 【15608】
+    //需要红色背景颜色的单元格
+    var redList = {
+        per_: [],
+        sqoffice_: [],
+        sqe1_: [],
+        sqe_: [],
+        sqe2_: [],
+        sqe3_: [],
+        suppliername1_: [],
+        suppliername_: [],
+        suppliername2_: [],
+        suppliername3_: [],
+        suppliernumber1_: [],
+        suppliernumber_: [],
+        suppliernumber2_: [],
+        suppliernumber3_: [],
+        addanddel_selected_: [],
+        approvalStatus_: []
+    };
+    // 马 2019-3-12 修复附表不标红结束 【15608】
+    var param = window.location.hash;//路径参数---declared by qitian 20181216
+    if (param.indexOf('?') === -1 || param.indexOf('?') === param.length - 1) {
+        alert('抱歉，您没有访问此页面的权限！');
+        window.history.go(-1);
+    }
+    param = param.split('?')[1];
+    layui.use(['table','laydate','form','layer'], function(){
+        var table = layui.table,
+            admin = layui.adc,
+            form = layui.form,
+            layer = layui.layer,
+            laydate = layui.laydate;
+        table.render({
+            elem: '#tableContent-user'
+            ,url: admin.formatUrl('/api/ppap/partsprojectsupplier/getProjectWallInfo')
+            ,method: 'POST'
+            ,contentType: 'application/json'
+            ,where: {
+                pwkey: param,
+                projectTrackingType: 2
+            }
+            // 格式化后台返回的数据
+            , parseData: function (res) { //res 即为原始返回的数据
+                console.log(res.data);
+                $('#commonCols').remove(); //yangqinqin 2019-05-29
+                $('.layui-table-fixed').css('top','0px');
+                $('.layui-table-fixed').prepend('<div id="commonCols" style="height: 38px;background-color: #fafafa;border-bottom: solid 1px #dbdada;text-align: right;"></div>')
+                // 返回结果，进行渲染表格
+                if (res.respCode == '200') {
+                    res.respCode = '0';
+                    var type = res.data.titleInfo.projecttype
+                    if (type == 1) {
+                        $('#pfollowcode_label').html('项目单编号:')
+                        $('#ots1_label').html('OTS1:')
+                        $('#ots2_label').html('OTS2:')
+                        $('#ns_label').html('NS:')
+                        $('#stime_label').html('S:')
+                        $('#soptime_label').html('SOP:')
+                    } else {
+                        $('#pfollowcode_label').html('项目单编号:')
+                        $('#ots1_label').html('BETA:')
+                        $('#ots2_label').html('GAMMA:')
+                        $('#ns_label').html('3C Pilot:')
+                        $('#stime_label').html('Pilot:')
+                        $('#soptime_label').html('SOP:')
+                    }
+                    if (res.data != null && res.data != '') {
+                        if (res.data.titleInfo.pfollowcode != null) {
+                            $('#pfollowcode').html(res.data.titleInfo.pfollowcode)
+                        }
+                        if (res.data.titleInfo.ots1 != null) {
+                            $('#ots1').html(new Date(res.data.titleInfo.ots1).Format("yyyy-MM-dd"))
+                        }
+                        if (res.data.titleInfo.ots2 != null) {
+                            $('#ots2').html(new Date(res.data.titleInfo.ots2).Format("yyyy-MM-dd"))
+                        }
+                        if (res.data.titleInfo.ns != null) {
+                            $('#ns').html(new Date(res.data.titleInfo.ns).Format("yyyy-MM-dd"))
+                        }
+                        if (res.data.titleInfo.stime != null) {
+                            $('#stime').html(new Date(res.data.titleInfo.stime).Format("yyyy-MM-dd"))
+                        }
+                        if (res.data.titleInfo.soptime != null) {
+                            $('#soptime').html(new Date(res.data.titleInfo.soptime).Format("yyyy-MM-dd"))
+                        }
+                    }
+                    for (var i = 0,len = res.data.bodyInfo2.length;i < len;i ++) {
+                        res.data.bodyInfo2[i].pstatus = res.data.titleInfo.pstatus;
+                    }
+                }
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.count, //解析数据长度
+                    "data": res.data && res.data.bodyInfo2 ? res.data.bodyInfo2 : [] //解析数据列表
+                };
+            }
+            , height: 440
+            , cols: [
+                [
+                    {align: 'center', title: '基础信息', rowspan: 1, colspan: 10,}
+                    , {align: 'center', title: '零件批准计划', rowspan: 1, colspan: 12}
+                    //updated by qitian 2019-01-29 bug编号13932
+                    /* , {align: 'center', title: 'OTS认可', rowspan: 1, colspan: 6}
+                     , {align: 'center', title: '外观认可', rowspan: 1, colspan: 5}
+                     , {align: 'center', title: 'FE认可', rowspan: 1, colspan: 5}*/
+                ],
+                [
+                    {type: 'numbers', title: '序号', rowspan: 1, align: 'center', fixed:'left'}
+                    , {field: 'partscode', title: '零件号', rowspan: 1, align: 'center', fixed: 'left'}
+                    , {field: 'partsname', title: '零件名称', rowspan: 1, align: 'center', fixed: 'left'}
+                    , {field: 'addanddel', title: '增A/删D', rowspan: 1, align: 'center', fixed:'left',
+                    templet: function(d){
+                        if (d.pstatus == '暂停' || d.pstatus == '取消' ||  d.isdelete == 1) {
+                            return 'D';
+                        } else {
+                            return d.addanddel;
+                        }
+                    }
+                }
+                    , {field: 'sqoffice', title: 'SQ科室', minWidth: 120, rowspan: 1, align: 'center'}// 马 2019-03-10 副表冻结列与主表对应 【15703】
+                    // 马 2019-3-12 修复附表不标红开始 【15608】
+                    , {field: 'sqe', title: 'SQE', rowspan: 1, align: 'center',templet: function (d) {// 马 2019-03-10 副表冻结列与主表对应 【15703】
+                        // 马 2019-3-18 副表不标红，如果为null 就什么也不显示
+                        if(null == d.sqe || "" == d.sqe) {
+                            return '';
+                        } else {
+                            return d.sqe;
+                        }
+                    }}
+                    , {field: 'per', title: 'PE', rowspan: 1, align: 'center', templet: function (d) {
+                        if (d.ispematches ==2) {
+                            redList.per_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="per_'+d.LAY_TABLE_INDEX+'">'+d.per+'</span>'
+                        } else {
+                            return d.per;
+                        }
+                    }}
+                    , {field: 'suppliername', title: '供应商(本行跟踪)', minWidth: 160, rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        if (d.suppliername ==2) {
+                            redList.suppliername_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="suppliername_'+d.LAY_TABLE_INDEX+'">'+d.suppliername+'</span>'
+                        } else {
+                            return d.suppliername;
+                        }
+                    }
+                }
+                    , {field: 'supplierNumber', title: '供应商代码', rowspan: 1, align: 'center', templet: function (d) {
+                    //by ma 2019-03-13
+                        if (d.supplierNumber ==2) {
+                            redList.supplierNumber_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="supplierNumber_'+d.LAY_TABLE_INDEX+'">'+d.supplierNumber+'</span>'
+                        } else {
+                            return d.supplierNumber;
+                        }
+                    }}
+                    // 马 2019-3-12 修复附表不标红结束 【15608】
+                    , {field: 'ewocode', title: 'EWO编号', rowspan: 1, align: 'center'}
+
+                    , {field: 'approvalStatus', title: 'OPAP/PPAP批准状态', minWidth: 170, rowspan: 1, align: 'center',templet: function (d) {
+                        /*杨琴琴  2019-05-16 修改附表OPAP/PPAP批准不标色问题*/
+                    	if(!!d.fppapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '1'});
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP批准</div>'
+                        }else if(!!d.sppapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '2'});
+                        	return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP临时批准</div>'
+                        }else if(!!d.opapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '4'});
+                        	return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">OPAP临时批准</div>'
+                        }else{
+                        	return ''
+                        }
+                    }
+                  /**马 2019-3-12 17:02 bug修复 项目信息维护-项目管理主表-回写PPAP计划最早-格式有误 【15616】**/
+                   /* , {
+                    field: 'lppap', title: 'PPAP计划最早', minWidth: 130, rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //updated by qitian 2019-01-22 修改时间错误渲染问题
+                        return d.lppapSign ? d.lppapSign : '';
+                    }*/
+                }
+                  /**bug修复 结束**/
+                    , {
+                    field: 'opapppaprecognitionDelayReason',
+                    title: '超期备注',
+                    minWidth: 320,
+                    rowspan: 1,
+                    align: 'center'
+                }
+                    // ,{field:'sqSection', title: '最早批准供应商',minWidth:130,rowspan:1,align: 'center'}
+                    , {field: 'opapapprovalPCD', title: 'OPAP批准PCD', minWidth: 130, align: 'center'}
+                    , {field: 'opapapprovalACD', title: 'OPAP批准ACD', minWidth: 130, align: 'center',templet:function (d) {
+                        //by ma 2019-04-12
+                        return d.opapapprovalACD ? new Date(d.opapapprovalACD).Format("yyyy-MM-dd") : '';
+                    }}
+                    , {field: 'escalationRiskDes', title: '升级高风险描述', minWidth: 130, rowspan: 1, align: 'center'}
+                    , {field: 'sppapapprovalPCD', title: 'S-PPAP批准PCD', minWidth: 140, align: 'center'}
+                    , {field: 'sppapapprovalACD', title: 'S-PPAP批准ACD', minWidth: 140, align: 'center',templet:function (d) {
+                        //by ma 2019-04-12
+                        return d.sppapapprovalACD ? new Date(d.sppapapprovalACD).Format("yyyy-MM-dd") : '';
+
+                    }}
+                    , {field: 'provisionalApprovalWhy', title: '临时批准原因', minWidth: 140, align: 'center'}
+                    , {field: 'fppapapprovalPCD', title: 'F-PPAP批准PCD', minWidth: 140, align: 'center'}
+                    , {field: 'fppapapprovalACD', title: 'F-PPAP批准ACD', minWidth: 140, align: 'center',templet:function (d) {
+                        //by ma 2019-04-12
+                        return d.fppapapprovalACD ? new Date(d.fppapapprovalACD).Format("yyyy-MM-dd") : '';
+                    }}
+                    , {field: 'planChangeNotes', title: '计划变更时间', minWidth: 130, align: 'center'}
+                    //updated by qitian 2019-01-29 bug编号13932
+                    /* , {field: 'otscondtime', title: '计划时间', align: 'center',
+                        templet: function (d) {
+                            return d.otscondtime ? new Date(d.otscondtime).Format("yyyy-MM-dd") : '';
+                        }}
+                   , {field: 'otsstatus', title: '状态', minWidth: 100, align: 'center'}
+                    , {field: 'otsrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.otsrealtime ? new Date(d.otsrealtime).Format("yyyy-MM-dd") : '';
+                        }}
+                    , {field: 'otscompletetime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.otscompletetime ? new Date(d.otscompletetime).Format("yyyy-MM-dd") : '';
+                        }}
+                    , {field: 'otsaccepttype', title: '认可类型', minWidth: 100, align: 'center'}
+                    , {field: 'otscataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center'}
+
+                    , {field: 'aspectplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.aspectplantime ? new Date(d.aspectplantime).Format("yyyy-MM-dd") : '';
+                    , {field: 'aspectstatus', title: '状态', minWidth: 100, align: 'center'}
+                    , {field: 'aspectcondrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.aspectcondrealtime ? new Date(d.aspectcondrealtime).Format("yyyy-MM-dd") : '';
+                        }}
+                    , {field: 'aspectcompleterealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.aspectcompleterealtime ? new Date(d.aspectcompleterealtime).Format("yyyy-MM-dd") : '';
+                        }}
+                    , {field: 'aspectcataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center'}
+
+                    , {field: 'feplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.feplantime ? new Date(d.feplantime).Format("yyyy-MM-dd") : '';
+                        }}
+                    , {field: 'festatus', title: '状态', minWidth: 100, align: 'center'}
+                    , {field: 'fecondtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.fecondtime? new Date(d.fecondtime).Format("yyyy-MM-dd") : '';
+                        }}
+                    , {field: 'ferealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                        templet: function (d) {
+                            return d.ferealtime ? new Date(d.ferealtime).Format("yyyy-MM-dd") : '';
+                        }}
+                    , {field: 'fecataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center'}*/
+                ]
+            ],
+            done: function (res, curr, count) {
+                if (res.data.length != 0) {
+                    $('.layui-table-box').css('overflow-x', 'hidden');
+                    $('.layui-table-header').css('overflow', 'hidden');
+                    $(window).resize();
+                    // 马 2019-3-12 修复附表不标红开始 【15608】
+                    //单元格红色渲染
+                    for (var key in redList) {
+                        for (var i = 0, len = redList[key].length; i < len; i ++) {
+                            if (key == 'addanddel_selected_') {
+                                $('.layui-table-fixed #'+key+redList[key][i]).css('color','#fff');
+                                $('.layui-table-fixed #'+key+redList[key][i]).css('background','#fa5250ab');
+                                $('.layui-table-fixed #'+key+redList[key][i]).parent().parent().css('background','#fc0d0bab');
+                            } else if (key == 'approvalStatus_') {
+                                if (redList[key][i].status) {
+                                    switch (redList[key][i].status) {
+                                        case '4':
+                                        case 4://蓝
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#fff');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#37ABFF');
+                                            break;
+                                        case '2':
+                                        case 2://棕
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#fff');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#dfbf8d');
+                                            break;
+                                        case '1':
+                                        case 1://绿
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#fff');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#65af65');
+                                            break;
+                                        case '3':
+                                        case 3://红
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#000');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#fc0d0bab');
+                                            break;
+                                        case '6':
+                                        case 6://黄
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#000');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#fff');
+                                            break;
+                                    }
+                                }
+
+                            } else {
+                                $('.layui-table-main #'+key+redList[key][i]).css('color','#fff');
+                                $('.layui-table-main #'+key+redList[key][i]).parent().parent().css('background','#fc0d0bab');
+                            }
+
+                        }
+                    }
+                    // 马 2019-3-12 修复附表不标红结束 【15608】
+                }
+
+            },
+            cellMinWidth: 110
+            ,page: {
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+            }
+            ,limits: [10, 50, 100]
+            ,request: {
+                pageName: 'page',
+                limitName: 'pageSize'
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+
+</head>
+<style type="text/css">
+    .layui-layout-admin .layui-body .layui-tab .layui-tab-content {
+        top: 30px;
+        bottom: initial;
+        overflow: hidden;
+        padding: 18px 0 0 0;
+    }
+    
+    #tableContent_detial+div.layui-form .layui-table-body {
+        max-height: 200px
+    }
+    
+    .search-item1 {
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .search-item2 {
+        justify-content: flex-start;
+        display: flex;
+    }
+    
+    .layui-badge {
+        padding: 5px;
+        margin: 0 5px;
+    }
+    
+    #courseType .layui-tab-title .layui-this {
+        color: #333333;
+        font-weight: bold;
+    }
+    
+    #courseType .layui-tab-title .layui-this::after {
+        border-bottom: 2px solid #5CA9F8;
+    }
+    
+    .tbale-hover {
+        background-color: #e0f5ff;
+    }
+</style>
+
+<body>
+    <div class="layui-card">
+        <div class="layui-card-body" style="height: auto;">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div id='search-form' class="layui-form">
+                        <div class="layui-form-item table-top-bar">
+                            <div class=" layui-row ">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                    <span class="layui-form-label">培训分类</span>
+                                    <div class="layui-inline">
+                                        <select name="plineCode" id="plineCode" placeholder="选择培训分类" lay-verify="plineCode" lay-search>
+                                                </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                    <span class="layui-form-label">培训计划名称</span>
+                                    <div class="layui-inline">
+                                        <input type="text" name="classes" placeholder="请输入培训计划名称" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                    <span class="layui-form-label">培训计划期间</span>
+                                    <div class="layui-inline" id="lay-date">
+                                        <input autocomplete="off" type="text" name="inspectDate" id="inspectDate" placeholder="请选择起止日期" class="layui-input">
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="layui-row" style="margin-top: 15px;">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 search-item4" style="display: flex">
+                                    <span class="layui-form-label">供应商</span>
+                                    <div class="layui-inline" style="flex-grow: 1">
+                                        <div class="selectedSupplier" style="display: inline-block;">
+                                            <!-- <span class="layui-badge layui-bg-cyan">选择供应商</span> -->
+                                        </div>
+                                        <button class="layui-btn layui-btn-normal" id="selectSupplier">选择供应商</button>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 search-item1">
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="search_unpuailfied" id="search_unpuailfied"><span>查询</span></button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit id="search_reset" lay-filter="search_reset"><span>重置</span></button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit id="search_charts" lay-filter="search_charts"><span>图预览形</span></button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit id="search_export" lay-filter="search_export"><span>导出</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-body" style="height: auto">
+            <div class=" layui-row">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div id="bar-chart-training" class="line-chart" style="width:100%;height:260px"></div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md3">
+                    <div id="pie-chart-hierarchy" class="line-chart" style="width:100%;height:260px"></div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md3">
+                    <div id="pie-chart-job" class="line-chart" style="width:100%;height:260px"></div>
+                </div>
+            </div>
+            <div class=" layui-row" style="margin-top: 20px">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div id="bar-chart-network" class="line-chart" style="width:100%;height:260px"></div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div id="bar-chart-classroom" class="line-chart" style="width:100%;height:260px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-body" style="height: auto">
+            <div class=" layui-row">
+                <table id="tableContent-ability" lay-filter="tableContent-ability"></table>
+                <input type="hidden" name="trainingType">
+                <input type="hidden" name="planId">
+                <input type="hidden" name="supplierId">
+                <input type="hidden" name="supplierSelected">
+
+            </div>
+        </div>
+    </div>
+    <div class="layui-tab layui-tab-brief" id='courseType' lay-filter="courseType" style="position: relative;overflow: visible;">
+        <!-- tab头部内容 -->
+        <ul class="layui-tab-title">
+            <li class="layui-this" id="01">供应商明细</li>
+            <li id="02">课程明细</li>
+            <li id="03">人员明细</li>
+        </ul>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-body" style="height: auto;padding-top: 5%">
+            <div class=" layui-row">
+                <table id="tableContent_detial" lay-filter="tableContent_detial"></table>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/libs/echarts.min.js "></script>
+    <script type="text/javascript">
+        layui.use(['laydate', 'admin', 'table', 'element'], function() {
+            var nowDate = new Date();
+            var element = layui.element;
+            var colorArray = ['#1E90FF', '#66CDAA', '#E79647', '#5F9EA0', '#ed6b4b', '#4e93dc',
+                '#e2d061', '#5bb4c0', '#4e93dc', '#008B8B', '#CD8162', '#CDAF95', '#CD2990', '#90EE90', '#836FFF'
+            ];
+            var date = nowDate.getFullYear() + '-' + ((nowDate.getMonth() + 1) <= 9 ? '0' + (nowDate.getMonth() + 1) : (nowDate.getMonth() + 1)) + '-' + (nowDate.getDate() <= 9 ? '0' + nowDate.getDate() : nowDate.getDate());
+            var table = layui.table,
+                form = layui.form,
+                laydate = layui.laydate,
+                config = layui.config,
+                searchParams = {},
+                subDate = '',
+                type = 0, //0：日 1：周，2：月
+                admin = layui.admin;
+            laydate.render({
+                elem: '#inspectDate',
+                range: true,
+                type: 'date'
+            });
+            //选择供应商
+            $("#selectSupplier").click(function() {
+                var paramas = {};
+                paramas.area = ['1000px', '550px'];
+                paramas.title = "选择供应商";
+                paramas.path = 'components/tpl/supplier_select.html';
+                paramas.btn = ['确认', '关闭'];
+                paramas.yes = function() {
+                    var checkSupplier = table.checkStatus('tableContent_ability_check')
+                    $(".selectedSupplier").empty();
+                    var lastTpl = '<span class="layui-badge layui-bg-cyan">...</span>';
+                    var tpl = '';
+                    var selectedArr = [];
+                    for (var i = 0; i < checkSupplier.data.length; i++) {
+                        selectedArr.push(checkSupplier.data[i].code)
+                        $("input[name='supplierSelected']").val(selectedArr)
+                    }
+                    //console.log(selectedArr)
+                    for (var i = 0; i < checkSupplier.data.length; i++) {
+                        if (i > 5) {
+                            tpl = lastTpl;
+                            $(".selectedSupplier").append(tpl);
+                            layer.closeAll('page');
+                            return;
+                        } else {
+                            tpl = '<span class="layui-badge layui-bg-cyan" data-code=' + checkSupplier.data[i].code + '>' + checkSupplier.data[i].name + '</span>'
+                            $(".selectedSupplier").append(tpl)
+                        }
+                    }
+                    layer.closeAll('page');
+                }
+                admin.popupCenter(paramas);
+            })
+            element.on('tab(courseType)', function(data) {
+                if (data.index == 0) {
+                    renderDetialTable('supplier', $("input[name='planId']").val(), $("input[name='trainingType']").val());
+                } else if (data.index == 1) {
+                    renderDetialTable('course', $("input[name='planId']").val(), $("input[name='trainingType']").val());
+                } else if (data.index == 2) {
+                    renderDetialTable('user', $("input[name='planId']").val(), $("input[name='trainingType']").val());
+                }
+            });
+
+            var renderTable = function(search) {
+                if (!search) {
+                    search = {};
+                }
+                // 渲染表格
+                table.render({
+                    elem: '#tableContent-ability',
+                    id: 'tableContent-ability',
+                    url: admin.formatUrl('/api/training/statistics/supplier/list'),
+                    // 格式化后台返回的数据
+
+                    parseData: function(res) { //res 即为原始返回的数据
+                        // 返回结果，进行渲染表格
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.data.count ? res.data.count : 0, //解析数据长度
+                            "data": res.data.list.length != 0 ? res.data.list : [] //解析数据列表
+                        };
+                    },
+                    cols: [
+                        [{
+                            type: 'numbers',
+                            rowspan: '2',
+                            title: 'No.'
+                        }, {
+                            field: 'traningType',
+                            rowspan: '2',
+                            title: '培训分类'
+                        }, {
+                            rowspan: '2',
+                            title: '培训计划名称',
+                            templet: function(d) {
+                                return '<div title=' + d.planName + '>' + d.planName + '</div>'
+                            }
+                        }, {
+                            rowspan: '2',
+                            title: '培训计划期间',
+                            templet: function(d) {
+                                return '<div title=' + d.planStartTime + '~' + d.planEndTime + '>' + d.planStartTime + '~' + d.planEndTime + '</div>'
+                            }
+                        }, {
+                            field: 'supplierNum',
+                            rowspan: '2',
+                            title: '培训供应商数量',
+                            //edit: 'text'
+                        }, {
+                            field: 'courseNum',
+                            rowspan: '2',
+                            title: '课程数量'
+                        }, {
+                            field: 'timeNum',
+                            rowspan: '2',
+                            title: '培训总学时'
+                        }, {
+                            field: 'userNum',
+                            rowspan: '2',
+                            title: '计划培训总人数'
+                        }, {
+                            field: 'realityNum',
+                            rowspan: '2',
+                            title: '实际参加总人数'
+                        }, {
+                            field: 'joinRate',
+                            rowspan: '2',
+                            title: '参加培训率'
+                        }, {
+                            field: 'passNum',
+                            rowspan: '2',
+                            title: '认定通过人数'
+                        }, {
+                            field: 'passRate',
+                            rowspan: '2',
+                            title: '认定通过率'
+                        }]
+                    ],
+                    cellMinWidth: 150,
+                    request: {
+                        pageName: 'page' //页码的参数名称，默认：page
+                            ,
+                        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                    },
+                    even: true,
+                    page: {
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                    },
+                    where: search
+                });
+                table.on('row(tableContent-ability)', function(obj) {
+                    //console.log(obj.tr) //得到当前行元素对象
+                    //console.log(obj.data) //得到当前行数据
+                    //$("#table-btn-group").show();
+
+                    //layui-table-hover
+                    $(this).parent().find('tr').each(function(ind, item) {
+                        $(item).removeClass("tbale-hover")
+                    })
+                    $(this).addClass("tbale-hover")
+                    $("input[name='trainingType']").val(obj.data.traningType)
+                    $("input[name='planId']").val(obj.data.planId)
+                        //renderDetialTable('supplier',obj.data.planId,obj.data.traningType);
+                        //element.tabChange('courseType', 'course');
+                    $("div[lay-filter='courseType'] li").eq(0).click()
+                        //obj.del(); //删除当前行
+                        //obj.update(fields) //修改当前行数据
+                });
+            }
+
+            //供应商明细
+            var renderDetialTable = function(type, id, traningType) {
+                // 渲染表格
+                var res = {}
+                res.trainingType = traningType;
+                res.planId = id
+                var colsArr = {
+                    'supplier': [
+                        [{
+                            type: 'numbers',
+                            rowspan: '2',
+                            title: 'No.'
+                        }, {
+                            field: 'supplierCode',
+                            rowspan: '2',
+                            title: '供应商代码'
+                        }, {
+                            field: 'supplierName',
+                            rowspan: '2',
+                            title: '供应商名称'
+                        }, {
+                            field: 'planNum',
+                            rowspan: '2',
+                            title: '计划培训人数'
+                        }, {
+                            field: 'realityNum',
+                            rowspan: '2',
+                            title: '实际参加人数'
+                        }, {
+                            field: 'joinRate',
+                            rowspan: '2',
+                            title: '参加培训率'
+                        }, {
+                            field: 'passNum',
+                            rowspan: '2',
+                            title: '认定通过人数'
+                        }, {
+                            field: 'passRate',
+                            rowspan: '2',
+                            title: '认定通过率'
+                        }]
+                    ],
+                    'course': [
+                        [{
+                            type: 'numbers',
+                            rowspan: '2',
+                            title: 'No.'
+                        }, {
+                            field: 'courseName',
+                            rowspan: '2',
+                            title: '课程名称'
+                        }, {
+                            field: 'categoryName',
+                            rowspan: '2',
+                            title: '课程类别'
+                        }, {
+                            field: 'sectionNum',
+                            rowspan: '2',
+                            title: '章节数'
+                        }, {
+                            field: 'studyNum',
+                            rowspan: '2',
+                            title: '学习人数'
+                        }, {
+                            field: 'examPassNum',
+                            rowspan: '2',
+                            title: '考试通过人数'
+                        }, {
+                            field: 'examPassRate',
+                            rowspan: '2',
+                            title: '考试通过率'
+                        }]
+                    ],
+                    'user': [
+                        [{
+                            type: 'numbers',
+                            rowspan: '2',
+                            title: 'No.'
+                        }, {
+                            field: 'companyName',
+                            rowspan: '2',
+                            title: '供应商名称'
+                        }, {
+                            field: 'jobName',
+                            rowspan: '2',
+                            title: '就职岗位'
+                        }, {
+                            field: 'userName',
+                            rowspan: '2',
+                            title: '姓名'
+                        }, {
+                            field: 'courseNum',
+                            rowspan: '2',
+                            title: '培训课程数'
+                        }, {
+                            field: 'coursePassNum',
+                            rowspan: '2',
+                            title: '课程合格数'
+                        }, {
+                            field: 'coursePassRate',
+                            rowspan: '2',
+                            title: '课程通过率'
+                        }, {
+                            field: 'caseScore',
+                            rowspan: '2',
+                            title: '案例评价'
+                        }, {
+                            field: 'status',
+                            rowspan: '2',
+                            title: '认定状况'
+                        }, {
+                            rowspan: '2',
+                            title: '操作'
+                        }]
+                    ]
+                }
+                var arr = [];
+                switch (type) {
+                    case 'supplier':
+                        arr = colsArr.supplier;
+                        break;
+                    case 'course':
+                        arr = colsArr.course;
+                        break;
+                    case 'user':
+                        arr = colsArr.user;
+                        break;
+                }
+
+                table.render({
+                    elem: '#tableContent_detial',
+                    id: 'tableContent_detial',
+                    url: admin.formatUrl('/api/training/statistics/detail/' + type),
+                    // 格式化后台返回的数据
+                    parseData: function(res) { //res 即为原始返回的数据
+                        // 返回结果，进行渲染表格
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.data ? res.data.length : 0, //解析数据长度
+                            "data": res.data ? res.data : [] //解析数据列表
+                        };
+                    },
+                    cols: arr,
+                    even: true,
+                    cellMinWidth: 120,
+                    page: false,
+                    where: res
+                });
+                table.on('row(tableContent_detial)', function(obj) {
+                    $("input[name='trainingType']").val(obj.data.traningType)
+                    $("input[name='planId']").val(obj.data.planId)
+                    $("input[name='supplierId']").val(obj.data.supplierId)
+                    var paramas = {};
+                    paramas.area = ['1000px', '400px'];
+                    paramas.title = "人员明细";
+                    paramas.path = 'components/tpl/user_detial.html';
+                    paramas.btn = ['关闭'];
+                    admin.popupCenter(paramas);
+                });
+            }
+            setSelectData('', '#plineCode', 'name', 'value');
+
+            function setSelectData(url, id, name, value) {
+                admin.req('/api/training/statistics/trainingtyle' + url, {}, function(res) {
+
+                    var elem = $(id);
+                    elem.empty();
+                    elem.append('<option value="">请选择</option>');
+                    for (var i = 0; i < res.data.length; i++) {
+                        elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                    }
+                    form.render('select');
+
+                }, {
+                    method: 'get'
+                });
+            };
+            // getPieData({}, 'hierarchy', "供应商层级统计", 'pie-chart-hierarchy')
+            // getPieData({}, 'job', "供应商就职岗位统计", 'pie-chart-job')
+            // getBarData({}, 'training', "供应商培训统计", 'bar-chart-training')
+            // getBarData({}, 'network', "网络培训统计", 'bar-chart-network')
+            // getBarData({}, 'classroom', "课堂培训统计", 'bar-chart-classroom')
+
+            setTimeout(function() {
+                $('#search_unpuailfied').click();
+
+            }, 100)
+
+            function getBarData(params, url, title, dom) {
+                admin.req('/api/training/statistics/supplier/bar/' + url, params, function(res) {
+                    // var colorArray=['RGB(51,185,253)','RGB(255,155,51)','RGB(129,183,125)','RGB(176,161,199)','RGB(255,241,51)','',''];
+                    // var colorArray = ['#E79647', '#ed6b4b', '#4e93dc', '#e2d061', '#5bb4c0', '#4e93dc'];
+                    // for (var i = 0; i < res.data.length; i++) {
+                    //     res.data[i].itemStyle = {
+                    //         color: colorArray[i]
+                    //     };
+
+                    // }
+                    // ['product', '网络', '课堂', '合计'],
+                    // ['培训人数', 43.3, 85.8, 93.7],
+                    // ['培训课程数', 83.1, 73.4, 55.1],
+                    // ['培训学时', 86.4, 65.2, 82.5]
+                    //var initlegend=[]
+                    var list = []
+                    if (url == 'training') {
+                        list.push(['training', '网络', '课堂', '合计'])
+                        for (var i = 0; i < res.data.length; i++) {
+                            var arr = [];
+                            arr.push(res.data[i].name, res.data[i].network, res.data[i].classroom, res.data[i].total)
+                            list.push(arr)
+                        }
+                        trainingBar1(list, title, dom);
+                    } else if (url == 'network') {
+                        list.push(['network', '培训人数', '培训课程数', '培训学时', '培训通过率'])
+                        for (var i = 0; i < res.data.length; i++) {
+                            var arr = [];
+                            arr.push(res.data[i].name, res.data[i].traningJoinNum, res.data[i].traningCourseNum, res.data[i].traningTime, res.data[i].traningPassRate)
+                            list.push(arr)
+                        }
+                        trainingBar2(list, title, dom);
+                    } else if (url == 'classroom') {
+                        list.push(['classroom', '培训人数', '培训课程数', '培训学时'])
+                        for (var i = 0; i < res.data.length; i++) {
+                            var arr = [];
+                            arr.push(res.data[i].name, res.data[i].traningUserNum, res.data[i].traningCourseNum, res.data[i].traningTime)
+                            list.push(arr)
+                        }
+                        trainingBar3(list, title, dom);
+                    }
+
+                    //console.log(list)
+                    //trainingBar(list,title,dom);
+
+                }, {
+                    method: 'get'
+                });
+            }
+
+            function trainingBar1(data, title, dom) {
+                var barOption = {
+                    title: {
+                        text: title,
+                        left: 'center',
+                    },
+                    legend: {
+                        left: 'center',
+                        bottom: 'bottom',
+                    },
+                    tooltip: {},
+                    dataset: {
+                        source: data
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    yAxis: {
+                        type: 'value',
+                        min: 0,
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    },
+                    series: [{
+                        type: 'bar',
+                        color: '#FAD337',
+
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }, {
+                        type: 'bar',
+                        color: '#4e93dc',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }, {
+                        type: 'line',
+                        color: '#ed6b4b',
+                        // symbol: 'triangle',
+                        symbolSize: 10,
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }]
+                };
+                drawCharts(dom, barOption)
+            }
+
+            function trainingBar2(data, title, dom) {
+                var barOption = {
+                    title: {
+                        text: title,
+                        left: 'center',
+                    },
+                    legend: {
+                        left: 'center',
+                        bottom: 'bottom',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function(params) {
+                            var color = params.color; //图例颜色
+                            var htmlStr = '<div>';
+                            htmlStr += params.name + '<br/>'; //x轴的名称
+
+                            //为了保证和原来的效果一样，这里自己实现了一个点的效果
+                            htmlStr += '<span style="margin-right:5px;display:inline-block;width:10px;height:10px;border-radius:5px;background-color:' + color + ';"></span>';
+
+                            //添加一个汉字，这里你可以格式你的数字或者自定义文本内容
+                            htmlStr += params.seriesName == '培训通过率' ? params.seriesName + '：' + params.value[4] + '%' : params.seriesName + '：' + params.value[params.componentIndex + 1];
+
+                            htmlStr += '</div>';
+
+                            return htmlStr;
+                        }
+                    },
+                    dataset: {
+                        source: data
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    yAxis: [{
+                        type: 'value',
+                        min: 0,
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    }, {
+                        type: 'value',
+                        min: 0,
+                        max: 100,
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
+                        //data:['0%','20%','40%','60%','80%','100%']
+                    }],
+                    series: [{
+                        type: 'bar',
+                        color: '#FAD337',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }, {
+                        type: 'bar',
+                        color: '#4e93dc',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }, {
+                        type: 'bar',
+                        color: '#DBC754',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }, {
+                        type: 'line',
+                        // symbol: 'diamond',
+                        color: '#ed6b4b',
+                        symbolSize: 10,
+                        yAxisIndex:1,
+                        label: {
+                            normal: {
+                                show: true,
+                                formatter: function(o) {
+                                    //console.log(o)
+                                    return o.data[4] + '%'
+                                },
+                                position: 'top'
+                            }
+                        }
+                    }]
+                };
+                drawCharts(dom, barOption)
+            }
+
+            function trainingBar3(data, title, dom) {
+                var barOption = {
+                    title: {
+                        text: title,
+                        left: 'center',
+                    },
+                    legend: {
+                        left: 'center',
+                        bottom: 'bottom',
+                    },
+                    tooltip: {},
+                    dataset: {
+                        source: data
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    yAxis: {
+                        type: 'value',
+                        min: 0,
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    },
+                    series: [{
+                        type: 'bar',
+                        color: '#FAD337',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }, {
+                        type: 'bar',
+                        color: '#4e93dc',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }, {
+                        type: 'bar',
+                        color: '#DBC754',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        }
+                    }]
+                };
+                drawCharts(dom, barOption)
+            }
+
+            function getPieData(params, url, title, dom) {
+                /*
+               饼图
+             */
+                admin.req('/api/training/statistics/supplier/pie/' + url, params, function(res) {
+                    // res.data.push({name:'ceshimoini',value:1});
+                    // res.data.push({name:'dddddsfsaf',value:2});//测试模拟图例分页
+                    // res.data.push({name:'ffffff',value:3});
+                    for (var i in res.data) {
+                        if (i < colorArray.length) {
+                            res.data[i].itemStyle = {
+                                color: colorArray[i]
+                            };
+                        }
+                    }
+                    trainingPie(res.data, title, dom);
+
+                }, {
+                    method: 'get'
+                });
+
+            }
+
+            function trainingPie(data, title, dom) {
+                var option = {
+                    title: {
+                        text: title,
+                        x: 'center',
+                        textStyle: {
+                            fontSize: 16
+                        },
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        type: 'scroll',
+                        x: 'center', // 'center' | 'left' | {number},
+                        y: 'bottom', // 'center' | 'bottom' | {number}
+                        icon: "roundRect",
+                        itemWidth: 10,
+                        itemHeight: 10
+                    },
+                    series: [{
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '50%'],
+                        data: data,
+                        label: {
+                            // normal: {
+                            //     show: true,
+                            //     formatter: '{b}:\n{c}({d}%)' //自定义显示格式(b:name, c:value, d:百分比)
+                            // }
+                            show: false
+                        },
+                        labelLine: {
+                            // length: 10,
+                            // length2: 10
+                            show: false
+                        },
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }]
+                };
+
+                drawCharts(dom, option);
+
+            }
+
+            function drawCharts(elem, option) {
+                var myChart = echarts.init(document.getElementById(elem));
+                myChart.setOption(option);
+            }
+            form.on('submit(search_export)', function(data) {
+                var supplierCodeList = $("input[name='supplierSelected']").val() ? $("input[name='supplierSelected']").val() : [],
+                    traningTypeForList = data.field.plineCode ? Number(data.field.plineCode) : '',
+                    traningTypeForDetail = $("input[name='trainingType']").val() ? $("input[name='trainingType']").val() : '',
+                    planName = data.field.classes ? data.field.classes : '',
+                    planStartTime = data.field.inspectDate ? data.field.inspectDate.split(' - ')[0] : '',
+                    planEndTime = data.field.inspectDate ? data.field.inspectDate.split(' - ')[1] : '',
+                    planId = $("input[name='planId']").val() ? $("input[name='planId']").val() : '';
+                window.location.href = '/api/training/statistics/export?supplierCodeList=' + supplierCodeList + '&traningTypeForList=' + traningTypeForList + '&traningTypeForDetail=' + traningTypeForDetail + '&planName=' + planName + '&planStartTime=' + planStartTime + '&planEndTime=' + planEndTime + '&planId=' + planId
+            })
+            form.on('submit(search_unpuailfied)', function(data) {
+                //console.log(data.field.inspectDate.split(' - '))
+                var res = {};
+                res.supplierCodeList = $("input[name='supplierSelected']").val() ? $("input[name='supplierSelected']").val() : []
+                res.traningType = data.field.plineCode ? Number(data.field.plineCode) : '';
+                res.planName = data.field.classes ? data.field.classes : '';
+                res.planStartTime = data.field.inspectDate ? data.field.inspectDate.split(' - ')[0] : '';
+                res.planEndTime = data.field.inspectDate ? data.field.inspectDate.split(' - ')[1] : '';
+                renderTable(res)
+                getPieData(res, 'hierarchy', "供应商层级统计", 'pie-chart-hierarchy')
+                getPieData(res, 'job', "供应商就职岗位统计", 'pie-chart-job')
+                getBarData(res, 'training', "供应商培训统计", 'bar-chart-training')
+                getBarData(res, 'network', "网络培训统计", 'bar-chart-network')
+                getBarData(res, 'classroom', "课堂培训统计", 'bar-chart-classroom')
+            })
+
+
+            form.on('submit(search_reset)', function(data) {
+                $("input[name='supplierSelected']").val('')
+                $(".selectedSupplier").empty();
+                $("input[name='trainingType']").val('')
+                $("input[name='planId']").val('')
+                $("input[name='supplierId']").val('')
+                $("#plineCode").val('')
+                form.render('select');
+                $("input[name='classes']").val('')
+                $("#inspectDate").val('')
+                $("#search_unpuailfied").click();
+            })
+            form.on('submit(search_charts)', function(data) {
+                var res = {};
+                res.supplierCodeList = $("input[name='supplierSelected']").val() ? $("input[name='supplierSelected']").val() : []
+                res.traningType = data.field.plineCode ? Number(data.field.plineCode) : '';
+                res.planName = data.field.classes ? data.field.classes : '';
+                res.planStartTime = data.field.inspectDate ? data.field.inspectDate.split(' - ')[0] : '';
+                res.planEndTime = data.field.inspectDate ? data.field.inspectDate.split(' - ')[1] : '';
+                getPieData(res, 'hierarchy', "供应商层级统计", 'pie-chart-hierarchy')
+                getPieData(res, 'job', "供应商就职岗位统计", 'pie-chart-job')
+                getBarData(res, 'training', "供应商培训统计", 'bar-chart-training')
+                getBarData(res, 'network', "网络培训统计", 'bar-chart-network')
+                getBarData(res, 'classroom', "课堂培训统计", 'bar-chart-classroom')
+            })
+
+
+        })
+    </script>
+</body>
+
+</html>

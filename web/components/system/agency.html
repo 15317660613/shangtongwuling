@@ -1,0 +1,461 @@
+<!--
+File   : user.html
+Created: Tuesday September 18th 2018 8:39:12 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Wednesday October 17th 2018 2:01:31 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 系统管理 - 用户管理
+-----
+HISTORY:
+-->
+<style>
+    .layui-table-body {
+        max-height: 390px;
+    }
+    
+    .layui-layer-page .layui-layer-content {
+        overflow: overlay!important;
+    }
+</style>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">个人审批设置</div>
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <!-- 左侧 -->
+                        <!-- 右侧 -->
+                        <div class="layui-inline layui-pull-right">
+                            <div class="layui-inline">
+                                <button id="btn_add_agency" class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_add_agency" lay-submit>
+                                    <i class="layui-icon layui-icon-add-1"></i>新增
+                                </button>
+                                <button id="btn_edit_agency" class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_edit_agency" lay-submit>
+                                    <i class="layui-icon layui-icon-edit"></i>修改
+                                </button>
+                                <button id="btn_del_agency" class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_del_agency" lay-submit>
+                                    <i class="layui-icon layui-icon-delete"></i>删除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 下部表格容器 -->
+                <table id="tableContent-agency" lay-filter="tableContent-agency"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // 初始化 layui
+    layui.use(['table', 'formSelects', 'treeSelect', 'laydate'], function() {
+        var table = layui.table,
+            form = layui.form,
+            admin = layui.adc,
+            config = layui.config,
+            laydate = layui.laydate,
+            treeSelect = layui.treeSelect,
+            formSelects = layui.formSelects;
+        /***  列表信息展示   ***/
+        // 渲染左侧表格
+        var renderTable = function() {
+            // 渲染表格
+            table.render({
+                elem: '#tableContent-agency',
+                id: 'tableContent-agency',
+                url: admin.formatUrl('/api/agency/userAgency/list/page'),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                where: {
+                    originalUserId: config.getAccount().userId
+                },
+                // height: 490,
+                cols: [
+                    [{
+                        type: 'checkbox'
+                    }, {
+                        type: 'numbers',
+                        title: '序号'
+                    }, {
+                        field: 'originalUsername',
+                        title: '被代理人名称'
+                    }, {
+                        field: 'agencyUsername',
+                        title: '代理人名称'
+                    }, {
+                        field: 'agencyDepartName',
+                        title: '代理人部门'
+                    }, {
+                        field: 'agencyJobName',
+                        title: '代理人职位'
+                    }, {
+                        field: 'agencyEmail',
+                        title: '代理人邮箱'
+                    }, {
+                        field: 'startTime',
+                        title: '代理开始时间'
+                    }, {
+                        field: 'endTime',
+                        title: '代理结束时间'
+                    }]
+                ],
+                cellMinWidth: 110,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'pageNo',
+                    limitName: 'pageSize'
+                }
+            });
+        }
+
+        // 初始化，执行一次渲染表格树
+        renderTable();
+
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.adc.addTableCache('tableContent-agency');
+
+        // 渲染用户列表
+        var renderTable1 = function() {
+            // 渲染表格
+            table.render({
+                elem: '#tableContent-agencySelect',
+                id: 'tableContent-agencySelect',
+                url: admin.formatUrl('/api/sys/hpm05user/page?orderBy=userId'),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                height: 490,
+                cols: [
+                    [{
+                        type: 'checkbox'
+                    }, {
+                        type: 'numbers',
+                        title: '序号'
+                    }, {
+                        field: 'userName',
+                        title: '姓名'
+                    }, {
+                        field: 'departName',
+                        title: '部门'
+                    }, {
+                        field: 'jobName',
+                        title: '职位'
+                    }, {
+                        field: 'email',
+                        title: '邮箱',
+                        minWidth: 150
+                    }]
+                ],
+                cellMinWidth: 110,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'page',
+                    limitName: 'pageSize'
+                }
+            });
+        }
+
+        // 新增 按钮事件
+        $('#btn_add_agency').on('click', function() {
+            popMenu('add');
+        });
+
+        // 编辑 按钮事件
+        $('#btn_edit_agency').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-agency'); //test即为基础参数id对应的值
+            if (checkStatus.data.length > 1) {
+                layer.msg("请至多选择一项进行编辑！");
+                return;
+            } else if (checkStatus.data.length == 0) {
+                layer.msg("请至少选择一项进行编辑！");
+                return;
+            };
+            popMenu('edit', checkStatus.data[0]);
+        });
+
+        // 批量删除
+        $('#btn_del_agency').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-agency');
+            if (checkStatus.data.length === 0) {
+                return layer.msg('请选择要一项进行删除', {
+                    icon: 0
+                });
+            }
+            var delArr = [];
+            for (var i = 0; i < checkStatus.data.length; i++) {
+                delArr.push(checkStatus.data[i].id);
+            }
+
+            layer.confirm('确定删除选中的 ' + checkStatus.data.length + ' 项吗？', {
+                icon: 3,
+                title: '提示'
+            }, function() {
+                admin.req('/api/agency/userAgency/batch?ids=' + delArr.join(','), {}, function(data) {
+                    if (data.ok) {
+                        layer.msg('删除成功！', {
+                            icon: 1
+                        });
+                        table.reload('tableContent-agency', {
+                            where: {
+                                reload: new Date().getTime()
+                            }
+                        });
+                    } else {
+                        return layer.msg('删除失败：' + data.message, {
+                            icon: 5
+                        });
+                    }
+                }, {
+                    method: 'delete'
+                });
+            });
+        });
+
+        // 弹出框表格
+        function popTable() {
+            layer.open({
+                title: '选择代理人',
+                type: 1,
+                area: ['65%', '70%'],
+                success: function(layero, index) {
+                    $(layero).children('.layui-layer-content').load('components/tpl/system_agency_select_tpl.html', function() {
+                        renderTable1();
+                        initSelectInfo();
+                    });
+                    var mask = $(".layui-layer-shade").eq(1);
+                    mask.before(layero);
+                },
+                btn: ['确定', '关闭'],
+                btnAlign: 'c',
+                btn1: function(index, layero) {
+                    var checkStatus = table.checkStatus('tableContent-agencySelect'); //test即为基础参数id对应的值
+                    if (checkStatus.data.length > 1) {
+                        layer.msg("至多选择一项！");
+                        return;
+                    } else if (checkStatus.data.length == 0) {
+                        layer.msg("至少选择一项！");
+                        return;
+                    };
+                    form.val("agency", {
+                        "agencyUserId": checkStatus.data[0].userId,
+                        "agencyUsername": checkStatus.data[0].userName,
+                    });
+                    layer.close(index);
+                },
+                btn2: function(index, layero) {
+                    layer.close(index);
+                }
+            })
+        }
+
+        // 弹出框
+        function popMenu(type, data) {
+            // 判断操作事件
+            if (type === 'add') {
+                var title = '新增审批';
+                data = {
+                    "originalUserId": config.getAccount().userId,
+                    "originalUsername": config.getAccount().userName,
+                    "id": "",
+                    // "originalUserId": "201",
+                    // "originalUsername": "xtgly",
+                    "agencyUserId": "",
+                    "agencyUsername": "",
+                    "startTime": "",
+                    "endTime": ""
+                };
+            } else if (type === 'edit') {
+                var title = '编辑审批';
+            }
+
+            data.type = type;
+
+            admin.popupCenter({
+                title: title,
+                // area: ['50%', 'auto'],
+                path: 'components/tpl/system_agency_add_edit_tpl.html',
+                finish: function() {
+                    table.reload('tableContent-agency', {
+                        where: {
+                            reload: new Date().getTime()
+                        }
+                    });
+                },
+                success: function() {
+                    laydate.render({
+                        elem: '#startTime', //指定元素
+                        type: 'datetime'
+                    });
+                    laydate.render({
+                        elem: '#endTime', //指定元素
+                        type: 'datetime'
+                    });
+                    $("input[name='agencyUsername']").click(function() {
+                        popTable();
+                    })
+                    setFormValue(data);
+                }
+            });
+        }
+
+        // 设置表单内容
+        function setFormValue(obj) {
+            var inputs = $('.layui-tpl-container').find('input'),
+                title = $('.layui-tpl-container .layui-card-header'),
+                formNames = ['id', 'originalUserId', 'originalUsername', 'agencyUserId', 'agencyUsername', 'startTime', 'endTime', 'type'];
+
+            obj.title && title.text(obj.title);
+            for (var i = 0; i < formNames.length; i++) {
+                if (obj[formNames[i]]) {
+                    $('.layui-tpl-container  input[name="' + formNames[i] + '"]').val(obj[formNames[i]]);
+                } else {
+                    $('.layui-tpl-container  input[name="' + formNames[i] + '"]').val('');
+                }
+            }
+        }
+
+        // 表单提交
+        form.on('submit(agencySave)', function(data) {
+            // 获取表单数据
+            var d = data.field,
+                elem = data.elem;
+
+            // 判断是编辑还是新增
+            // 设置不同的 HTTP 方法，和提示信息
+            if (d.type === 'add') {
+                var ajaxType = 'POST'
+            } else if (d.type === 'edit') {
+                var ajaxType = 'PUT'
+            }
+
+            // 删除和提交信息无关的元素
+            delete d.type;
+            delete d.agencyUsername;
+            delete d.originalUsername;
+            // delete d.orgName;;
+            // 发送请求
+            admin.req('/api/agency/userAgency', d, function(data) {
+                $(elem).attr('disabled', false);
+                if (data.ok) {
+                    layer.msg('成功！', {
+                        icon: 1
+                    });
+                    admin.finishPopupCenter();
+                } else {
+                    return layer.msg('失败：' + data.message, {
+                        icon: 5
+                    });
+                }
+            }, {
+                method: ajaxType
+            });
+        });
+
+        function initSelectInfo() {
+            // 初始化部门名搜索列表
+            admin.req('/api/sys/hpm03department', {}, function(res) {
+                var arr = res.data,
+                    tmparr = [];
+                for (var i = 0; i < arr.length; i++) {
+                    tmparr.push({
+                        name: arr[i].departName,
+                        value: arr[i].id,
+                        id: arr[i].id,
+                        parentId: arr[i].pid
+                    });
+                }
+                formSelectArr = admin.toTree(tmparr);
+                formSelects.data('departCode', 'local', {
+                    arr: formSelectArr
+                });
+                formSelects.btns('departCode', []);
+            });
+            // 初始化职位选择列表
+            admin.req('/api/sys/hpm04jobinfo', {}, function(d) {
+                var menus = d.data;
+                treeSelect.render({
+                    elem: '#jobTree',
+                    data: menus,
+                    dataFilter: function(data) {
+                        var menus = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var valueNow = data[i];
+                            // 写入数据
+                            menus.push({
+                                id: valueNow['id'],
+                                pid: valueNow['pid'],
+                                name: valueNow['jobName'],
+                            });
+                        }
+                        return menus;
+                    },
+                    // 节点点击回调函数
+                    click: function(d) {
+                        $('input[name="jobCode"]').val(d.id);
+                        // $('input[name="jobName"]').val(d.name);
+                    }
+                });
+            });
+        }
+
+        // 取消按钮
+        form.on('submit(agencyCancle)', function(data) {
+            admin.closePopupCenter();
+        });
+
+        // 取消按钮
+        form.on('submit(agencySelectCancle)', function(data) {
+            admin.closePopupCenter();
+        });
+    });
+</script>

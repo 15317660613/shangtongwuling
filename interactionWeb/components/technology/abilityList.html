@@ -1,0 +1,1377 @@
+<link rel="stylesheet" href="assets/css/technology.css">
+<style>
+    @media screen and (min-width: 1360px) and (max-width: 1439px) {
+        .layui-input,
+        .layui-select,
+        .xm-select-parent {
+            width: 200px;
+        }
+        .btn-form {
+            padding-right: 16px;
+        }
+        .layui-form-label {
+            font-size: 14px;
+        }
+        .layui-table-main {
+            max-height: 327px;
+        }
+    }
+    
+    @media screen and (min-width: 1440px) and (max-width: 1900px) {
+        .layui-input,
+        .layui-select,
+        .xm-select-parent {
+            width: 200px;
+        }
+        .btn-form {
+            padding-right: 43px;
+        }
+        .layui-form-label {
+            font-size: 14px;
+        }
+        .layui-table-main {
+            max-height: 327px;
+        }
+    }
+    
+    @media screen and (min-width: 1919px) {
+        .layui-input,
+        .layui-select {
+            width: 260px;
+        }
+        .btn-form {
+            padding-right: 93px;
+        }
+        .table-top-bar .layui-form-label {
+            width: 90px;
+        }
+        .layui-form-label {
+            font-size: 14px;
+        }
+        .layui-table-main {
+            max-height: 310px;
+        }
+    }
+    
+    @media screen and (max-width: 1360px) {
+        .layui-input,
+        .layui-select {
+            width: 160px;
+        }
+        .btn-form {
+            padding-right: 26px;
+        }
+        .layui-form-label {
+            font-size: 12px;
+        }
+        .layui-table-main {
+            max-height: 327px;
+        }
+    }
+    
+    .layui-card-header a {
+        float: right;
+        font-size: 14px;
+        color: #949494;
+        font-weight: 500;
+        margin-left: 24px;
+    }
+</style>
+<div class="layui-row content-margin">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+
+            <!-- 卡片容器 -->
+            <div class="layui-card-body bottom-border-line">
+                <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+                    <!--<div class=""><label id="flex2">展开</label><i class="layui-icon layui-icon-down"></i><i class="layui-icon layui-icon-up hide"></i>&lt;!&ndash;<img src="../../assets/images/arrowdown.png" /><img class="hide" src="../../assets/images/arrowup.png" />&ndash;&gt;</div>-->
+                    <div class="line">查询条件</div>
+                    <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                   src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                </div>
+
+                <!-- 数据表格顶部控制栏 -->
+                <div id='search-form' class="layui-form bottom-border-line" style="display: none">
+                    <div class="layui-form-item table-top-bar">
+                        <div class=" layui-row ">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <span class="layui-form-label">零件号</span>
+                                <div class="layui-inline">
+                                    <i class="layui-icon icon-search"></i>
+                                    <select name="partsCodeList" id='partsCode' xm-select="partsCode" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                        <option value="">请选择</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <span class="layui-form-label">零件名称</span>
+                                <div class="layui-inline">
+                                    <select name="partsNameList" id='partsName' xm-select="partsName" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <span class="layui-form-label">车型/机型</span>
+                                <div class="layui-inline">
+                                    <select name="carTypeList" id='carType' xm-select="carType" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <span class="layui-form-label">特性名称</span>
+                                <div class="layui-inline">
+                                    <!--<select name="characterName" id="characterName" placeholder="选择特性名称" lay-filter="characterName" lay-search>-->
+                                    <!--</select>-->
+                                    <input type="text" name="characterNameList" placeholder="请选择" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" layui-row " style="margin-top: 15px">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <span class="layui-form-label">PP</span>
+                                <div class="layui-inline">
+                                    <select name="cp" id="cp" placeholder="请选择" lay-filter="cp">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <span class="layui-form-label">PPK</span>
+                                <div class="layui-inline">
+                                    <select name="cpk" id="cpk" placeholder="请选择" lay-filter="cpk">
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <span class="layui-form-label">检测日期</span>
+                                <div class="layui-inline">
+                                    <input autocomplete="off" type="text" name="inspectDate" id="inspectDate" placeholder="请选择" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 search-item1">
+                                <div class="btn-form pull-right">
+                                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_ability" id="search_ability"><span>查询</span></button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="reset_ability"><span>重置</span></button>
+
+                                    <button style="width: auto" class="layui-btn layui-btn-primary layui-btn-sm manage " id="btn-export"><i class="layui-icon layui-icon-release"></i>总清单导出</button>
+
+                                    <!--help按钮 获得表单导出时表单值-->
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="form_export" lay-submit lay-filter="form_export" style="display: none"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card-body bottom-border-line">
+                <div class="layui-card-header">
+                    <div class="line">特性一览</div>
+                    <!--<div style="color: #3A80C8" id="btn-refresh"><i class="layui-icon layui-icon-refresh" style="vertical-align: middle;"></i>刷新</div>-->
+                </div>
+                <div style="padding: 10px;">
+                    <table id="tableContent-ability" lay-filter="tableContent-ability"></table>
+                </div>
+            </div>
+
+
+            <div class="layui-card-body layui-row bottom-border-line" style="padding-bottom: 0px">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="background: #eeeeee;padding-right: 4px">
+                    <div class="layui-card-header" style="margin-top: 0px">
+                        <div class="line">X控制图</div>
+                    </div>
+                    <div id="x-chart" class="line-chart"></div>
+                </div>
+            </div>
+            <div class="layui-card-body layui-row bottom-border-line" style="padding-bottom: 0px">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="background: #eeeeee">
+                    <div class="layui-card-header" style="margin-top: 0px;padding-left: 15px">
+                        <div class="line" id="rLine">R控制图</div>
+                    </div>
+                    <div id="r-chart" class="line-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 初始化 layui
+    layui.use(['laydate', 'table', 'formSelects'], function() {
+        var table = layui.table,
+            form = layui.form,
+            formSelects = layui.formSelects,
+            laydate = layui.laydate,
+            config = layui.config,
+            processId = '',
+            chartType = '',
+            admin = layui.admin;
+
+        laydate.render({
+            elem: '#inspectDate',
+            range: true,
+            type: 'date',
+        });
+
+
+
+        setSelectData('abilitylist/cp', '#cp', 'name', 'value');
+        setSelectData('abilitylist/cpk', '#cpk', 'name', 'value');
+
+        admin.req('/api-edu/interaction/abilitysetting/parts', {}, function(res) {
+
+            var nameArray = [];
+            var codeArray = [];
+            for (var i = 0; i < res.data.length; i++) {
+
+                nameArray.push({
+                    name: res.data[i].partsName,
+                    remark: res.data[i].partsCode,
+                    carType: res.data[i].carType,
+                    value: res.data[i].partsName
+                });
+                codeArray.push({
+                    name: res.data[i].partsCode,
+                    value: res.data[i].partsCode,
+                    carType: res.data[i].carType,
+                    remark: res.data[i].partsName
+                });
+            }
+            formSelects.data('partsName', 'local', {
+                arr: nameArray
+            });
+            formSelects.data('partsCode', 'local', {
+                arr: codeArray
+            });
+            formSelects.on('partsName', function(id, vals, val, isAdd) {
+
+                //必须延时
+                serCartypeValue('partsName', 'partsCode');
+
+
+            });
+            formSelects.on('partsCode', function(id, vals, val, isAdd) {
+                serCartypeValue('partsCode', 'partsName');
+
+            });
+        }, {
+            method: 'get'
+        });
+        admin.req('/api-edu/interaction/abilitysetting/cartype', {}, function(res) {
+            var dataArray = [];
+            for (var i = 0; i < res.data.length; i++) {
+
+                dataArray.push({
+                    name: res.data[i],
+                    value: res.data[i]
+                });
+            }
+            formSelects.data('carType', 'local', {
+                arr: dataArray
+            });
+
+
+        }, {
+            method: 'get'
+        });
+
+        function serCartypeValue(elem1, elem2) {
+
+            setTimeout(function() {
+                var vals = layui.formSelects.value(elem1);
+                var selected = [],
+                    selectCartype = [];
+                for (var i = 0; i < vals.length; i++) {
+                    selected.push(vals[i].remark);
+                    var carType = vals[i].carType.replace(/&/g, "/");
+                    var carTypes = carType.split('/');
+                    selectCartype = selectCartype.concat(carTypes);
+                }
+                formSelects.value(elem2, selected);
+                formSelects.value('carType', selectCartype);
+            }, 100)
+
+        }
+
+        function setSelectData(url, id, name, value) {
+            admin.req('/api-edu/interaction/' + url, {}, function(res) {
+
+                var elem = $(id);
+                elem.empty();
+                elem.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                console.log(elem)
+                form.render('select');
+
+            }, {
+                method: 'get'
+            });
+        };
+
+
+        /*
+       查询特性名称
+     */
+        admin.req('/api-edu/interaction/abilitysetting/character', {}, function(res) {
+
+            var elem = $('#characterName');
+            elem.empty();
+            elem.append('<option value=""></option>');
+            for (var i = 0; i < res.data.length; i++) {
+                elem.append('<option value="' + res.data[i] + '">' + res.data[i] + '</option>')
+            }
+            form.render('select');
+
+        }, {
+            method: 'get'
+        });
+
+
+        $('#toggle').on('click', function() {
+            $('#search-form').toggle(200);
+            if ($('#toggle').hasClass('tea_arrowUp')) {
+                $('#toggle').removeClass('tea_arrowUp').addClass('tea_arrowDown');
+                $('#toggle').parent().css('border-bottom', '1px solid #f6f6f6');
+
+            } else {
+                $('#toggle').removeClass('tea_arrowDown').addClass('tea_arrowUp');
+                $('#toggle').parent().css('border-bottom', 'none');
+            };
+
+        })
+        $('#toggle').click();
+
+        var renderTable = function(search) {
+                if (!search) {
+                    search = {};
+                }
+                // 渲染表格
+                table.render({
+                    elem: '#tableContent-ability',
+                    id: 'tableContent-ability',
+                    url: admin.formatUrl('/api-edu/interaction/abilitylist/list'),
+                    // 格式化后台返回的数据
+                    parseData: function(res) { //res 即为原始返回的数据
+                        // 返回结果，进行渲染表格
+                        if (res.data.list.length > 0) {
+                            getXbarData(res.data.list[0])
+                            getRbarData(res.data.list[0])
+                            chartType = res.data.list[0].chartType;
+                            res.data.list[0].LAY_CHECKED = true;
+                        }
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.data.count, //解析数据长度
+                            "data": res.data.list //解析数据列表
+                        };
+                    },
+                    cols: [
+                        [{
+                            type: 'radio',
+                            rowspan: '2',
+                            title: '选择'
+                        }, {
+                            field: 'partsCode',
+                            rowspan: '2',
+                            align: "center",
+                            width: 80,
+                            templet: function(d) {
+                                var value = d.partsCode ? d.partsCode : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件号'
+                        }, {
+                            field: 'partsName',
+                            rowspan: '2',
+                            align: "center",
+                            width: 100,
+                            templet: function(d) {
+                                var value = d.partsName ? d.partsName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件名称'
+                        }, {
+                            field: 'carType',
+                            rowspan: '2',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.carType ? d.carType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '车型/机型'
+                        }, {
+                            field: 'characterName',
+                            rowspan: '2',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.characterName ? d.characterName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '特性名称'
+                        }, {
+                            field: 'toleranceType',
+                            rowspan: '2',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.toleranceType ? d.toleranceType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '公差类型'
+                        }, {
+                            title: '技术要求',
+                            align: 'center',
+                            colspan: '3',
+                        }, {
+                            field: 'chartType',
+                            rowspan: '2',
+                            align: "center",
+                            width: 120,
+                            templet: function(d) {
+                                var value = d.chartType ? d.chartType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '控制图类型'
+                        }, {
+                            field: 'average',
+                            rowspan: '2',
+                            title: '均值',
+                            templet: function(d) {
+                                var value = d.average ? d.average : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            align: "center"
+                        }, {
+                            field: 'xmaxXmin',
+                            rowspan: '2',
+                            title: '极差',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.xmaxXmin ? d.xmaxXmin : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            }
+                        }, {
+                            field: 'std',
+                            rowspan: '2',
+                            title: '标准差',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.std ? d.std : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            }
+                        }, {
+                            field: 'cp',
+                            rowspan: '2',
+                            title: 'PP',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.cp ? d.cp : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            }
+                        }, {
+                            field: 'cpk',
+                            rowspan: '2',
+                            title: 'PPK',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.cpk ? d.cpk : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            }
+                        }, {
+                            field: 'cpkl',
+                            rowspan: '2',
+                            title: 'PPKL',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.cpkl ? d.cpkl : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            }
+                        }, {
+                            field: 'cpku',
+                            rowspan: '2',
+                            title: 'PPKU',
+                            align: "center",
+                            templet: function(d) {
+                                var value = d.cpku ? d.cpku : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            }
+                        }],
+                        [{
+                                field: 'thresholdMax',
+                                align: "center",
+                                title: '上限值',
+                                templet: function(d) {
+                                    var value = d.thresholdMax ? d.thresholdMax : ''
+                                    return '<div title="' + value + '"><span>' + value + '</span></div>'
+                                },
+
+                            }, {
+                                field: 'thresholdStandard',
+                                align: "center",
+                                title: '标准值',
+                                templet: function(d) {
+                                    var value = d.thresholdStandard ? d.thresholdStandard : ''
+                                    return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                                },
+                            }, {
+                                field: 'thresholdMin',
+                                align: "center",
+                                title: '下限值',
+                                templet: function(d) {
+                                    var value = d.thresholdMin ? d.thresholdMin : ''
+                                    return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                                },
+
+                            },
+
+                        ]
+                    ],
+                    cellMinWidth: 90,
+                    page: {
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                    },
+                    request: {
+                        pageName: 'page',
+                        limitName: 'pageSize'
+                    },
+
+                    where: search
+                });
+            }
+            //修改行点击事件代替 radio
+
+        table.on('row(tableContent-ability)', function(obj) {
+            //processId=obj.data.id;
+            var tableData = table.cache['tableContent-ability'];
+            chartType = obj.data.chartType;
+            obj.tr.find('input[lay-type="layTableRadio"]').prop("checked", true);
+            var index = obj.tr.data('index')
+                //重置数据单选属性
+            layui.each(tableData, function(i, item) {
+                if (index === i) {
+                    item.LAY_CHECKED = true;
+                } else {
+                    delete item.LAY_CHECKED;
+                }
+            });
+            form.render('radio');
+            getXbarData(obj.data);
+            getRbarData(obj.data);
+        });
+
+
+
+        // 初始化，执行一次渲染表格
+        renderTable();
+
+        // 表单提交，查询与重置
+        form.on('submit(search_ability)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+
+            if (d.inspectDate) {
+                d.startInspectDate = d.inspectDate.split(' - ')[0] + ' 00:00:00';
+                d.endInspectDate = d.inspectDate.split(' - ')[1] + ' 23:59:59';
+            }
+            renderTable(d);
+        });
+
+        $('.table-top-bar input').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $('#search_ability').click();
+            }
+        });
+
+        //导出
+        $('#btn-export').on('click', function() {
+            $('#form_export').click();
+        });
+
+        $('#btn-refresh').on('click', function() {
+            $('#search_ability').click();
+        });
+
+        //目的是获得表单查询参数（不使用查询参数缓存方式因为可能会出现表单数据变了，没有点击按钮的情况出现）
+
+        form.on('submit(form_export)', function(data) {
+            var d = data.field;
+            convertToOne();
+
+
+        })
+
+        // 风险监控导出
+        function exportExcel(file) {
+            var xhr = new XMLHttpRequest();
+            var formData = new FormData();
+            formData.append("multipartFiles", file, 'Up');
+            formData.append("chartType", chartType);
+            xhr.open('POST', admin.formatUrl("/api-edu/interaction/abilitylist/excel/export"), true);
+            xhr.responseType = 'blob';
+            xhr.onload = function(e) {
+                if (this.status == 200) {
+                    var blob = this.response;
+                    var filename = '工艺管理过程一览.xls';
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        navigator.msSaveBlob(blob, filename);
+                    } else {
+                        var a = document.createElement('a');
+                        blob.type = "application/excel";
+                        var url = URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = filename;
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    }
+                    admin.removeLoading("body");
+                }
+            };
+            xhr.send(formData);
+        }
+
+        //将base64转换为文件
+        function dataURLtoFile(dataurl) {
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {
+                type: mime
+            });
+        }
+
+        // 转换页面上图片为一张
+        function convertToOne() {
+            var myChartBar = echarts.init(document.getElementById('x-chart'));
+            var myChartBar1 = echarts.init(document.getElementById('r-chart'));
+            var canvas = document.createElement("canvas");
+            canvas.width = 3000;
+            canvas.height = 400;
+            var context = canvas.getContext("2d");
+            context.rect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = "#fff";
+            context.fill();
+            var baseBar = myChartBar.getDataURL();
+            var baseBar1 = myChartBar1.getDataURL();
+            var imageBar = new Image();
+            imageBar.src = baseBar
+            var imageBar1 = new Image();
+            imageBar1.src = baseBar1
+            setTimeout(function() {
+                context.drawImage(imageBar, 0, 0, 1400, 400);
+                context.drawImage(imageBar1, 1600, 0, 1400, 400);
+                // context.clearRect(600, 0, 600, 600)
+                var base64Up = canvas.toDataURL("image/png"); //"image/png" 这里注意一下
+                var up = dataURLtoFile(base64Up)
+                exportExcel(up)
+            }, 1000)
+        };
+
+
+        function getXbarData(itemData) {
+            var params = {
+                processId: itemData.id
+            };
+            var inspectDate = $('#inspectDate').val();
+            if (inspectDate) {
+                params.startInspectDate = inspectDate.split(' - ')[0] + ' 00:00:00';
+                params.endInspectDate = inspectDate.split(' - ')[1] + ' 23:59:59';
+            }
+            admin.req('/api-edu/interaction/abilitylist/Xbar', params, function(res) {
+                if (res.ok) {
+                    var xData = [],
+                        yData = [],
+                        yDataValue = [],
+                        thresholdMaxData = [],
+                        thresholdMinData = [],
+                        uclData = [],
+                        lclData = [],
+                        length = 25,
+                        allData = [];
+                    //规则：无时间=>横坐标显示25个（无论有无），有时间=》根据查询长度来定
+                    if (inspectDate != '') {
+                        length = res.data.length
+                    }
+
+                    for (var i = 0; i < length; i++) {
+
+                        xData.push(i);
+                        //上公差
+                        thresholdMaxData.push(itemData.thresholdMax);
+                        //下公差
+                        thresholdMinData.push(itemData.thresholdMin);
+                        //上控制
+                        uclData.push(itemData.xucl);
+                        //x下控制
+                        lclData.push(itemData.xlcl);
+                        if (i < res.data.length) {
+                            res.data[i].value = res.data[i].avgSample;
+                            allData.push(res.data[i].avgSample);
+                            yData.push(res.data[i]);
+                            yDataValue.push(res.data[i].avgSample);
+                        }
+
+                    }
+                    allData.push(itemData.thresholdMin);
+                    allData.push(itemData.lcl);
+                    var min = Math.min.apply(null, allData);
+                    min = Math.floor(min)
+                    if (min >= 1) {
+                        min = min - 1;
+                    }
+                    var maxCollect = [];
+
+                    if (thresholdMaxData.length != 0) {
+                        maxCollect.push(Math.max.apply(null, thresholdMaxData));
+                    }
+                    if (thresholdMinData.length != 0) {
+                        maxCollect.push(Math.max.apply(null, thresholdMinData));
+                    }
+                    if (uclData.length != 0) {
+                        maxCollect.push(Math.max.apply(null, uclData));
+                    }
+                    if (lclData.length != 0) {
+                        maxCollect.push(Math.max.apply(null, lclData));
+                    }
+
+                    var maxValue = Math.max.apply(null, maxCollect);
+                    var minCollect = [];
+
+                    if (thresholdMaxData.length != 0) {
+                        minCollect.push(Math.min.apply(null, thresholdMaxData));
+                    }
+                    if (thresholdMinData.length != 0) {
+                        minCollect.push(Math.min.apply(null, thresholdMinData));
+                    }
+                    if (uclData.length != 0) {
+                        minCollect.push(Math.min.apply(null, uclData));
+                    }
+                    if (lclData.length != 0) {
+                        minCollect.push(Math.min.apply(null, lclData));
+                    }
+                    if (yDataValue.length != 0) {
+                        minCollect.push(Math.min.apply(null, yDataValue));
+                    }
+                    var minValue = Math.min.apply(null, minCollect);
+
+                    min = Math.floor(minValue)
+                    if (min != 0) {
+                        if (minValue == maxValue) {
+                            min = (min < 1 && min >= 0) ? 0 : min - 1;
+                        }
+                    }
+                    var chartData = {
+                        xData: xData,
+                        yData: yData,
+                        thresholdMaxData: thresholdMaxData,
+                        thresholdMinData: thresholdMinData,
+                        uclData: uclData,
+                        lclData: lclData,
+                        yMin: min,
+                        interval: maxValue - minValue == 0 ? 1 : Math.ceil(maxValue * 100 - minValue * 100) / 500
+                    }
+                    setXlineChart(chartData);
+                }
+
+            }, {
+                method: 'get'
+            });
+
+        }
+
+        function getRbarData(itemData) {
+            var legend;
+            if (itemData.chartType === 'Xbar-S控制图') {
+                $("#rLine").text('S控制图');
+                legend = 'S运行值';
+            } else {
+                $("#rLine").text('R控制图');
+                legend = 'R运行值';
+            }
+            var params = {
+                processId: itemData.id
+            };
+            var inspectDate = $('#inspectDate').val();
+            if (inspectDate) {
+                params.startInspectDate = inspectDate.split(' - ')[0] + ' 00:00:00';
+                params.endInspectDate = inspectDate.split(' - ')[1] + ' 23:59:59';
+            }
+            admin.req('/api-edu/interaction/abilitylist/XbarR-R', params, function(res) {
+                if (res.ok) {
+                    var xData = [],
+                        yData = [],
+                        middleLine = [],
+                        uclData = [],
+                        lclData = [],
+                        length = 25,
+                        allData = [];
+                    //规则：无时间=>横坐标显示25个（无论有无），有时间=》根据查询长度来定
+                    if (inspectDate != '') {
+                        length = res.data.length
+                    }
+
+                    for (var i = 0; i < length; i++) {
+
+                        xData.push(i);
+                        //中间线
+                        middleLine.push(res.data[i] ? res.data[i].avgSample : "");
+                        //上控制
+                        uclData.push(itemData.ucl);
+                        //x下控制
+                        lclData.push(itemData.lcl);
+                        if (i < res.data.length) {
+                            res.data[i].value = res.data[i].avgSample;
+                            allData.push(res.data[i].avgSample);
+                            yData.push(res.data[i])
+                        }
+
+                    }
+                    allData.push(itemData.ucl);
+                    allData.push(itemData.lcl);
+                    var min = Math.min.apply(null, allData);
+                    min = Math.floor(min)
+                    if (min >= 1) {
+                        min = min - 1;
+                    }
+                    var maxCollect = [];
+
+                    if (uclData.length != 0) {
+                        maxCollect.push(Math.max.apply(null, uclData));
+                    }
+                    if (lclData.length != 0) {
+                        maxCollect.push(Math.max.apply(null, lclData));
+                    }
+                    if (middleLine.length != 0) {
+                        maxCollect.push(Math.max.apply(null, middleLine));
+                    }
+
+                    var maxValue = Math.max.apply(null, maxCollect);
+                    var minCollect = [];
+
+                    if (uclData.length != 0) {
+                        minCollect.push(Math.min.apply(null, uclData));
+                    }
+                    if (lclData.length != 0) {
+                        minCollect.push(Math.min.apply(null, lclData));
+                    }
+                    if (middleLine.length != 0) {
+                        minCollect.push(Math.min.apply(null, middleLine));
+                    }
+                    var minValue = Math.min.apply(null, minCollect);
+
+                    min = minValue
+                    if (min != 0) {
+                        if (minValue == maxValue) {
+                            min = (min < 1 && min >= 0) ? 0 : min - 1;
+                        } else {
+                            min = Math.ceil(maxValue * 100 - minValue * 100) < 100 ? minValue : min - Math.ceil(maxValue * 100 - minValue * 100) / 500;
+                        }
+                    }
+
+                    var chartData = {
+                        xData: xData,
+                        yData: yData,
+                        // thresholdMaxData: thresholdMaxData,
+                        // thresholdMinData: thresholdMinData,
+                        middleLine: middleLine,
+                        uclData: uclData,
+                        lclData: lclData,
+                        yMin: min
+                    }
+                    setRlineChart(chartData, legend);
+                }
+
+            }, {
+                method: 'get'
+            });
+
+        }
+
+        function setXlineChart(chartData) {
+            var option = {
+                title: {
+                    //text: '折线图堆叠'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        console.log(params)
+                        var color = params.color; //图例颜色
+                        var htmlStr = '<div>';
+                        htmlStr += params.data.inspectDate + '<br/>';
+
+                        htmlStr += '<span style="margin-right:5px;display:inline-block;width:10px;height:10px;border-radius:5px;background-color:' + color + ';"></span>';
+
+                        //添加一个汉字，这里你可以格式你的数字或者自定义文本内容
+                        htmlStr += params.seriesName + '：' + params.data.avgSample;
+                        htmlStr += '</div>';
+                        return htmlStr;
+                    }
+                },
+                legend: {
+                    data: ['上公差线', '上控制线', 'X运行值', '下公差线', '下控制线'],
+                    bottom: 10,
+                    width: '700'
+                        //left:10
+                },
+                grid: {
+                    left: '3%',
+                    //right: '4%',
+                    //bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    data: chartData.xData
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#f0f0f0'
+                        }
+                    },
+                    min: chartData.yMin,
+                    // interval: chartData.interval
+                },
+                series: [{
+                    name: '上公差线',
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#F08C83',
+                            //width: 4,
+                            type: 'solid'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#F08C83'
+                        }
+                    },
+                    symbol: 'none',
+
+                    data: chartData.thresholdMaxData,
+                }, {
+                    name: '上控制线',
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#56A0F8',
+                            type: 'dashed'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            //borderWidth: 3,
+                            //borderColor: 'yellow',
+                            color: '#56A0F8'
+                        }
+                    },
+                    symbol: 'none',
+
+                    data: chartData.uclData
+                }, {
+                    name: 'X运行值',
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#5DCEC8',
+                            //width: 4,
+                            type: 'solid'
+                        }
+                    },
+                    symbol: 'circle',
+                    itemStyle: {
+                        normal: {
+                            //borderWidth: 3,
+                            //borderColor: 'yellow',
+                            color: '#5DCEC8'
+                        }
+                    },
+                    data: chartData.yData
+                }, {
+                    name: '下公差线',
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#F08C83',
+                            //width: 4,
+                            type: 'solid'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            //borderWidth: 3,
+                            //borderColor: 'yellow',
+                            color: '#F08C83'
+                        }
+                    },
+                    symbol: 'none',
+
+                    data: chartData.thresholdMinData
+                }, {
+                    name: '下控制线',
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#5CA9F8',
+                            //width: 4,
+                            type: 'dashed'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            //borderWidth: 3,
+                            //borderColor: 'yellow',
+                            color: '#5CA9F8'
+                        }
+                    },
+                    symbol: 'none',
+
+                    data: chartData.lclData
+                }]
+            };
+            drawCharts('x-chart', option);
+
+        }
+
+        function setRlineChart(chartData, legend) {
+            var option = {
+                title: {
+                    //text: '折线图堆叠'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        var color = params.color; //图例颜色
+                        var htmlStr = '<div>';
+                        htmlStr += params.data.inspectDate + '<br/>';
+
+                        htmlStr += '<span style="margin-right:5px;display:inline-block;width:10px;height:10px;border-radius:5px;background-color:' + color + ';"></span>';
+
+                        //添加一个汉字，这里你可以格式你的数字或者自定义文本内容
+                        htmlStr += params.seriesName + '：' + params.data.avgSample;
+                        htmlStr += '</div>';
+                        return htmlStr;
+                    }
+                },
+                legend: {
+                    data: ['上控制线', legend, '下控制线'],
+                    bottom: 10,
+                    width: '700'
+                        //left:10
+                },
+                grid: {
+                    left: '3%',
+                    //right: '4%',
+                    //bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    data: chartData.xData
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#f0f0f0'
+                        }
+                    },
+                    min: chartData.yMin,
+                },
+                series: [{
+                    name: '上控制线',
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#56A0F8',
+                            type: 'dashed'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            //borderWidth: 3,
+                            //borderColor: 'yellow',
+                            color: '#56A0F8'
+                        }
+                    },
+                    symbol: 'none',
+
+                    data: chartData.uclData
+                }, {
+                    name: '下控制线',
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#5CA9F8',
+                            //width: 4,
+                            type: 'dashed'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            //borderWidth: 3,
+                            //borderColor: 'yellow',
+                            color: '#5CA9F8'
+                        }
+                    },
+                    symbol: 'none',
+
+                    data: chartData.lclData
+                }, {
+                    name: legend,
+                    type: 'line',
+                    lineStyle: {
+                        normal: {
+                            color: '#F08C83',
+                            //width: 4,
+                            type: 'solid'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            //borderWidth: 3,
+                            //borderColor: 'yellow',
+                            color: '#F08C83'
+                        }
+                    },
+                    symbol: 'circle',
+
+                    data: chartData.yData
+                }]
+            };
+            drawCharts('r-chart', option);
+
+        }
+
+
+        //图表配置项
+        // var myChartOption = {
+        //     title: {
+        //         //text: '折线图堆叠'
+        //     },
+        //     tooltip: {
+        //         show: false
+        //             //trigger: 'axis'
+        //     },
+        //     legend: {
+        //         data: ['上公差线', '上控制线', ' ', '下公差线', '下控制线'],
+        //         bottom: 10,
+        //         width: '700'
+        //             //left:10
+        //     },
+        //     grid: {
+        //         left: '3%',
+        //         //right: '4%',
+        //         //bottom: '3%',
+        //         containLabel: true
+        //     },
+        //     toolbox: {
+        //         /*feature: {
+        //             saveAsImage: {}
+        //         }*/
+        //     },
+        //     xAxis: {
+        //         type: 'category',
+        //         boundaryGap: false,
+        //         data: ['1', '2', '3', '4', '5', '6', '7']
+        //     },
+        //     yAxis: {
+        //         type: 'value'
+        //     },
+        //     series: [{
+        //         name: '上公差线',
+        //         type: 'line',
+        //         lineStyle: {
+        //             normal: {
+        //                 color: '#5CA9F8',
+        //                 //width: 4,
+        //                 type: 'solid'
+        //             }
+        //         },
+        //         itemStyle: {
+        //             normal: {
+        //                 //borderWidth: 3,
+        //                 //borderColor: 'yellow',
+        //                 color: '#5CA9F8'
+        //             }
+        //         },
+        //         symbol: 'none',
+
+        //         data: [0.04, 0.04, 0.04, 0.04, 0.04, 0.04, 0.04]
+        //     }, {
+        //         name: '上控制线',
+        //         type: 'line',
+        //         lineStyle: {
+        //             normal: {
+        //                 color: '#5CA9F8',
+        //                 //width: 4,
+        //                 type: 'dashed'
+        //             }
+        //         },
+        //         itemStyle: {
+        //             normal: {
+        //                 //borderWidth: 3,
+        //                 //borderColor: 'yellow',
+        //                 color: '#5CA9F8'
+        //             }
+        //         },
+        //         symbol: 'none',
+
+        //         data: [0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036]
+        //     }, {
+        //         name: '',
+        //         type: 'line',
+        //         lineStyle: {
+        //             normal: {
+        //                 color: '#061745',
+        //                 //width: 4,
+        //                 type: 'solid'
+        //             }
+        //         },
+        //         symbol: 'circle',
+        //         itemStyle: {
+        //             normal: {
+        //                 //borderWidth: 3,
+        //                 //borderColor: 'yellow',
+        //                 color: '#061745'
+        //             }
+        //         },
+
+        //         data: [0.021, 0.023, 0.018, 0.024, 0.017, 0.025, 0.03]
+        //     }, {
+        //         name: '下公差线',
+        //         type: 'line',
+        //         lineStyle: {
+        //             normal: {
+        //                 color: '#F85C60',
+        //                 //width: 4,
+        //                 type: 'solid'
+        //             }
+        //         },
+        //         itemStyle: {
+        //             normal: {
+        //                 //borderWidth: 3,
+        //                 //borderColor: 'yellow',
+        //                 color: '#F85C60'
+        //             }
+        //         },
+        //         symbol: 'none',
+
+        //         data: [0.006, 0.006, 0.006, 0.006, 0.006, 0.006, 0.006]
+        //     }, {
+        //         name: '下控制线',
+        //         type: 'line',
+        //         lineStyle: {
+        //             normal: {
+        //                 color: '#F85C60',
+        //                 //width: 4,
+        //                 type: 'dashed'
+        //             }
+        //         },
+        //         itemStyle: {
+        //             normal: {
+        //                 //borderWidth: 3,
+        //                 //borderColor: 'yellow',
+        //                 color: '#F85C60'
+        //             }
+        //         },
+        //         symbol: 'none',
+
+        //         data: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+        //     }]
+        // };
+        // drawCharts('r-chart', myChartOption);
+
+        function drawCharts(elem, option) {
+            var myChart = echarts.init(document.getElementById(elem));
+            myChart.setOption(option);
+        }
+
+        form.on('submit(reset_ability)', function(data) {
+            reset();
+        });
+
+        // 重置查询表单
+        function reset() {
+            $('.table-top-bar input').val('');
+            formSelects.value('partsCode', []);
+            formSelects.value('partsName', []);
+            formSelects.value('carType', []);
+            formSelects.value('characterNameList', []);
+            formSelects.value('cp', []);
+            formSelects.value('cpk', []);
+            formSelects.value('inspectDate', []);
+            renderTable();
+        }
+
+    });
+
+    function slideDiv(obj) {
+        //如果查询条件隐藏 则展开查询条件 将展开文字变成收起
+        if ($($(obj).parent().next()[0]).css("display") == 'none') {
+            $($(obj).parent().next()[0]).slideDown();
+            $(obj).find(".slide").text("收起 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slidedown.png");
+        } else { //否则收起查询条件 将收起变成展开
+            $($(obj).parent().next()[0]).slideUp();
+            $(obj).find(".slide").text("展开 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slideup.png");
+        }
+    }
+</script>

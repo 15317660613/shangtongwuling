@@ -1,0 +1,451 @@
+<!--
+File   : task_personnel_select.html
+Created: Thursday September 27th 2018 4:10:07 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Tuesday October 30th 2018 11:49:33 am
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 人员选择，弹出框插件，请使用 iframe 弹出；
+调用方法请查看 process_pending_tpl_handle.html 中的 taskControl.personnelSelect(data, callback) 方法
+-----
+HISTORY:
+2018-09-28	yuchunyu97	初始化结构
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>请选择</title>
+
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css" />
+    <link rel="stylesheet" href="../../assets/css/task_personnel_select.css">
+
+    <!-- zTree 样式 -->
+    <link rel="stylesheet" href="../../assets/libs/zTree/css/metroStyle/metroStyle.css">
+</head>
+
+<body>
+
+    <div class="layui-fluid layui-tab" lay-filter="person-tab">
+        <div class="layui-row person-header">
+            <ul class="layui-tab-title">
+                <li class="layui-this">组织机构</li>
+                <li>用户角色</li>
+            </ul>
+        </div>
+        <div class="layui-row person-container">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 person-container-l">
+                <div class="layui-row">
+                    <div class="layui-col-xs10 layui-col-sm10 layui-col-md11">
+                        <!-- tab 切换 -->
+                        <div class="layui-tab-content">
+                            <!-- 组织机构 -->
+                            <div class="layui-tab-item layui-show">
+                                <div class="layui-form person-search">
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="value" placeholder="请输入组织机构/人员名称" class="layui-input">
+                                            <i class="layui-icon layui-icon-search" layui-submit></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="person-select-box">
+                                    <div class="person-select-box-t">
+                                        <ul id="select-org" class="ztree"></ul>
+                                    </div>
+                                    <div class="person-select-box-b">
+                                        <table class="layui-table" lay-even lay-skin="nob">
+                                            <colgroup>
+                                                <col width="50%">
+                                                <col width="50%">
+                                            </colgroup>
+                                            <tbody id="select-box-org">
+                                                <!-- <tr><td>超级管理员</td><td>中国汽车技术研究中心有限公司</td></tr> -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 用户角色 -->
+                            <div class="layui-tab-item">
+                                <div class="layui-form person-search">
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="value" placeholder="请输入用户角色/人员名称" class="layui-input">
+                                            <i class="layui-icon layui-icon-search" layui-submit></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="person-select-box">
+                                    <div class="person-select-box-t">
+                                        <ul id="select-role" class="ztree"></ul>
+                                    </div>
+                                    <div class="person-select-box-b">
+                                        <table class="layui-table" lay-even lay-skin="nob">
+                                            <colgroup>
+                                                <col width="50%">
+                                                <col width="50%">
+                                            </colgroup>
+                                            <tbody id="select-box-role">
+                                                <!-- <tr><td>超级管理员</td><td>中国汽车技术研究中心有限公司</td></tr> -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs2 layui-col-sm2 layui-col-md1">
+                        <div class="person-selected-direction">
+                            <i class="layui-icon layui-icon-left"></i>
+                            <i class="layui-icon layui-icon-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md6 person-container-r">
+                <div class="layui-row">
+                    <div class="layui-col-xs10 layui-col-sm10 layui-col-md11 person-selected-container">
+                        <div class="person-selected">
+                            <table class="layui-table" lay-even lay-skin="nob">
+                                <colgroup>
+                                    <col width="100%">
+                                </colgroup>
+                                <tbody id="selectd-box-selected">
+                                    <!-- <tr><td>超级管理员</td><td>中国汽车技术研究中心有限公司</td></tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs2 layui-col-sm2 layui-col-md1">
+                        <div class="person-selected-direction">
+                            <i class="layui-icon layui-icon-up"></i>
+                            <i class="layui-icon layui-icon-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery 1.x 版本兼容 IE8 -->
+    <script type="text/javascript" src="../../assets/libs/jquery-1.12.4.min.js"></script>
+    <!-- Q.js 轻量路由框架 -->
+    <script type="text/javascript" src="../../assets/libs/q.js"></script>
+    <!-- jQuery 轻量级 MVVM 框架 -->
+    <script type="text/javascript" src="../../assets/libs/pandyle.min.js"></script>
+    <!-- layui 脚本文件 -->
+    <script type="text/javascript" src="../../assets/libs/layui/layui.js"></script>
+    <!-- zTree js 文件 -->
+    <script src="../../assets/libs/zTree/js/jquery.ztree.all.min.js"></script>
+
+    <script>
+        var task_personnel_select = {
+            init: function (datas) {
+                if (!datas) datas = {};
+                // 初始化，传入已选择的数据
+                this.selectedData = datas.data ? datas.data : [];
+            },
+            finish: function () {
+                return this.selectedData;
+            },
+            /*
+             * 数据格式为：
+             * {
+             *     id: 'ZDTNTHTKVS',
+             *     name: 'XXX'
+             * }
+             */
+            selectedData: [],
+            // 检查是否有重复的数据
+            // 重复则返回 true
+            checkRepeatData: function (id) {
+                for (var i = 0; i < this.selectedData.length; i++) {
+                    if (this.selectedData[i].id === id) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            // 增加数据
+            addData: function (data) {
+                this.selectedData.push(data);
+            },
+            // 移除数据
+            removeData: function (data) {
+                for (var i = 0; i < this, this.selectedData.length; i++) {
+                    if (this.selectedData[i].id === data.id) {
+                        this.selectedData.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+        };
+
+        layui.config({
+            base: '../../module/'
+        }).use(['element', 'index'], function () {
+            var element = layui.element,
+                $ = layui.jquery,
+                admin = layui.adc;
+
+            // 手动完成 Tab 页切换
+            element.on('tab(person-tab)', function (data) {
+                var index = data.index,
+                    contentElem = $('.layui-tab-content').children();
+                contentElem.removeClass('layui-show');
+                $(contentElem[index]).addClass('layui-show');
+
+                // 清空待选框数据
+                var selectBox = $('[id^="select-box"]');
+                for (var i = 0; i < selectBox.length; i++) {
+                    $(selectBox[i]).html('');
+                }
+            });
+
+            // 初始化组织机构列表
+            admin.req('/api/sys/org/listOrgByOrgName', {
+                orgName: ''
+            }, function (d) {
+                if (!d.ok) {
+                    return layer.msg('获取组织机构列表失败：' + d.message, {
+                        icon: 5
+                    });
+                }
+                // 生成 zTree
+                var setting = {
+                    data: {
+                        simpleData: {
+                            enable: true,
+                            idKey: "id",
+                            pIdKey: "parentId",
+                            rootPId: '0'
+                        }
+                    },
+                    view: {
+                        showIcon: false
+                    },
+                    callback: {
+                        onClick: function (event, treeId, treeNode) {
+                            var id = treeNode.id;
+                            // 获取组织机构对应用户
+                            admin.req('/api/sys/org/listUserEOByOrgId', {
+                                orgId: id
+                            }, function (res) {
+                                if (!res.ok) {
+                                    return layer.msg('获取组织机构用户列表失败：' + res.message, {
+                                        icon: 5
+                                    });
+                                }
+
+                                var userHtml = '',
+                                    userData = res.data;
+                                for (var i = 0; i < userData.length; i++) {
+                                    var tmp = userData[i],
+                                        tmpRoles = [];
+                                    // 剔除重复数据
+                                    if (task_personnel_select.checkRepeatData(tmp.usid))
+                                        continue;
+                                    for (var j = 0; j < tmp.roles.length; j++) {
+                                        tmpRoles.push(tmp.roles[j].name);
+                                    }
+                                    userHtml +=
+                                        '<tr data-id="' + tmp.usid + '" data-name="' +
+                                        tmp.usname + '"><td>' +
+                                        tmp.usname + '</td><td>' + tmpRoles.join('，') +
+                                        '</td></tr>';
+                                }
+                                $('#select-box-org').html(userHtml);
+
+                                if (userData.length === 0) {
+                                    return layer.msg(treeNode.name + ' 无用户', {
+                                        icon: 0
+                                    });
+                                }
+                            });
+                        }
+                    }
+                };
+                var zNodes = d.data;
+                zTreeObj = $.fn.zTree.init($("#select-org"), setting, zNodes);
+            });
+
+            // 初始化用户角色列表
+            admin.req('/api/sys/role', {
+                userId: ''
+            }, function (d) {
+                if (!d.ok) {
+                    return layer.msg('获取用户角色列表失败：' + d.message, {
+                        icon: 5
+                    });
+                }
+                // 生成 zTree
+                var setting = {
+                    data: {
+                        simpleData: {
+                            enable: true,
+                            idKey: "id",
+                            pIdKey: "parentId",
+                            rootPId: '0'
+                        }
+                    },
+                    view: {
+                        showIcon: false
+                    },
+                    callback: {
+                        onClick: function (event, treeId, treeNode) {
+                            var name = treeNode.name;
+                            // 获取用户角色对应用户
+                            admin.req('/api/sys/user', {
+                                pageNo: 1,
+                                pageSize: 10000,
+                                roleName: name
+                            }, function (res) {
+                                if (!res.ok) {
+                                    return layer.msg('获取用户角色用户列表失败：' + res.message, {
+                                        icon: 5
+                                    });
+                                }
+
+                                var userHtml = '',
+                                    userData = res.data.list;
+                                for (var i = 0; i < userData.length; i++) {
+                                    var tmp = userData[i],
+                                        tmpOrgs = [];
+                                    // 剔除重复数据
+                                    if (task_personnel_select.checkRepeatData(tmp.usid))
+                                        continue;
+                                    for (var j = 0; j < tmp.orgs.length; j++) {
+                                        tmpOrgs.push(tmp.orgs[j].name);
+                                    }
+                                    userHtml +=
+                                        '<tr data-id="' + tmp.usid + '" data-name="' +
+                                        tmp.usname + '"><td>' +
+                                        tmp.usname + '</td><td>' + tmpOrgs.join('，') +
+                                        '</td></tr>';
+                                }
+                                $('#select-box-role').html(userHtml);
+
+                                if (userData.length === 0) {
+                                    return layer.msg(treeNode.name + ' 无用户', {
+                                        icon: 0
+                                    });
+                                }
+                            });
+                        }
+                    }
+                };
+                var zNodes = d.data.map(function (item) {
+                    return {
+                        id: item.rid,
+                        name: item.rname,
+                        pid: '0'
+                    };
+                });
+                zTreeObj = $.fn.zTree.init($("#select-role"), setting, zNodes);
+            });
+
+            // 初始化已选框列表
+            (function () {
+                var selectedDatas = task_personnel_select.selectedData,
+                    selectedHtml = '';
+                for (var i = 0; i < selectedDatas.length; i++) {
+                    var tmp = selectedDatas[i];
+                    selectedHtml += '<tr data-id="' + tmp.id + '" data-name="' + tmp.name + '"><td>' +
+                        tmp.name + '</td></tr>';
+                }
+                $('#selectd-box-selected').append(selectedHtml);
+            })();
+
+            // 待选框点击事件 事件代理
+            $('.person-select-box-b').on('click', function (e) {
+                var elem = $(e.target);
+                if (elem[0].nodeName.toLowerCase() !== 'td') return;
+                var targetElem = $(e.target).parent();
+
+                if (targetElem.hasClass('person-selected-tobe')) {
+                    targetElem.removeClass('person-selected-tobe');
+                } else {
+                    targetElem.addClass('person-selected-tobe');
+                }
+            });
+            // 已选框点击事件 事件代理
+            $('#selectd-box-selected').on('click', function (e) {
+                var elem = $(e.target);
+                if (elem[0].nodeName.toLowerCase() !== 'td') return;
+                var targetElem = $(e.target).parent();
+
+                if (targetElem.hasClass('person-selected-del')) {
+                    targetElem.removeClass('person-selected-del');
+                } else {
+                    targetElem.addClass('person-selected-del');
+                }
+            });
+
+            // 方向选择按钮事件
+            // 向右选中
+            $('.layui-icon-right').on('click', function () {
+                var selectedElems = $('.person-selected-tobe'),
+                    selectedDatas = [];
+                for (var i = 0; i < selectedElems.length; i++) {
+                    var tmpElem = $(selectedElems[i]);
+                    selectedDatas.push(tmpElem.data());
+                    tmpElem.remove();
+                }
+
+                var selectedHtml = '';
+                for (var i = 0; i < selectedDatas.length; i++) {
+                    var tmp = selectedDatas[i];
+                    task_personnel_select.addData(tmp);
+                    selectedHtml += '<tr data-id="' + tmp.id + '" data-name="' + tmp.name + '"><td>' +
+                        tmp.name + '</td></tr>';
+                }
+                $('#selectd-box-selected').append(selectedHtml);
+            });
+            // 向左删除
+            $('.layui-icon-left').on('click', function () {
+                var selectedElems = $('.person-selected-del');
+                for (var i = 0; i < selectedElems.length; i++) {
+                    var tmpElem = $(selectedElems[i]);
+                    task_personnel_select.removeData(tmpElem.data());
+                    tmpElem.remove();
+                }
+
+                // TODO: 删除后，应该将删除的行添加到左面的待选框
+                // 有时间再实现
+            });
+        });
+
+        // TODO: 移动端适配
+    </script>
+</body>
+
+</html>

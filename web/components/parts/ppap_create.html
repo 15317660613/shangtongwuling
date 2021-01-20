@@ -1,0 +1,1808 @@
+<!--
+File   : ppap_create.html
+Created: Sunday September 30th 2018 1:00:29 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Thursday November 1st 2018 10:31:46 am
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: PPAP创建
+-----
+HISTORY:
+-->
+<style>
+.layui-breadcrumb{
+    display: none !important;
+}
+    .select-inline {
+        width: 150px;
+    }
+
+    .layui-form-label {
+        width: 120px;
+    }
+
+    .layui-input-block {
+        margin-left: 150px;
+    }
+
+    .jichufrom .layui-form-label {
+        width: 90px;
+    }
+
+    .jichufrom .layui-input-block {
+        margin-left: 120px;
+    }
+
+    /*.layui-form-item{*/
+    /*margin-bottom: 0px !important;*/
+    /*}*/
+
+    .layui-inline {
+        margin-top: 7.5px;
+        margin-bottom: 7.5px;
+    }
+
+    .in-cell {
+        height: 60px;
+        width: calc(100% + 30px);
+        margin-left: -15px;
+        margin-top: -5px;
+        margin-bottom: -5px;
+        padding: 10px 0px;
+        border-bottom: solid 1px #e6e6e6;
+    }
+
+    .errInfo {
+        border-color: #f59898;
+    }
+
+    .input-style {
+        height: 32px;
+        background: rgba(244, 251, 255, 1);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding-left: 10px;
+    }
+
+    .input-style-small {
+        width: 168px;
+        height: 32px;
+        background: rgba(244, 251, 255, 1);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding-left: 10px;
+    }
+
+    .input-style-big {
+        width: 218px;
+        height: 32px;
+        background: rgba(244, 251, 255, 1);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding-left: 10px;
+    }
+
+    .btn-save {
+        width: 81px;
+        height: 27px;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 2px;
+        border: 1px solid rgba(39, 169, 247, 1);
+        color: rgba(39, 169, 247, 1);
+    }
+
+    .btn-save:hover {
+        color: rgba(39, 169, 247, 1) !important;
+    }
+
+    .btn-submit {
+        width: 81px;
+        height: 27px;
+        background: rgba(39, 169, 247, 1);
+        border-radius: 2px;
+        color: rgba(255, 255, 255, 1);
+    }
+
+    .title-style {
+        width: 390px;
+        height: 29px;
+        font-size: 22px;
+        font-family: PingFangSC-Semibold;
+        font-weight: 600;
+        color: rgba(51, 51, 51, 1);
+        line-height: 30px;
+        margin: 0 auto;
+    }
+
+    .title-red {
+        color: red;
+    }
+
+    .handout-role {
+        float: left;
+        width: 120px;
+        margin-right: 10px;
+        background: rgba(244, 251, 255, 1);
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        text-align: center;
+        height: 32px;
+        line-height: 29px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .icon-input {
+        width: 78px;
+        border-radius: 3px;
+        border: none;
+        background: none;
+        float: right;
+        height: 32px;
+        line-height: 29px;
+    }
+</style>
+<div class="layui-row layui-col-space15" id="ppap_create">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12" style="background-color: white;height: 89px">
+        <div class="layui-col-md4" style="padding-top: 19px">
+            <a style="width: 56px;height: 56px;">
+                <img src="../../assets/images/left_logo.png" alt="../../assets/images/left_logo.png">
+            </a>
+            <a style="width: 56px;height: 56px;">
+                <img src="../../assets/images/left_copy.png" alt="../../assets/images/left_copy.png">
+            </a>
+        </div>
+        <div class="layui-col-md4" style="text-align: center;padding-top: 30px">
+            <!-- 马 2019年3月10日 12点37分 32338 【客户提出问题】PPAP流程-提交/审核页面，标题有误且未增加CT分组【第三方来实现】 【15712】 -->
+            <p class="title-style">试生产与PPAP文件提交通知单</p>
+            <!--<p class="title-style">生产件批准单（PPAP）</p>-->
+            <!-- 马 2019年3月10日 12点37分 bug 修复结束 -->
+        </div>
+        <div class="layui-col-md4" style="text-align: right;padding-top: 30px">
+            <p>表单编号：<span id="taskordernumber" hidden></span> <span id="taskordernumberDisplay"></span></p>
+            <p style="position: relative;top: 5px;">状态：<span style="color:#FF8C85;">SQE待发布</span></p>
+        </div>
+    </div>
+    <!--基础信息-->
+    <div class="layui-col-md12 z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote"
+                            style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">
+                    基础信息
+                </blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px" onclick="shouqi(this)"><img src="../../assets/images/arrowup.png"
+                                                                             alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px" onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png"
+                                                                              alt="../../assets/images/arrowdown.png"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <!--输入框-->
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px">
+                <div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">SQE:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="jc_sqe" readonly autocomplete="off" class="input-style">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">SQ业务科室:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="jc_sqyewukeshi" readonly autocomplete="off" class="input-style">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">创建日期:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="jc_createDate" readonly placeholder="请输入标题" autocomplete="off"
+                                   class="input-style">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">PE:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="jc_pe" readonly autocomplete="off" class="input-style">
+                        </div>
+                    </div>
+                    <!--by ma 2019/03/09 注释掉tdc业务科室-->
+                    <!--<div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">TDC业务科室:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="jc_tdc" readonly autocomplete="off" class="input-style">
+                        </div>
+                    </div>-->
+                </div>
+                <!--表格-->
+                <div>
+                    <table class="layui-table" style="text-align: center">
+                        <colgroup>
+
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">项目单编号</th>
+                            <th style="text-align: center">车型/机型</th>
+                            <th style="text-align: center;width: 120px">借用车型/机型</th>
+                            <th style="text-align: center">供应商代码</th>
+                            <th style="text-align: center;width: 200px;">供应商名称</th>
+                            <th style="text-align: center"><span class="title-red">*</span>是否开展PPAP试生产审核</th>
+                            <th style="text-align: center"><span id="jh_time" class="title-red">*</span>计划试生产审核的时间</th>
+                            <th style="text-align: center"><span class="title-red">*</span>PPAP文件提交等级</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="jc_xiangmubiao"></td>
+                            <td id="jc_xiangmuchexing"></td>
+                            <!--杨琴琴 2019-05-08 修改借用车型/机型窄一点-->
+                            <td id="jc_jieyongchexing" style="width: 120px">
+                                <input id="jc_borrow" type="text" class="input-style" style="width: 100px">
+                            </td>
+                            <td id="jc_gysCode"></td>
+                            <td id="jc_gysName"></td>
+                            <td>
+                                <select id="jc_isPPAP" class="input-style" lay-ignore="">
+                                    <option value="1">是</option>
+                                    <option value="2">否</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input id="jc_jihuaDate" type="text" readonly class="input-style layui-input-date">
+                            </td>
+                            <td>
+                                <select id="jc_ppaptijiaodengji" class="input-style" lay-ignore="">
+                                    <option value="1">等级1</option>
+                                    <option value="2">等级2</option>
+                                    <option value="3">等级3</option>
+                                    <option value="4">等级4</option>
+                                    <option value="5">等级5</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>PPAP提交原因:</label>
+                        <div class="layui-input-block">
+                           <!--  <input type="text" style="width: 250px" id="jc_ppaptijiaoyuanyin" placeholder="PPAP提交原因"
+                                   autocomplete="off" class="input-style"> -->
+                            <select id="jc_ppaptijiaoyuanyin" class="input-style" lay-search="">
+                                 <option value="首次提交">首次提交</option>
+                                 <option value="工程更改">工程更改</option>
+                                 <option value="工装：转移、更换、整修或添加">工装：转移、更换、整修或添加</option>
+                                 <option value="偏差校正">偏差校正</option>
+                                 <option value="工装停止试用期超过一年">工装停止试用期超过一年</option>
+                                 <option value="分供方更改">分供方更改</option>
+                                 <option value="工艺过程更改">工艺过程更改</option>
+                                 <option value="其它">其它</option>
+                             </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">说明:</label>
+                        <div class="layui-input-block">
+                            <input type="text" style="width: 250px" id="jc_shuoming" placeholder="请输入说明"
+                                   autocomplete="off" class="input-style">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <!--零件批准状态-->
+    <div class="layui-col-md12 z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote"
+                            style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">
+                    零件批准状态
+                </blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px" onclick="shouqi(this)"><img src="../../assets/images/arrowup.png"
+                                                                             alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px" onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png"
+                                                                              alt="../../assets/images/arrowdown.png"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px;padding-bottom: 10px">
+                <!--表格-->
+                <div>
+                    <table class="layui-table" style="text-align: center">
+                        <colgroup>
+                            <col width="70">
+                            <col width="200">
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col width="150">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">序号</th>
+                            <th style="text-align: center">来源</th>
+                            <th style="text-align: center">最新零件号</th>
+                            <th style="text-align: center">零件名称</th>
+                            <th style="text-align: center">旧零件号</th>
+                            <th style="text-align: center" width="120px">最新EWO</th>
+                            <th style="text-align: center">备注</th>
+                        </tr>
+                        </thead>
+                        <tbody id="partsStatusTbody">
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <!--PPAP文件要求提交列表-->
+    <div class="layui-col-md12 z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote"
+                            style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">
+                    PPAP文件要求提交列表
+                </blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px" onclick="shouqi(this)"><img src="../../assets/images/arrowup.png"
+                                                                             alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px" onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png"
+                                                                              alt="../../assets/images/arrowdown.png"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;说明：S=如有须向顾客提交，并在适当的场所保留一份记录或文件的副本；R=须在适当的场所保存，并应在有要求时向顾客提交；</p>
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px;padding-bottom: 10px">
+                <!--表格-->
+                <div>
+                    <table id="ppapFile" lay-filter="ppapFile"></table>
+                    <!--杨琴琴 2019-04-29 修改注信息-->
+                    <!--<p>注：S不能删除、R可以删除并修改，白色显示，*灰色显示，可以修改标识符</p>-->
+
+                    <div style="position: relative;left: calc(100% - 104px)">
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_ppapAdd"
+                                    lay-submit>新建
+                            </button>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_fileUpdate"
+                                    lay-submit>修改
+                            </button>
+                        </div>
+                        <!--杨琴琴  2019-04-24 修改变更174  去掉“删除按钮”-->
+                        <!--<div class="layui-inline">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" lay-filter="btn_fileDelet"
+                                    lay-submit>删除
+                            </button>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--分发与接收-->
+    <div class="layui-col-md12 z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote"
+                            style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">
+                    分发与接收
+                </blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px" onclick="shouqi(this)"><img src="../../assets/images/arrowup.png"
+                                                                             alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px" onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png"
+                                                                              alt="../../assets/images/arrowdown.png"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px;padding-bottom: 10px;">
+                <div style="float: right">
+                    <button class="layui-btn layui-btn-sm " style="background:rgba(1,209,201,1);"
+                            lay-filter="btn_fenfaAdd" lay-submit>新建
+                    </button>
+
+                    <button class="layui-btn layui-btn-sm " style="background:rgba(255,140,133,1);"
+                            lay-filter="btn_fenfaDelete"
+                            lay-submit>删除
+                    </button>
+                </div>
+                <div style="height: 40px"></div>
+                <div id="fenfajieshou" style="height: 200px;overflow: auto">
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="layui-col-md4">
+        &nbsp;
+    </div>
+    <div class="layui-col-md4" style="text-align: center">
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-sm"
+                    style="width:81px;height:27px;background:rgba(255,255,255,1);border-radius:2px;border:1px solid rgba(202,202,202,1);color:rgba(148,148,148,1);"
+                    lay-filter="btn_Reset"
+                    lay-submit>重置
+            </button>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-sm btn-save" lay-filter="btn_Save"
+                    lay-submit>保存
+            </button>
+        </div>
+        <div class="layui-inline">
+            <button class="layui-btn layui-btn-sm btn-submit" lay-filter="btn_Sumbit"
+                    lay-submit>提交
+            </button>
+        </div>
+        <!--马 2019-3-10 15:14 bug修复 添加返回按钮 【15785】-->
+        <!--<div class="layui-inline">
+            <button onclick="javascript:history.back(-1);" class="layui-btn layui-btn-sm btn-save"
+                    lay-submit>返回
+            </button>
+        </div>-->
+        <!--马 2019-3-10 15:14 bug修复结束-->
+
+    </div>
+    <div class="layui-col-md4">
+        &nbsp;
+    </div>
+</div>
+
+</div>
+
+<!-- 表单辅助方法，用于启动表单时的权限控制和数据获取与提交 -->
+<script src="../../assets/js/ADCFormDesignHelper.js"></script>
+
+<script>
+    //零件库list
+    let param = window.location.hash;//路径参数---declared by qitian 20181216
+    if (param.indexOf('?') === -1) {
+        window.history.go(-1);
+    }
+    param = param.split('?')[1];
+    
+    var JUMP_ORIGIN = param.split('&')[1];
+    param = param.split('&')[0];
+    // var param ='49'
+    var gmEmail = '';
+    var supplierCode = '';
+    var companyCodeNew='';
+    var supplierUserId = '';
+
+    var Subresponsiblepe;
+    var Subtdcchiefengineer;
+    var Subsuppliername;
+
+    var NODE_ROLE = "";
+    var confirmLayer;
+    // 初始化 layui
+    var table, form, config, laydate, admin;
+    layui.use(['table', 'laydate', 'adc'], function () {
+        table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            laydate = layui.laydate;
+        //by ma 2019/03/11
+        admin.activeNav(sessionStorage.getItem('menuUrl'));
+        //监听事件
+        $("#jc_isPPAP").change(function () {
+            var jc_isPPAP = $(this).val();
+            if (jc_isPPAP == '1') {
+                $("#jh_time").show();
+                $('#jc_jihuaDate').removeAttr("disabled")
+            } else {
+                $('#jc_jihuaDate').val("");
+                $('#jc_jihuaDate').attr("disabled", "disabled")
+                $("#jh_time").hide();
+            }
+        })
+        ppapQuery();
+
+        //ppap查询
+        function ppapQuery() {
+            $.ajax({
+                url: admin.formatUrl('/api/ppap/taskorder/queryTaskOrderPPAP'),
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    taskorderkey: param
+                },
+                success: function (data) {
+                    if (data.respCode != -1 && data.data) {
+                        data = admin.redefinedForObject(data.data);
+                        console.log(data)
+                        Subresponsiblepe = data.taskorderPPAPBasicInfo.partslibraryEO.responsiblepe;
+                        Subtdcchiefengineer = data.taskorderPPAPBasicInfo.tdcchiefengineer;
+                        Subsuppliername = data.taskorderPPAPBasicInfo.partslibraryEO.suppliername;
+                        //基础信息
+                        $('#taskordernumber').html(data.taskorderPPAPBasicInfo.taskordernumber)
+                        $('#taskordernumberDisplay').html(data.taskorderPPAPBasicInfo.taskordernumber + "-TZ")
+                        $('#jc_sqe').val(data.taskorderPPAPBasicInfo.partslibraryEO.sqe);
+                        switch (parseInt(data.taskorderEO.currentstatus)) {
+                            case 1:
+                                NODE_ROLE = 'SQE工程师1';
+                                break;
+                            case 2:
+                                NODE_ROLE = '供应商';
+                                break;
+                            case 3:
+                                NODE_ROLE = 'SQE工程师2';
+                                break;
+                            case 4:
+                                NODE_ROLE = 'SQE主管';
+                                break;
+                            case 5:
+                                NODE_ROLE = 'SQE经理';
+                                break;
+                            case 6:
+                                NODE_ROLE = 'SQE总监';
+                                break;
+                        }
+                        $('#jc_sqe').val(data.taskorderPPAPBasicInfo.currentUserName);
+                        $('#jc_sqyewukeshi').val(data.taskorderPPAPBasicInfo.sqoffice);
+                        $('#jc_createDate').val(new Date(data.taskorderPPAPBasicInfo.submitdate).Format('yyyy-MM-dd'));
+                        $('#jc_pe').val(data.taskorderPPAPBasicInfo.partslibraryEO.responsiblepe);
+                        selectPEName(data.taskorderPPAPBasicInfo.partslibraryEO.responsiblepe);
+//                        by ma 2019/03/09 注释掉tdc
+//                        $('#jc_tdc').val(data.taskorderPPAPBasicInfo.tdcchiefengineer);
+                        $('#jc_xiangmubiao').text(data.taskorderPPAPBasicInfo.partslibraryEO.itemtrackingnum);
+                        $('#jc_xiangmuchexing').text(data.taskorderPPAPBasicInfo.partslibraryEO.projectmodel);
+                        $('#jc_borrow').val(data.taskorderPPAPBasicInfo.partslibraryEO.borrow);
+                        $('#jc_gysCode').text(data.taskorderPPAPBasicInfo.partslibraryEO.suppliernum);
+                        $('#jc_gysName').text(data.taskorderPPAPBasicInfo.partslibraryEO.suppliername);
+//                        $('#jc_isPPAP').val(data.taskorderPPAPBasicInfo.partslibraryEO.isopentrialproductionaudit);
+                        /*杨琴琴 2019-04-26 是否开展PPAP试生产审核为否的时候计划试生产审核的时间不必填 时间框变成不可操作*/
+                        var jc_isPPAP_value = data.taskorderPPAPBasicInfo.partslibraryEO.isopentrialproductionaudit;
+                        $('#jc_isPPAP').val(jc_isPPAP_value);
+                        if (jc_isPPAP_value == '1') {
+                            $("#jh_time").show();
+                            $('#jc_jihuaDate').removeAttr("disabled")
+                        } else {
+                            $('#jc_jihuaDate').val("");
+                            $('#jc_jihuaDate').attr("disabled", "disabled")
+                            $("#jh_time").hide();
+                        }
+                        if (data.taskorderPPAPBasicInfo.partslibraryEO.pilotproductiontime != '' && data.taskorderPPAPBasicInfo.partslibraryEO.pilotproductiontime != null) {
+                            $('#jc_jihuaDate').val(new Date(data.taskorderPPAPBasicInfo.partslibraryEO.pilotproductiontime).Format('yyyy-MM-dd'));
+                        }
+                        console.log(data.taskorderPPAPBasicInfo.partslibraryEO.filesubmissionleveltime)
+                        $('#jc_ppaptijiaodengji').val(data.taskorderPPAPBasicInfo.partslibraryEO.filesubmissionleveltime);
+                        $('#jc_ppaptijiaoyuanyin').val(data.taskorderEO.ppapsubmitreason);
+                        $('#jc_shuoming').val(data.taskorderEO.description);
+                        queryUserInfo();
+                        //零件批准状态
+                        var strHtml = '';
+                        $('#partsStatusTbody').empty();
+                        /*if (data.roleName == 'SQE') {*/
+
+                        for (var i = 0; i < data.taskpartsEOS.length; i++) {
+                            strHtml += '<tr>\n' +
+                                '                            <td>' + (i + 1) + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].source + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].latestpartnum + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].partsname + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].initialpartnum + '</td>\n';
+                            if (config.getAccount().roleName.indexOf("SQE工程师") != -1) {
+                                <!--杨琴琴  2019-05-25 ewo显示值并且可编辑-->
+                                strHtml += ' <td><input type="text" id="latestewo_' + data.taskpartsEOS[i].taskpartskey + '" value="' + data.taskpartsEOS[i].latestewo + '" class="input-style latestewo"></td>\n'
+
+                            } else {
+                                strHtml += '<td>'+ data.taskpartsEOS[i].latestewo + '</td>\n';
+                            }
+                            /*'                          <td>' + data.partslibraryEOS[i].latestewo + '</td>\n' +*/
+                            /*5.10改变EWO可编辑状态--南辰星*/
+                            strHtml += ' <td><input type="text" id="note_' + data.taskpartsEOS[i].taskpartskey + '" value="' + data.taskpartsEOS[i].remark + '" class="input-style ora"></td>\n' +
+                                '                        </tr>';
+
+                        }
+                        $('#partsStatusTbody').append(strHtml);
+                        //PPAP文件要求提交列表
+                        queryFile(data.submitfiletemplateEOS);
+                        //分发与接收
+                        $('#fenfajieshou').empty();
+                        var strHtml = '';
+                        for (var i = 0; i < data.taskdistributeEOS.length; i++) {
+                            var id = data.taskdistributeEOS[i].taskdistributekey
+                            var distributetime = data.taskdistributeEOS[i].distributetime;
+                            if (distributetime != '') {
+                                distributetime = new Date(data.taskdistributeEOS[i].distributetime).Format('yyyy-MM-dd');
+                            }
+
+                            strHtml += '<div class="layui-col-md12">\n' +
+                                '                   <div class="layui-col-md1">\n' +
+                                '                         <input style="margin-left: 64%;margin-top: 10px" type="checkbox" value="' + id + '" lay-skin="primary"> ' +
+                                '                    </div>\n' +
+                                '                    <div class="layui-col-md3">\n' +
+                                '                        <div class="layui-form-item">\n' +
+                                '                            <div class="handout-role"><i class="layui-icon layui-icon-username"></i><input type="text" maxlength="10" style="width: 75px" id="ff_publisher_' + id + '" placeholder="职位" class="icon-input input-style ff" value="' + data.taskdistributeEOS[i].publisher + '"></div>\n' +
+                                '                            <div class="layui-input-block">\n' +
+                                '                                <input type="text" name="title" id="ff_name_' + id + '"  value="' + data.taskdistributeEOS[i].name + '" placeholder="请输入姓名" autocomplete="off" class="input-style-small ff">\n' +
+                                '                            </div>\n' +
+                                '                        </div>\n' +
+                                '                    </div>\n' +
+                                '                    <div class="layui-col-md4">\n' +
+                                '                        <div class="layui-form-item ">\n' +
+                                '                            <label class="layui-form-label">邮箱:</label>\n' +
+                                '                            <div class="layui-input-block">\n' +
+                                '                                <input type="text" name="email" id="ff_email_' + id + '"   value="' + data.taskdistributeEOS[i].email + '" placeholder="请输入邮箱" autocomplete="off" class="input-style-big ff">\n' +
+                                '                            </div>\n' +
+                                '                        </div>\n' +
+                                '                    </div>\n' +
+                                '                    <div class="layui-col-md4">\n' +
+                                '                        <div class="layui-form-item ">\n' +
+                                '                            <label class="layui-form-label" style="width: 100px">分发日期:</label>\n' +
+                                '                            <div class="layui-input-block" style="margin-left: 130px">\n' +
+                                '                                <input type="text" name="fenfaDate" id="ff_distributetime_' + id + '" readonly value="' + distributetime + '" autocomplete="off" class="input-style-small ff">\n' +
+                                '                            </div>\n' +
+                                '                        </div>\n' +
+                                '                    </div>' +
+                                '            </div>'
+
+                        }
+
+                        $('#fenfajieshou').append(strHtml);
+
+                        $("#fenfajieshou .ff").change(function () {
+                            var dataAll = {};
+                            var id = $(this).attr('id');
+                            var key = id.split('_')[1]
+                            var taskdistributekey = id.split('_')[2];
+                            var name = $(this).val();
+                            if (key == 'email') {
+                                var myreg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-_.])+[A-Za-z\d]{2,4}$/;
+                                if (name != undefined && name != '' && !myreg.test(name)) {
+                                    tes.alert('请输入正确的邮箱', {
+                                        icon: 5
+                                    });
+                                    return false;
+                                }
+
+                            }
+
+                            dataAll[key] = name;
+                            dataAll.taskdistributekey = taskdistributekey;
+                            dataAll.taskorderkey = param
+                            fenfaUpdate(dataAll, this);
+                        });
+
+                        $(".layui-input-date").each(function (index, item) {
+                            laydate.render({
+                                elem: this
+                                , format: 'yyyy-MM-dd'
+                            });
+                        })
+                        //by ma 2019/03/10 修改bug15645 点击保存，文件提价列表未查询到之前保存的内容
+                        //回显等级查询文件
+//                        debugger
+//                        var Hfilesubmissionleveltime =data.taskorderPPAPBasicInfo.partslibraryEO.filesubmissionleveltime;
+//                        if(Hfilesubmissionleveltime !=''){
+//                            queryFileBydengji(Hfilesubmissionleveltime);
+//                        }
+                    }
+                }
+            });
+        }
+
+
+        //根据SQE主键查SQE名称
+        function selectSQEName(sqeName) {
+            var data = {
+                userId: sqeName
+            }
+            $.ajax({
+                type: 'GET',
+                url: admin.formatUrl('/api/sys/hpm05user'),
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    //获取userId
+                    if (data.respCode != -1) {
+                        $('#jc_sqe').val(data.data[0].userName);
+                    }
+                }
+            });
+        }
+
+        //根据PE主键查PE名称
+        /*yangqinqin  2019-05-26 如果PE为空显示空   PE不为空，根据PE  ID查询PE名称*/
+        function selectPEName(peName) {
+            if (peName == null || peName == '' || peName == 'undefined') {
+                $('#jc_pe').val('');
+            } else {
+                var data = {
+                    userId: peName
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: admin.formatUrl('/api/sys/hpm05user'),
+                    data: data,
+                    dataType: "json",
+                    success: function (data1) {
+                        //获取userId
+                        if (data1.respCode != -1) {
+                            console.log("data1.data[0].userName",data1.data[0].userName)
+                            $('#jc_pe').val(data1.data[0].userName);
+                        }
+                    }
+                });
+            }
+        }
+
+        //获取用户信息
+        function queryUserInfo() {
+            $.ajax({
+                url: admin.formatUrl('/api/ppap/edum05user/getSupplierIdByCode'),
+                method: "GET",
+                async: false,
+                dataType: 'json',
+                data: {companycode: $('#jc_gysCode').text()},
+                success: function (data) {
+                    if (data.data != null) {
+                        supplierUserId = data.data.userid;
+                        companyCodeNew = data.data.companycode;
+                    }
+                }
+            })
+
+        }
+
+        /**
+         * 等级监听事件
+         *
+         * */
+        $('#jc_ppaptijiaodengji').change(function () {
+            var dengji = $(this).val();
+            queryFileBydengji(dengji);
+        })
+
+
+        /**
+         * 根据等级查询文件
+         */
+        function queryFileBydengji(dengji) {
+            table.render({
+                elem: '#ppapFile',
+                method: 'post',
+                where: {taskOrderKey: param, submitRank: dengji}
+                , height: 312
+                , url: admin.formatUrl('/api/ppap/submitfiletemplate/queryByFileidentifier'),
+                // 格式化后台返回的数据
+                parseData: function (res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.length, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
+                // ,limit:data.length
+                , page: false //开启分页
+                , cols: [[ //表头
+                    {type: 'checkbox', width: 80}
+                    , {type: 'numbers', title: '序号', width: 80}
+                    , {
+                        field: 'fileidentifier', title: '文件标识', width: 120, align: 'center', templet: function (d) {
+                            var style = "";
+                            if (d.fileidentifier == "*") {
+                                style = " style='background-color: #ccc'";
+                            }
+                            return '<div ' + style + '>' + d.fileidentifier + '</div>';
+                        }
+                    }
+                    , {field: 'filename', title: '文件名'}
+                ]]
+            });
+
+        }
+
+
+        /**
+         * 新增文件后刷新表格
+         */
+        function queryFileender() {
+            table.render({
+                elem: '#ppapFile',
+                method: 'post',
+                where: {"integer": param},
+                contentType: 'application/json'
+                , height: 312
+                , url: admin.formatUrl('/api/ppap/submitfiletemplate/queryByTaskorderKey'),
+                // 格式化后台返回的数据
+                parseData: function (res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.length, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
+                // ,limit:data.length
+                , page: false //开启分页
+                , cols: [[ //表头
+                    {type: 'checkbox', width: 80, sort: true, fixed: 'left'}
+                    , {type: 'numbers', title: '序号', width: 80}
+                    , {
+                        field: 'fileidentifier', title: '文件标识', width: 120, align: 'center', templet: function (d) {
+                            var style = "";
+                            if (d.fileidentifier == "*") {
+                                style = " style='background-color: #ccc'";
+                            }
+                            return '<div ' + style + '>' + d.fileidentifier + '</div>';
+                        }
+                    }
+                    , {field: 'filename', title: '文件名'}
+                ]], done: function (res, page, count) {
+                    /*杨琴琴 2019-04-30  保存默认选中*/
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (res.data[i].checked) {
+                            //可以自行添加判断的条件是否选中
+                            res.data[i]["LAY_CHECKED"] = 'true';
+                            //这句才是真正选中，通过设置关键字LAY_CHECKED为true选中，这里只对第一行选中
+                            var index = res.data[i]['LAY_TABLE_INDEX'];
+                            //下面三句是通过更改css来实现选中的效果
+                            $('tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                            $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                        }
+                    }
+                }
+            });
+
+        }
+
+        /**
+         * 分发修改
+         */
+        function fenfaUpdate(data, th) {
+            admin.req('/api/ppap/taskdistribute/taskdistributeUpdate', data, function (data) {
+                if (data.message == "保存成功") {
+
+                } else {
+                    // 如果出现错误清空input
+                    $(th).val("");
+                    tes.alert('' + data.message, {
+                        icon: 5
+                    });
+                }
+
+            }, {
+                method: 'POST'
+            });
+
+        }
+
+        /**
+         * 分发新增
+         */
+        form.on('submit(btn_fenfaAdd)', function () {
+            //添加验证，input 为空不能进行新增
+            for (var i = 0; i < $('.ff').length; i++) {
+                if ($('.ff').eq(i).attr('name') != 'fenfaDate') {
+                    var value = $('.ff').eq(i).val();
+                    if (value == '') {
+                        tes.alert('请完善分发数据！', {icon: 5});
+                        return;
+                    }
+                }
+            }
+            var data = {
+                taskorderkey: param
+            }
+            admin.req('/api/ppap/taskdistribute/taskdistributeInsert', data, function (data) {
+                fenfaQuery();
+                // tes.alert('' + data.message, {
+                //     icon: 1
+                // });
+
+            }, {
+                method: 'POST'
+            });
+        });
+
+        /**
+         * 分发查询
+         */
+        function fenfaQuery() {
+            var dataAll = {
+                taskorderkey: param
+            }
+            admin.req('/api/ppap/taskdistribute', dataAll, function (data) {
+                data = admin.redefinedForObject(data);
+                //分发与接收
+                $('#fenfajieshou').empty();
+                var strHtml = '';
+                for (var i = 0; i < data.data.length; i++) {
+                    var id = data.data[i].taskdistributekey;
+                    var distributetime = data.data[i].distributetime;
+                    if (distributetime != '') {
+                        distributetime = new Date(data.data[i].distributetime).Format('yyyy-MM-dd');
+                    }
+                    strHtml += '<div class="layui-col-md12">\n' +
+                        '                   <div class="layui-col-md1">\n' +
+                        '                         <input style="margin-left: 64%;margin-top: 10px" type="checkbox" value="' + id + '" lay-skin="primary"> ' +
+                        '                    </div>\n' +
+                        '                    <div class="layui-col-md3">\n' +
+                        '                        <div class="layui-form-item">\n' +
+                        '                            <label class="layui-form-label" style="padding-top: 0px"><input type="text" id="ff_publisher_' + id + '"  maxlength="10" style="width: 75px" placeholder="职位" class="input-style ff" value="' + data.data[i].publisher + '"></label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="title" id="ff_name_' + id + '"  value="' + data.data[i].name + '" placeholder="请输入姓名" autocomplete="off" class="input-style-small ff">\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="layui-col-md4">\n' +
+                        '                        <div class="layui-form-item ">\n' +
+                        '                            <label class="layui-form-label">邮箱:</label>\n' +
+                        '                            <div class="layui-input-block">\n' +
+                        '                                <input type="text" name="email" id="ff_email_' + id + '"   value="' + data.data[i].email + '" placeholder="请输入邮箱" autocomplete="off" class="input-style-big ff">\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="layui-col-md4">\n' +
+                        '                        <div class="layui-form-item ">\n' +
+                        '                            <label class="layui-form-label" style="width: 100px">分发日期:</label>\n' +
+                        '                            <div class="layui-input-block" style="margin-left: 130px">\n' +
+                        '                                <input type="text" name="fenfaDate" id="ff_distributetime_' + id + '" readonly  value="' + distributetime + '"  autocomplete="off" class="input-style-small ff">\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>' +
+                        '               </div>'
+
+                }
+
+                $('#fenfajieshou').append(strHtml);
+
+                $("#fenfajieshou .ff").change(function () {
+                    var dataAll = {};
+                    var id = $(this).attr('id');
+                    var key = id.split('_')[1]
+                    var taskdistributekey = id.split('_')[2];
+                    var name = $(this).val();
+
+                    if (key == 'email') {
+                        var myreg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-_.])+[A-Za-z\d]{2,4}$/;
+                        if (!myreg.test(name)) {
+                            tes.alert('请输入正确的邮箱', {icon: 5});
+                            return false;
+                        }
+
+                    }
+                    dataAll[key] = name;
+                    dataAll.taskdistributekey = taskdistributekey;
+                    dataAll.taskorderkey = param
+                    fenfaUpdate(dataAll, this);
+                });
+
+
+            }, {
+                method: 'GET'
+            });
+
+        }
+
+        /**
+         * 查询文件table
+         * */
+        function queryFile(data) {
+            tableIns = table.render({
+                elem: '#ppapFile'
+                , height: 312
+                , data: data
+                , limit: data.length
+                , page: false //开启分页
+                , cols: [[ //表头
+                    {type: 'checkbox', width: 80}
+                    , {type: 'numbers', title: '序号', width: 80}
+                    , {
+                        field: 'fileidentifier', title: '文件标识', width: 120, align: 'center', templet: function (d) {
+                            var style = "";
+                            if (d.fileidentifier == "*") {
+                                style = " style='background-color: #ccc'";
+                            }
+                            return '<div ' + style + '>' + d.fileidentifier + '</div>';
+                        }
+                    }
+                    , {field: 'filename', title: '文件名'}
+                ]], done: function (res, page, count) {
+                    /*杨琴琴 2019-04-30  保存默认选中*/
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (res.data[i].checked) {
+                            //可以自行添加判断的条件是否选中
+                            res.data[i]["LAY_CHECKED"] = 'true';
+                            //这句才是真正选中，通过设置关键字LAY_CHECKED为true选中，这里只对第一行选中
+                            var index = res.data[i]['LAY_TABLE_INDEX'];
+                            //下面三句是通过更改css来实现选中的效果
+                            $('tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                            $('tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                        }
+                    }
+                }
+            });
+
+        }
+
+
+        // ppap文件要求提交添加
+        form.on('submit(btn_ppapAdd)', function () {
+            admin.popupCenter({
+                title: '新增文件列表',
+                path: 'components/tpl/ppap_create_file.html',
+                success: function () {
+                    $('.btn2').remove();
+                }
+            });
+        });
+        // ppap文件要求提交取消
+        form.on('submit(fileCancle)', function () {
+            admin.closePopupCenter();
+        });
+
+        /**
+         * 新增文件列表
+         */
+        form.on('submit(fileSave)', function (data) {
+            var fileidentifier = data.field.fileidentifier;
+            if (fileidentifier == '') {
+                tes.alert("请选择文件标识", {icon: 5});
+                return;
+            }
+            var filename = data.field.filename;
+            data = {
+                fileidentifier: fileidentifier,
+                filename: filename,
+                taskorderkey: param
+            }
+            admin.req('/api/ppap/submitfiletemplate/createSubmitfiletemplate', data, function (data) {
+//                queryFileender();
+                admin.closePopupCenter();
+                /* if (data.ok) {
+                     tes.alert('新增成功！', {
+                         icon: 1
+                     });
+                 } else {
+                     tes.alert('新增失败：' + data.message, {
+                         icon: 5
+                     });
+                 }*/
+                tes.alert('' + data.message, {
+                    icon: 1
+                });
+                queryFileender();
+
+                // admin.finishPopupCenter();
+            }, {
+                method: 'POST'
+            });
+        });
+
+
+        /**
+         * 删除文件
+         */
+        /*杨琴琴 2019-04-24 修改变更174 去掉PPAP文件要求提交列表的删除按钮*/
+        /*form.on('submit(btn_fileDelet)', function () {
+            var list = layui.table.checkStatus('ppapFile').data;
+            if (list.length == 0) {
+                tes.alert('请选择文件', {
+                    icon: 5
+                });
+                return
+            }
+            var integerList = [];
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].infosources == '1') {
+                    if (list[i].fileidentifier == 'S' || list[i].fileidentifier == 's') {
+                        tes.alert('包含文件状态为：S不可删除文件，请重新选择', {
+                            icon: 5
+                        });
+                        return;
+                    }
+                }
+                integerList.push(list[i].filekey)
+            }
+            data = {
+                integerList: integerList,
+            }
+            admin.req('/api/ppap/submitfiletemplate/delSubmitfiletemplate', data, function (data) {
+                if (data.ok) {
+                    queryFileender();
+                    tes.alert('删除成功！', {
+                        icon: 1
+                    });
+                } else {
+                    tes.alert('删除失败：' + data.message, {
+                        icon: 5
+                    });
+                }
+            }, {
+                method: 'POST'
+            });
+        });*/
+        /**
+         * 编辑文件模态框
+         */
+        form.on('submit(btn_fileUpdate)', function () {
+            var list = layui.table.checkStatus('ppapFile').data;
+
+            if (list.length == 0) {
+                tes.alert('请选择文件', {
+                    icon: 5
+                });
+                return
+            } else if (list.length != 1) {
+                tes.alert('只能编辑一个文件', {
+                    icon: 5
+                });
+                return
+            }
+
+            // if(list[0].infosources == '1'){
+            //     if(list[0].fileidentifier == 'S'|| list[0].fileidentifier == 'R'){
+            //         tes.alert('等级提交文件不能修改，请重新选择', {
+            //             icon: 5
+            //         });
+            //         return;
+            //     }
+            // }
+
+            admin.popupCenter({
+                title: '修改文件',
+                path: 'components/tpl/ppap_create_file.html',
+                success: function () {
+                    $('#fileidentifier').val(list[0].fileidentifier);
+                    form.render('select', 'fileidentifier');
+                    $('#filename').val(list[0].filename);
+                    $('#filekey').val(list[0].filekey);
+                    $('.btn1').remove();
+                }
+
+            });
+        });
+
+
+        /**
+         * 编辑文件
+         */
+        form.on('submit(fileUpdate)', function () {
+            if ($('#fileidentifier').val() == '') {
+                tes.alert("请选择文件标识", {icon: 5});
+                return;
+            }
+            data = {
+                fileidentifier: $('#fileidentifier').val(),
+                filename: $('#filename').val(),
+                filekey: $('#filekey').val()
+            }
+            admin.req('/api/ppap/submitfiletemplate/modifySubmitfiletemplate', data, function (data) {
+                if (data.ok) {
+                    queryFileender();
+                    admin.closePopupCenter();
+                    tes.alert('修改成功！', {
+                        icon: 1
+                    });
+                } else {
+                    tes.alert('' + data.message, {
+                        icon: 5
+                    });
+                }
+            }, {
+                method: 'POST'
+            });
+
+        });
+
+
+        /**
+         *
+         *保存
+         */
+        /*杨琴琴 2019-04-24 修改变更174  保存文件时保存选中的文件*/
+        form.on('submit(btn_Save)', function () {
+            var dataAll = {};
+            var partslibraryEOS = [];
+            var taskpartsEOS= [] ; 
+            var saveFileList = [];
+            var noteList = $('.ora').length;
+            for (var i = 0; i < noteList; i++) {
+                var taskpartskey = $('.ora').eq(i).attr('id').split('_');
+                <!--yangqinqin 2019-05-25 保存的时候保存零件最新ewo-->
+                var arr = {remark: $('.ora').eq(i).val(), taskpartskey: taskpartskey[1], latestewo:$('.latestewo').eq(i).val()}
+                taskpartsEOS.push(arr);
+            }
+            /*杨琴琴 2019-04-24 修改变更174 保存时必须选择至少一个文件  文件标识为S的文件必须选择 并且将文件保存*/
+            var checkList = layui.table.checkStatus('ppapFile').data;
+            if (checkList == null || checkList.length == 0) {
+                tes.alert('请选择至少一个文件', {
+                    icon: 5
+                });
+                return
+            }
+            for (var i = 0; i < checkList.length; i++) {
+                saveFileList.push(checkList[i].filekey)
+            }
+            dataAll = {
+            	taskpartsEOS:taskpartsEOS,
+                taskorderkey: param,
+                taskorderPPAPBasicInfo: {
+                    partslibraryEO: {
+                        filesubmissionleveltime: $('#jc_ppaptijiaodengji').val(),
+                        isopentrialproductionaudit: $('#jc_isPPAP').val(),
+                        pilotproductiontime: $('#jc_jihuaDate').val(),
+                        borrow: $('#jc_borrow').val(),
+
+                    }
+                },
+                ppapsubmitreason: $('#jc_ppaptijiaoyuanyin').val(),
+                description: $('#jc_shuoming').val(),
+                userId: config.getAccount().userId,
+                userName: config.getAccount().userName,
+                roleName: config.getAccount().roleName,
+                saveFileList: saveFileList
+            }
+
+
+            admin.req('/api/ppap/taskorder/saveTaskOrderPPAP', dataAll, function (data) {
+                if (data.message == "操作成功") {
+                    tes.alert('保存成功', {icon: 1});
+                } else {
+                    tes.alert('' + data.message, {icon: 5});
+                }
+
+            }, {
+                method: 'POST'
+            });
+
+        });
+
+        /**
+         * 重置
+         */
+        form.on('submit(btn_Reset)', function () {
+            var dataAll = {};
+            dataAll = {
+                taskorderkey: param,
+
+            }
+            admin.req('/api/ppap/taskorder/resetTaskOrderPPAP', dataAll, function (data) {
+                location.reload();
+            }, {
+                method: 'POST'
+            });
+
+        });
+
+
+        /**
+         * 提交
+         */
+        form.on('submit(btn_Sumbit)', function () {
+            //启动流程试验证  通过供应商编号查询供应商id
+            var flag = queryGysIdByCode()
+            if (!flag) {
+                return false;
+            }
+            var jc_isPPAP = $("#jc_isPPAP").val();
+            if (jc_isPPAP == '' || jc_isPPAP == null) {
+                tes.alert('请完善是否开展PPAP试生产审核', {icon: 5});
+                return;
+            }
+            var jc_jihuaDate = $("#jc_jihuaDate").val();
+            if ($("#jc_isPPAP").val() == '1') {
+                if (jc_jihuaDate == '' || jc_jihuaDate == null) {
+                    tes.alert('请完善计划试生产审核的时间', {icon: 5});
+                    return;
+                }
+            }
+
+            var jc_ppaptijiaodengji = $("#jc_ppaptijiaodengji").val();
+            if (jc_ppaptijiaodengji == '' || jc_ppaptijiaodengji == null) {
+                tes.alert('请完善PPAP文件提交等级', {icon: 5});
+                return;
+            }
+            //验证基础信息
+            var jc_ppaptijiaoyuanyin = $('#jc_ppaptijiaoyuanyin').val();
+            var jc_shuoming = $('#jc_shuoming').val();
+            if (jc_ppaptijiaoyuanyin == '' || jc_ppaptijiaoyuanyin == null || jc_ppaptijiaoyuanyin == 'undefined') {
+                tes.alert('请完善PPAP提交原因', {icon: 5});
+                return;
+            }
+            if( jc_shuoming == '' ){
+            	tes.alert('请补充说明', {icon: 5});
+                return;
+            }
+            if (jc_ppaptijiaoyuanyin.length > 500) {
+                tes.alert('PPAP提交原因不能大于500个字节', {icon: 5});
+                return;
+            }
+            // if(jc_shuoming == ''){
+            //     tes.alert('请完善说明',{icon: 5});
+            //     return;
+            //
+            // }
+            if (jc_shuoming.length > 500) {
+                tes.alert('说明不能大于500个字字节', {icon: 5});
+                return;
+            }
+			var taskpartsEOS = [];
+            var noteList = $('.ora').length;
+            for (var i = 0; i < noteList; i++) {
+                var taskpartskey = $('.ora').eq(i).attr('id').split('_');
+                // if($('.ora').eq(i).val() == ""){
+                //     tes.alert('请完善备注！',{icon: 5});
+                //     return;
+                // }
+                <!--yangqinqin  2019-05-25 提交的时候保存最新ewo-->
+                var arr = {remark: $('.ora').eq(i).val(), taskpartskey: taskpartskey[1], latestewo:$('.latestewo').eq(i).val()}
+                taskpartsEOS.push(arr);
+            }
+
+            //验证分发
+            if ($('.ff').length == 0) {
+                tes.alert('请完善分发数据！', {icon: 5});
+                return;
+
+            } else {
+                var flag = false;
+                var j = 0;
+                for (var i = 0; i < $('.ff').length; i++) {
+                    if ($('.ff').eq(i).attr('name') == 'title') {
+                        var value = $('.ff').eq(i).val();
+                        flag = false;
+                        if (value == '' || value == undefined || value == null) {
+                            // tes.alert('请完善分发数据！',{icon: 5});
+                            //   return;
+                            flag = false;
+
+                        } else {
+                            flag = true;
+                        }
+                    }
+                    if ($('.ff').eq(i).attr('name') == 'email') {
+                        var value = $('.ff').eq(i).val();
+
+                        console.log('email' + value);
+                        if (value == '' || value == undefined || value == null) {
+                            console.log(1, flag);
+                            if (flag) {
+                                tes.alert('请输入正确的邮箱', {
+                                    icon: 5
+                                });
+                                return false;
+                            }
+                        } else {
+                            if (!flag) {
+                                tes.alert('请完善分发数据！！', {icon: 5});
+                                return false;
+                            } else {
+                                var myreg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-_.])+[A-Za-z\d]{2,4}$/;
+                                if (!myreg.test(value)) {
+                                    tes.alert('请输入正确的邮箱！', {
+                                        icon: 5
+                                    });
+                                    return false;
+                                }
+                                j++;
+                            }
+
+                        }
+                    }
+                }
+                if (j < 1) {
+                    tes.alert('请完善分发数据!!！', {icon: 5});
+                    return false;
+                }
+            }
+            var saveFileList = [];
+            var checkList = layui.table.checkStatus('ppapFile').data;
+            if (checkList == null || checkList.length == 0) {
+                tes.alert('请选择至少一个文件', {
+                    icon: 5
+                });
+                return
+            }
+            var tips="确认以下文件类型：<br>";
+            for (var i = 0; i < checkList.length; i++) {
+                saveFileList.push(checkList[i].filekey);
+                var num = i+1;
+                tips+=num+":"+checkList[i].filename+"<br>";
+            }
+
+
+            // querygysInfoByName();
+            // queryGysIdByCode()
+            //1.判断角色是否SQE工程师，如果是，获取页面中供应商名称或者编号，根据名称或编号获取供应商主键和邮箱
+            //2. api/sys/hpm09supplier
+            //3.调用启动流程接口
+
+            var dataAll = {};
+
+            dataAll = {
+            	taskpartsEOS: taskpartsEOS,
+                taskorderkey: param,
+                taskorderPPAPBasicInfo: {
+                    partslibraryEO: {
+                        filesubmissionleveltime: $('#jc_ppaptijiaodengji').val(),
+                        isopentrialproductionaudit: $('#jc_isPPAP').val(),
+                        pilotproductiontime: $('#jc_jihuaDate').val(),
+                        borrow: $('#jc_borrow').val(),
+
+                    }
+                },
+                ppapsubmitreason: $('#jc_ppaptijiaoyuanyin').val(),
+                description: $('#jc_shuoming').val(),
+                userId: config.getAccount().userId,
+                userName: config.getAccount().userName,
+                roleName: 'SQE工程师',
+                saveFileList: saveFileList
+            }
+            //防止多次提交，点击后置为disabled
+            $(".btn-submit").attr("disabled", true);
+
+		 confirmLayer = layer.confirm("请再次确认供应商提交文件已勾选正确。", {
+          	  btn: ['确认','取消'], //按钮,
+		 	  closeBtn:0,
+		 	  shade: 0,
+          	}, function(){
+          		 admin.req('/api/ppap/taskorder/submitTaskOrderPPAP', dataAll, function (data) {
+                     if (data.respCode != -1) {
+                         var roleName = config.getAccount().roleName;
+                         var dataNew = {};
+                         if (roleName == 'SQE工程师') {
+                             createProcess();
+                             // queryGysIdByCode();
+
+                         } else {
+                             createProcess();
+                             // queryGysIdByCode();
+                             //差审批流接口
+                             // sendEmailIsYes()
+                         }
+                         // tes.alert('提交成功！',{icon: 1});
+                         // return;
+
+                     } else {
+                         tes.alert('提交失败！', {icon: 5});
+                         return;
+                     }
+
+                 }, {
+                     method: 'POST'
+                 });
+          	}, function(){
+          		$(".btn-submit").removeAttr("disabled");
+          	});
+        });
+
+        /**
+         * 分发删除
+         */
+        form.on('submit(btn_fenfaDelete)', function () {
+            var arr = [];
+            $.each($('#fenfajieshou input:checkbox:checked'), function () {
+                arr.push($(this).val());
+            });
+            if (arr.length == 0) {
+                tes.alert('请选择', {icon: 5});
+                return;
+            }
+            var dataAll = {};
+            dataAll = {
+                integerList: arr
+            }
+            admin.req('/api/ppap/taskdistribute/taskDistributeDelete', dataAll, function (data) {
+                fenfaQuery();
+                tes.alert('' + data.message, {});
+            }, {
+                method: 'POST'
+            });
+
+        });
+
+
+    });
+
+    /**
+     * 启动流程
+     */
+    function createProcess() {
+        var dataAll = {
+            //登录id
+            initiator: config.getAccount().userId,
+            //流程id
+            processDefinitionKey: 'p573d0fd0468748a896db620ae6d9b85d',
+            // variables:config.getAccount.userId；判断角色是否供应商。是传值,
+            businessKey: $('#taskordernumber').html()
+        }
+        var role = config.getAccount().roleName;
+        // if(role == 'SQE工程师'){
+        var variables = [{name: 'supplier', value: companyCodeNew.toString()}];
+        //debugger;
+        dataAll.variables = variables;
+        // }
+
+        admin.req('/api/activiti/repository/startProcess/new', dataAll, function (data) {
+
+            if (data.ok) {
+                /*2019.1.09变更修改*/
+                // subProcessStatus()
+                layer.close(confirmLayer);
+                if(JUMP_ORIGIN=='2'){
+					 location.replace('./index.html#!ADC_mybusiness_businessIndex');
+				}else{
+					 location.replace('./index.html#!ADC_parts_part_wait_mission');
+				}
+            } else {
+                //流程失败调用
+                callbackCurrentStatus();
+                tes.alert('流程启动失败', {icon: 5});
+            }
+
+        }, {
+            method: 'POST',
+            error: function () {
+                //流程接口失败，需要将业务数据中的当前节点重置
+                callbackCurrentStatus();
+            }
+        });
+    }
+
+
+    //2019/1/09/变更
+    /**
+     * 修改提交状态
+     */
+    function subProcessStatus() {
+        var dataAll = {
+            taskorderkey: param,
+        }
+
+
+        /*2019.1.09变更修改*/
+        // var dataAll={
+        //     taskorderkey:param,
+        //     roleName:'SQE工程师',
+        //     approvaltaskEOs:{
+        //         approvalopinion:,
+        //     }
+        //
+        // }
+
+        admin.req('/api/ppap/taskorder/modifyCurrentstatus', dataAll, function (data) {
+            if (data.respCode = "200") {
+                location.replace('./index.html#!ADC_parts_part_wait_mission');
+            } else {
+                tes.alert("提交失败", {icon: 5});
+            }
+
+        }, {
+            method: 'POST'
+        });
+
+    }
+
+
+    /**
+     * 获取页面中供应商名称或者编号，根据名称或编号获取供应商主键和邮箱
+     */
+    function querygysInfoByName() {
+
+        var dataAll = {
+            supplierName: $('#jc_gysName').text(),
+            supplierCode: $('#jc_gysCode').text()
+        }
+        admin.req('api/sys/hpm09supplier', dataAll, function (data) {
+            supplierCode = data.data[0].supplierCode;
+            gmEmail = data.data[0].gmEmail;
+        }, {
+            method: 'GET'
+        });
+
+    }
+
+
+    /**
+     * 通过供应商编号查询供应商id
+     */
+    function queryGysIdByCode() {
+        var dataAll = {companycode: $('#jc_gysCode').text()}
+        // admin.req('/api/ppap/edum05user/getSupplierIdByCode', dataAll, function (data) {
+        //     //updated by qitian 2019-01-12 需要对返回的信息进行判断
+        //     if (data.message.indexOf('暂无数据') == -1 && data.data && data.data.userid) {
+        //         supplierUserId =data.data.userid;
+        //         createProcess();
+        //     } else {
+        //         tes.alert('此供应商没有对应的用户信息',{icon: 5});
+        //
+        //     }
+        //
+        // }, {
+        //     method: 'GET'
+        // });
+        var flag = true;
+        $.ajax({
+            url: admin.formatUrl('/api/ppap/edum05user/getSupplierIdByCode'),
+            method: "GET",
+            async: false,
+            dataType: 'json',
+            data: {companycode: $('#jc_gysCode').text()},
+            success: function (data) {
+                if (data.message.indexOf('暂无数据') == -1 && data.data && data.data.userid) {
+                    supplierUserId = data.data.userid;
+                    companyCodeNew = data.data.companycode;
+                    flag = true;
+                } else {
+                    flag = false;
+                    tes.alert('此供应商没有对应的用户信息', {icon: 5});
+
+                }
+            }
+        })
+        return flag
+
+    }
+
+    //发送下一级
+    function sendEmailIsYes(email) {
+        if (email == '' || email == null || email == undefined) {
+            var email = '243661038@qq.com'
+        }
+        var data =
+            {
+                taskordernumber: $('#taskordernumber').html(),
+                nextLevelEmail: email,  //提交时查询出来的邮箱
+                taskordertype: 2
+            }
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/sendemaillog/sendToNextLevel'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (result) {
+                if (result.respCode != -1) {
+                } else {
+                    tes.alert(result.message, {
+                        icon: 5
+                    });
+                }
+            }
+        })
+    }
+
+    /**
+     * 撤回
+     *
+     * */
+    function callbackCurrentStatus() {
+        var admin = layui.adc;
+        var config = layui.config;
+        admin.req('/api/ppap/taskorder/resetTaskStatus', {
+            taskorderkey: param,
+            rolename: NODE_ROLE,
+            taskordertype: 2
+        }, function (data) {
+            layer.alert('提交失败', {
+                icon: 5
+                , btn: ['关闭']
+            });
+        }, {
+            method: 'POST'
+        });
+    }
+
+    //面板收起
+    function shouqi(th) {
+        $(th).parents('.z-main').find('.zhankai').addClass('layui-hide');
+        $(th).parent().addClass('layui-hide');
+        $(th).parent().siblings('div').removeClass('layui-hide');
+    }
+
+    //面板展开
+    function zhankai(th) {
+        $(th).parents('.z-main').find('.zhankai').removeClass('layui-hide');
+        $(th).parent().addClass('layui-hide');
+        $(th).parent().siblings('div').removeClass('layui-hide');
+    }
+
+    /**
+     * alert关闭按钮
+     * @type {{alert: tes.alert}}
+     */
+    var tes = {
+        alert: function (m, d) {
+            layer.alert(m, {
+                btn: ['关闭'],
+                icon: '' + d.icon + ''
+            })
+        }
+    }
+
+    /**
+     *
+     * input文字超出tip
+     */
+    $("#ppap_create").on('mouseover', 'input[type=text]', function () {
+        var textWidths = textWidth($(this).val());
+        var inputWidth = $(this).width();
+        if ($(this).val() != "") {
+            if (textWidths > inputWidth) {
+                // layer.tips($(this).val(),$(this),{ tips: [1, '#3595CC'],
+                //     time: 3000});
+                layer.tips($(this).val(), $(this));
+            }
+
+        }
+    });
+
+    function textWidth(text) {
+        var sensor = $('<pre>' + text + '</pre>').css({display: 'none'});
+        $('body').append(sensor);
+        var width = sensor.width();
+        sensor.remove();
+        return width;
+    };
+
+    /*杨琴琴 2019-04-26 过滤列表中标识是S的列表*/
+    function getIdentifierS(item) {
+        return item.fileidentifier == 'S';
+    }
+
+</script>

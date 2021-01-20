@@ -1,0 +1,517 @@
+<div id='layer-form-supplier' class="layui-form" lay-filter="layer-form-supplier">
+    <div class="layui-row">
+        <div class="layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商代码</label>
+                <div class="layui-input-block">
+                    <select name="supplierCodeLayer" id='supplierCodeLayer' lay-search lay-filter="supplierCodeLayer">
+                        </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商名称</label>
+                <div class="layui-input-block">
+                    <!--<input type="text" id="supplierNameLayer" lay-filter="supplierNameLayer" class="layui-input" disabled="disabled">-->
+                    <select name="supplierNameLayer" id='supplierNameLayer' lay-search lay-filter="supplierNameLayer">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md1" id="addSupplier">
+            <div class="layui-form-item" style="margin-top: 10px;cursor: pointer;">
+                <i class="layui-icon layui-icon-add-circle-fine"></i>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">区域</label>
+                <div class="layui-input-block">
+                    <select name="supplierAreaLayer" id='supplierAreaLayer' lay-search lay-filter="supplierAreaLayer">
+                        </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">车型</label>
+                <div class="layui-input-block">
+                    <select name="supplierCarLayer" id='supplierCarLayer' xm-select="supplierCarLayer" xm-select-skin="normal" xm-select-direction="down" xm-select-search="" xm-select-show-count="1">
+                        </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">采购金额</label>
+                <div class="layui-input-block">
+                    <select name="supplierCountLayer" id='supplierCountLayer' xm-select="supplierCountLayer" xm-select-skin="normal" xm-select-direction="down" xm-select-search="" xm-select-show-count="1">
+                        </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">省</label>
+                <div class="layui-input-block">
+                    <select name="supplierCountryLayer" id='supplierCountryLayer' lay-search lay-filter="supplierCountryLayer">
+                        </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功能模块</label>
+                <div class="layui-input-block">
+                    <input type="text" id="supplierFunLayer" lay-filter="supplierFunLayer" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">市</label>
+                <div class="layui-input-block">
+                    <select name="supplierCityLayer" id='supplierCityLayer' lay-search lay-filter="supplierCityLayer">
+                        </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">SQE</label>
+                <div class="layui-input-block">
+                    <select name="supplierSqeLayer" id='supplierSqeLayer' xm-select="supplierSqeLayer" xm-select-skin="normal" xm-select-direction="down" xm-select-search="" xm-select-show-count="1">
+                        </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <div class="layui-form-item" id="supplierLvl">
+                <label class="layui-form-label">供应商级别</label>
+                <input type="checkbox" name="" title="一级" value="C01" lay-skin="primary">
+                <input type="checkbox" name="" title="二级" value="C02" lay-skin="primary">
+                <input type="checkbox" name="" title="三级" value="C03" lay-skin="primary">
+                <input type="checkbox" name="" title="四级" value="C04" lay-skin="primary">
+                <input type="checkbox" name="" title="五级" value="C05" lay-skin="primary">
+                <input type="checkbox" name="" title="其它" value="C06" lay-skin="primary">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md10">
+            <div class="layui-form-item" id="supplierNature">
+                <label class="layui-form-label">供应商属性</label>
+                <input type="checkbox" name="" title="内资" value="D01" lay-skin="primary">
+                <input type="checkbox" name="" title="外资" value="D02" lay-skin="primary">
+                <input type="checkbox" name="" title="合资" value="D03" lay-skin="primary">
+                <input type="checkbox" name="" title="其它" value="D04" lay-skin="primary">
+            </div>
+        </div>
+        <div class="layui-col-md2" style="text-align: right;padding-right: 2%">
+            <button class="layui-btn layui-btn-sm" lay-submit lay-filter="search_supplier" id="search_supplier"><span>查询</span></button>
+        </div>
+    </div>
+</div>
+<div class="layui-row" style="padding: 0 2%">
+    <div class="layui-col-md12">
+        <table id="tableContent_ability_check" lay-filter="tableContent_ability_check">
+    </div>
+</div>
+
+<style type="text/css">
+    #search_supplier {
+        border-color: #1E9FFF;
+        background-color: #1E9FFF;
+    }
+    
+    #layer-form-supplier .layui-form-item {
+        margin-top: 5px;
+        margin-bottom: 0
+    }
+    
+    #layer-form-supplier .search-item3 {
+        margin-top: 1%
+    }
+    
+    #layer-form-supplier .layui-form-select,
+    #layer-form-supplier .layui-input {
+        width: 100%
+    }
+</style>
+<script type="text/javascript">
+    //console.log($("input[name='planId']").val())
+    //console.log($("input[name='partsCode']").val())
+    //console.log($("input[name='partsName']").val())
+    //console.log($("input[name='carType']").val())
+    //console.log($("input[name='planName']").val())
+    //console.log($("input[name='partsVersion']").val())
+    layui.use(['laydate', 'element', 'table', 'formSelects', 'treeSelect', 'upload', 'layer'], function() {
+        var table = layui.table,
+            form = layui.form,
+            upload = layui.upload,
+            laydate = layui.laydate,
+            config = layui.config,
+            layer = layui.layer,
+            tableParmas = {},
+            formSelects = layui.formSelects,
+            admin = layui.admin,
+            treeSelect = layui.treeSelect,
+            tableBak = [],
+            arr = [];
+
+        function init(search) {
+            if (!search) {
+                search = {};
+            }
+            search.page = 1;
+            search.pageSize = 10000;
+            admin.req(admin.formatUrl('/api/training/statistics/supplier/condition'), search, function(res) {
+                if (res.ok) {
+                    renderTable(res.data.list)
+                } else {
+                    layer.msg(res.message)
+                }
+            })
+        }
+        var renderTable = function(data) {
+            // 渲染表格
+            table.render({
+                elem: '#tableContent_ability_check',
+                id: 'tableContent_ability_check',
+                // url: admin.formatUrl('/api/training/statistics/supplier/condition'),
+                // 格式化后台返回的数据
+                data: data,
+                // parseData: function(res) { //res 即为原始返回的数据
+                //     // 返回结果，进行渲染表格
+                //     return {
+                //         "code": res.respCode, //解析接口状态
+                //         "msg": res.message, //解析提示文本
+                //         "count": res.data.count ? res.data.count : 0, //解析数据长度
+                //         "data": res.data.list.length != 0 ? res.data.list : [] //解析数据列表
+                //     };
+                // },
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        rowspan: '2',
+                    }, {
+                        type: 'numbers',
+                        rowspan: '2',
+                        title: 'No.'
+                    }, {
+                        rowspan: '2',
+                        width: 180,
+                        title: '是否属于本人的供应商',
+                        templet: '<div>{{d.belong?"属于":"不属于"}}</div>'
+                    }, {
+                        field: 'code',
+                        rowspan: '2',
+                        title: '供应商代码'
+                    }, {
+                        field: 'name',
+                        rowspan: '2',
+                        title: '供应商名称'
+                    }]
+                ],
+                cellMinWidth: 90,
+                height: '200',
+                done: function(d) {
+                    //console.log(d)
+                    var arr = d.data
+                    layui.each(arr, function(i, item) {
+                        if (item.belong === 1) {
+                            $("#tableContent_ability_check").next('.layui-form').find('.layui-table-body input[type="checkbox"]').eq(i).prop("checked", true);
+                            $("#tableContent_ability_check").next('.layui-form').find('.layui-table-body .layui-form-checkbox').eq(i).addClass('layui-form-checked')
+                                //console.log($("#tableContent_ability_check").next('.layui-form').find('input[type="checkbox"]').eq(i))
+                            item.LAY_CHECKED = true;
+                        }
+                    });
+                },
+                // request: {
+                //     pageName: 'page' //页码的参数名称，默认：page
+                //         ,
+                //     limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                // },
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                // where: search
+            });
+
+        }
+        admin.req('/api/training/statistics/function', {}, function(res) {
+            //功能模块树形结构初始化
+            if (res.data) {
+                renderTree(res.data)
+            }
+        }, {
+            method: 'get'
+        });
+        //renderTree()        
+        function renderTree(data) {
+            //var res='http://localhost:8890/components/tpl/data3.json'
+            //console.log(res)
+            treeSelect.render({
+                // 选择器
+                elem: '#supplierFunLayer',
+                // 数据
+                data: data,
+                //data: data,
+                // // 异步加载方式：get/post，默认get
+                //type: 'get',
+                // 是否开启搜索功能：true/false，默认false
+                //type:'get',
+                search: true,
+                // 点击回调
+                dataFilter: function(data) {
+                    return [{
+                        pid: '0',
+                        children: data,
+                        open: true,
+                        name: '全部'
+                    }];
+                },
+                click: function(d) {
+                    //console.log(treeSelect.checkNode('supplierFunLayer'));
+                },
+                // 加载完成后的回调函数
+                success: function(d) {
+                    console.log(d);
+                    //                选中节点，根据id筛选
+                    //                treeSelect.checkNode('tree', 3);
+
+                    //                获取zTree对象，可以调用zTree方法
+                    //                var treeObj = treeSelect.zTree('tree');
+                    //                console.log(treeObj);
+
+                    //                刷新树结构
+                    //                treeSelect.refresh();
+                }
+            });
+
+
+        }
+        //setSelectData('/api/training/statistics/supplier/all', '#supplierCodeLayer', 'code', 'code');
+        //setSelectData('/api/training/statistics/supplier/all', '#supplierNameLayer', 'code', 'name');
+        admin.req('/api/training/statistics/supplier/all', {}, function(res) {
+            var elem = $('#supplierCodeLayer');
+            var arr = res.data;
+            localStorage.setItem("supplierCodeName",JSON.stringify(arr));
+            elem.empty();
+            elem.append('<option value="">请选择</option>');
+            for (var i = 0; i < res.data.length; i++) {
+                elem.append('<option value="' + res.data[i]['code'] + '">' + res.data[i]['code'] + '</option>')
+            }
+            form.render('select');
+            form.on('select(supplierCodeLayer)', function(data) {
+                // console.log(data.value); //得到被选中的值
+                var supplierCodeNames = JSON.parse(localStorage.getItem("supplierCodeName"));
+                for (var i = 0; i < supplierCodeNames.length; i++) {
+                    if (supplierCodeNames[i].code === data.value){
+                        $("#supplierNameLayer").val(supplierCodeNames[i].name);
+                        form.render('select');
+                        break;
+                    }
+                }
+                // arr.map(function(item) {
+                //     //console.log(item.code)
+                //     if (item.code == data.value) {
+                //
+                //         $("#supplierNameLayer").val(item.name)
+                //     }
+                // })
+            });
+
+            var elemName = $('#supplierNameLayer');
+
+            elemName.empty();
+            elemName.append('<option value="">请选择</option>');
+            for (var i = 0; i < res.data.length; i++) {
+                elemName.append('<option value="' + res.data[i]['name'] + '">' + res.data[i]['name'] + '</option>')
+            }
+            form.render('select');
+            form.on('select(supplierNameLayer)', function(data) {
+                // console.log(data.value); //得到被选中的值
+                var supplierCodeNames = JSON.parse(localStorage.getItem("supplierCodeName"));
+                for (var i = 0; i < supplierCodeNames.length; i++) {
+                    if (supplierCodeNames[i].name === data.value){
+                        $("#supplierCodeLayer").val(supplierCodeNames[i].code);
+                        form.render('select');
+                        break;
+                    }
+                }
+                // arr.map(function(item) {
+                //     //console.log(item.code)
+                //     if (item.name == data.value) {
+                //
+                //         $("#supplierCodeLayer").val(item.code)
+                //     }
+                // })
+            });
+
+        }, {
+            method: 'get'
+        });
+        //setSelectData('/api/training/statistics/place/area', '#supplierAreaLayer', 'name', 'code');
+        //setSelectData('/api/training/statistics/place/province', '#supplierCountryLayer', 'name', 'code');        
+        //setSelectData('/api/training/statistics/place/city', '#supplierCityLayer', 'name', 'code');
+
+        admin.req('/api/training/statistics/place/area', {}, function(res) {
+            var elem = $('#supplierAreaLayer');
+            var arr = res.data
+            elem.empty();
+            elem.append('<option value="">请选择</option>');
+            for (var i = 0; i < res.data.length; i++) {
+                elem.append('<option value="' + res.data[i]['code'] + '">' + res.data[i]['name'] + '</option>')
+            }
+            form.render('select');
+            form.on('select(supplierAreaLayer)', function(data) {
+                //console.log(data.value); //得到被选中的值
+                var par1 = {}
+                arr.map(function(item) {
+                    //console.log(item.code)
+                    if (item.code == data.value) {
+                        par1.superCode = item.code
+                        admin.req('/api/training/statistics/place/province', par1, function(res) {
+                            var elem = $('#supplierCountryLayer');
+                            var arr1 = res.data
+                            elem.empty();
+                            elem.append('<option value="">请选择</option>');
+                            for (var i = 0; i < res.data.length; i++) {
+                                elem.append('<option value="' + res.data[i]['code'] + '">' + res.data[i]['name'] + '</option>')
+                            }
+                            form.render('select');
+                            form.on('select(supplierCountryLayer)', function(data) {
+                                //console.log(data.value); //得到被选中的值
+                                var par2 = {}
+                                arr1.map(function(item) {
+                                    //console.log(item.code)
+                                    if (item.code == data.value) {
+                                        par2.superCode = item.code
+                                        admin.req('/api/training/statistics/place/city', par2, function(res) {
+                                            var elem = $('#supplierCityLayer');
+                                            elem.empty();
+                                            elem.append('<option value="">请选择</option>');
+                                            for (var i = 0; i < res.data.length; i++) {
+                                                elem.append('<option value="' + res.data[i]['code'] + '">' + res.data[i]['name'] + '</option>')
+                                            }
+                                            form.render('select');
+
+                                        }, {
+                                            method: 'get'
+                                        });
+                                    }
+                                })
+                            });
+
+                        }, {
+                            method: 'get'
+                        });
+                    }
+                })
+            });
+
+        }, {
+            method: 'get'
+        });
+
+
+        multipSelect('/api/training/statistics/cartype', {}, '#supplierCarLayer', 'name', 'code');
+        multipSelect('/api/training/statistics/amount', {}, '#supplierCountLayer', 'code', 'name');
+        //setSelectData('/api/training/statistics/function', '#supplierFunLayer', 'code', 'name');
+        multipSelect('/api/training/statistics/sqe', {}, '#supplierSqeLayer', 'name', 'code');
+
+        function setSelectData(url, parmas, id, name, value) {
+            admin.req(url, parmas, function(res) {
+
+                var elem = $(id);
+                elem.empty();
+                elem.append('<option value="">请选择</option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                form.render('select');
+
+            }, {
+                method: 'get'
+            });
+        };
+
+        function multipSelect(url, parmas, id, name, value) {
+
+            admin.req(url, parmas, function(res) {
+
+                var arr = res.data,
+                    elem = $(id);
+                selectData = arr;
+                //console.log(res)
+                //elem.empty().append('');
+                elem.empty();
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                formSelects.render(id);
+                formSelects.btns(id, []);
+
+
+            }, {
+                method: 'get'
+            });
+
+        }
+        // 初始化，执行一次渲染表格
+        form.render('checkbox');
+        init();
+
+        function getCheckVal(dom) {
+            var ha = $(dom).find('.layui-form-checkbox');
+            var list = []
+            ha.each(function() {
+                if ($(this).hasClass("layui-form-checked")) {
+                    list.push($(this).prev().val())
+                }
+            })
+            return list;
+        }
+        form.on('submit(search_supplier)', function(data) {
+            //console.log(treeSelect.checkNode('supplierFunLayer'))
+            var parmas = data.field;
+            parmas.supplierFunLayer = $("#supplierFunLayer").next().find("input").val();
+            var check1 = getCheckVal('#supplierLvl')
+            var check2 = getCheckVal('#supplierNature')
+            parmas.supplierLvl = check1;
+            parmas.supplierNature = check2;
+            //console.log(d)
+            var res = {}
+            res.carTypeList = parmas.supplierCarLayer;
+            res.functionCodeList = parmas.supplierFunLayer;
+            res.sqeList = parmas.supplierSqeLayer;
+            res.amountList = parmas.supplierCountLayer;
+            res.supplierLvlList = parmas.supplierLvl.toString();
+            res.supplierNatureList = parmas.supplierNature.toString();
+            res.supplierCode = parmas.supplierCodeLayer;
+            res.area = parmas.supplierAreaLayer;
+            res.province = parmas.supplierCountryLayer;
+            res.city = parmas.supplierCityLayer;
+            init(res)
+            arr = [];
+        })
+
+        // 点击添加供应商
+        $("#addSupplier").on("click", "i", function() {
+            var supplierCode = $("#supplierCodeLayer").val();
+            var supplierName = $("#supplierNameLayer").val();
+            if (supplierCode) {
+                for (index in arr) {
+                    if (arr[index].code == supplierCode) {
+                        return;
+                    }
+                }
+                var obj = {};
+                obj.code = supplierCode;
+                obj.name = supplierName;
+                arr.push(obj);
+                renderTable(arr)
+            } else {
+                layer.msg("请选择供应商代码！")
+            }
+        })
+    })
+</script>

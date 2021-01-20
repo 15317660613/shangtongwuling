@@ -1,0 +1,184 @@
+<!--
+File   : approve_message_query_opap.html
+Created: 2018-01-08 14:20
+Author : Qitian
+Description: 任务通知查询-OPAP-查看详情模态框
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<style>
+
+    .layui-layer-page {
+        min-width: 900px;
+       /* min-height: 580px;
+        overflow-y: auto;
+        overflow-x: hidden;*/
+    }
+
+    .layui-layer-title {
+        display: none;
+    }
+
+    .layui-tpl-container {
+        padding: 50px 20px;
+    }
+
+    .notice-title {
+        position: absolute;
+        width: 384px;
+        top: 35px;
+        left: calc(50% - 174px);
+        background: #fff;
+        z-index: 960;
+        text-align: center;
+    }
+
+    .label1 {
+        height: 20px;
+        font-size: 14px;
+        font-family: ArialHebrew;
+        color: rgba(56,56,56,1);
+        line-height: 17px;
+    }
+
+    .label2 {
+        height:25px;
+        font-size:25px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        display: block;
+        color:rgba(56,56,56,1);
+    }
+
+    .label3 {
+        position: absolute;
+        top: 90px;
+        width: 100%;
+        text-align: center;
+        height:20px;
+        font-size:13px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(56,56,56,1);
+        line-height:20px;
+    }
+
+    .notice-center {
+        min-height: 300px;
+        position: relative;
+        background-image: url("../../assets/images/notice_center_bg.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        padding: 70px 40px;
+    }
+
+    .border-bottom-div {
+        border: none;
+        width: auto;
+        display: inline-block;
+        padding: 3px 7px;
+        border-bottom: #999 solid 1px;
+    }
+
+    .center-bottom {
+        font-size: 14px;
+        font-family: PingFangSC-Medium;
+        font-weight: 500;
+        color: rgba(0,0,0,0.65);
+        line-height: 20px;
+        text-align: center;
+        left: calc(50% - 126px);
+        position: absolute;
+        bottom: 42px;
+    }
+
+    .notice-footer {
+        position: absolute;
+        left: calc(50% - 174px);
+        bottom: 38px;
+    }
+
+    .div-p {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        line-height: 20px;
+    }
+
+    .layui-tpl-container .p-form {
+        overflow: visible;
+    }
+
+    .text-blue {
+        color: #55B7FF;
+    }
+
+    #taskordernumber-span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+<div class="layui-tpl-container">
+    <!--by ma 2019/03/09 添加lay-filter 修改复选框渲染区域-->
+    <div class="layui-form p-form"  lay-filter="approve_opap">
+        <input type="hidden" id="origin-data" />
+        <div class="notice-title">
+            <!--<label class="label1">PRODUCTION PART APPROVAL STATUS NOTICE</label><br />-->
+            <label class="label2">生&nbsp;&nbsp;产&nbsp;&nbsp;件&nbsp;&nbsp;批&nbsp;&nbsp;准&nbsp;&nbsp;状&nbsp;&nbsp;况&nbsp;&nbsp;通&nbsp;&nbsp;知&nbsp;&nbsp;函</label><br />
+        </div>
+        <!--<label class="label3">SGMW OPAP NUMBER SGMW-OPAP编号: <span id="taskordernumber-span"></span> </label><br />-->
+        <label class="label3"> SGMW-OPAP编号: <span id="taskordernumber-span"></span> </label><br />
+
+        <div class="notice-center">
+            <div style="max-height: 300px;overflow-y: auto;margin-bottom: 20px;">
+
+                <div class="center-top">
+                    <div class="layui-col-md12">
+                        <!--by ma 2019/03/27 修改审批通知查询两个公司名问题 -->
+                        <div  style="margin: 15px 20px;">
+                            <!--<div class="border-bottom-div companyname"></div><label class="label-left">公司&nbsp;&nbsp;(Company)<div style="display: none" class="border-bottom-div companyname"></div>:</label>-->
+                           <!--  <label class="label-left">公司&nbsp;&nbsp;<div style="display: none" class="border-bottom-div companyname"></div>:</label> --><div class="border-bottom-div companyname"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="center-middle">
+                    <div style="margin: 0 20px;">
+                        <!--<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好！Hello!</div>-->
+                        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您好!</div>
+                        <div class="div-p">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;贵公司
+                            <div class="border-bottom-div projectmodel text-blue"></div>车型/机型 <div class="border-bottom-div parts text-blue"></div>零件OPAP生产样件已完成审批,批准结果如下:&nbsp;<!--<label class="text-blue" id="approvalstatus"></label>--><br/>
+                          <!--  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your company's <div class="border-bottom-div projectmodel text-blue"></div>  Vehicle/Engine <div class="border-bottom-div parts text-blue"></div> , and parts OPAP production samples have been examined, and the examination results are as follows:&nbsp;&lt;!&ndash;<label class="text-blue approvalstatus" id=""></label>&ndash;&gt;-->
+                        </div>
+                    </div>
+                    <div style="margin: 0 20px;">
+                        <div class="div-p" id="agree">
+                            <input name="approvalstatus" disabled type="checkbox" lay-skin="primary" value="1"/>临时批准，批准有效期至：<div class="border-bottom-div provisionalapprovalvalidity text-blue"></div>;请在完成整改期间,按当前批准状态进行生产物料交付;<br/>
+                           <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Temporary approval, the temporary approval period is valid until<div class="border-bottom-div provisionalapprovalvalidity text-blue"></div>; Please deliver the production materials according to the current approval status during the completion of the rectification;-->
+                        </div>
+                        <div class="div-p" id="disagree">
+                            <input name="approvalstatus" disabled type="checkbox" lay-skin="primary" value="2"/>不批准<div class="border-bottom-div parts"></div>,请对前期样件进行标识/隔离/报废处理.<br/>
+                            <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="border-bottom-div parts"></div>is not approved, please mark/isolate/discard the previous samples.-->
+                        </div>
+                        <div class="div-p" style="margin-bottom: 30px;">
+                            注：OPAP批准仅用于生产样件批准，不代表获得生产件批准（PPAP）。<br />
+                            <!--Note: OPAP approval is only for the approval of production sample and does not represent the approval for production parts (PPAP).-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="center-bottom">
+                <label>上汽通用五菱汽车股份有限公司</label><br />
+                <label>采购及供应链管理中心供应商质量管理部</label>
+            </div>
+        </div>
+        <div class="notice-footer"><img src="../../assets/images/notice_footer.png" alt="OPAP"/></div>
+    </div>
+</div>
+<script>
+    setTimeout(function () {
+        $(window).resize();
+    },500);
+
+</script>

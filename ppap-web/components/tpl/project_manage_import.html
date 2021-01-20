@@ -1,0 +1,66 @@
+<!--
+File   : project_manage_import.html
+Created: 2018-12-10 14:20
+Author : Qitian
+Description: 项目管理-导入项目单模态框
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<style>
+    .layui-layer-title {
+        background: none;
+        border: none;
+        font-size: 22px;
+        padding-top: 8px;
+    }
+    
+    .layui-btn-normal,.layui-btn-primary {
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+
+    .selected {
+        background: #1c3955;
+    }
+
+    .type {
+        width: 80%;
+        border-radius: 40px;
+        margin-left: 10%;
+    }
+
+    .layui-form-item {
+        margin-bottom: 25px;
+    }
+
+    .layui-tpl-container .p-form {
+        overflow: visible;
+    }
+</style>
+<div class="layui-tpl-container">
+    <div class="layui-form p-form">
+        <input type="hidden" id="origin" />
+        <!--项目跟踪表1-->
+        <div class="layui-form-item btn1">
+            <button class="layui-btn layui-btn-normal type" data="1" lay-submit lay-filter="chooseTheType"></button>
+        </div>
+        <!--项目跟踪表2-->
+        <div class="layui-form-item btn2">
+            <button class="layui-btn layui-btn-normal type" data="2" lay-submit lay-filter="chooseTheType"></button>
+        </div>
+        <!-- 确定按钮 -->
+        <!-- 提交按钮 -->
+        <div class="" style="text-align: right;">
+            <!--&lt;!&ndash;确定按钮绑定事件&ndash;&gt;-->
+            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="popCancle">取消</button>
+            <!--&lt;!&ndash;提交按钮绑定事件&ndash;&gt;-->
+            <button style="display: none" class="layui-btn layui-btn-normal" id="submitFile" lay-submit lay-filter="popSubmit">提交</button>
+            <!--隐藏域，用来标识导入/详情/导出模态框-->
+            <input type="file" onchange="chooseImportFile(this)" class="hide" id="chooseFileInput"/>
+        </div>
+    </div>
+</div>

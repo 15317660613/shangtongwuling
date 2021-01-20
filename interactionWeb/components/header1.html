@@ -1,0 +1,40 @@
+<div class="layui-logo">
+    <!--<img src="assets/images/logo.png" />-->
+    <!--<img src="assets/images/datashow/header.png" alt="logo">-->
+    <img src="assets/images/navigation/header_logo.png" style="width: 50px; height: 40px; margin-bottom: 4px;" alt="logo">
+    <cite>生产质量监控系统</cite>
+</div>
+
+<ul class="layui-nav layui-layout-right">
+    <li class="layui-nav-item" lay-unselect>
+        <!-- font-weight: 600; 解决原始图标过细的问题 -->
+        <a title="主页" href="/"><i class="layui-icon layui-icon-home" style="font-weight: 600;"></i></a>
+    </li>
+    <li class="layui-nav-item" lay-unselect ew-event="refresh">
+        <a title="刷新" href="javascript:;"><i class="layui-icon layui-icon-refresh-1"></i></a>
+    </li>
+    <li class="layui-nav-item" lay-unselect>
+        <a title="消息" href="javascript:;" id="btn-getmsg"><i class="layui-icon layui-icon-notice" style="font-weight: 600;"></i></a>
+    </li>
+    <li class="layui-nav-item" lay-unselect>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+    <li class="layui-nav-item" lay-unselect>
+        <a href="javascript:;" class="usname" p-bind="title: {{userName}}">
+            <cite>您好，{{userName}}</cite>
+        </a>
+        <dl class="layui-nav-child">
+            <dd lay-unselect id="btn-setinf">
+                <a>个人信息</a>
+            </dd>
+            <dd lay-unselect id="btn-setpw">
+                <a>修改密码</a>
+            </dd>
+            <!-- <dd lay-unselect id="btn-themegene">
+                <a href="#!theme">主题生成器</a>
+            </dd> -->
+            <hr>
+            <dd lay-unselect id="btn-logout">
+                <a>退出</a>
+            </dd>
+        </dl>
+    </li>
+</ul>

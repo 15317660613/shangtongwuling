@@ -1,0 +1,780 @@
+<!-- File: dashboard.html
+  --Created: 2018/11/20 10:17:27 am
+  --Author : quym
+  --Description: 页面框架搭建， 图表部分省略，表格显示
+ * -----
+ * HISTORY:
+ * -----
+ * mark: 页面图表均可使用百度echarts绘图工具绘制  参考链接：http://echarts.baidu.com
+   -->
+<link rel="stylesheet" href="../../assets/css/course.css">
+<!-- tab -->
+<style type="text/css">
+    .layui-table td,
+    .layui-table th,
+    .layui-table-col-set,
+    .layui-table-fixed-r,
+    .layui-table-grid-down,
+    .layui-table-header,
+    .layui-table-page,
+    .layui-table-tips-main,
+    .layui-table-tool,
+    .layui-table-total,
+    .layui-table-view,
+    .layui-table[lay-skin="line"],
+    .layui-table[lay-skin="row"]{
+        border-width: 1px;
+        border-top-width: 1px;
+        border-left-width: 1px;
+        border-style: solid;
+        border-top-style: solid;
+        border-left-style: solid;
+        border-color: #e6e6e6;
+        border-top-color: rgb(230, 230, 230);
+        border-left-color: rgb(230, 230, 230);
+    }
+
+    .layui-layout-admin .layui-body{
+        padding-bottom: 0;
+    }
+
+    .layui-table-box{
+        border-left: 1px solid #e6e6e6;
+        border-right: 1px solid #e6e6e6;
+        border-bottom: 1px solid #e6e6e6;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .layui-table-header{
+        border-width: 0 0 1px;
+        overflow: hidden;
+    }
+
+    .xm-select-parent{
+        width: 50%
+    }
+
+    .xm-select-parent .xm-select-title{
+        width: 100%
+    }
+
+    #searchCard .layui-icon-search{
+        top: 6px;
+    }
+
+    #searchCard .layui-input,
+    .layui-select{
+        height: 35px;
+    }
+
+    @media screen and (min-width: 1920px){
+        #searchCard{
+            margin-top: -80px;
+        }
+    }
+
+    .layui-tab-brief > .layui-tab-more li.layui-this:after,
+    .layui-tab-brief > .layui-tab-title .layui-this:after{
+        border-bottom-color: #55b7ff;
+    }
+
+    .layui-tab-brief > .layui-tab-title .layui-this{
+        color: #000;
+    }
+
+    .layui-tab-title li{
+        color: grey;
+    }
+</style>
+<div class="layui-tab layui-tab-brief" lay-filter="courseType">
+    <!-- tab头部内容 -->
+    <ul class="layui-tab-title">
+        <li class="layui-this" id="01">管理类</li>
+        <li id="02">专业类</li>
+        <li id="03">技术类</li>
+        <li id="04">资料下载</li>
+        <li id="05">QPlus管理学院APP下载</li>
+    </ul>
+</div>
+<div class="layui-row layui-col-space15" style="margin-top:41px">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <div class="notice-title">通知公告</div>
+                <div class="notice-body">
+                    <a href="javascript:void(0)"
+                       style="float:right;color:#000"><span>更多<i class="layui-icon layui-icon-right"></i><i class="layui-icon layui-icon-right"></i></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card" id="sortCard">
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md9">
+                        <ul class="sort">
+                            <li>排序：</li>
+                            <li id="timeSort">
+                                <a href="javascript:void(0)" class="active" id="0">时间排序</a>
+                                <img src="../../assets//images/course/xiangxia-light.png" alt="" name="0" class="down">
+                                <!-- <img src="../../assets//images/course/xiangxia-unlight.png" alt="" name="1" class="sortUnlight down" style="display:none">
+                                <img src="../../assets//images/course/xiangshang-unlight.png" alt="" name="1" class="sortUnlight up" style="display:none">
+                                <img src="../../assets//images/course/xiangshang-light.png" alt="" name="0" class="sortLight up" style="display:none"> -->
+                            </li>
+                            <li style="margin-left:10px" id="progressSort">
+                                <a href="javascript:void(0)" id="1">进度排序</a>
+                                <img src="../../assets//images/course/xiangshang-unlight.png"
+                                     alt=""
+                                     name="1"
+                                     class="up">
+                                <!-- <img src="../../assets//images/course/xiangshang-light.png" alt="" name="0" class="sortLight up" style="display:none">
+                                <img src="../../assets//images/course/xiangxia-light.png" alt="" name="0" class="sortLight down" style="display:none">
+                                <img src="../../assets//images/course/xiangxia-unlight.png" alt="" name="1" class="sortUnlight down" style="display:none"> -->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+                        <input type="text" class="layui-input" id="searchInput" style="float:right">
+                        <i class="layui-icon layui-icon-search" id="searchIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card" id="searchCard">
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md9">
+                        <select name="download"
+                                id="download"
+                                xm-select="download"
+                                xm-select-skin="normal"
+                                xm-select-direction="down"
+                                xm-select-search=""
+                                xm-select-show-count="1">
+                        </select>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3">
+                        <input type="text" class="layui-input" id="searchInput2" style="float:right">
+                        <i class="layui-icon layui-icon-search" id="searchIcon2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card" id="downloadTable" style="margin-bottom: 0">
+            <div class="layui-card-body">
+
+                <table id="tableContent-down" lay-filter="tableContent-down"></table>
+
+            </div>
+        </div>
+        <input type="hidden" name="pages">
+        <div class="layui-card">
+            <div class="layui-card-body courseListWrap">
+                <div class="row layui-col-space15" style="overflow:hidden" id="courseList">
+
+                </div>
+                <div id="pagation"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- tab内容 -->
+<div class="main-area"></div>
+<!-- 页面js -->
+<script>
+    layui.use(['element', 'admin', 'table', 'formSelects', 'laytpl', 'laypage', 'layer'], function () {
+        var admin = layui.admin;
+        var element = layui.element;
+        var laypage = layui.laypage;
+        var table = layui.table;
+        var laytpl = layui.laytpl;
+        var formSelects = layui.formSelects;
+        var page = 1;
+        var pageSize = 10;
+        var pageCount = 0;
+        var layer = layui.layer;
+
+        console.log(location.href);
+        console.log(location.pathname);
+        console.log(location.hash);
+        console.log(location.hostname);
+        console.log(admin.GetRequest());
+        //进入页面先隐藏下载列表搜索框
+        $(".layui-card")
+            .not("#searchCard,#downloadTable")
+            .show();
+        $("#searchCard,#downloadTable")
+            .hide();
+
+        var search = admin.GetRequest();
+        if (!$.isEmptyObject(search)) {
+            if (search.moreNotice) {
+                $('.layui-body .layui-body-content')
+                    .load('../../components/tpl/noticeList.html', function () {
+                        renderTable1();
+                    });
+            } else {
+                $('.layui-body .layui-body-content')
+                    .load('../../components/tpl/course_list.html', function () {
+                        // admin.req('/api/training/course/course/detail', admin.GetRequest(), function(res) {
+                        //     laytpl(course.innerHTML).render(res.data, function(html) {
+                        //         $('.courseContent').html(html);
+                        //     });
+                        // });
+                        // laytpl(img.innerHTML).render(res.data, function(html) {
+                        //     $('.img').html(html);
+                        // });
+                        // renderTable(admin.GetRequest());
+                    });
+            }
+        }
+
+        function multipSelect(url, id, name, value) {
+
+            admin.req('/api/training/course/download/type', {}, function (res) {
+
+                var arr = res.data,
+                    elem = $(id);
+                //console.log(res)
+                //elem.empty().append('');
+                elem.empty();
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                formSelects.render(id);
+                formSelects.btns(id, []);
+
+            }, {
+                          method: 'get'
+                      });
+
+        }
+
+        element.on('tab(courseType)', function (data) {
+            if (data.index == 0) {
+                $(".layui-card")
+                    .not("#searchCard,#downloadTable")
+                    .show();
+                $("#searchCard,#downloadTable")
+                    .hide();
+                setCourseList($('a.active')
+                                  .attr('id'), $('a.active')
+                                  .next("img")
+                                  .attr('name'), '01', page, pageSize);
+            } else if (data.index == 1) {
+                $(".layui-card")
+                    .not("#searchCard,#downloadTable")
+                    .show();
+                $("#searchCard,#downloadTable")
+                    .hide();
+                setCourseList($('a.active')
+                                  .attr('id'), $('a.active')
+                                  .next("img")
+                                  .attr('name'), '02', page, pageSize);
+            } else if (data.index == 2) {
+                $(".layui-card")
+                    .not("#searchCard,#downloadTable")
+                    .show();
+                $("#searchCard,#downloadTable")
+                    .hide();
+                setCourseList($('a.active')
+                                  .attr('id'), $('a.active')
+                                  .next("img")
+                                  .attr('name'), '03', page, pageSize);
+            } else if (data.index == 3) {
+                $(".layui-card")
+                    .not("#searchCard,#downloadTable")
+                    .hide();
+                $("#searchCard,#downloadTable")
+                    .show();
+                multipSelect('', '#download', 'name', 'value');
+                setDownList();
+            } else if (data.index == 4) {
+                layer.open({
+                               title: 'QPlus管理学院APP下载',
+                               area: '600px',
+                               closeBtn: 0,
+                               content:
+                                   '<div class="layui-row">' +
+                                        '<div class="layui-col-md6" style="postion:relative;">' +
+                                            '<img style="postion:absolute;left:50%;top:50%;"  src="../../assets/images/app/android.png" width="250px" height="250px"/>' +
+                                        '</div>' +
+                                        '<div class="layui-col-md6" style="postion:relative;">' +
+                                            '<img style="postion:absolute;left:50%;top:50%;" src="../../assets/images/app/ios.png" width="250px" height="250px" />' +
+                                        '</div>' +
+                                   '</div>' +
+                                   '<div class="layui-row">' +
+                                        '<div class="layui-col-md6">Android下载</div>' +
+                                        '<div class="layui-col-md6">IOS下载</div>' +
+                                   '</div>'
+                           });
+            }
+        });
+
+        // $("#sortCard a").toggleClass()
+        // 排序切换
+        $("#sortCard")
+            .on('click', 'a', function () {
+                $(this)
+                    .addClass('active');
+                $(this)
+                    .parent()
+                    .siblings('li')
+                    .find('a')
+                    .removeClass('active');
+                if ($(this)
+                    .next("img")
+                    .attr("class") == "up") {
+                    $(this)
+                        .next("img")
+                        .attr("src", "../../assets/images/course/xiangxia-light.png");
+                    $(this)
+                        .next("img")
+                        .attr("class", "down");
+                    $(this)
+                        .next("img")
+                        .attr("name", "0");
+                    setCourseList($(this)
+                                      .attr("id"), 0, $('li.layui-this')
+                                      .attr('id'), page, pageSize);
+                    if ($(this)
+                        .parent()
+                        .siblings('li')
+                        .find('a')
+                        .next("img")
+                        .attr("class") == "up") {
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("src", "../../assets/images/course/xiangshang-unlight.png")
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("class", "down");
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("name", "0");
+                    } else {
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("src", "../../assets/images/course/xiangxia-unlight.png")
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("class", "up");
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("name", "1");
+                    }
+                } else {
+                    $(this)
+                        .next("img")
+                        .attr("src", "../../assets/images/course/xiangshang-light.png");
+                    $(this)
+                        .next("img")
+                        .attr("class", "up");
+                    $(this)
+                        .next("img")
+                        .attr("name", "1");
+                    setCourseList($(this)
+                                      .attr("id"), 1, $('li.layui-this')
+                                      .attr('id'), page, pageSize);
+                    if ($(this)
+                        .parent()
+                        .siblings('li')
+                        .find('a')
+                        .next("img")
+                        .attr("class") == "up") {
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("src", "../../assets/images/course/xiangshang-unlight.png")
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("class", "down");
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("name", "0");
+                    } else {
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("src", "../../assets/images/course/xiangxia-unlight.png")
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("class", "up");
+                        $(this)
+                            .parent()
+                            .siblings('li')
+                            .find('a')
+                            .next("img")
+                            .attr("name", "1");
+                    }
+                }
+            })
+
+        // 进度圆
+        function setProgress(id, value) {
+            var size;
+            if (screen.width == 1920) {
+                size = 155;
+            } else if (screen.width == 1366) {
+                size = 100;
+            }
+            $('#' + id)
+                .circleProgress({
+                                    value: value,
+                                    size: size,
+                                    fill: {
+                                        color: '#3AACFE'
+                                    }
+                                })
+        }
+
+        $("#searchIcon2")
+            .click(function () {
+                var res = {};
+                res.downloadTypeList = $("#searchCard .xm-hide-input")
+                    .val()
+                res.content = $("#searchInput2")
+                    .val()
+                console.log(res)
+                setDownList(res);
+            })
+        $("#searchInput2")
+            .keydown(function (evt) {
+                var res = {};
+                if (evt.keyCode == 13) {
+                    //console.log(evt.keyCode)
+                    res.downloadTypeList = $("#searchCard .xm-hide-input")
+                        .val()
+                    res.content = $("#searchInput2")
+                        .val()
+                    setDownList(res);
+                }
+            })
+        $("#searchIcon")
+            .click(function () {
+                var activeId = $('a.active')
+                    .attr('id')
+                var rankSort = $('a.active')
+                    .next("img")
+                    .attr('name');
+                var tabId = $('li.layui-this')
+                    .attr('id')
+
+                setCourseList(activeId, rankSort, tabId, page, pageSize);
+            })
+        $("#searchInput")
+            .keydown(function (evt) {
+                if (evt.keyCode == 13) {
+                    //console.log(evt.keyCode)
+                    var activeId = $('a.active')
+                        .attr('id')
+                    var rankSort = $('a.active')
+                        .next("img")
+                        .attr('name');
+                    var tabId = $('li.layui-this')
+                        .attr('id')
+
+                    setCourseList(activeId, rankSort, tabId, page, pageSize);
+                }
+            });
+
+        // 获取最新公告
+        function getLatedNotice() {
+            admin.req('/api/training/course/notice/latest', {}, function (res) {
+                if (res.ok) {
+                    $('.notice-body')
+                        .append(res.data)
+                }
+            })
+        }
+
+        // 初始化最新公告
+        getLatedNotice();
+
+        // 点击更多公告
+        $('.notice-body')
+            .on('click', 'a', function () {
+                var href;
+                if (location.href.indexOf('?') != -1) {
+                    href = location.href.substr(0, location.href.indexOf('?'));
+                } else {
+                    href = location.href;
+                }
+                location.href = href + '?moreNotice=1';
+            });
+        setCourseList(0, 0, '01', page, pageSize);
+
+        // 请求下载列表
+        function setDownList(search) {
+            table.render({
+                             elem: '#tableContent-down',
+                             id: 'tableContent-down',
+                             url: admin.formatUrl('/api/training/course/download/list'),
+                             parseData: function (res) { //res 即为原始返回的数据
+                                 return {
+                                     "code": res.respCode, //解析接口状态
+                                     "msg": res.message, //解析提示文本
+                                     "count": res.data.count, //解析数据长度
+                                     "data": res.data.list //解析数据列表
+                                 };
+                             },
+                             even: true,
+                             cols: [
+                                 [{
+                                     type: 'numbers',
+                                     title: '序号'
+                                 }, {
+                                     field: 'categoryName',
+                                     title: '文件类别'
+                                 }, {
+                                     field: 'fileName',
+                                     title: '文件名称',
+                                     templet: function (d) {
+                                         var temp = ''
+                                         if (d.fileName) {
+                                             temp = '<a href=' + d.fileUrl + ' class="layui-table-link" style="opacity:1">' + d.fileName + '</a>'
+                                         }
+                                         return temp
+                                     }
+                                 }, {
+                                     field: 'createDate',
+                                     title: '发布日期'
+                                 }, {
+                                     field: 'remark',
+                                     title: '备注'
+                                 }]
+                             ],
+                             height: 'full',
+                             page: {
+                                 layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                             },
+                             request: {
+                                 pageName: 'page', //页码的参数名称，默认：page
+                                 limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                             },
+                             where: search
+                         })
+        }
+
+        // 请求课程列表
+        function setCourseList(type, rankSort, caterory, page, pageSize) {
+            admin.req('/api/training/course/course/list', {
+                page: page,
+                pageSize: pageSize,
+                courseSort: type,
+                rankSort: rankSort,
+                courseCategory: caterory,
+                courseName: $("#searchInput")
+                    .val()
+            }, function (res) {
+                if (res.ok) {
+                    //console.log(res.data.list.length)
+                    // pageCount=res.data.count;
+                    // $("input[name='pages']").val(pageCount)
+                    renderPage(res.data.count)
+                    $('#courseList')
+                        .empty();
+                    for (var i = 0; i < res.data.list.length; i++) {
+                        var html = '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">' +
+                            '<div class="course">' +
+                            '<div class="courseTitle">' +
+                            res.data.list[i].courseName +
+                            '</div>' +
+                            '<div class="courseContent">' +
+                            '<div class="img" style="background-image:url(\'' + res.data.list[i].fileUrl + '\')"></div>' +
+                            '<div class="courseContent-center">' +
+                            '<div>课程简介：' + res.data.list[i].courseAbstract + '</div>' +
+                            '<div>培训时间：' + res.data.list[i].planStartDate + '--' + res.data.list[i].planEndDate + '</div>' +
+                            '<div><button class="layui-btn layui-btn-normal">去学习</button></div>' +
+                            '</div>' +
+                            '<div class="courseContent-right" id=' + res.data.list[i].courseId + ' name="' + res.data.list[i].planId + '"><span class="progress">' + res.data.list[i].studyPercent + '%</span></div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                        $('#courseList')
+                            .append(html);
+                        setProgress(res.data.list[i].courseId, res.data.list[i].studyPercent / 100);
+                    }
+                }
+            })
+        }
+
+        // 点击去学习打开课程详情
+        $('#courseList')
+            .on('click', 'button', function () {
+                var courseId = $(this)
+                    .parent()
+                    .parent()
+                    .next()
+                    .attr('id');
+                var planId = $(this)
+                    .parent()
+                    .parent()
+                    .next()
+                    .attr('name');
+                var href;
+                if (location.href.indexOf('?') != -1) {
+                    href = location.href.substr(0, location.href.indexOf('?'));
+                } else {
+                    href = location.href;
+                }
+                window.open(
+                    href + '?courseId=' + courseId + '&planId=' + planId + '&pageLink=' + location.href.split("#")[0]);
+                // admin.req('../../assets/json/menus2.json', {}, function(res) {
+                //     $('.layui-body').load('../../components/tpl/course_list.html');
+                // });
+            })
+
+        // 课程详情列表
+        function renderTable(data) {
+            table.render({
+                             elem: '#chapterList',
+                             where: data,
+                             url: admin.formatUrl('/api/training/course/book/list'),
+                             parseData: function (res) { //res 即为原始返回的数据
+                                 return {
+                                     "code": res.respCode, //解析接口状态
+                                     "msg": res.message, //解析提示文本
+                                     "count": res.data.count, //解析数据长度
+                                     "data": res.data.list //解析数据列表
+                                 };
+                             },
+                             request: {
+                                 pageName: 'page', //页码的参数名称，默认：page
+                                 limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                             },
+                             cols: [
+                                 [{
+                                     title: '章节列表（点击下面的章节名称进行学习）',
+                                     field: 'textbookName',
+                                     templet: function (d) {
+                                         return '<i class="layui-icon layui-icon-triangle-r"></i><a href="javascript:void(0)" onclick="openWin(\'' + d.fileUrl + '\', \'' + d.textbookId + '\', \'' + d.progress + '\', \'' + d.last + '\', this)"><span>第' + d.sort + '讲</span><span>' + d.textbookName + '</span><span>(共' + (d.tbType === 'O' ? (d.last + '页') : formatSeconds(
+                                             d.last)) + ')</span></a>'
+                                     }
+                                 }, {
+                                     title: '',
+                                     field: 'supplierCode',
+                                     align: 'right',
+                                     width: 200,
+                                     templet: function (d) {
+                                         return '<span>' + (d.isOver === 0 ? '学习中' : '已学完') + '</span><span>(已学' + (d.tbType === 'O' ? (d.progress + '页') : formatSeconds(
+                                             d.progress)) + ')</span>'
+                                     }
+                                 }]
+                             ],
+                             // height: 511,
+                             page: true,
+                             done: function (res, curr, count) {
+
+                             }
+                         })
+        }
+
+        // 公告列表
+        function renderTable1() {
+            table.render({
+                             elem: '#noticeList',
+                             url: admin.formatUrl('/api/training/course/notice/all'),
+                             parseData: function (res) { //res 即为原始返回的数据
+                                 return {
+                                     "code": res.respCode, //解析接口状态
+                                     "msg": res.message, //解析提示文本
+                                     "count": res.data.count, //解析数据长度
+                                     "data": res.data.list //解析数据列表
+                                 };
+                             },
+                             request: {
+                                 pageName: 'page', //页码的参数名称，默认：page
+                                 limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                             },
+                             cols: [
+                                 [{
+                                     title: '日期',
+                                     field: 'noticeDate',
+                                     align: 'center',
+                                     width: 120
+                                 }, {
+                                     title: '公告',
+                                     field: 'noticeName',
+                                     align: 'center',
+                                     templet: function (d) {
+                                         var text = d.noticeName ? d.noticeName : "";
+                                         return '<div title="' + text + '"><span>' + text + '</span></div>'
+                                     }
+                                 }]
+                             ],
+                             // height: 511,
+                             page: true,
+                             done: function (res, curr, count) {
+
+                             }
+                         })
+        }
+
+        function renderPage(total) {
+            //console.log(total)
+            laypage.render({
+                               elem: 'pagation', //注意，这里的 test1 是 ID，不用加 # 号
+                               limit: 10,
+                               limits: [10, 20, 30, 40, 50],
+                               layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+                               curr: page,
+                               count: total, //数据总数，从服务端得到
+                               jump: function (obj, first) {
+                                   //console.log(total); //得到当前页，以便向服务端请求对应页的数据。
+                                   //console.log(obj.limit); //得到每页显示的条数
+                                   page = obj.curr;
+                                   pageSize = obj.limit;
+
+                                   var activeId = $('a.active')
+                                       .attr('id')
+                                   var rankSort = $('a.active')
+                                       .next("img")
+                                       .attr('name')
+                                   var tabId = $('li.layui-this')
+                                       .attr('id')
+
+                                   //首次不执行
+                                   if (!first) {
+                                       // 初始化列表
+                                       setCourseList(activeId, rankSort, tabId, page, pageSize);
+                                   }
+                               }
+                           });
+        }
+    })
+</script>

@@ -1,0 +1,111 @@
+<div class="layui-row" style="padding: 0 2%">
+            <div class="layui-col-md12">
+    <table id="tableContent_ability_check" lay-filter="tableContent_ability_check">
+            </div>
+        </div>
+
+<style type="text/css">
+ #layer-form .table-top-bar .layui-form-label{width: auto;}
+ #layer-form .layui-form-label{float: left;margin-top: 1%;}
+ #layer-form .layui-inline{width: 20%;float: left;margin-top: 1%;}
+ #layer-form .layui-form-select .layui-input{width: 100%}
+</style>
+<script type="text/javascript">
+    //console.log($("input[name='planId']").val())
+    //console.log($("input[name='partsCode']").val())
+    //console.log($("input[name='partsName']").val())
+    //console.log($("input[name='carType']").val())
+    //console.log($("input[name='planName']").val())
+    //console.log($("input[name='partsVersion']").val())
+    layui.use(['laydate','element','table','formSelects','upload'], function() {
+        var table = layui.table,
+            form = layui.form,
+            upload = layui.upload,
+            laydate = layui.laydate,
+            config = layui.config,
+            tableParmas={},
+            formSelects = layui.formSelects,
+            admin = layui.admin,
+            tableBak=[];
+        var renderTable = function() {
+            var search={}
+            search.trainingType=$("input[name='trainingType']").val()
+            search.planId=$("input[name='planId']").val()
+            search.supplierId=$("input[name='supplierId']").val()
+            // 渲染表格
+            table.render({
+                elem: '#tableContent_ability_check',
+                id: 'tableContent_ability_check',
+                url: admin.formatUrl('/api/training/statistics/detail/user/info'),
+                // 格式化后台返回的数据
+
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.length!=0?res.data.length:0, //解析数据长度
+                        "data": res.data?res.data:[] //解析数据列表
+                    };
+                },
+                cols: [
+                    [
+                    {
+                        type: 'numbers',
+                        rowspan: '2',
+                        title: 'No.'
+                    }, {
+                        field: 'courseName',
+                        rowspan: '2',
+                        title: '培训课程'
+                    },{
+                        field: 'eduStatus',
+                        rowspan: '2',
+                        title: '培训状态'
+                    },{
+                        field: 'examDate',
+                        rowspan: '2',
+                        title: '考试日期'
+                    },{
+                        field: 'examTimes',
+                        rowspan: '2',
+                        title: '考试次数',
+                        //edit: 'text'
+                    },{
+                        field: 'oscore',
+                        rowspan: '2',
+                        title: '考试成绩'
+                    },{
+                        field: 'scoreLvl',
+                        rowspan: '2',
+                        title: '考试评价'
+                    },{
+                        field: 'studyEndTime',
+                        rowspan: '2',
+                        title: '学习结束时间'
+                    },{
+                        field: 'studyStartTime',
+                        rowspan: '2',
+                        title: '学习开始时间'
+                    }]
+                ],
+                cellMinWidth: 120,                
+                height: 300,
+                page: false,
+                // request: {
+                //     pageName: 'page' //页码的参数名称，默认：page
+                //     ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                // },  
+                // page: {
+                //     layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                // },
+                where: search
+            });
+        }       
+        // 初始化，执行一次渲染表格
+        renderTable();
+
+            
+    })
+    
+</script>

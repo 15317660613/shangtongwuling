@@ -1,0 +1,3536 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../assets/css/admin.css" />
+    <link rel="stylesheet" href="../../assets/css/style.css" />
+</head> -->
+<!--1920X1080-->
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    ol,
+    li,
+    input,
+    select,
+    button,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        height: 100%;
+        color: #FFFFFF;
+        font-family: "微软雅黑";
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    ul li {
+        float: left;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    /* a:hover {
+        color: #FFFFFF;
+    } */
+
+    ul li a {
+        color: #FFFFFF
+    }
+
+    .content {
+        width: 100%;
+        position: absolute;
+        top: 95px;
+        bottom: 0;
+        /*background: url("./assets/images/datashow/bg-jiaohu.png") no-repeat;
+        background-size: 100%;*/
+    }
+
+    .content-header {
+        height: 44px;
+        background: url("../../assets/images/datashow/content-header-bg.png");
+        background-size: 100% 100%;
+        font-size: 16px;
+    }
+
+    .content-header-tab {
+        overflow: hidden;
+        width: 45%;
+        height: 44px;
+        line-height: 36px;
+        margin: 0 auto;
+        font-weight: bold;
+    }
+
+    ul.content-header-tab li {
+        width: 25%;
+        text-align: center;
+        cursor: pointer;
+        color: #FFFFFF;
+        font-size: 18px;
+    }
+
+    ul.content-header-tab li:hover {
+        color: #FFFFFF
+    }
+
+    .content-body {
+        position: absolute;
+        top: 36px;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .content-body-left {
+        float: left;
+    }
+
+    .content-body-right {
+        float: right;
+    }
+
+    .content-body-left,
+    .content-body-right {
+        width: 29.9%;
+        height: 75%;
+    }
+
+    .content-body-center {
+        height: 100%;
+    }
+
+    .search,
+    .export {
+        height: 7%;
+        display: flex;
+        /*justify-content: center;*/
+        align-items: center;
+        padding-left: 5%;
+    }
+
+    .pie-left,
+    .pie-right {
+        margin-top: 3%;
+    }
+
+    #bar-left-chart {
+        width: 100%;
+        height: 83%;
+        margin: 0 auto;
+    }
+
+    #bar-right-chart {
+        width: 100%;
+        height: 83%;
+        margin: 0 auto;
+    }
+
+    #pie-left-chart {
+        width: 100%;
+        height: 95%;
+        margin: 0 auto;
+    }
+
+    #pie-right-chart {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .circle {
+        cursor: pointer;
+    }
+
+    .layui-layout-admin .layui-body {
+        bottom: 0 !important;
+    }
+
+    @media screen and (max-width: 1800px) and (min-width: 1360px) {
+        #main {
+            width: 40%;
+            height: 72%;
+            margin: 0 auto;
+            top: 8%;
+            left: 30%;
+            background: url("../../assets/images/bigQ2.png") no-repeat center 52% fixed;
+            background-size: 30%;
+        }
+
+        #main1 {
+            width: 50%;
+            height: 70%;
+            margin: 0 auto;
+            top: 7%;
+            left: 18.7%;
+        }
+
+        .mouthmouth {
+            position: absolute;
+            margin: 102px 0 0 158px;
+        }
+
+        .circle-span {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            font-style: Bebas;
+            font-weight: bold;
+            font-size: 50%;
+            transform: translateX(-50%) translateY(-75%);
+        }
+
+        .search {
+            height: 10%;
+            margin-right: -8%;
+        }
+
+        .export {
+            height: 10%;
+        }
+
+        #info-list {
+            font-size: 12px;
+            width: 100%;
+            height: 57%;
+            overflow-y: scroll;
+            scrollbar-track-color: #3C5984;
+            scrollbar-arrow-color: #3C5984;
+            scrollbar-face-color: #3C5984;
+            scrollbar-shadow-color: #3C5984;
+        }
+
+        .bar-title {
+            font-size: 18px
+        }
+
+        .map-title {
+            font-size: 18px;
+        }
+
+        .bar-title-2nd,
+        .pie-title-2nd {
+            font-size: 14px;
+            padding: 2% 4%;
+        }
+
+        .bottom-words {
+            height: 20%;
+            margin-top: 2.7%;
+            margin-left: 0;
+            font-size: 13px;
+        }
+
+        .bottom-words-detail>div {
+            margin-top: 3%;
+        }
+
+        .top-words {
+            color: #B9F4FF;
+            font-size: 12px;
+            margin-top: 2.5%;
+            margin-left: 3%;
+            height: 9%;
+        }
+
+        .calendar {
+            height: 55%;
+        }
+
+        .legend {
+            height: 100%;
+            width: 19%;
+            float: right;
+            margin-top: 1.5%;
+            font-size: 12px;
+        }
+
+        #info-list>ul>li>.span3 {
+            width: 42%;
+            display: inline-block;
+            overflow: hidden;
+            margin-left: 12%;
+            white-space: nowrap;
+            /*强制span不换行*/
+            text-overflow: ellipsis;
+            /*超出部分以点号代替*/
+        }
+    }
+
+    @media screen and (min-width: 1900px) {
+        #main {
+            width: 40%;
+            height: 66%;
+            margin: 0 auto;
+            top: 8%;
+            left: 30%;
+            background: url(../../assets/images/bigQ2.png) no-repeat center 60% fixed;
+            background-size: 28%;
+        }
+
+        #main1 {
+            width: 50%;
+            height: 70%;
+            margin: 0 auto;
+            top: 38%;
+            left: 23%;
+        }
+
+        .mouthmouth {
+            position: absolute;
+            margin: 78px 0 0 185px;
+        }
+
+        #main1 img {
+            width: 36px;
+            height: 36px;
+        }
+
+        #img02 {
+            margin-left: 103px !important;
+        }
+
+        #img03 {
+            margin-left: 124px !important;
+        }
+
+        #img04 {
+            margin-left: 146px !important;
+        }
+
+        #img05 {
+            margin-left: 166px !important;
+        }
+
+        #img06 {
+            margin-left: 186px !important;
+        }
+
+        #img07 {
+            margin-left: 206px !important;
+        }
+
+        #img08 {
+            margin-left: 226px !important;
+        }
+
+        #img09 {
+            margin-left: 248px !important;
+        }
+
+        #img10 {
+            margin-left: 268px !important;
+        }
+
+        #img11 {
+            margin-left: 290px !important;
+        }
+
+        #img12 {
+            margin: 140px 0 0 103px !important;
+        }
+
+        #img13 {
+            margin: 138px 0px 0 122px !important
+        }
+
+        #img14 {
+            margin: 138px 0px 0 143px !important
+        }
+
+        #img15 {
+            margin: 138px 0px 0 163px !important
+        }
+
+        #img16 {
+            margin: 138px 0px 0 183px !important
+        }
+
+        #img17 {
+            margin: 138px 0px 0 205px !important
+        }
+
+        #img18 {
+            margin: 138px 0px 0 226px !important
+        }
+
+        #img19 {
+            margin: 138px 0px 0 247px !important
+        }
+
+        #img20 {
+            margin: 138px 0px 0 268px !important
+        }
+
+        #img21 {
+            margin: 103px 0 0 124px !important;
+        }
+
+        #img22 {
+            margin: 103px 0 0 144px !important;
+        }
+
+        #img23 {
+            margin: 103px 0 0 166px !important;
+        }
+
+        #img24 {
+            margin: 103px 0 0 186px !important;
+        }
+
+        #img25 {
+            margin: 103px 0 0 206px !important;
+        }
+
+        #img26 {
+            margin: 103px 0 0 228px !important;
+        }
+
+        #img27 {
+            margin: 103px 0 0 248px !important;
+        }
+
+        #img28 {
+            margin: 32px 0 0 165px !important;
+        }
+
+        #img29 {
+            margin: 32px 0 0 186px !important;
+        }
+
+        #img30 {
+            margin: 32px 0 0 207px !important;
+        }
+
+        #img31 {
+            margin: -5px 0 0 186px !important;
+        }
+
+        #div01 {
+            margin: 188px 0 0 95px !important;
+        }
+
+        #div02 {
+            margin: 180px 0 0 117px !important;
+        }
+
+        #div03 {
+            margin: 188px 0 0 138px !important;
+        }
+
+        #div04 {
+            margin: 180px 0 0 160px !important;
+        }
+
+        #div05 {
+            margin: 188px 0 0 180px !important;
+        }
+
+        #div06 {
+            margin: 180px 0 0 200px !important;
+        }
+
+        #div07 {
+            margin: 188px 0 0 220px !important;
+        }
+
+        #div08 {
+            margin: 180px 0 0 240px !important;
+        }
+
+        #div09 {
+            margin: 188px 0 0 260px !important;
+        }
+
+        #div10 {
+            margin: 180px 0 0 280px !important;
+        }
+
+        #div11 {
+            margin: 188px 0 0 300px !important;
+        }
+
+        #div12 {
+            margin: 155px 0 0 113px !important;
+        }
+
+        #div13 {
+            margin: 144px 0 0 132px !important;
+        }
+
+        #div14 {
+            margin: 155px 0 0 154px !important;
+        }
+
+        #div15 {
+            margin: 144px 0 0 173px !important;
+        }
+
+        #div16 {
+            margin: 155px 0 0 193px !important;
+        }
+
+        #div17 {
+            margin: 144px 0 0 215px !important;
+        }
+
+        #div18 {
+            margin: 155px 0 0 235px !important;
+        }
+
+        #div19 {
+            margin: 144px 0 0 256px !important;
+        }
+
+        #div20 {
+            margin: 155px 0 0 278px !important;
+        }
+
+        #div21 {
+            margin: 117px 0 0 135px !important;
+        }
+
+        #div22 {
+            margin: 106px 0 0 154px !important;
+        }
+
+        #div23 {
+            margin: 117px 0 0 176px !important;
+        }
+
+        #div24 {
+            margin: 106px 0 0 196px !important;
+        }
+
+        #div25 {
+            margin: 117px 0 0 216px !important;
+        }
+
+        #div26 {
+            margin: 106px 0 0 238px !important;
+        }
+
+        #div27 {
+            margin: 117px 0 0 258px !important;
+        }
+
+        #div28 {
+            margin: 47px 0 0 176px !important;
+        }
+
+        #div29 {
+            margin: 36px 0 0 197px !important;
+        }
+
+        #div30 {
+            margin: 47px 0 0 217px !important;
+        }
+
+        #div31 {
+            margin: 10px 0 0 197px !important;
+        }
+
+        .export,
+        .search {
+            height: 8%;
+            /*margin-right: -18%;*/
+        }
+
+        #info-list {
+            font-size: 12px;
+            width: 100%;
+            height: 50%;
+            overflow-y: scroll;
+            scrollbar-track-color: #3C5984;
+            scrollbar-arrow-color: #3C5984;
+            scrollbar-face-color: #3C5984;
+            scrollbar-shadow-color: #3C5984;
+        }
+
+        #info-list>ul>li>.span3 {
+            width: 53%;
+            display: inline-block;
+            overflow: hidden;
+            margin-left: 12%;
+            white-space: nowrap;
+            /*强制span不换行*/
+            text-overflow: ellipsis;
+            /*超出部分以点号代替*/
+        }
+
+        .bar-title {
+            font-size: 14px
+        }
+
+        .map-title {
+            font-size: 16px;
+        }
+
+        .bar-title-2nd,
+        .pie-title-2nd {
+            font-size: 12px;
+            padding: 3% 4%;
+            text-align: left;
+        }
+
+        .circle-span {
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            font-size: 50%;
+            transform: translateX(-50%) translateY(-75%);
+        }
+
+        .bottom-words {
+            height: 20%;
+            margin-top: 0;
+            margin-left: 0;
+            font-size: 13px;
+        }
+
+        .bottom-words-detail>div {
+            margin-top: 4%;
+        }
+
+        .top-words {
+            color: #B9F4FF;
+            font-size: 12px;
+            margin-top: 7.5%;
+            margin-left: 3%;
+            height: 9%;
+        }
+
+        .calendar {
+            height: 55%;
+        }
+
+        .legend {
+            height: 100%;
+            width: 19%;
+            float: right;
+            margin-top: 0;
+            font-size: 12px;
+        }
+
+        #pie-right-chart {
+            height: 95%;
+        }
+
+        #bar-left-chart {
+            height: 80%;
+        }
+
+        #bar-right-chart {
+            height: 80%;
+        }
+    }
+
+    .export {
+        padding-right: 5%;
+        justify-content: flex-end;
+        padding-left: 0;
+        /* height: 10%; */
+        position: relative;
+        /*margin-top: 4%;*/
+    }
+
+    .span-support {
+        position: absolute;
+        bottom: 10%;
+    }
+
+    .bar-right,
+    .pie-right {
+        margin-right: 5%;
+        margin-left: 0;
+    }
+
+    .map-title {
+        width: 23%;
+        height: 5.4%;
+        left: 39%;
+        top: 7.5%;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #49DCFF;
+        /*font-size: 18px;*/
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0 0;
+    }
+
+    .map-title-text {
+        width: 100%;
+        text-align: center;
+    }
+
+    .map-title-text1 {
+        position: absolute;
+        right: 0;
+        line-height: 28px;
+    }
+
+    .contruy1 {
+        cursor: pointer;
+        font-size: 14px;
+        justify-content: center;
+    }
+
+    .contruy,
+    .province,
+    .city {
+        cursor: pointer;
+    }
+
+    /* .layui-table-view .layui-table {
+        width: 100%;
+    } */
+
+    .layui-laydate-main {
+        /* width: 280px !important;
+        height: 230px; */
+    }
+
+    .laydate-month-list>li {
+        margin: 8px 0 !important;
+    }
+
+    input::-webkit-input-placeholder {
+        /* WebKit browsers */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    input:-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    input::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    input:-ms-input-placeholder {
+        /* Internet Explorer 10+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .table-control-btn {
+        color: #2487DA;
+        font-size: 12px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .table-control-btn:hover {
+        color: #2487DA;
+    }
+
+    /* 加skin皮肤样式 */
+
+    .whiteStyle .layui-layer-title {
+        background: #FFF;
+        color: #000;
+        font-size: 16px;
+        border: none;
+    }
+
+    .layui-title-text {
+        font-weight: 600;
+    }
+
+    /* 日期选择控件中的确定按钮样式 */
+
+    .layui-laydate .laydate-btns-confirm {
+        background-color: #1890FF;
+        color: white;
+    }
+
+    .layui-laydate .laydate-btns-confirm:hover {
+        opacity: 0.7;
+        color: white;
+    }
+
+    .layui-table-view .layui-table td,
+    .layui-table-view .layui-table th {
+        padding: 2px 0;
+    }
+
+    /* 风险信息详情表格主体的最高高度 */
+
+    .layui-table-body {
+        max-height: 330px;
+        /*overflow-y: auto;*/
+    }
+
+    /* 无数据显示图片 */
+
+    .nodatastyle {
+        background: url("../../assets/images/nodatatransparent.png") no-repeat center 44px;
+        background-size: 23%;
+    }
+
+    .layui-table,
+    .layui-table-view {
+        margin: 0 0;
+    }
+
+    .layui-card-body {
+        padding: 10px 10px;
+    }
+
+    #tableContent2+div .layui-table-body {
+        height: 330px;
+        max-height: 330px;
+    }
+
+    /*****************************公共部分样式*********************************/
+
+    .content-body-left {
+        height: 75%;
+    }
+
+    /************************重写layui部分样式*********************************/
+
+    .layui-layout-admin .layui-body {
+        top: 0;
+        padding: 0;
+        overflow-y: hidden;
+    }
+
+    /*****************************查询样式************************************/
+
+    .search-input {
+        width: 28%;
+        height: 40%;
+        background: rgba(73, 220, 255, 0.17);
+        /*background-size: 100% 100%;*/
+        border: 1px solid #00FFFF;
+        color: #FFFFFF;
+        padding-left: 5px;
+        margin: 0 5px;
+    }
+
+    .search-button,
+    #export {
+        height: 48%;
+        margin: 0 1%;
+        width: 10%;
+        background: url("../../assets/images/datashow/50_40.png") no-repeat;
+        background-size: 100% 100%;
+        border: none;
+        color: #9BE3F9;
+        cursor: pointer;
+    }
+
+    .select-button {
+        border: none;
+        background: none;
+        color: #949494;
+        cursor: pointer;
+        width: 50px;
+        /*opacity: 0.6;*/
+    }
+
+    .search>label {
+        width: 45px;
+    }
+
+    /*****************************图表样式************************************/
+
+    .bar-title,
+    .pie-title {
+        text-align: center;
+        height: 16%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0px 0px;
+        color: #40EFFF;
+    }
+
+    .title-span {
+        float: right;
+        margin-right: 2%;
+        font-size: 12px;
+        color: #949494;
+        margin-top: 2px;
+    }
+
+    .bar-left,
+    .pie-left,
+    .bar-right,
+    .pie-right {
+        margin-left: 5%;
+        height: 45%;
+        box-sizing: border-box;
+        background: rgba(11, 73, 159, 0.4);
+        border-radius: 4px;
+        color: #FFFFFF;
+    }
+
+    .bar-left,
+    .pie-left {
+        height: 45%;
+    }
+
+    /*****************************进度条样式************************************/
+
+    .circle {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .desc-span {
+        display: block;
+        margin-top: 2%;
+    }
+
+    .content-tail {
+        width: 100%;
+        height: 24%;
+        float: left;
+    }
+
+    .content-tail>div {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .content-tail>div>div {
+        display: inline-block;
+    }
+
+    .progress-lf {
+        margin-left: 1.3%;
+    }
+
+    .progress-lf,
+    .progress-md {
+        width: 20%;
+        height: 100%;
+        background: rgba(11, 73, 159, 0.4);
+    }
+
+    .progress-rt {
+        width: 30%;
+        height: 100%;
+        background: rgba(11, 73, 159, 0.4);
+    }
+
+    .progress-lf>.circle,
+    .progress-md>.circle {
+        width: calc(50% - 3px);
+        height: 69%;
+        text-align: center;
+        padding-top: 5%;
+        position: relative;
+    }
+
+    .progress-rt>.circle {
+        width: calc(33.33333333% - 4px);
+        height: 69%;
+        text-align: center;
+        padding-top: 3.5%;
+        position: relative;
+    }
+
+    .progress-lf>.bar-title,
+    .progress-md>.bar-title,
+    .progress-rt>.bar-title {
+        height: 20%;
+    }
+
+    .desc-span {
+        display: block;
+        margin-top: 2%;
+        font-size: 12px;
+    }
+
+    #outsideProblems,
+    #insideProblems {
+        cursor: pointer;
+    }
+
+    /*****************************列表样式************************************/
+
+    #info-list::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 10px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+
+    #info-list::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    #info-list::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        display: none;
+    }
+
+    #info-list::-webkit-scrollbar-corner {
+        /*滚动条边角*/
+        display: none;
+    }
+
+    #info-list>ul>li {
+        width: 90%;
+        margin: 1% 5%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        opacity: 0.6;
+    }
+
+    #info-list>ul>li>.span1 {
+        /*margin-left: 5%;*/
+        white-space: nowrap;
+    }
+
+    #info-list>ul>li>.span2 {
+        margin-left: 9%;
+        white-space: nowrap;
+    }
+
+    .notice {
+        width: 26.5%;
+        /* margin-top: 3.4%; */
+        /* margin-right: 5%; */
+        height: 100%;
+        background: rgba(11, 73, 159, 0.4);
+    }
+
+    .notice>.bar-title {
+        height: 20%;
+    }
+
+    .list-title-2nd {
+        margin: 2% auto;
+        width: 100%;
+    }
+
+    /*****************************中心样式************************************/
+
+    .bottom-words-detail {
+        color: #40EFFF;
+        float: left;
+        width: 50%;
+        margin-left: 3%;
+    }
+
+    .bottom-words-detail>div>span {
+        background: rgba(0, 205, 254, 0.1);
+        border-bottom: 1px solid #40EFFF;
+        padding: 2px;
+    }
+
+    .legend>ul>li {
+        margin: 3%;
+        width: 100%;
+    }
+
+    .legend>ul>li>span {
+        opacity: 0.6;
+        margin-top: -3px;
+        display: inherit;
+    }
+
+    .trancle1 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #00FF00;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle2 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #D6B939;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle3 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #FF6349;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle4 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #bbbbbb;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .imgab {
+        display: inline-block;
+        position: absolute;
+        top: 293px;
+        left: 744px;
+        z-index: 99999;
+    }
+
+    .imgab>img {}
+
+    /*for temporary use*/
+
+    .layui-body {
+        background: url("../../assets/images/datashow/bg-jiaohu.png") no-repeat;
+        background-size: 100%;
+    }
+
+    @media screen and (max-width: 1150px) {
+        .scroll-notice {
+            width: 360px;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        .scroll-notice {
+            width: 200px;
+        }
+    }
+
+    @media screen and (max-width: 750px) {
+        .scroll-notice {
+            width: 240px;
+            left: 50px;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .scroll-notice {
+            width: 0;
+        }
+    }
+
+    .layui-layer-content {
+        color: #000;
+    }
+
+    .layui-layer-msg .layui-layer-content {
+        color: #fff;
+    }
+
+    @media screen and (max-height: 800px) and (min-height: 700px) {
+        #main1 {
+            margin: 33px 0 0 0 !important;
+        }
+
+        .circle-span {
+            top: 40%;
+        }
+
+        .top-words {
+            margin-top: 5%;
+        }
+    }
+
+    @media screen and (max-height: 1080px) and (min-height: 1000px) {
+        #main1 {
+            margin: 20px 0 0 0 !important;
+        }
+
+        .circle-span {
+            top: 36%;
+        }
+    }
+</style>
+
+
+<div
+    style="width: 100%;height: 42px;color: #FFF;position: absolute;top: 56px;font-size: 18px;font-weight: 600;background-color: rgba(58,146,255,0.3)">
+    <ul style="display: flex;justify-content: space-around;align-items: center;height: 100%;" id="mainHeader">
+        <li style="color: #49DCFF">工厂总览</li>
+        <li><a href="/edu/fx/projectMgt">项目管理</a></li>
+        <li><a href="/html-edu/index.html#!product_index">生产管理</a></li>
+        <li><a href="/html-edu/index.html#!quality_unqualified">质量管理</a></li>
+        <li><a href="/edu/llManage/indexIn">交付管理</a></li>
+        <li><a href="/edu/fx/modifiView">变更管理</a></li>
+        <li><a href="/html-edu/index.html#!riskManage_riskIndex">风险管理</a></li>
+        <li><a href="/edu/classfield">基础档案</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="content-header">
+        <!-- tab -->
+        <ul class="content-header-tab" id="subHeader">
+            <li><a href="./indexChart.html#!factoryPandect" style="color: #49DCFF;">工厂运行总览</a></li>
+            <li id="analysis"><a href="./indexChart.html#!productStatus">生产运行状态</a></li>
+            <li id="monitor"><a href="./indexChart.html#!qualityStatus">质量运行状态</a></li>
+            <li id="warning"><a href="./indexChart.html#!deliveryStatus">交付完成状态</a></li>
+        </ul>
+    </div>
+    <!-- tab内容 -->
+    <div class="content-body">
+        <div class="content-body-left">
+            <!-- 查询框 -->
+            <div class="search">
+                <label>时间段</label>
+                <input type="text" class="search-input" id="search-input" readonly autocomplete="off"
+                    placeholder="请选择日期">
+                <span>-</span>
+                <input type="text" class="search-input" id="search-input2" readonly autocomplete="off"
+                    placeholder="请选择日期">
+                <button class="search-button">查询</button>
+                <!--<button class="select-button">筛选<i class="layui-icon layui-icon-down"></i></button>-->
+                <!--先这样吧，之后再换成layer的形式-->
+            </div>
+            <!-- 图表 -->
+            <div class="bar-left">
+                <div class="bar-title">生产运行</div>
+                <div class="bar-title-2nd">
+                    <span>滚动12个月生产计划完成率状态</span>
+                    <span id="plantarget" class="title-span">目标值：0</span>
+                </div>
+                <div id="bar-left-chart"></div>
+            </div>
+            <!-- 图表 -->
+            <div class="pie-left" style="height: 40%;">
+                <div class="pie-title-2nd">
+                    <span>滚动12个月成品一次交检合格率状态</span>
+                    <span id="passtarget" class="title-span">目标值：0</span>
+                </div>
+                <div id="pie-left-chart"></div>
+            </div>
+        </div>
+        <div class="content-body-right">
+            <!-- 导出 -->
+            <div class="export">
+                <div class="span-support">
+                    <span id="newdate">无</span>
+                    <span style="font-size: 12px;">（最近更新日期）</span>
+                </div>
+            </div>
+            <!-- 图表 -->
+            <div class="bar-right" style="margin-left: 0;">
+                <div class="bar-title">生产效率</div>
+                <div class="bar-title-2nd">
+                    <span>滚动12个月设备综合效率运行状态</span>
+                    <span id="equiptarget" class="title-span">目标值：0</span>
+                </div>
+                <div id="bar-right-chart"></div>
+            </div>
+            <!-- 图表 -->
+            <div class="pie-right" style="height: 40%;margin-left: 0;">
+                <div class="pie-title-2nd">
+                    <span>滚动12个月停线率状态</span>
+                </div>
+                <div id="pie-right-chart"></div>
+            </div>
+        </div>
+        <!--进度条  to：点击跳转的路径-->
+        <div class="content-tail" id="circle-area">
+            <div class="progress-lf">
+                <div class="bar-title" style="display: flex;">每日生产效率情况</div>
+                <div id="circle1" class="circle" to="#!product_OEE"><span class="circle-span"></span><span
+                        class="desc-span" d>设备综合效率OEE</span></div>
+                <div id="circle2" class="circle" to="#!product_stopLine"><span class="circle-span"></span><span
+                        class="desc-span">停线率</span>
+                </div>
+            </div>
+            <div class="progress-md">
+                <div class="bar-title" style="display: flex;">每日质量指标情况</div>
+                <div id="circle3" class="circle" to="#!product_qualificationRate"><span class="circle-span"></span><span
+                        class="desc-span">成品一次交检合格率</span></div>
+                <div id="circle4" class="circle" to="#!quality_unqualified"><span class="circle-span"></span><span
+                        class="desc-span">报废率</span>
+                </div>
+            </div>
+            <div class="progress-rt">
+                <div class="bar-title" style="display: flex;">每日计划完成情况</div>
+                <div id="circle5" class="circle" to="#!product_completionRate"><span class="circle-span"></span><span
+                        class="desc-span">生产计划完成率</span></div>
+                <div id="circle6" class="circle"><span class="circle-span"></span><span class="desc-span">订单交付完成率</span>
+                </div>
+                <div id="circle7" class="circle" to="/edu/materielControl/materielManage"
+                    to="/edu/materielControl/materielManage"><span class="circle-span"></span><span
+                        class="desc-span">来料准时交付率</span></div>
+            </div>
+            <!--公告栏-->
+            <div class="notice">
+                <div class="bar-title" style="display: flex;">本月质量风险预警</div>
+                <div class="list-title-2nd">
+                    <span style="margin-left: 11%">日期</span>
+                    <span style="margin-left: 11%">风险类型</span>
+                    <span style="margin-left: 10%">预警描述</span>
+                </div>
+                <div id="info-list">
+                    <ul style="overflow:hidden"></ul>
+                </div>
+            </div>
+        </div>
+        <!-- 地图 -->
+        <div class="content-body-center">
+            <div class="map-title" style="width:38%;top:5.5%;left:31%">
+                <div class="map-title-text">
+                    <div class="contruy">零缺陷质量</div>
+                </div>
+                <div class="map-title-text1">
+                    <div class="contruy1" id="qualitydate"></div>
+                </div>
+            </div>
+
+        </div>
+        <!-- 中心日历 -->
+        <div id='main' style="position: absolute;z-index: 99999;">
+            <div class="top-words">
+                <div id='inside'>内部质量：零缺陷0天，当年不良累计0件，累计报废0件</div>
+                <div id='outside'>当年 SGMW质量反馈：现场质量问题0起；DT质量停线0分钟；重大质量问题0起。</div>
+            </div>
+            <div class="calendar">
+                <!--文字排版参考http://www.daqianduan.com/6704.html-->
+            </div>
+            <div id='main1' style="position: absolute;z-index: 99999;margin:-10px 0 0 0px;">
+                <img id="img01" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 80px;" />
+                <img id="img02" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 94px;" />
+                <img id="img03" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 108px;" />
+                <img id="img04" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 124px;" />
+                <img id="img05" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 140px;" />
+                <img id="img06" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 154px;" />
+                <img id="img07" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 168px;" />
+                <img id="img08" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 182px;" />
+                <img id="img09" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 198px;" />
+                <img id="img10" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 214px;" />
+                <img id="img11" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:175px 0 0 228px;" />
+
+
+                <img id="img12" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:151px 0 0 95px;" />
+                <img id="img13" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:149px 0 0 108px;" />
+                <img id="img14" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:151px 0 0 123px;" />
+                <img id="img15" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:149px 0 0 139px;" />
+                <img id="img16" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:151px 0 0 154px;" />
+                <img id="img17" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:149px 0 0 167px;" />
+                <img id="img18" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:151px 0 0 183px;" />
+                <img id="img19" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:149px 0 0 199px;" />
+                <img id="img20" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:151px 0 0 212px;" />
+
+                <div class='mouthmouth'><span id="month">无</span></div>
+                <img id="img21" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:126px 0 0 110px;" />
+                <img id="img22" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:123px 0 0 124px;" />
+                <img id="img23" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:126px 0 0 138px;" />
+                <img id="img24" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:123px 0 0 152px;" />
+                <img id="img25" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:125px 0 0 168px;" />
+                <img id="img26" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:123px 0 0 184px;" />
+                <img id="img27" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:126px 0 0 198px;" />
+
+
+                <img id="img28" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:75px 0 0 139px;" />
+                <img id="img29" src="../../assets/images/triangle/-s-组 39.png" width="28" height="24"
+                    style="position:absolute; margin:74px 0 0 154px;" />
+                <img id="img30" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:75px 0 0 168px;" />
+
+                <img id="img31" src="../../assets/images/triangle/-s-组 42.png" width="28" height="24"
+                    style="position:absolute; margin:50px 0 0 154px;" />
+                <div id="div01" style="position:absolute; font-size:12px; margin:180px 0 0 90px;width: 20;height:16">
+                    <span style="font-size:1px">1</span></div>
+                <div id="div02" style="position:absolute; font-size:12px; margin:174px 0 0 103px;width: 20;height:16">
+                    <span class="sizenum">2</span></div>
+                <div id="div03" style="position:absolute; font-size:12px; margin:180px 0 0 119px;width: 28;height:24">
+                    <span class="sizenum">3</span></div>
+                <div id="div04" style="position:absolute; font-size:12px; margin:174px 0 0 135px;width: 28;height:24">
+                    <span class="sizenum">4</span></div>
+                <div id="div05" style="position:absolute; font-size:12px; margin:184px 0 0 149px;width: 28;height:24">
+                    <span class="sizenum">5</span></div>
+                <div id="div06" style="position:absolute; font-size:12px; margin:174px 0 0 163px;width: 28;height:24">
+                    <span class="sizenum">6</span></div>
+                <div id="div07" style="position:absolute; font-size:12px; margin:180px 0 0 177px;width: 28;height:24">
+                    <span class="sizenum">7</span></div>
+                <div id="div08" style="position:absolute; font-size:12px; margin:174px 0 0 192px;width: 28;height:24">
+                    <span class="sizenum">8</span></div>
+                <div id="div09" style="position:absolute; font-size:12px; margin:180px 0 0 208px;width: 28;height:24">
+                    <span class="sizenum">9</span></div>
+                <div id="div10" style="position:absolute; font-size:12px; margin:174px 0 0 219px;width: 28;height:24">
+                    <span class="sizenum">10</span></div>
+                <div id="div11" style="position:absolute; font-size:12px; margin:180px 0 0 234px;width: 28;height:24">
+                    <span class="sizenum">11</span></div>
+
+
+                <div id="div12" style="position:absolute; font-size:12px; margin:158px 0 0 100px;width: 28;height:24">
+                    <span class="sizenum">12</span></div>
+                <div id="div13" style="position:absolute; font-size:12px; margin:148px 0 0 115px;width: 28;height:24">
+                    <span class="sizenum">13</span></div>
+                <div id="div14" style="position:absolute; font-size:12px; margin:158px 0 0 128px;width: 28;height:24">
+                    <span class="sizenum">14</span></div>
+                <div id="div15" style="position:absolute; font-size:12px; margin:148px 0 0 145px;width: 28;height:24">
+                    <span class="sizenum">15</span></div>
+                <div id="div16" style="position:absolute; font-size:12px; margin:158px 0 0 159px;width: 28;height:24">
+                    <span class="sizenum">16</span></div>
+                <div id="div17" style="position:absolute; font-size:12px; margin:148px 0 0 174px;width: 28;height:24">
+                    <span class="sizenum">17</span></div>
+                <div id="div18" style="position:absolute; font-size:12px; margin:158px 0 0 190px;width: 28;height:24">
+                    <span class="sizenum">18</span></div>
+                <div id="div19" style="position:absolute; font-size:12px; margin:148px 0 0 206px;width: 28;height:24">
+                    <span class="sizenum">19</span></div>
+                <div id="div20" style="position:absolute; font-size:12px; margin:158px 0 0 217px;width: 28;height:24">
+                    <span class="sizenum">20</span></div>
+
+
+                <div id="div21" style="position:absolute; font-size:12px; margin:134px 0 0 115px;width: 28;height:24">
+                    <span class="sizenum">21</span></div>
+                <div id="div22" style="position:absolute; font-size:12px; margin:120px 0 0 128px;width: 28;height:24">
+                    <span class="sizenum">22</span></div>
+                <div id="div23" style="position:absolute; font-size:12px; margin:134px 0 0 143px;width: 28;height:24">
+                    <span class="sizenum">23</span></div>
+                <div id="div24" style="position:absolute; font-size:12px; margin:120px 0 0 158px;width: 28;height:24">
+                    <span class="sizenum">24</span></div>
+                <div id="div25" style="position:absolute; font-size:12px; margin:134px 0 0 174px;width: 28;height:24">
+                    <span class="sizenum">25</span></div>
+                <div id="div26" style="position:absolute; font-size:12px; margin:120px 0 0 190px;width: 28;height:24">
+                    <span class="sizenum">26</span></div>
+                <div id="div27" style="position:absolute; font-size:12px; margin:134px 0 0 204px;width: 28;height:24">
+                    <span class="sizenum">27</span></div>
+
+                <div id="div28" style="position:absolute; font-size:12px; margin:84px 0 0 144px;width: 28;height:24">
+                    <span id="text28" class="sizenum">28</span>
+                </div>
+                <div id="div29" style="position:absolute; font-size:12px; margin:72px 0 0 160px;width: 28;height:24">
+                    <span id="text29" class="sizenum">29</span>
+                </div>
+                <div id="div30" style="position:absolute; font-size:12px; margin:84px 0 0 174px;width: 28;height:24">
+                    <span id="text30" class="sizenum">30</span>
+                </div>
+
+                <div id="div31" style="position:absolute; font-size:12px; margin:56px 0 0 160px;width: 28;height:24">
+                    <span id="text31" class="sizenum">31</span>
+                </div>
+            </div>
+            <div class="bottom-words">
+                <div class="bottom-words-detail">
+                    <div id="outdate"></div>
+                    <div id="outsideProblems" to="/edu/showprr/ShowPrr"><span>客诉</span>：0起</div>
+                    <div id="insideProblems" to="/edu/qualityProblemManagement/zlwtgl"><span>内诉</span>：0起；A类：0起
+                        B类：0起；C类：0起
+                        </span>
+                    </div>
+                </div>
+                <div class="legend">
+                    <ul>
+                        <li>
+                            <div class="trancle1"></div><span>无质量问题</span>
+                        </li>
+                        <li>
+                            <div class="trancle2"></div><span>内部质量问题</span>
+                        </li>
+                        <li>
+                            <div class="trancle3"></div><span>客户质量问题</span>
+                        </li>
+                        <!--<li>-->
+                        <!--<div class="trancle4"></div><span>客户质量问题</span>-->
+                        <!--</li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="imgab"><img src="../../assets/images/triangle/reddown.png"></div>-->
+
+<script>
+    //layui初始化
+    layui.use(['element', 'table', 'jquery', 'layer', 'laydate', 'admin'], function () {
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        var admin = layui.admin;
+        var config = layui.config;
+        var table = layui.table;
+        var latestDate = '';
+        var basePath = '/html-edu/index.html';
+        //var basePath='';
+        var $ = layui.jquery;
+        //var curDate1 = getPreMonth(new Date(), 1);
+
+        var url1 = "/api-edu/interaction/industryruntime/twelve-months/prd-rate";
+        var url2 = "/api-edu/interaction/industryruntime/twelve-months/pass-rate";
+        var url3 = "/api-edu/interaction/industryruntime/twelve-months/equipment-efficiency";
+        var url4 = "/api-edu/interaction/industryruntime/stopbar";
+        var url5 = "/api-edu/interaction/industryruntime/onTimeDeliveryRate";
+        var url6 = "/api-edu/interaction/industryruntime/scrapRate";
+        var url7 = "/api-edu/interaction/industryruntime/day/prd-rate";
+        var url8 = "/api-edu/interaction/industryruntime/day/pass-rate";
+        var url9 = "/api-edu/interaction/industryruntime/day/equipment-efficiency";
+        var url10 = "/api-edu/interaction/industryruntime/stoprate";
+        var url11 = "/api-edu/interaction/industryruntime/qualityRiskWarning";
+        var url12 = "/api-edu/interaction/industryruntime/qualityfeedback";
+        var url13 = "/api-edu/interaction/industryruntime/problemmonth";
+        var url14 = "/api-edu/interaction/industryruntime/q";
+
+        /*初始化日期框*/
+        /* laydate.render({
+            elem: '#search-input'
+        }); */
+
+        /*初始化日期框*/
+        /* laydate.render({
+             elem: '#search-input2'
+         }); */
+        $("#mainHeader").on("click", "li", function () {
+            var menus = config.getAccount().captions;
+            var menu = $(this).find("a").html();
+            if (menus.indexOf(menu) == -1) {
+                location.href = '/edu/Comm/Public/Error?msgCode=E00003&module=Fx';
+                return false;
+            }
+        });
+
+        $("#subHeader").on("click", "li", function () {
+            var menus = config.getAccount().captions;
+            var menu = $(this).find("a").html();
+            if (menus.indexOf(menu) == -1) {
+                location.href = '/edu/Comm/Public/Error?msgCode=E00003&module=Fx';
+                return false;
+            }
+        });
+        //表示是本地测试
+        if (config.base_server == '') {
+            basePath = '/';
+        }
+        // 查询该供应商最近的生产日期
+        var param = [];
+        admin.req("/api-edu/interaction/industryruntime/getLastTime", param, function (res) {
+            if (res.ok) {
+                var dateArr = [];
+                var newDate = res.data.latestDate;
+                /*初始化日期框*/
+                var startTime = laydate.render({
+                    elem: '#search-input',
+                    value: res.data.latestDate,
+                    max: newDate,
+                    done: function (value, date) {
+                        //    		console.log(value); //得到日期生成的值，如：2017-08-18
+                        //    	    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                        endTime.config.min = {
+                            year: date.year,
+                            month: date.month - 1, //关键
+                            date: date.date,
+                            hours: date.hours,
+                            minutes: date.minutes,
+                            seconds: date.seconds
+                        };
+
+                    }
+                });
+
+                /*初始化日期框*/
+                var endTime = laydate.render({
+                    elem: '#search-input2',
+                    value: res.data.latestDate,
+                    min: newDate,
+                    done: function (value, date) {
+                        //    		console.log(value); //得到日期生成的值，如：2017-08-18
+                        //    	    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}    	   
+                        startTime.config.max = {
+                            year: date.year,
+                            month: date.month - 1, //关键
+                            date: date.date,
+                            hours: date.hours,
+                            minutes: date.minutes,
+                            seconds: date.seconds
+                        }
+
+                    }
+                });
+
+                if (newDate == null || newDate == '') {
+                    var option = {
+                        color: ['#71B7EE'],
+                        tooltip: {
+                            axisPointer: {
+                                type: 'cross',
+                                crossStyle: {
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        grid: {
+                            top: '4%',
+                            left: '16%'
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: 'rgba(255,255,255,0.6)'
+                                }
+                            },
+                            axisLabel: {
+                                interval: 0
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            data: [],
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}%'
+                            },
+                            min: 0,
+                            max: 100,
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: 'rgba(255,255,255,0.6)'
+                                }
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: false,
+                                lineStyle: {
+                                    color: '#FFF',
+                                    opacity: 0.2
+                                }
+                            }
+                        }],
+                        series: [{
+                            name: '完成率',
+                            type: 'bar',
+                            barWidth: '40%',
+                            data: []
+                        }]
+                    };
+
+                    var option2 = {
+                        color: ['#71B7EE'],
+                        tooltip: {
+                            axisPointer: {
+                                type: 'cross',
+                                crossStyle: {
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        grid: {
+                            top: '4%',
+                            left: '16%'
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: 'rgba(255,255,255,0.6)'
+                                }
+                            },
+                            axisLabel: {
+                                interval: 0
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            data: [],
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}%'
+                            },
+                            min: 0,
+                            max: 100,
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: 'rgba(255,255,255,0.6)'
+                                }
+                            },
+                            axisTick: {
+                                show: true
+                            },
+                            splitLine: {
+                                show: false,
+                                lineStyle: {
+                                    color: '#FFF',
+                                    opacity: 0.2
+                                }
+                            }
+                        }],
+                        series: [{
+                            name: '完成率',
+                            type: 'bar',
+                            data: []
+                        }]
+                    };
+
+                    var option3 = {
+                        color: ['#71B7EE'],
+                        tooltip: {
+                            axisPointer: {
+                                type: 'cross',
+                                crossStyle: {
+                                    color: '#999'
+                                }
+                            }
+                        },
+                        toolbox: {},
+                        legend: {
+                            data: ['停线时间(min)', '停线率', '停线率目标'],
+                            textStyle: {
+                                color: 'rgba(255,255,255,0.6)'
+                            },
+                            top: '0%',
+                            itemHeight: 8,
+                            itemWidth: 20
+                        },
+                        grid: {
+                            top: '20%',
+                            left: '16%'
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            data: [],
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: 'rgba(255,255,255,0.6)'
+                                }
+                            },
+                            axisLabel: {
+                                interval: 0
+                            }
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                            name: '',
+                            min: 0,
+                            max: 100,
+                            axisLabel: {
+                                formatter: '{value} %'
+                            },
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: 'rgba(255,255,255,0.6)'
+                                }
+                            }
+                        }, {
+                            type: 'value',
+                            name: '',
+                            min: 0,
+                            max: 25,
+                            axisLabel: {
+                                formatter: '{value}'
+                            },
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: 'rgba(255,255,255,0.6)'
+                                }
+                            }
+                        }],
+                        series: [{
+                            name: '停线时间(min)',
+                            type: 'bar',
+                            data: []
+                        }, {
+                            name: '停线率',
+                            type: 'line',
+                            itemStyle: {
+                                color: '#00ECC6'
+                            },
+                            data: []
+                        }, {
+                            name: '停线率目标',
+                            type: 'line',
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: '#FFB90C'
+                            },
+                            data: []
+                        }]
+                    };
+                    drawCharts('bar-left-chart', option);
+                    drawCharts('bar-right-chart', option);
+                    drawCharts('pie-left-chart', option2);
+                    drawCharts('pie-right-chart', option3);
+
+
+                    for (var i = 2; i < 7; i++) {
+                        drawProgressBar('circle' + i, setScreenOption(0));
+                    }
+
+                    if ($(window).width() < 1400) {
+                        drawProgressBar('circle1', {
+                            value: 0,
+                            startAngle: -(1 - 0.18) * Math.PI,
+                            size: 60,
+                            thickness: 5,
+                            fill: {
+                                color: "#49DCFF"
+                            },
+                            lineCap: "round",
+                            emptyFill: "rgba(255,255,255,0.6)"
+                        });
+
+                        drawProgressBar('circle7', {
+                            value: 0,
+                            startAngle: -(1 - 0.1) * Math.PI,
+                            size: 60,
+                            thickness: 5,
+                            fill: {
+                                color: "#49DCFF"
+                            },
+                            lineCap: "round",
+                            emptyFill: "rgba(255,255,255,0.6)"
+                        });
+                    } else {
+                        drawProgressBar('circle1', {
+                            value: 0,
+                            startAngle: -(1 - 0.18) * Math.PI,
+                            size: 80,
+                            thickness: 10,
+                            fill: {
+                                color: "#49DCFF"
+                            },
+                            lineCap: "round",
+                            emptyFill: "rgba(255,255,255,0.6)"
+                        });
+
+                        drawProgressBar('circle7', {
+                            value: 0,
+                            startAngle: -(1 - 0.1) * Math.PI,
+                            size: 80,
+                            thickness: 10,
+                            fill: {
+                                color: "#49DCFF"
+                            },
+                            lineCap: "round",
+                            emptyFill: "rgba(255,255,255,0.6)"
+                        });
+                    }
+                } else {
+                    latestDate = res.data.latestDate;
+                    var dateArr = newDate.split("-");
+                    if (dateArr.length == 3) {
+                        $("#newdate").html(dateArr[0] + "年" + dateArr[1] + "月" + dateArr[2] + "日");
+                    } else {
+                        $("#newdate").html("无");
+                    }
+                    $("#outdate").html(dateArr[0] + "年" + dateArr[1] + "月");
+                    var startDate = newDate;
+                    var endDate = newDate;
+                    //绘制图表
+                    // 滚动12个月生产计划完成率状态
+                    setBarLeft(url1, startDate, endDate);
+                    // 滚动12个月成品一次交检合格率状态
+                    setBarLeft2(url2, startDate, endDate);
+                    // 滚动12个月设备综合效率运行状态
+                    setBarLeft3(url3, startDate, endDate);
+                    // 滚动12个月停线率状态
+                    setBarLeft4(url4, startDate, endDate);
+                    // 来料准时交付率
+                    setCircle7(url5, startDate, endDate);
+                    // 报废率
+                    setCircle8(url6, startDate, endDate);
+                    // 每日计划完成情况-生产计划完成率
+                    setCircle9(url7, startDate, endDate);
+                    // 每日质量指标-成品一次交检合格率
+                    setCircle10(url8, startDate, endDate);
+                    // 每日生成效率-设备综合效率
+                    setCircle11(url9, startDate, endDate);
+                    // 停线率
+                    setCircle12(url10, startDate, endDate);
+                    // 质量风险预警
+                    setQuantityWarn(url11, startDate, endDate);
+                    // 工厂运行总览的质量反馈
+                    setQualityFeedback(url12, null, endDate);
+                    // 统计整个月的客诉内诉数量
+                    setProblemMount(url13, startDate, endDate);
+                    // 工厂运行总览的Q数据
+                    setqData(url14, startDate, endDate);
+                    drawProgressBar('circle' + 6, setScreenOption(0.00));
+                }
+            } else {
+                layer.msg(res.message);
+            }
+        });
+        /**
+         * 功能描述: 获取滚来料准时交付率
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setCircle7(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_5(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 获取报废率
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setCircle8(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_6(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 获取每日计划完成情况-生产计划完成率
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setCircle9(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_7(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 获取每日质量指标-成品一次交检合格率
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setCircle10(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_8(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 获取每日生成效率-设备综合效率
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setCircle11(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_9(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 获取停线率
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setCircle12(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_10(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 获取质量风险预警
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setQuantityWarn(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_11(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 查询工厂运行总览的质量反馈
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setQualityFeedback(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_12(startDate, endDate, res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 统计整个月的客诉内诉数量
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setProblemMount(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_13(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+
+        /**
+         * 功能描述: 工厂运行总览的Q数据
+         * @param: url
+         * @param: 开始时间
+         * @param: 结束时间
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setqData(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_14(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+        /**
+         * 功能描述: 组装echarts进度条
+         * 滚来料准时交付率
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_5(json) {
+            var rate;
+            if ($.isEmptyObject(json.data) || json.data.deliveryTotalNum == 0 || json.data.deliveryTotalNum == null) {
+                rate = 0;
+            } else {
+                var deliveryTotalNum = json.data.deliveryTotalNum;
+                var OnTimeNum = json.data.OnTimeNum;
+                rrate = (OnTimeNum == 0 || OnTimeNum == null ? 0 : OnTimeNum / deliveryTotalNum * 100).toFixed(2);
+                if (rrate !== 0) {
+                    var arr = rrate.split(".");
+                    if (arr[1] == "00") {
+                        rrate = arr[0];
+                    }
+                }
+                $("#circle7 span:first").html(rrate + "%");
+                rate = (OnTimeNum == 0 || OnTimeNum == null ? 0 : OnTimeNum / deliveryTotalNum).toFixed(2);
+            }
+
+            if ($(window).width() < 1400) {
+                drawProgressBar('circle7', {
+                    value: rate,
+                    startAngle: -(1 - 0.1) * Math.PI,
+                    size: 60,
+                    thickness: 5,
+                    fill: {
+                        color: "#49DCFF"
+                    },
+                    lineCap: "round",
+                    emptyFill: "rgba(255,255,255,0.6)"
+                });
+            } else {
+                drawProgressBar('circle7', {
+                    value: rate,
+                    startAngle: -(1 - 0.1) * Math.PI,
+                    size: 80,
+                    thickness: 10,
+                    fill: {
+                        color: "#49DCFF"
+                    },
+                    lineCap: "round",
+                    emptyFill: "rgba(255,255,255,0.6)"
+                });
+            }
+        }
+        /**
+         * 功能描述: 组装echarts进度条
+         * 报废率
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_6(json) {
+            if ($.isEmptyObject(json.data) || json.data.truecount == 0 || json.data.truecount == null) {
+                drawProgressBar('circle' + 4, setScreenOption(0));
+            } else {
+                var truecount = json.data.truecount;
+                var scrapcnt = json.data.scrapcnt;
+                var rate = (scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount * 100).toFixed(2);
+                if (rate !== 0) {
+                    var arr = rate.split(".");
+                    if (arr[1] == "00") {
+                        rate = arr[0];
+                    }
+                }
+                $("#circle4 span:first").html(rate + "%");
+
+                drawProgressBar('circle' + 4, setScreenOption((scrapcnt == 0 ? 0 : scrapcnt / truecount).toFixed(2)));
+            }
+        }
+        /**
+         * 功能描述: 组装echarts进度条
+         * 每日计划完成情况-生产计划完成率
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_7(json) {
+            if ($.isEmptyObject(json.data) || json.data.length < 2 || json.data[1].value == 0 || json.data[1].value == null) {
+                drawProgressBar('circle' + 5, setScreenOption(0));
+            } else {
+                var truecount = json.data[1].value;
+                var scrapcnt = json.data[0].value;
+                var rate = (scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount * 100).toFixed(2);
+                if (rate !== 0) {
+                    var arr = rate.split(".");
+                    if (arr[1] == "00") {
+                        rate = arr[0];
+                    }
+                }
+                $("#circle5 span:first").html(rate + "%");
+
+                drawProgressBar('circle' + 5, setScreenOption((scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount).toFixed(2)));
+            }
+        }
+        /**
+         * 功能描述: 组装echarts进度条
+         * 每日质量指标-成品一次交检合格率
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_8(json) {
+            if ($.isEmptyObject(json.data) || json.data.length < 2 || json.data[1].value == 0 || json.data[1].value == null) {
+                drawProgressBar('circle' + 3, setScreenOption(0));
+            } else {
+                var truecount = json.data[1].value;
+                var scrapcnt = json.data[0].value;
+                var rate = (scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount * 100).toFixed(2);
+                if (rate !== 0) {
+                    var arr = rate.split(".");
+                    if (arr[1] == "00") {
+                        rate = arr[0];
+                    }
+                }
+                $("#circle3 span:first").html(rate + "%");
+
+                drawProgressBar('circle' + 3, setScreenOption((scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount).toFixed(2)));
+            }
+
+        }
+        /**
+         * 功能描述: 组装echarts进度条
+         * 每日生成效率-设备综合效率
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_9(json) {
+            if ($.isEmptyObject(json.data) || json.data.length < 2 || json.data[1].value == 0 || json.data[1].value == null) {
+                if ($(window).width() < 1400) {
+                    drawProgressBar('circle1', {
+                        value: 0,
+                        startAngle: -(1 - 0.18) * Math.PI,
+                        size: 60,
+                        thickness: 5,
+                        fill: {
+                            color: "#49DCFF"
+                        },
+                        lineCap: "round",
+                        emptyFill: "rgba(255,255,255,0.6)"
+                    });
+                } else {
+                    drawProgressBar('circle1', {
+                        value: 0,
+                        startAngle: -(1 - 0.18) * Math.PI,
+                        size: 80,
+                        thickness: 10,
+                        fill: {
+                            color: "#49DCFF"
+                        },
+                        lineCap: "round",
+                        emptyFill: "rgba(255,255,255,0.6)"
+                    });
+                }
+            } else {
+                var truecount = json.data[1].value;
+                var scrapcnt = json.data[0].value;
+                var rate = (scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount * 100).toFixed(2);
+                if (rate !== 0) {
+                    var arr = rate.split(".");
+                    if (arr[1] == "00") {
+                        rate = arr[0];
+                    }
+                }
+                var rate1 = (scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount).toFixed(2);
+                $("#circle1 span:first").html(rate + "%");
+                if ($(window).width() < 1400) {
+                    drawProgressBar('circle1', {
+                        value: rate1,
+                        startAngle: -(1 - 0.18) * Math.PI,
+                        size: 60,
+                        thickness: 5,
+                        fill: {
+                            color: "#49DCFF"
+                        },
+                        lineCap: "round",
+                        emptyFill: "rgba(255,255,255,0.6)"
+                    });
+                } else {
+                    drawProgressBar('circle1', {
+                        value: rate1,
+                        startAngle: -(1 - 0.18) * Math.PI,
+                        size: 80,
+                        thickness: 10,
+                        fill: {
+                            color: "#49DCFF"
+                        },
+                        lineCap: "round",
+                        emptyFill: "rgba(255,255,255,0.6)"
+                    });
+                }
+            }
+        }
+        /**
+         * 功能描述: 组装echarts进度条
+         * 停线率
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_10(json) {
+            if ($.isEmptyObject(json.data) || json.data.length < 2 || json.data[1].value == 0 || json.data[1].value == null) {
+                drawProgressBar('circle' + 2, setScreenOption(0));
+            } else {
+                var truecount = json.data[1].value;
+                var scrapcnt = json.data[0].value;
+                var rate = (scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount * 100).toFixed(2);
+                if (rate !== 0) {
+                    var arr = rate.split(".");
+                    if (arr[1] == "00") {
+                        rate = arr[0];
+                    }
+                }
+                $("#circle2 span:first").html(rate + "%");
+
+                drawProgressBar('circle' + 2, setScreenOption((scrapcnt == 0 || scrapcnt == null ? 0 : scrapcnt / truecount).toFixed(2)));
+            }
+        }
+        /**
+         * 功能描述: 组装echarts进度条
+         * 质量风险预警
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        var scrollTimer;
+
+        function setValues_11(info) {
+            $('#info-list ul').empty();
+            if (info.data.length > 0) {
+                var myli = "";
+                for (var i = 0; i < info.data.length; i++) {
+                    myli += "<li><span class='span1'>" + info.data[i].riskDate.split("-")[0] + "/" + info.data[i].riskDate.split("-")[1] + "/" + info.data[i].riskDate.split("-")[2].substring(0, 2) + "</span><span class='span2'>" + info.data[i].riskType + "</span><span class='span3' title =" + info.data[i].warninRemark + ">" + info.data[i].warninRemark + "</span></li>";
+                }
+                // console.log($('#info-list ul'))
+                $('#info-list ul').append(myli);
+            }
+            var $this = $("#info-list");
+            var $ul = $this.find("ul");
+            var count = 0;
+            var liCount = $this.find("li").length;
+            var isStoped = false;
+            // console.log($this.find("ul").height())
+            clearInterval(scrollTimer);
+            scrollTimer = setInterval(function () {
+                if (isStoped) {
+                    return;
+                }
+                if (count < liCount && $this.height() < $ul.height()) {
+                    scrollNews($this);
+                    count++;
+                } else {
+                    $this.find("ul").css({
+                        marginTop: 0
+                    });
+                    count = 0;
+                }
+            }, 2000);
+
+            function scrollNews(obj) {
+                var $self = obj.find("ul");
+                var lineHeight = $self.find("li:first").height();
+                $self.animate({
+                    "marginTop": -lineHeight * count + "px"
+                }, 1000, function () { })
+
+                // scrollNews(obj)
+            }
+
+            $('#info-list ul').mouseenter(function () {
+                isStoped = true;
+            }).mouseleave(function () {
+                isStoped = false;
+            });;
+        }
+        /**
+         * 功能描述: 质量反馈
+         * 查询工厂运行总览的质量反馈
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_12(startDate, endDate, info) {
+            if ($.isEmptyObject(info.data)) {
+                $("#inside").html("无数据");
+                $("#outside").html("无数据");
+            } else {
+                var zeroBugDays = info.data.zeroBugDays;
+                var badCount = info.data.badCount;
+                var scarpCount = info.data.scarpCount;
+                var qualityCount = info.data.qualityCount;
+                var dtMinutes = info.data.dtMinutes;
+                var bigQualityCount = info.data.bigQualityCount;
+                if (startDate == '' || startDate == null) {
+                    $("#inside").html("内部质量：零缺陷" + zeroBugDays + "天，当年不良累计" + badCount + "件，累计报废" + scarpCount + "件。");
+                    $("#outside").html("客户反馈：当年现场质量问题" + qualityCount + "起；DT质量停线" + dtMinutes + "分钟；重大质量问题" + bigQualityCount + "起。");
+                } else {
+                    $("#inside").html("内部质量：零缺陷" + zeroBugDays + "天，时间期间内不良累计" + badCount + "件，累计报废" + scarpCount + "件。");
+                    $("#outside").html("客户反馈：时间期间内现场质量问题" + qualityCount + "起；DT质量停线" + dtMinutes + "分钟；重大质量问题" + bigQualityCount + "起。");
+                }
+            }
+        }
+        /**
+         * 功能描述: 客诉内诉数量
+         * 统计整个月的客诉内诉数量
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_13(info) {
+            if ($.isEmptyObject(info.data)) {
+                $("#outsideProblems").html("<span>客诉</span>：" + "无数据");
+                $("#insideProblems").html("<span>内诉</span>：" + "无数据；A类：" + "无数据  B类：" + "无数据；C类：" + "无数据");
+            } else {
+                var outsideProblems = info.data.outsideProblems;
+                var insideProblem = info.data.insideProblem;
+                var insideProblemA = info.data.insideProblemA;
+                var insideProblemB = info.data.insideProblemB;
+                var insideProblemC = info.data.insideProblemC;
+                $("#outsideProblems").html("<span>客诉</span>：" + outsideProblems + "起");
+                $("#insideProblems").html("<span>内诉</span>：" + insideProblem + "起；A类：" + insideProblemA + "起  B类：" + insideProblemB + "起；C类：" + insideProblemC + "起");
+            }
+        }
+        /**
+         * 功能描述: 工厂运行总览的Q数据
+         * 统工厂运行总览的Q数据
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_14(json) {
+            var date = [];
+            var curDate = new Date().getDate() < 10 ? "0" + new Date().getDate() : new Date().getDate();
+            var curMonth = new Date().getFullYear() + '' + (new Date().getMonth() + 1);
+            var dataMonth = Object.keys(json.data)[0].substring(4, 6);
+            dataMonth = dataMonth.indexOf("0") == 0 ? Object.keys(json.data)[0].substring(0, 4) + dataMonth.substring(dataMonth.length - 1) : Object.keys(json.data)[0].substring(0, 4) + dataMonth;
+            for (var i in json.data) {
+                date.push(i);
+                if (i.substring(6) == "01" || i.substring(6) == "03" || i.substring(6) == "05" || i.substring(6) == "07" ||
+                    i.substring(6) == "09" || i.substring(6) == "11" || i.substring(6) == "03" || i.substring(6) == "12" ||
+                    i.substring(6) == "14" || i.substring(6) == "16" || i.substring(6) == "18" || i.substring(6) == "20" ||
+                    i.substring(6) == "21" || i.substring(6) == "23" || i.substring(6) == "25" || i.substring(6) == "27" ||
+                    i.substring(6) == "28" || i.substring(6) == "30" || i.substring(6) == "31") {
+                    if (curMonth > dataMonth) {
+                        if (json.data[i] == "0") {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 42.png");
+                        } else if (json.data[i] == "1") {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 40.png");
+                        } else if (json.data[i] == "2") {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 41.png");
+                        }
+                        if (Object.keys(json.data).length != 31) {
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 28) {
+                            $("#img29").attr("src", "../../assets/images/triangle/greytriangle.png");
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 29) {
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                    } else if (curMonth < dataMonth) {
+                        $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                    } else {
+                        if (curDate >= i.substring(6)) {
+                            if (json.data[i] == "0") {
+                                $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 42.png");
+                            } else if (json.data[i] == "1") {
+                                $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 40.png");
+                            } else if (json.data[i] == "2") {
+                                $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 41.png");
+                            }
+                        } else {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length != 31) {
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 28) {
+                            $("#img29").attr("src", "../../assets/images/triangle/greytriangle.png");
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 29) {
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                    }
+                } else {
+                    if (curMonth > dataMonth) {
+                        if (json.data[i] == "0") {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 39.png");
+                        } else if (json.data[i] == "1") {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/reddown.png");
+                        } else if (json.data[i] == "2") {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 38.png");
+                        }
+                        if (Object.keys(json.data).length != 31) {
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 28) {
+                            $("#img29").attr("src", "../../assets/images/triangle/greytriangle.png");
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 29) {
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                    } else if (curMonth < dataMonth) {
+                        $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/greytriangle.png");
+                    } else {
+                        if (curDate >= i.substring(6)) {
+                            if (json.data[i] == "0") {
+                                $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 39.png");
+                            } else if (json.data[i] == "1") {
+                                $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/reddown.png");
+                            } else if (json.data[i] == "2") {
+                                $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/-s-组 38.png");
+                            }
+                        } else {
+                            $("#" + 'img' + i.substring(i.length - 2)).attr("src", "../../assets/images/triangle/greytriangle.png");
+                        }
+                        if (Object.keys(json.data).length != 31) {
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 28) {
+                            $("#img29").attr("src", "../../assets/images/triangle/greytriangle.png");
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                        if (Object.keys(json.data).length == 29) {
+                            $("#img30").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                            $("#img31").attr("src", "../../assets/images/triangle/greytriabgle-top.png");
+                        }
+                    }
+                }
+            }
+            var exp = date[0].substring(4, 6);
+            exp = exp.indexOf("0") == 0 ? exp.substring(exp.length - 1) : exp;
+            $("#month").html(exp + "月");
+        }
+
+        /*查询按钮点击功能*/
+        $(".search-button").click(function () {
+            // 清楚本月质量风险预警
+            // $('#info-list').empty();
+            var curDate = new Date();
+            //获得开始日期框数据
+            var startDate = $(".search-input").val();
+            //获得结束日期框数据
+            var endDate = $("#search-input2").val();
+            var year = endDate.substring(0, 4);
+            var exp = endDate.substring(5, 7);
+            exp = exp.indexOf("0") == 0 ? exp.substring(exp.length - 1) : exp;
+            var day = endDate.substring(8, 11);
+            day = day.indexOf("0") == 0 ? day.substring(day.length - 1) : day;
+
+            var year1 = startDate.substring(0, 4);
+            var exp1 = startDate.substring(5, 7);
+            exp1 = exp1.indexOf("0") == 0 ? exp1.substring(exp1.length - 1) : exp1;
+            var day1 = startDate.substring(8, 11);
+            day1 = day1.indexOf("0") == 0 ? day1.substring(day1.length - 1) : day1;
+            if (startDate == null || startDate == '') {
+                $("#qualitydate").html(year + '/' + exp + '/' + day);
+            } else {
+                $("#qualitydate").html(year1 + '/' + exp1 + '/' + day1 + '~' + year + '/' + exp + '/' + day);
+            }
+            $("#outdate").html(year + "年" + exp + "月");
+            //绘制图表
+            // 滚动12个月生产计划完成率状态
+            setBarLeft(url1, startDate, endDate);
+            // 滚动12个月成品一次交检合格率状态
+            setBarLeft2(url2, startDate, endDate);
+            // 滚动12个月设备综合效率运行状态
+            setBarLeft3(url3, startDate, endDate);
+            // 滚动12个月停线率状态
+            setBarLeft4(url4, startDate, endDate);
+            // 来料准时交付率
+            setCircle7(url5, startDate, endDate);
+            // 报废率
+            setCircle8(url6, startDate, endDate);
+            // 每日计划完成情况-生产计划完成率
+            setCircle9(url7, startDate, endDate);
+            // 每日质量指标-成品一次交检合格率
+            setCircle10(url8, startDate, endDate);
+            // 每日生成效率-设备综合效率
+            setCircle11(url9, startDate, endDate);
+            // 停线率
+            setCircle12(url10, startDate, endDate);
+            // 质量风险预警
+            setQuantityWarn(url11, startDate, endDate);
+            // 工厂运行总览的质量反馈
+            setQualityFeedback(url12, startDate, endDate);
+            // 统计整个月的客诉内诉数量
+            setProblemMount(url13, startDate, endDate);
+            // 工厂运行总览的Q数据
+            setqData(url14, startDate, endDate);
+            drawProgressBar('circle' + 6, setScreenOption(0.00));
+        });
+
+        //底部进度环点击事件
+        $('#circle-area .circle').on('click', function () {
+            var toPath = $(this).attr('to');
+            openNewWin(toPath)
+
+        })
+        $('#outsideProblems').on('click', function () {
+            var toPath = $(this).attr('to');
+            openNewWin(toPath)
+        })
+
+        $('#insideProblems').on('click', function () {
+            var toPath = $(this).attr('to');
+            openNewWin(toPath)
+        })
+
+        function openNewWin(toPath) {
+            if (toPath) {
+                var startDate = $('#search-input').val() ? $('#search-input').val() : latestDate;
+                var endDate = $('#search-input2').val() ? $('#search-input2').val() : latestDate;
+                if (toPath.indexOf('#!') != -1) {
+                    toPath = basePath + toPath;
+                }
+                // console.log(config.base_server  + toPath + '?from=1&timeS=' + startDate + '&timeE=' + endDate)
+                //window.location.href='/'+toPath+'?from=1&startDate='+startDate+'&endDate='+endDate;
+                window.open(config.base_server + toPath + '?from=1&timeS=' + startDate + '&timeE=' + endDate);
+            }
+
+        }
+
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月生产计划完成率状态
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_1(json) {
+            var xData = [],
+                yData = [];
+            for (var i in json.data) {
+                var startIndex = i.length - 2;
+                var endIndex = i.length;
+                var exp = i.substring(startIndex, endIndex);
+                exp = exp.indexOf("0") == 0 ? exp.substring(exp.length - 1) : exp;
+                if (exp !== 'et') {
+                    xData.push(exp + "月");
+                    yData.push({
+                        value: (json.data[i] * 100).toFixed(2),
+                        time: i
+                    });
+                }
+            }
+            if (json.data.target == -1) {
+                $("#plantarget").html('目标值:--');
+            } else {
+                var rate = (json.data.target * 100).toFixed(2);
+                var arr = rate.split(".");
+                if (arr[1] == "00") {
+                    rate = arr[0];
+                }
+                $("#plantarget").html('目标值:' + rate + '%');
+            }
+            setBarOption(xData, yData, 'bar-left-chart', json.data.target);
+
+        }
+
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月设备综合效率运行状态
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_3(json) {
+            var xData = [],
+                yData = [];
+            for (var i in json.data) {
+                var startIndex = i.length - 2;
+                var endIndex = i.length;
+                var exp = i.substring(startIndex, endIndex);
+                exp = exp.indexOf("0") == 0 ? exp.substring(exp.length - 1) : exp;
+                if (exp !== 'et') {
+                    xData.push(exp + "月");
+                    yData.push({
+                        value: (json.data[i] * 100).toFixed(2),
+                        time: i
+                    });
+                }
+            }
+            if (json.data.target == -1) {
+                $("#equiptarget").html('目标值:--');
+            } else {
+                var rate = (json.data.target * 100).toFixed(2);
+                var arr = rate.split(".");
+                if (arr[1] == "00") {
+                    rate = arr[0];
+                }
+                $("#equiptarget").html('目标值:' + rate + '%');
+            }
+            setBarOption3(xData, yData, 'bar-right-chart', json.data.target);
+        }
+
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月生产计划完成率状态
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_2(json) {
+            var xData = [],
+                yData = [];
+            for (var i in json.data) {
+                var startIndex = i.length - 2;
+                var endIndex = i.length;
+                var exp = i.substring(startIndex, endIndex);
+                exp = exp.indexOf("0") == 0 ? exp.substring(exp.length - 1) : exp;
+                if (exp !== 'et') {
+                    xData.push(exp + "月");
+                    yData.push({
+                        value: Math.formatFloat(json.data[i] * 100, 2),
+                        time: i
+                    });
+                }
+            }
+            if (json.data.target == -1) {
+                $("#passtarget").html('目标值:--');
+            } else {
+                var rate = (json.data.target * 100).toFixed(2);
+                var arr = rate.split(".");
+                if (arr[1] == "00") {
+                    rate = arr[0];
+                }
+                $("#passtarget").html('目标值:' + rate + '%');
+            }
+            setBarOption2(xData, yData, 'pie-left-chart', json.data.target);
+        }
+
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月停线率状态
+         * @param: 从后台请求的json数据
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setValues_4(json) {
+            var date = [],
+                stopTime = [],
+                rate = [],
+                target = [];
+            for (var i = 0; i < json.data.length; i++) {
+                var startIndex = json.data[i].name.length - 2;
+                var endIndex = json.data[i].name.length;
+                var exp = json.data[i].name.substring(startIndex, endIndex);
+                exp = exp.indexOf("0") == 0 ? exp.substring(exp.length - 1) : exp;
+                date.push(exp + "月");
+                stopTime.push({
+                    value: json.data[i].stopTime,
+                    time: json.data[i].name
+                });
+                rate.push((json.data[i].rate).toFixed(2));
+                target.push((json.data[i].target).toFixed(2));
+            }
+            setBarOption4(date, stopTime, rate, target, 'pie-right-chart');
+        }
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月生产计划完成率状态
+         * @param: X轴数组
+         * @param: Y轴数组
+         * @param: 部件ID
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setBarOption(xData, yData, id, target) {
+            var option = {
+                color: ['#71B7EE'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function (params, ticket, callback) {
+                        console.log(params)
+                        return params[0].seriesName + '<br>' + params[0].marker + params[0].name + ':' + params[0].data.value + "%";
+                    },
+
+                },
+                grid: {
+                    top: '4%',
+                    left: '11%',
+                    right: '2%',
+                    // bottom: '15%'
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        fontSize: 10
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%',
+                        fontSize: 10
+                    },
+                    min: function (value) {
+                        return value.min;
+                    },
+                    max: function (value) {
+                        return Math.ceil(value.max);
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#FFF',
+                            opacity: 0.2
+                        }
+                    }
+                }],
+                series: [{
+                    name: '计划完成率',
+                    type: 'bar',
+                    barCategoryGap: '50%',
+                    barWidth: '40%',
+                    itemStyle: {
+                        normal: {
+                            color: function (param) {
+                                if (param.value < target * 100) {
+                                    return 'red'
+                                } else {
+                                    return '#71B7EE'
+                                }
+                            }
+                        }
+                    },
+                    data: yData
+                }]
+            };
+            drawCharts(id, option);
+
+        }
+
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月设备综合效率运行状态
+         * @param: X轴数组
+         * @param: Y轴数组
+         * @param: 部件ID
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setBarOption3(xData, yData, id, target) {
+            var option = {
+                color: ['#71B7EE'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function (params, ticket, callback) {
+                        console.log(params)
+                        return params[0].seriesName + '<br>' + params[0].marker + params[0].name + ':' + params[0].data.value + "%";
+                    },
+
+                },
+                grid: {
+                    top: '4%',
+                    left: '11%',
+                    right: '2%'
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        fontSize: 10
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%',
+                        fontSize: 10
+                    },
+                    min: function (value) {
+                        return value.min;
+                    },
+                    // max: function (value) {
+                    //     return value.max;
+                    // },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#FFF',
+                            opacity: 0.2
+                        }
+                    }
+                }],
+                series: [{
+                    name: '设备综合效率',
+                    type: 'bar',
+                    barCategoryGap: 10,
+                    barWidth: '40%',
+                    itemStyle: {
+                        normal: {
+                            color: function (param) {
+                                if (param.value < target * 100) {
+                                    return 'red'
+                                } else {
+                                    return '#71B7EE'
+                                }
+                            }
+                        }
+                    },
+                    data: yData
+                }]
+            };
+            drawCharts(id, option);
+
+        }
+
+
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月生产计划完成率状态
+         * @param: X轴数组
+         * @param: Y轴数组
+         * @param: 部件ID
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setBarOption4(date, stopTime, rate, target, id) {
+            var option3 = {
+                color: ['#71B7EE'],
+
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function (data, ticket, callback) {
+                        return data[0].seriesName + '<br>' + data[0].marker + data[0].name + ':' +
+                            data[0].value + "<br>" + data[1].seriesName + '<br>' + data[1].marker + data[1].name + ':' + data[1].value + "%" + "<br>" +
+                            data[2].seriesName + '<br>' + data[2].marker + data[2].name + ':' + data[2].value + "%";
+                    },
+                },
+                toolbox: {},
+                legend: {
+                    data: ['停线时间(min)', '停线率', '停线率目标'],
+                    textStyle: {
+                        color: 'rgba(255,255,255,0.6)'
+                    },
+                    top: '0%',
+                    itemHeight: 8,
+                    itemWidth: 30,
+                    selectedMode: false
+                },
+                grid: {
+                    top: '20%',
+                    left: '9%',
+                    right: '8%'
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: date,
+                    axisTick: {
+                        show: false,
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        },
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        fontSize: 10,
+                    }
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '',
+                    axisLabel: {
+                        formatter: function (value, index) {
+                            return value;
+                        },
+                        fontSize: 10,
+                        margin: 3,
+                    },
+                    min: function (value) {
+                        return value.min;
+                    },
+                    max: function (value) {
+                        return value.max;
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisTick: {
+                        length: 1
+                    }
+                }, {
+                    type: 'value',
+                    name: '',
+                    axisLabel: {
+                        formatter: function (value, index) {
+                            return value.toFixed(1) + '%';
+                        },
+                        fontSize: 10,
+                        margin: 3
+                    },
+                    min: function (value) {
+                        return value.min;
+                    },
+                    max: function (value) {
+                        return value.max;
+                    },
+
+                    splitLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#FFF',
+                            opacity: 0.2
+                        }
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisTick: {
+                        length: 1
+                    }
+                }],
+                series: [{
+                    name: '停线时间(min)',
+                    type: 'bar',
+                    barCategoryGap: '50%',
+                    barWidth: '40%',
+                    data: stopTime
+                }, {
+                    name: '停线率',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    itemStyle: {
+                        color: '#00ECC6'
+                    },
+                    data: rate
+                }, {
+                    name: '停线率目标',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    itemStyle: {
+                        color: '#FFB90C'
+                    },
+                    data: target
+                }]
+            };
+            drawCharts(id, option3);
+
+        }
+
+        /**
+         * 功能描述: 组装echarts柱状图所需参数，并画出柱状图
+         * 滚动12个月生产计划完成率状态
+         * @param: X轴数组
+         * @param: Y轴数组
+         * @param: 部件ID
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 16:38
+         */
+        function setBarOption2(xData, yData, id, target) {
+            var option2 = {
+                color: ['#71B7EE'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function (params, ticket, callback) {
+                        console.log(params)
+                        return params[0].seriesName + '<br>' + params[0].marker + params[0].name + ':' + params[0].data.value + "%";
+                    },
+
+                },
+                grid: {
+                    top: '4%',
+                    left: '11%',
+                    right: '2%'
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        fontSize: 10
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%',
+                        fontSize: 10
+                    },
+                    min: function (value) {
+                        return value.min;
+                    },
+                    max: function (value) {
+                        return value.max;
+                    },
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#FFF',
+                            opacity: 0.2
+                        }
+                    }
+                }],
+                series: [{
+                    name: '一次交检合格率',
+                    type: 'bar',
+                    barCategoryGap: '50%',
+                    barWidth: '40%',
+                    itemStyle: {
+                        normal: {
+                            color: function (param) {
+                                if (param.value < target * 100) {
+                                    return 'red'
+                                } else {
+                                    return '#71B7EE'
+                                }
+                            }
+                        }
+                    },
+                    data: yData
+                }]
+            };
+            drawCharts(id, option2);
+
+        }
+
+
+
+        /**
+         * 功能描述: 绘制左侧柱状图
+         *
+         * @param: 请求数据后台url
+         * @param: 开始日期
+         * @param: 结束日期
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 14:27
+         */
+        function setBarLeft(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    var json = eval(res);
+                    setValues_1(json);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+
+        /**
+         * 功能描述: 绘制左侧柱状图
+         *
+         * @param: 请求数据后台url
+         * @param: 开始日期
+         * @param: 结束日期
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 14:27
+         */
+        function setBarLeft2(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    var json = eval(res);
+                    setValues_2(json);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+
+        /**
+         * 功能描述: 绘制右侧柱状图
+         *
+         * @param: 请求数据后台url
+         * @param: 开始日期
+         * @param: 结束日期
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 14:27
+         */
+        function setBarLeft3(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    var json = eval(res);
+                    setValues_3(json);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+
+        /**
+         * 功能描述: 绘制右侧柱状图
+         * 滚动12个月停线率状态
+         * @param: 请求数据后台url
+         * @param: 开始日期
+         * @param: 结束日期
+         * @return: null
+         * @auther: yelj
+         * @date: 2019/02/18 14:27
+         */
+        function setBarLeft4(url, startDate, endDate) {
+            admin.req(url, {
+                startDate,
+                endDate
+            }, function (res) {
+                if (res.ok) {
+                    setValues_4(res);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        }
+
+        /**
+         * @Desc  绘制柱状图
+         * @Param elem :HTML元素ID;option:图形配置项
+         * @Date 2019-1-22 10:34:52
+         * @Author Sucdaze
+         * todo：
+         */
+        function drawCharts(elem, option) {
+            echarts.init(document.getElementById(elem)).dispose();
+            var myChart = echarts.init(document.getElementById(elem));
+            myChart.setOption(option, true);
+            myChart.on('click', function (params) {
+                handleEchartClick(elem, params)
+
+            })
+            window.addEventListener("resize", function () {
+                myChart.resize();
+            });
+        }
+        /**
+         * @Desc  处理echart图点击事件
+         * @Param elem :HTML元素ID;option:图形配置项
+         * @Date 2019-2-28
+         *
+         *
+         */
+        function handleEchartClick(elem, params) {
+            switch (elem) {
+                case 'bar-left-chart':
+                    toOpenBarPath(params, '#!product_completionRate', 0);
+                    break
+                case 'pie-left-chart':
+                    toOpenBarPath(params, '#!product_qualificationRate', 0);
+                    break
+                case 'bar-right-chart':
+                    toOpenBarPath(params, '#!product_OEE', 0);
+                    break
+                case 'pie-right-chart':
+                    toOpenBarPath(params, '#!product_stopLine', 0);
+
+                    break;
+                default:
+                    break
+
+            }
+
+        }
+        /*
+         * 柱状图点击跳转
+         * */
+
+        function toOpenBarPath(params, url, type) {
+
+            var time = params.data.time;
+            if (time) {
+                var year = time.substring(0, 4);
+                var month = time.substring(4, 6);
+                var lastDate = laydate.getEndDate(month, year);
+                var startDate = year + '-' + month + '-01';
+                var endDate = year + '-' + month + '-' + lastDate;
+                if (type == 0) {
+                    if (url.indexOf('#!') != -1) {
+                        url = basePath + url;
+                    }
+                    window.open(config.base_server + url + '?&from=1&timeS=' + startDate + "&timeE=" + endDate);
+                } else {
+                    location.hash = url + '?&from=1&timeS=' + startDate + "&timeE=" + endDate;
+                }
+            }
+        }
+
+        //不同分辨率在这儿加
+        function setScreenOption(rate) {
+            //1366
+            var progressOptionX1366 = {
+                value: rate,
+                startAngle: -(1 + 0.1) * Math.PI,
+                size: 60,
+                thickness: 5,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(255,255,255,0.6)"
+            };
+
+            //1920
+            var progressOptionX1920 = {
+                value: rate,
+                startAngle: -(1 + 0.1) * Math.PI,
+                size: 80,
+                thickness: 10,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(255,255,255,0.6)"
+            };
+
+            if ($(window).width() < 1400) {
+                return progressOptionX1366;
+            } else {
+                return progressOptionX1920;
+            }
+        }
+
+        //不同分辨率在这儿加
+        function setScreenOption1() {
+            //1366
+            var progressOptionX1366 = {
+                value: 0,
+                startAngle: -(1 + 0.1) * Math.PI,
+                size: 60,
+                thickness: 5,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(255,255,255,0.6)"
+            };
+
+            //1920
+            var progressOptionX1920 = {
+                value: 0,
+                startAngle: -(1 + 0.1) * Math.PI,
+                size: 80,
+                thickness: 10,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(255,255,255,0.6)"
+            };
+
+            if ($(window).width() < 1400) {
+                return progressOptionX1366;
+            } else {
+                return progressOptionX1920;
+            }
+        }
+
+        /**
+         * @Desc  绘制进度条
+         * @Param elem :HTML元素ID;option:进度条配置项
+         * @Date 2019-1-24 13:44:37
+         * @Author Sucdaze
+         */
+        function drawProgressBar(elem, option) {
+            $('#' + elem).circleProgress(option, true);
+        }
+
+        Math.formatFloat = function (f, digit) {
+            var m = Math.pow(10, digit);
+            return Math.round(f * m, 10) / m;
+        }
+    });
+</script>
+
+</html>

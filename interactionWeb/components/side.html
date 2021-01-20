@@ -1,0 +1,206 @@
+<!-- <div class="admin-user">
+    正常模式
+    <div class="admin-user-show">
+        <div class="avatar">
+            <div style="margin: 14px auto;width: 65px;height: 65px;line-height: 61px;font-size: 10px;">
+                <div class="avatar-text"></div>
+            </div>
+        </div>
+        <span>{{ usname }}</span>
+        <p>
+            <i class="layui-icon layui-icon-circle-dot"></i>当前在线人数 <strong id="online-user">-</strong>
+        </p>
+        <i class="layui-icon layui-icon-shrink-right side-hide" ew-event="flexible"></i>
+    </div>
+    侧边栏隐藏模式
+    <div class="admin-user-hide">
+        <div class="avatar">
+            <div ew-event="flexible" style="margin: 8px auto;width: 40px;height: 40px;line-height: 36px;font-size: 6px;">
+                <div class="avatar-text"></div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<style>
+    .layui-mainnav .layui-nav-item a:hover,
+    .layui-mainnav .layui-this a {
+        background: #1980CE;
+        color: #FFFFFF!important;
+    }
+    
+    .layui-mainnav .layui-nav-item a {
+        color: #333333;
+    }
+    
+    .layui-mainnav .layui-this:after,
+    .layui-nav-bar,
+    .layui-nav-tree .layui-nav-itemed:after {
+        height: 0;
+    }
+    
+    .layui-subnav .layui-nav-item a:hover,
+    .layui-subnav .layui-this a {
+        background: #5CA9F8;
+        color: #FFFFFF!important;
+    }
+    
+    .layui-subnav .layui-this:after,
+    .layui-nav-bar,
+    .layui-nav-tree .layui-nav-itemed:after {
+        height: 0;
+    }
+    
+    .layui-subnav .layui-nav-item a {
+        color: #333333;
+    }
+    
+    #thrside-nav .layui-this a {
+        border-bottom: 2px solid #5CA9F8;
+        background: #fff !important;
+        color: #333333 !important;
+        font-weight: bold;
+        /*color: #5CA9F8 !important;*/
+    }
+    
+    .slde-area {
+        background: #eee;
+    }
+    
+    .child-nav-area {
+        margin: 7px 7px 0 7px;
+        border-radius: 10px;
+        background: #fff;
+    }
+    
+    .sys-nav {
+        background: #fff;
+        display: flex;
+        justify-content: space-around;
+        border-bottom: 1px solid #eee;
+    }
+</style>
+<div class="slde-area">
+
+    <ul class="layui-nav layui-mainnav" lay-filter="sideNav" style="background: linear-gradient(0deg,rgba(229,229,229,1),rgba(255,255,255,1));display: flex;justify-content: space-around">
+        <script id="sideNav" type="text/html">
+            {{# layui.each(d, function(index, item){ }} {{# if(!item.hidden){ }}
+            <li class="layui-nav-item" id="{{item.id}}" style="line-height: 40px">
+                <a href="{{item.url}}" id="{{item.id}}" name="{{item.path}}"><cite >{{ item.name }}</cite></a>
+            </li>
+            {{# } }} {{# }); }}
+        </script>
+    </ul>
+    <div class="child-nav-area">
+        <ul class="layui-nav layui-subnav sys-nav" lay-filter="subSideNav">
+            <script id="subSideNav" type="text/html">
+                {{# layui.each(d, function(index, item){ }} {{# if(!item.hidden){ }}
+                <li class="layui-nav-item" style="line-height: 40px" id="{{item.id}}" pid="{{item.pid}}">
+                    <a href="{{item.url}}" name="{{item.path}}" pid="{{item.pid}}" id="{{item.id}}"><cite>{{ item.name }}</cite></a>
+                </li>
+                {{# } }} {{# }); }}
+            </script>
+        </ul>
+
+        <ul class="layui-nav layui-subnav sys-nav" lay-filter="thrSideNav" id="thrside-nav" style="border-bottom: none">
+            <script id="thrSideNav" type="text/html">
+                {{# layui.each(d, function(index, item){ }} {{# if(!item.hidden){ }}
+                <li class="layui-nav-item" style="line-height: 40px" id="{{item.id}}">
+                    <a href="{{item.url}}" id="{{item.id}}" name="{{item.path}}" pid="{{item.pid}}"><cite>{{ item.name }}</cite></a>
+                </li>
+                {{# } }} {{# }); }}
+            </script>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    layui.use([], function() {
+        var config = layui.config,
+            element = layui.element,
+            laytpl = layui.laytpl,
+            userInfo = config.getAccount();
+
+        element.on('nav(sideNav)', function(elem) {
+            if (elem.context.name == 'factory/indexChart.html') {
+                return;
+            }
+            if (elem.context.name == 'quality/unqualified.html') {
+                window.location.href = '/edu/Defect/showdefect';
+                return;
+            }
+            var id = elem.context.id;
+            if (elem.context.name.split(".")[0].split("/")[0] != Q.hash.split("_")[0]) {
+                for (var i = 0; i < config.menus.length; i++) {
+                    if (id == config.menus[i].id) {
+
+                        laytpl(subSideNav.innerHTML).render(config.menus[i].subMenus, function(html) {
+                            $('#subSideNav').nextAll("li").remove();
+                            $('#subSideNav').after(html);
+                            element.render('subSideNav');
+                        });
+
+                        for (var item of config.menus[i].subMenus) {
+                            if (item.path == elem.context.name) {
+                                laytpl(thrSideNav.innerHTML).render(item.subMenus, function(html) {
+                                    $('#thrSideNav').nextAll("li").remove();
+                                    $('#thrSideNav').after(html);
+                                    element.render('thrSideNav');
+                                });
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        });
+
+        element.on('nav(subSideNav)', function(elem) {
+            if (elem.context.name == 'quality/unqualified.html') {
+                window.location.href = '/edu/Defect/showdefect';
+                return;
+            }
+            var id = elem.context.id;
+            var pid = $(elem.context).attr('pid');
+
+            for (var i = 0; i < config.menus.length; i++) {
+                if (pid == config.menus[i].id) {
+                    if (!config.menus[i].subMenus) {
+                        // $('.layui-layout-admin .layui-body').css('top','147px');
+                    } else {
+                        for (var item of config.menus[i].subMenus) {
+                            if (item.id == id) {
+                                if (item.subMenus) {
+                                    laytpl(subSideNav.innerHTML).render(item.subMenus, function(html) {
+                                        $('#thrSideNav').nextAll("li").remove();
+                                        $('#thrSideNav').after(html);
+                                        element.render('thrSideNav');
+                                    });
+                                }
+
+                            }
+                        }
+                    }
+
+
+                }
+            }
+        });
+        // 设置头像
+        // ;
+        // (function() {
+        //     if (userInfo.avatar) {
+        //         $('.avatar').empty();
+        //         var image = $('<img/>');
+        //         var imageSrc = userInfo.avatar.indexOf('/') < 0 ? '/api/sys/file/' + userInfo.avatar +
+        //             '/download' : userInfo.avatar;
+        //         image.attr('src', imageSrc);
+        //         $('.avatar').html(image);
+        //         $('.admin-user-hide').find('img').attr('ew-event', 'flexible');
+        //     } else {
+        //         $('.avatar .avatar-text').text(userInfo.usname.charAt(0));
+        //     }
+        // })();
+    });
+</script>

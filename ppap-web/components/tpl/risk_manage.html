@@ -1,0 +1,120 @@
+<!-- 查询条件设置 -->
+<div class="layui-row" style="margin-top: 4px;">
+    <div class="layui-col-xs12 ayui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">查询条件设置
+                <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                        src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+            </div>
+            <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 10px;display: none" lay-filter="form4">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">风险类型：</label>
+                            <div class="layui-input-block">
+                                <i class="layui-icon layui-icon-date"></i>
+                                <select name="risktypecode" id="riskTypeCode"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">风险项目：</label>
+                            <div class="layui-input-block">
+                                <select name="riskcodeList" id="riskcodeList" xm-select="riskcodeList"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">风险指标：</label>
+                            <div class="layui-input-block" style="margin-left: 100px;">
+                                <select name="riskindexcodeList" id="riskindexcodeList" xm-select="riskindexcodeList"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">指标类型：</label>
+                            <div class="layui-input-block">
+                                <select name="indextypecode" id="indextypecode"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">风险等级：</label>
+                            <div class="layui-input-block">
+                                <select name="risklevelcode" id="risklevelcode"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">统计频率：</label>
+                            <div class="layui-input-block">
+                                <select name="frequency" id="frequency"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item" style="margin-bottom: 0;">
+                            <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search4" id="searchAll">查询
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset4">重置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 统计表格 + 图表 -->
+<div class="layui-row layui-col-space15" style="margin-top: 2.5px;">
+    <!-- 统计表格 -->
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                风险管理体系一览
+                <div class="pull-right" style="line-height: 37px;">
+                    <button class="layui-btn layui-btn-primary" id="settings">参数设置</button>
+                    <button class="layui-btn layui-btn-primary" id="manageEdit">修改</button>
+                    <button class="layui-btn layui-btn-primary" id="manageExport">导出</button>
+                    <!-- <button class="layui-btn layui-btn-primary" id="wanningRefresh">刷新</button>
+				    <button class="layui-btn layui-btn-primary" id="wanningSearch">查询</button> -->
+                </div>
+            </div>
+            <div class="layui-card-body" style="padding-top:0;padding-bottom: 0;">
+
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 0px;">
+                        <table id="demo-table4"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .layui-btn {
+        font-weight: normal!important;
+    }
+    
+    .layui-table-body {
+        max-height: 355px;
+    }
+    
+    .layui-table tbody tr:hover,
+    .layui-table-hover {
+        background-color: #FFF;
+    }
+</style>
+<script src="../../assets/js/riskManage.js"></script>
+<script src="../../assets/js/TableRowspan.js"></script>

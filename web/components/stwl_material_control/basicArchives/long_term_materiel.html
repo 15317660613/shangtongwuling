@@ -1,0 +1,490 @@
+<!--
+File   : supplier.html
+Created: 2020-09-15
+Author : zhangqi
+Description: 基础信息——长周期物料清单
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+
+<div class="layui-row layui-col-space15" id="long_term_materiel">
+    <!--by ma 2019-04-12-->
+    <div class="layui-col-md12 autoScrollLeft" style="padding-top: 0px">
+        <div class="layui-card">
+            <!--by ma 2019-04-12-->
+            <div class="g-search" style="margin-top: 6px">
+                <form class="layui-form search-form" lay-filter="search-form-ptr-application">
+                    <div class="g-search-title" @click="openPanel(event)">
+                        <div class="g-search-l g-title-l"><label>数据查找</label></div>
+                        <div class="g-search-r "><label id="flex2">展开</label><img
+                                src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                                class="hide"
+                                src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item hide">
+                        <div class="layui-form" style="padding: 0 0 1% 0;">
+                            <div class="layui-row">
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">生产基地：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="factoryBase" lay-filter="factoryBase">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="supplierName" lay-filter="supplierName">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商代码：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="supplierCode" lay-filter="supplierCode">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">零件号：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="partCode" lay-filter="partCode">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">零件名称：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="partName" lay-filter="partName">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">车型机型：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="vehicleType" lay-filter="vehicleType">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">是否进口：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="isImportedMaterial"
+                                                    lay-filter="isImportedMaterial">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">进口国家：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="importCountry" lay-filter="importCountry">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">计划员：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" id="planer" lay-filter="planer">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <div class="layui-form-item">
+                                        <div style="float: right;padding-right: 2%">
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-normal"
+                                                        type="button"
+                                                        lay-filter="search-btn-ptr-application"
+                                                        lay-submit
+                                                        @click="searchTableDataFunc">查询
+                                                </button>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-primary "
+                                                        type="reset"
+                                                        @click="resetSearchFunc">重置
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="clear: both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="g-tableList">
+                <div class="layui-form">
+                    <div class="g-tableList-title">
+                        <div class="g-table-l g-title-l"><label>长周期物料清单列表</label></div>
+                    </div>
+                    <div class="g-btn-group-div">
+                        <div>
+                            <button class="layui-btn layui-btn-sm g-btn-blue" @click="addTableDataFunc()">新增
+                            </button>
+                            <button class="layui-btn layui-btn-sm g-btn-blue" @click="editTableDataFunc()">编辑
+                            </button>
+                            <button class="layui-btn layui-btn-sm g-btn-blue" @click="publishTableDataFunc()">发布
+                            </button>
+                            <button class="layui-btn layui-btn-sm g-btn-red" @click="deleteTableDataFunc()">删除
+                            </button>
+                        </div>
+                        <div>
+                            <button class="g-btn-nostyle manage" onclick="importItemInfo()" type="button"><img
+                                    src="../../assets/images/import.png" alt="../../assets/images/import.png"/>下载模板
+                            </button>
+                            <button class="g-btn-nostyle" onclick="exportItemInfo()" type="button"><img
+                                    src="../../assets/images/detail.png" alt="../../assets/images/detail.png"/>导入长周期物料清单
+                            </button>
+                            <button class="g-btn-nostyle" onclick="exportItemList()" type="button"><img
+                                    src="../../assets/images/export.png" alt="../../assets/images/export.png"/>导出长周期物料清单
+                            </button>
+                        </div>
+                    </div>
+                    <div class="g-table-round">
+                        <main-public-table-and-method
+                                :search-param="searchParam"
+                                :select-interface-arr="selectInterfaceArr"
+                                :main-form-select-interface-arr="mainFormSelectInterfaceArr"
+                                :head-data="['零件号','零件名称','业务模块','供应商代码','供应商名称', '供货配额','供货基地', '车型平台', '车型/机型', '原材料采购周期','制造周期','运输周期','是否含有进口原材料','进口原材料名称','进口国家','分管计划员','备注（断点情况等）','状态']"
+                                :field-data="['partCode','partName','businessModule','supplierCode', 'supplierName', 'factoryQuota',
+                                              'factoryBase', 'vehiclePlatform', 'vehicleType', 'procurementCycle','manufacturingCycle',
+                                              'transportationCycle','isImportedMaterial','importedMaterialName','importCountry','planer','remarks','state']"
+                                :is-check-box="true"
+                                :is-number="true"
+                                :align="'center'"
+                                :get-table-data-url="InterfaceMap.longTermMateriel.getAllTableDataUrl"
+                                :add-or-edit-table-data-url="InterfaceMap.longTermMateriel.addOrEditTableDataUrl"
+                                :publish-table-data-url="InterfaceMap.longTermMateriel.publishTableDataUrl"
+                                :delete-table-data-url="InterfaceMap.longTermMateriel.deleteTableDataUrl"
+                                ref="refCondition">
+                        </main-public-table-and-method>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="g-tableList">
+                <div class="layui-form">
+                    <div class="g-tableList-title">
+                        <tabs-assembly
+                                :tabs-list="tabsList"
+                                ref="refTabs">
+                        </tabs-assembly>
+                    </div>
+                    <div class="g-table-round">
+                        <vice-public-table-and-method
+                                :vice-table-head-obj="viceTableHeadObj"
+                                :vice-table-interface-url="viceTableInterfaceUrl"
+                                :is-check-box="true"
+                                :is-number="true"
+                                :align="'center'"
+                                ref="refConditionVice">
+                        </vice-public-table-and-method>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="layui-form g-form-style" id="layui-form" action="" lay-filter="example" style="display: none">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>零件号:</label>
+                <div class="layui-input-inline">
+                    <select name="partCode" id="form_partCode" lay-filter="form_partCode" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>零件名称:</label>
+                <div class="layui-input-inline">
+                    <select name="partName" id="form_partName" lay-filter="form_partName" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">业务模块:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="businessModule" autocomplete="off" class="layui-input"
+                           placeholder="请输入业务模块">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">供应商代码:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="supplierCode" autocomplete="off" class="layui-input"
+                           placeholder="请输入供应商代码">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">供应商名称:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="supplierName" autocomplete="off" class="layui-input"
+                           placeholder="请输入供应商名称">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">供货配额:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="factoryQuota" autocomplete="off" class="layui-input"
+                           placeholder="请输入供货配额">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">供货基地:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="factoryBase" autocomplete="off" class="layui-input"
+                           placeholder="请输入供货基地">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">车型平台:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="vehiclePlatform" lay-verify="required" autocomplete="off"
+                           class="layui-input"
+                           placeholder="请输入车型平台">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">车型/机型:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="vehicleType" lay-verify="required" autocomplete="off" class="layui-input"
+                           placeholder="请输入车型/机型">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">分管计划员:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="planer" lay-verify="required" autocomplete="off" class="layui-input"
+                           placeholder="请输入分管计划员">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="g-form-bottom-btn">
+                <button type="button" class="layui-btn layui-btn-normal" lay-submit="main_form" lay-filter="main_form"
+                        @click="sureAddOrEditFunc()">确定
+                </button>
+                <button type="reset" class="layui-btn layui-btn-primary" @click="closeModalFunc">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<style>
+    .layui-table-edit {
+        height: 100%;
+    !important;
+    }
+</style>
+
+<script>
+    var TopVm = new Vue({
+        el: "#long_term_materiel",
+        data: {
+            searchParam: {
+                factoryBase: '', //生产基地（供货基地）
+                supplierName: '', //供应商名称
+                supplierCode: '', //供应商代码
+                partCode: '', //零件号
+                partName: '', //零件名称
+                vehicleType: '', //车型机型
+                isImportedMaterial: '', //是否进口
+                importCountry: '', //进口国家
+                planer: ''//计划员
+            },
+            //定义存储下拉菜单中的数据的接口
+            selectInterfaceArr: [
+                {"factoryBase": InterfaceMap.longTermMateriel.getSelectFactoryBaseUrl}, //查询条件中，查询生产基地（供货基地）下拉菜单中的数据的接口
+                {"supplierName": InterfaceMap.longTermMateriel.getSelectSupplierNameUrl}, //查询条件中，查询供应商名称下拉菜单中的数据的接口
+                {"supplierCode": InterfaceMap.longTermMateriel.getSelectSupplierCodeUrl}, //查询条件中，查询供应商代码下拉菜单中的数据的接口
+                {"partCode": InterfaceMap.longTermMateriel.getSelectPartCodeUrl}, //查询条件中，查询零件号下拉菜单中的数据的接口
+                {"partName": InterfaceMap.longTermMateriel.getSelectPartNameUrl}, //查询条件中，查询零件名称下拉菜单中的数据的接口
+                {"vehicleType": InterfaceMap.longTermMateriel.getSelectVehicleTypeUrl}, //查询条件中，查询车型机型下拉菜单中的数据的接口
+                {"isImportedMaterial": InterfaceMap.longTermMateriel.getSelectIsImportedMaterialUrl}, //查询条件中，查询是否进口下拉菜单中的数据的接口
+                {"importCountry": InterfaceMap.longTermMateriel.getSelectImportCountryUrl}, //查询条件中，查询进口国家下拉菜单中的数据的接口
+                {"planer": InterfaceMap.longTermMateriel.getSelectPlanerUrl} //查询条件中，查询计划员下拉菜单中的数据的接口
+            ],
+            //定义新增或修改的表单中下拉菜单中的数据的接口
+            mainFormSelectInterfaceArr: [
+                {"form_partCode": InterfaceMap.longTermMateriel.getSelectPartCodeUrl}, //新增或编辑弹框中，查询零件号下拉菜单中的数据的接口
+                {"form_partName": InterfaceMap.longTermMateriel.getSelectPartNameUrl} //新增或编辑弹框中，查询零件名称下拉菜单中的数据的接口
+            ],
+
+            tabsList: ['进口零部件信息'],
+            viceTableHeadObj: {
+                0: [[' 进口物料零件号', '零件名称', '采购周期', '最小订购批量', '是否SGMV专用', '进口国家'], ['importedPartCode', 'importedPartName', 'purchasingCycle', 'minimumOrderQuantity', 'isDedicated', 'importCountry']],
+            },
+            viceTableInterfaceUrl: InterfaceMap.longTermMateriel.getViceDataUrl
+        },
+        methods: {
+            /**
+             * description:数据查找模块的显示或隐藏
+             * @param event: 当前元素
+             * author:zhangqi
+             * time: 2020-09-16
+             */
+            openPanel: function (event) {
+                if ($(event.currentTarget).next('.layui-form-item').css('display') === 'none') {
+                    $(event.currentTarget).next('.layui-form-item').css('display', 'block');
+                    if (event.currentTarget && event.currentTarget.className === 'tip-title') {
+                        $('#flex1').html('收起');
+                        $('#flex1').next().next().removeClass('hide');
+                        $('#flex1').next().addClass('hide');
+                    } else {
+                        $('#flex2').html('收起')
+                        $('#flex2').next().next().removeClass('hide');
+                        $('#flex2').next().addClass('hide');
+                    }
+                } else {
+                    $(event.currentTarget).next('.layui-form-item').css('display', 'none');
+                    if (event.currentTarget && event.currentTarget.className === 'tip-title') {
+                        $('#flex1').html('展开');
+                        $('#flex1').next().next().addClass('hide');
+                        $('#flex1').next().removeClass('hide');
+                    } else {
+                        $('#flex2').html('展开')
+                        $('#flex2').next().next().addClass('hide');
+                        $('#flex2').next().removeClass('hide');
+                    }
+                }
+            },
+
+            /**
+             * description: 点击顶部查询条件中，查询按钮执行的方法
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            searchTableDataFunc: function () {
+                var _this = this;
+                //执行子组件中，根据查询条件获取表格数据的方法
+                _this.$refs.refCondition.getTableDataFunc();
+            },
+
+            /**
+             * description: 点击顶部查询条件中，重置按钮执行的方法
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            resetSearchFunc: function () {
+                var _this = this;
+                //执行子组件中，重置查询条件的方法
+                _this.$refs.refCondition.resetSearchParamFunc();
+            },
+
+            /**
+             * description:点击表格上方‘新增’按钮执行的方法
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            addTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.addDataFunc();
+            },
+
+            /**
+             * description:点击表格上方‘编辑’按钮执行的方法
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            editTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.editDataFunc();
+            },
+
+            /**
+             * description:点击表格上方‘发布’按钮执行的方法
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            publishTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.publishDataFunc();
+            },
+
+            /**
+             * description:点击表格上方‘删除’按钮执行的方法
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            deleteTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.deleteDataFunc();
+            },
+
+            /**
+             * description:点击新增或编辑弹出框中的‘确定’按钮执行的方法
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            sureAddOrEditFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.submitFormFunc();
+            },
+
+            /**
+             * description:点击新增或编辑弹出框中的‘取消’按钮执行的方法、
+             * author:zhangqi
+             * time: 2020-09-22
+             */
+            closeModalFunc: function () {
+                var _this = this;
+                layer.closeAll();
+            },
+
+        },
+    });
+</script>
+
+
+
+
+
+

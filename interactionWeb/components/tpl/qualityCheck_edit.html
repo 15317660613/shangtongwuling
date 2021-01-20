@@ -1,0 +1,976 @@
+<style>
+    .layui-table-edit {
+        width: 100% !important;
+    }
+
+    #layer-form .layui-form-item {
+        margin-top: 10px;
+        margin-bottom: 5px
+    }
+
+    #layer-form .search-item3 {
+        margin-top: 1%
+    }
+
+    #layer-form .layui-form-select,
+    #layer-form .layui-input {
+        width: 100%
+    }
+
+    .requieItem {
+        color: red
+    }
+
+    .redBg {
+        background-color: red
+    }
+
+    .greenBg {
+        background-color: green
+    }
+
+    .blueBg {
+        background-color: blue
+    }
+
+    /* 防止下拉框的下拉列表被隐藏---必须设置--- */
+
+    .layui-table-box {
+        overflow: auto;
+    }
+
+    .layui-table-header {
+        overflow: initial;
+    }
+
+    .layui-table-body {
+        overflow: initial;
+    }
+
+    /* 设置下拉框的高度与表格单元相同 */
+
+    td .layui-form-select {
+        margin-top: -10px;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    #layer-form .layui-form-select dl {
+        top: 30px;
+    }
+
+    #layer-form .layui-form-selectup dl {
+        bottom: auto;
+    }
+
+    #layer-form .layui-layout-body .layui-layer-page .layui-layer-content {
+        overflow-x: hidden;
+    }
+
+    #layer-form .layui-select-title .layui-unselect {
+        width: 100%
+    }
+
+    td input {
+        width: 100% !important;
+    }
+</style>
+<div class="layui-card-body">
+    <div id='layer-form' class="layui-form" lay-filter="layer-form">
+        <div class="layui-row">
+            <div class="layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>零件号</label>
+                    <div class="layui-input-block">
+                        <select name="planCodeLayer" id='planCodeLayer' lay-search lay-filter="planCodeLayer"
+                                lay-search>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 95px;padding: 5px 0px;"><span
+                            style="color: red;">*</span>测量计划名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="planNameLayer" name="planNameLayer" placeholder="请输入测量计划名称"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>零件名称</label>
+                    <div class="layui-input-block">
+                        <select name="teamNameIdLayer" id='teamNameIdLayer' lay-search lay-filter="teamNameIdLayer"
+                                lay-search>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>版本号</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="versionLayer" name="versionLayer" placeholder="请输入版本号"
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>车型/机型</label>
+                    <div class="layui-input-block">
+                        <select name="carTypeIdLayer" id='carTypeIdLayer' lay-search lay-filter="carTypeIdLayer"
+                                lay-search>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red;">*</span>检测日期</label>
+                    <div class="layui-input-block">
+                        <input autocomplete="off" type="text" id="checkDateLayer" name="checkDateLayer"
+                               placeholder="请选择检测日期" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-header">
+            <!--<button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-add">新增</button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-edit">修改</button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-del">删除</button>-->
+            <!--<button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-import" style="margin-right: 1%">导入</button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-down">导入模板下载</button>-->
+            <!--<button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-save">保存</button>-->
+            <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_unpuailfied_layer"
+                    id="search_unpuailfied_layer"><span>查询</span></button>
+            <!-- <button class="layui-btn layui-btn-sm layui-btn-primary" id="detail-reset">重置</button> -->
+        </div>
+    </div>
+    <input type="hidden" name="jhPlanId">
+    <table id="tableContent_detial_layer" lay-filter="tableContent_detial_layer">
+
+</div>
+<script type="text/html" id="toolBar">
+    <select name="toolSelect" lay-filter="toolSelect">
+        <option value="">请选择</option>
+        <option value="R">不符合</option>
+        <option value="G">符合</option>
+    </select>
+</script>
+<script type="text/html" id="toolBar1">
+    <select name="toolSelect1" lay-filter="toolSelect1">
+        <option value="">请选择</option>
+        <option value="R">不符合</option>
+        <option value="G">符合</option>
+    </select>
+</script>
+
+<script type="text/javascript">
+    layui.use(['laydate', 'element', 'table', 'formSelects', 'upload'], function () {
+        var table = layui.table,
+            form = layui.form,
+            upload = layui.upload,
+            laydate = layui.laydate,
+            config = layui.config,
+            tableParmas = {},
+            formSelects = layui.formSelects,
+            admin = layui.admin,
+            tableBak = initBak = [];
+        laydate.render({
+            elem: '#checkDateLayer',
+            type: 'date',
+            value: $("input[name='inspectDate']").val()
+        });
+        //修改
+        if ($("input[name='flag']").val() == 1) {
+            $("#search_unpuailfied_layer").hide()
+            renderJhDetial($("input[name='planId']").val())
+        }
+
+        function changeBg(val, el) {
+            switch (val) {
+                case "全部":
+                    el.css({
+                        "background": "red"
+                    }).val("").attr('placeholder', '');
+                    break;
+                case "G":
+                    el.css({
+                        "background": "green"
+                    }).val("").attr('placeholder', '');
+                    break;
+                case "R":
+                    el.css({
+                        "background": "blue"
+                    }).val("").attr('placeholder', '');
+                    break;
+                default:
+                    el.css({
+                        "background": "white",
+                        "color": "#949494"
+                    }).val("请选择").attr('placeholder', '请选择');
+            }
+
+        }
+
+        form.on('submit(search_unpuailfied_layer)', function (data) {
+            // 获取表单数据         
+            var d = data.field
+            var res = {
+                "partsCode": d.planCodeLayer,
+                "partsVersion": d.versionLayer,
+                "planName": d.planNameLayer,
+                "inspectDate": d.checkDateLayer
+            }
+            var dataId = $("input[name='planId']").val()
+            if ($("input[name='flag']").val() == 1) {
+                renderJhDetial(dataId)
+            } else {
+                //查询
+                renderCreateDetial(res)
+                form.render('select')
+            }
+
+
+        });
+
+        //新增
+        function renderCreateDetial(paramas) {
+
+            table.render({
+                elem: '#tableContent_detial_layer',
+                id: 'tableContent_detial_layer',
+                //data: tableBak,
+                url: '/api-edu/interaction/qualityInspection/detail/create-list',
+                // 格式化后台返回的数据
+                parseData: function (res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data ? res.data.length : 0, //解析数据长度
+                        "data": res.data ? res.data : [] //解析数据列表
+
+                    };
+                },
+                height: 200,
+                width: '100%',
+                cols: [
+                    [{
+                        type: 'numbers',
+                        rowspan: '2',
+                        fixed: 'left',
+                        align: 'center',
+                        title: 'No.'
+                    }, {
+                        field: 'sizeNumber',
+                        rowspan: '2',
+                        fixed: 'left',
+                        title: '尺寸编号',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'characterName',
+                        rowspan: '2',
+                        title: '特性名称',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'specialCharacteristics',
+                        rowspan: '2',
+                        title: '特殊特性',
+                        align: 'center',
+                        edit: 'text'
+
+                    }, {
+                        align: 'center',
+                        colspan: '3',
+                        title: '技术要求',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'batchNumber',
+                        rowspan: '2',
+                        title: '生产批号',
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        align: 'center',
+                        colspan: '3',
+                        title: '检测结果'
+                    }, {
+                        field: 'conformingState',
+                        rowspan: '2',
+                        title: '符合状态',
+                        align: 'center',
+                        templet: '#toolBar'
+
+                    }, {
+                        field: 'nonConformityReasons',
+                        rowspan: '2',
+                        minWidth: 100,
+                        title: '不符合原因',
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        field: 'interimMeasures',
+                        rowspan: '2',
+                        title: '临时措施',
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        field: 'permanentMeasures',
+                        rowspan: '2',
+                        title: '长期措施',
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        align: 'center',
+                        colspan: '4',
+                        title: '断点检测',
+                    }, {
+                        field: 'breakpointState',
+                        align: 'center',
+                        rowspan: '2',
+                        title: '符合状态',
+                        minWidth: 120,
+                        templet: '#toolBar1'
+                    }],
+                    [{
+                        field: 'standardValue',
+                        title: '标准值',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+
+                    }, {
+                        field: 'thresholdMax',
+                        title: '上限',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'thresholdMin',
+                        title: '下限',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+
+                    }, {
+                        field: 'sampleResult1',
+                        title: '样件1',
+                        edit: 'text',
+                        align: 'center',
+
+                    }, {
+                        field: 'sampleResult2',
+                        title: '样件2',
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        field: 'sampleResult3',
+                        title: '样件3',
+                        align: 'center',
+                        edit: 'text'
+
+                    }, {
+                        field: 'breakpointLotNumber',
+                        title: '断点批号',
+                        align: 'center',
+                        edit: 'text'
+
+                    }, {
+                        field: 'breakpoint1',
+                        title: '断点检测样件1',
+                        minWidth: 130,
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        field: 'breakpoint2',
+                        title: '断点检测样件2',
+                        align: 'center',
+                        minWidth: 130,
+                        edit: 'text'
+
+                    }, {
+                        field: 'breakpoint3',
+                        title: '断点检测样件3',
+                        align: 'center',
+                        minWidth: 130,
+                        edit: 'text'
+
+                    }
+
+                    ]
+                ],
+                height: '300',
+                done: function (res) {
+                    //console.log(res)
+                    var list = res.data;
+                    //planID = list[0].qualityInspectionId;
+                    $("input[name='planId']").val(list[0].qualityInspectionId);
+
+                    var tableView = this.elem.next(".layui-table-view");
+                    //console.log(tableView.find("tbody select[name='toolSelect1']"))
+                    layui.each(tableView.find("tbody select[name='toolSelect']"), function (ind, item) {
+                        //console.log(ind)
+                        var elem = $("item");
+                        $(item).val(list[ind].conformingState);
+                        $(item).parent().css("overflow", "visible")
+                        form.render();
+                    })
+
+                    layui.each(tableView.find("tbody select[name='toolSelect']"), function (ind, item) {
+                        //console.log(list[ind].conformingState)
+                        if (list[ind].conformingState === "G") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(197,215,155)"
+                                })
+                            }, 100)
+
+                        } else if (list[ind].conformingState === "R") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(231,185,183)"
+                                })
+                            }, 100)
+                        }
+                    })
+                    layui.each(tableView.find("tbody select[name='toolSelect1']"), function (ind, item) {
+
+                        var elem = $("item");
+                        $(item).val(list[ind].breakpointState);
+                        $(item).parent().css("overflow", "visible")
+                        form.render();
+                    })
+                    layui.each(tableView.find("tbody select[name='toolSelect1']"), function (ind, item) {
+                        if (list[ind].breakpointState === "G") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(197,215,155)"
+                                })
+                            }, 100)
+
+                        } else if (list[ind].breakpointState === "R") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(231,185,183)"
+                                })
+                            }, 100)
+                        }
+                    })
+                },
+                cellMinWidth: 90,
+                request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                    ,
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                where: paramas
+            });
+
+        }
+
+        //编辑
+        function renderJhDetial(id) {
+            table.render({
+                elem: '#tableContent_detial_layer',
+                id: 'tableContent_detial_layer',
+                //data: tableBak,
+                url: '/api-edu/interaction/qualityInspection/detail/list/' + id,
+                // 格式化后台返回的数据
+                parseData: function (res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count ? res.data.count : 0, //解析数据长度
+                        "data": res.data.list.length != 0 ? res.data.list : [] //解析数据列表
+                    };
+                },
+                height: 200,
+                width: '100%',
+                // 格式化后台返回的数据
+                //item.sizeNumber||!item.characterName||!item.standardValue||!item.upperTolerance||!item.lowerTolerance
+                cols: [
+                    [{
+                        type: 'numbers',
+                        rowspan: '2',
+                        fixed: 'left',
+                        align: 'center',
+                        title: 'No.'
+                    }, {
+                        field: 'sizeNumber',
+                        rowspan: '2',
+                        fixed: 'left',
+                        title: '尺寸编号',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'characterName',
+                        rowspan: '2',
+                        title: '特性名称',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'specialCharacteristics',
+                        rowspan: '2',
+                        title: '特殊特性',
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        align: 'center',
+                        colspan: '3',
+                        title: '技术要求',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'batchNumber',
+                        rowspan: '2',
+                        title: '生产批号',
+                        align: 'center',
+                        edit: 'text'
+                    }, {
+                        align: 'center',
+                        colspan: '3',
+                        title: '检测结果'
+                    }, {
+                        field: 'conformingState',
+                        rowspan: '2',
+                        align: 'center',
+                        title: '符合状态',
+                        templet: '#toolBar'
+                    }, {
+                        field: 'nonConformityReasons',
+                        rowspan: '2',
+                        align: 'center',
+                        title: '不符合原因',
+                        minWidth: 100,
+                        edit: 'text'
+                    }, {
+                        field: 'interimMeasures',
+                        rowspan: '2',
+                        align: 'center',
+                        title: '临时措施',
+                        edit: 'text'
+                    }, {
+                        field: 'permanentMeasures',
+                        rowspan: '2',
+                        align: 'center',
+                        title: '长期措施',
+                        edit: 'text'
+                    }, {
+                        align: 'center',
+                        colspan: '4',
+                        title: '断点检测',
+                    }, {
+                        field: 'breakpointState',
+                        align: 'center',
+                        rowspan: '2',
+                        title: '符合状态',
+                        minWidth: 120,
+                        templet: '#toolBar1'
+                    }],
+                    [{
+                        field: 'standardValue',
+                        title: '标准值',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+
+                    }, {
+                        field: 'thresholdMax',
+                        title: '上限',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+                    }, {
+                        field: 'thresholdMin',
+                        title: '下限',
+                        align: 'center',
+                        style: 'background: #F2F2F2'
+
+                    }, {
+                        field: 'sampleResult1',
+                        title: '样件1',
+                        align: 'center',
+                        edit: 'text',
+
+                    }, {
+                        field: 'sampleResult2',
+                        title: '样件2',
+                        align: 'center',
+                        edit: 'text',
+
+                    }, {
+                        field: 'sampleResult3',
+                        title: '样件3',
+                        edit: 'text',
+                        align: 'center',
+
+                    }, {
+                        field: 'breakpointLotNumber',
+                        title: '断点批号',
+                        align: 'center',
+                        edit: 'text'
+
+                    }, {
+                        field: 'breakpoint1',
+                        title: '断点检测样件1',
+                        align: 'center',
+                        minWidth: 130,
+                        edit: 'text'
+                    }, {
+                        field: 'breakpoint2',
+                        title: '断点检测样件2',
+                        align: 'center',
+                        minWidth: 130,
+                        edit: 'text'
+
+                    }, {
+                        field: 'breakpoint3',
+                        title: '断点检测样件3',
+                        align: 'center',
+                        minWidth: 130,
+                        edit: 'text'
+
+                    }
+
+                    ]
+                ],
+                height: '300',
+                done: function (res) {
+                    //console.log(res)
+                    var list = res.data
+                    var tableView = this.elem.next(".layui-table-view");
+                    //console.log(tableView.find("tbody select[name='toolSelect1']"))
+                    layui.each(tableView.find("tbody select[name='toolSelect']"), function (ind, item) {
+                        //console.log(ind)
+                        var elem = $("item");
+                        $(item).val(list[ind].conformingState);
+                        $(item).parent().css("overflow", "visible")
+                        form.render();
+                    })
+
+                    layui.each(tableView.find("tbody select[name='toolSelect']"), function (ind, item) {
+                        //console.log(list[ind].conformingState)
+                        if (list[ind].conformingState === "G") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(197,215,155)"
+                                })
+                            }, 100)
+
+                        } else if (list[ind].conformingState === "R") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(231,185,183)"
+                                })
+                            }, 100)
+                        }
+                    })
+                    layui.each(tableView.find("tbody select[name='toolSelect1']"), function (ind, item) {
+
+                        var elem = $("item");
+                        $(item).val(list[ind].breakpointState);
+                        $(item).parent().css("overflow", "visible")
+                        form.render();
+                    })
+                    layui.each(tableView.find("tbody select[name='toolSelect1']"), function (ind, item) {
+                        if (list[ind].breakpointState === "G") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(197,215,155)"
+                                })
+                            }, 100)
+
+                        } else if (list[ind].breakpointState === "R") {
+                            setTimeout(function () {
+                                $(item).parent().find(".layui-input").css({
+                                    "background": "rgb(231,185,183)"
+                                })
+                            }, 100)
+                        }
+                    })
+                },
+                cellMinWidth: 90,
+                request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                    ,
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                }
+            });
+
+            //}, {
+            //method: 'get'
+            //});
+
+        }
+
+        form.on('select(toolSelect)', function (data) {
+            //console.log(data)     
+            if (data.value == "G") {
+                data.othis.find("input").css({
+                    "width": "100%",
+                    "background": "rgb(197,215,155)"
+                })
+            } else if (data.value == "R") {
+                data.othis.find("input").css({
+                    "width": "100%",
+                    "background": "rgb(231,185,183)"
+                })
+            }
+            var tableName = $(this).parents().prev('table').attr("id");
+            var tableIndex = $(this).closest("tr").attr("data-index");
+            //console.log(table.cache.demo)
+            table.cache.tableContent_detial_layer[tableIndex].conformingState = data.value
+            //console.log(table.cache.tableContent_detial_layer)
+        })
+        form.on('select(toolSelect1)', function (data) {
+            //console.log(data)
+            if (data.value == "G") {
+                data.othis.find("input").css({
+                    "width": "100%",
+                    "background": "rgb(197,215,155)"
+                })
+            } else if (data.value == "R") {
+                data.othis.find("input").css({
+                    "width": "100%",
+                    "background": "rgb(231,185,183)"
+                })
+            }
+            var tableName = $(this).parents().prev('table').attr("id");
+            var tableIndex = $(this).closest("tr").attr("data-index");
+            //console.log(table.cache.tableContent_detial_layer[tableIndex])
+            table.cache.tableContent_detial_layer[tableIndex].breakpointState = data.value
+            //console.log(table.cache.tableContent_detial_layer)
+        })
+        //文件上传
+        var uploadDetial = upload.render({
+            elem: '#detail-import' //绑定元素
+            ,
+            accept: 'file',
+            url: '/api-edu/interaction/qualityInspectionPlan/uploadPartInfo?id=' + $("input[name='jhPlanId']").val() //上传接口
+            ,
+            done: function (res) {
+                //上传完毕回调
+                //console.log(res)
+                if (res.ok) {
+                    layer.msg('文件上传成功');
+                    table.reload('tableContent_detial_layer');
+                } else {
+                    layer.msg(res.message);
+                }
+            },
+            error: function () {
+                //请求异常回调
+            }
+        });
+        //导入模板下载
+        $("#detail-down").click(function () {
+            window.location.href = '/api-edu/interaction/qualityInspection/importTemplate?id=' + $("input[name='jhPlanId']").val();
+        })
+        multipSelect('partsCodeNameType', '#planCodeLayer', 'partsCode', 'partsCode');
+
+        multipSelect('partsCodeNameType', '#teamNameIdLayer', 'partsName', 'partsName');
+
+        multipSelect('partsCodeNameType', '#carTypeIdLayer', 'carType', 'carType');
+
+        function multipSelect(url, id, name, value) {
+            //var productionArr=[],teamNameArr=[];
+            admin.req('/api-edu/interaction/qualityInspectionPlan/' + url, {}, function (res) {
+                var arr = res.data,
+                    elem = $(id);
+
+                //console.log(res)
+                elem.empty().append('<option></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    if ($('input[name="' + name + '"]').val() == res.data[i][name]) {
+                        elem.append('<option selected value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+
+                    } else {
+                        elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+
+                    }
+                }
+                form.render('select');
+
+                if ($("input[name='partsCode']").val()) {
+                    //console.log($("input[name='partsCode']").val())
+                    //修改
+                    if ($("input[name='flag']").val() == 1) {
+                        $("#layer-form select").attr("disabled", true)
+                        $("#layer-form .layui-input").attr("disabled", true)
+                        $("#layer-form .layui-input[name='planNameLayer']").attr("disabled", true).addClass("layui-disabled").val($("input[name='planName']").val())
+                        $("#layer-form .layui-input[name='versionLayer']").attr("disabled", true).addClass("layui-disabled").val($("input[name='partsVersion']").val())
+                    }else{
+                        //新增
+                        form.on('select(planCodeLayer)', function (data) {
+
+                            $("input[name='jhPlanId']").val(data.value);
+                            arr.map(function (item) {
+                                if (item.partsCode == data.value) {
+                                    //console.log(item.partsName)
+                                    form.val("layer-form", {
+                                        teamNameIdLayer: item.partsName,
+                                        carTypeIdLayer: item.carType
+                                    })
+                                    //$("#teamNameIdLayer").val(item.partsName)
+                                    //$("#carTypeIdLayer").val(item.carType)
+                                    //$("#teamNameIdLayer,#carTypeIdLayer").attr("disabled", true)
+
+                                    form.render()
+                                    //$("#layer-form .layui-input").attr("disabled", true)
+
+                                }
+                            })
+
+                        });
+                        $("#layer-form .layui-input[name='planNameLayer']").attr("disabled", false).removeClass("layui-disabled").val($("input[name='planName']").val())
+                        $("#layer-form .layui-input[name='versionLayer']").removeAttr("disabled").removeClass("layui-disabled").val($("input[name='partsVersion']").val())
+                    }
+                    //$("#layer-form .layui-input").addClass("layui-disabled")
+                    $("#checkDateLayer").removeClass("layui-disabled")
+                    // $("#layer-form .layui-input[name='planNameLayer']").attr("disabled", false).removeClass("layui-disabled").val($("input[name='planName']").val())
+                    // $("#layer-form .layui-input[name='versionLayer']").removeAttr("disabled").removeClass("layui-disabled").val($("input[name='partsVersion']").val())
+                    $("#layer-form .layui-input[name='checkDateLayer']").attr("disabled", false).attr("disabled", false)
+                } else {
+                    $("#layer-form select").removeAttr("disabled").val("")
+                    $("#layer-form .layui-input").removeAttr("disabled").val("")
+                    $("#layer-form .layui-input").removeClass("layui-disabled")
+                    //$("#layer-form .layui-input[name='remarkLayer']").val("")
+                    form.on('select(planCodeLayer)', function (data) {
+
+                        $("input[name='jhPlanId']").val(data.value);
+                        arr.map(function (item) {
+                            if (item.partsCode == data.value) {
+                                //console.log(item.partsName)
+                                form.val("layer-form", {
+                                    teamNameIdLayer: item.partsName,
+                                    carTypeIdLayer: item.carType
+                                })
+                                //$("#teamNameIdLayer").val(item.partsName)
+                                //$("#carTypeIdLayer").val(item.carType)
+                                $("#teamNameIdLayer,#carTypeIdLayer").attr("disabled", true)
+
+                                form.render()
+                                $("#layer-form .layui-input").attr("disabled", true)
+                                $("#layer-form input[name='planNameLayer']").removeAttr("disabled").val("")
+                                $("#layer-form input[name='versionLayer']").removeAttr("disabled").val("")
+                                $("#layer-form input[name='remarkLayer']").removeAttr("disabled").val("")
+                                $("#layer-form input[name='updateLayer']").removeAttr("disabled").val("")
+                                $("#layer-form input[name='checkDateLayer']").removeAttr("disabled").val("")
+                            }
+                        })
+
+                    });
+
+                }
+
+
+            }, {
+                method: 'get'
+            });
+
+        }
+
+        function validata(data) {
+            var tag = true;
+            data.map(function (item) {
+                if (item.conformingState == "G") {
+                    if (!item.sampleResult1 || !item.sampleResult2 || !item.sampleResult3 || !item.conformingState) {
+                        tag = false;
+                        layer.msg('请检查必填项');
+                    }
+                }
+
+            })
+            return tag;
+        }
+
+        $("#detail-reset").click(function () {
+            //console.log(initBak)
+            table.reload("tableContent_detial_layer")
+        })
+        //新增明细
+        $("#detail-add").click(function () {
+
+            var dataBak = table.cache.tableContent_detial_layer;
+            //console.log(dataBak)
+            var type = true;
+            if (dataBak.length != 0) {
+                type = validata(dataBak)
+            }
+            if (type) {
+                var item = {
+                    "LAY_INDEX": dataBak.length,
+                    "characterName": "",
+                    "frequency": "",
+                    "id": "",
+                    "inspectionEquipment": "",
+                    "lowerTolerance": "",
+                    "qualityInspectionId": $("input[name='planId']").val() ? $("input[name='planId']").val() : "",
+                    "remark": "",
+                    "sizeNumber": "",
+                    "standardValue": "",
+                    "upperTolerance": ""
+                }
+                dataBak.push(item);
+                tableBak = dataBak;
+                table.reload("tableContent_detial_layer", {
+                    data: dataBak // 将新数据重新载入表格
+                })
+            }
+
+
+        })
+        $("#detail-del").click(function () {
+            //用id判断是本地添加还是远程数据
+            var checkItem = table.checkStatus('tableContent_detial_layer');
+            var list = table.cache.tableContent_detial_layer;
+            console.log(checkItem.data[0].id)
+            //console.log(list)
+            var checkItemId = checkItem.data.length != 0 ? checkItem.data[0].id : "";
+            var compareId = $("input[name='planId']").val();
+
+
+            if (checkItem.data.length == 0) {
+                layer.msg('请选择要删除的计划');
+            } else {
+                if (checkItemId == compareId) {
+                    //本地
+                    list.map(function (item, ind) {
+                        //console.log(item)
+                        if (item.id == checkItemId) {
+                            list.splice(checkItem.LAY_INDEX, 1);
+                            //console.log(tableBak)
+                            table.reload("tableContent_detial_layer", {
+                                data: list // 将新数据重新载入表格
+                            })
+                        }
+                    })
+                } else {
+                    //远程
+                    delTabeData('partInfo', checkItem.data[0].id, 'tableContent_detial_layer');
+                }
+
+            }
+            //console.log(checkItem.data[0].id)
+
+        })
+
+        function delTabeData(url, id, type) {
+            admin.req('/api-edu/interaction/qualityInspectionPlan/' + (url ? url + '/' : '') + id, {}, function (res) {
+                //layer.msg(res.data);
+                if (res.ok) {
+                    layer.msg('删除成功');
+                } else {
+                    layer.msg(res.data);
+                }
+                layer.closeAll('page');
+                //table.reload(type);
+            }, {
+                method: 'delete'
+            });
+        }
+
+
+    })
+</script>

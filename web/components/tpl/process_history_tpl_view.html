@@ -1,0 +1,334 @@
+<!--
+File   : process_history_tpl_view.html
+Created: Friday September 28th 2018 8:23:34 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Friday November 2nd 2018 1:45:29 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 
+-----
+HISTORY:
+-->
+<link rel="stylesheet" href="../../assets/css/form.css">
+
+<div class="layui-container task-container process-history-tpl-view">
+    <div class="layui-row">
+        <div class="layui-col-md12 task-container-l">
+            <div class="task-container-l-t">
+                <div class="task-header">
+                    <div class="task-header-title">
+                        <h1>{{name}}</h1>
+                        <h3><span>{{assigneeName}}</span>&nbsp;&nbsp;<span>{{createTimeStr}}</span></h3>
+                    </div>
+                    <div class="task-header-control">
+                        <a href="javascript:;" class="layui-hide" lay-filter="task-control-print"><i class="layui-icon layui-icon-set-sm"></i>打印</a>
+                        <a href="javascript:;" class="layui-hide" lay-filter="task-control-appendix"><i class="layui-icon layui-icon-file"></i>附件列表</a>
+                        <a href="javascript:;" class="layui-hide" lay-filter="task-control-find"><i class="layui-icon layui-icon-search"></i>意见查找</a>
+                        <a href="javascript:;" lay-filter="task-control-records"><i class="layui-icon layui-icon-form"></i>明细日志</a>
+                        <a href="javascript:;"><i class="layui-icon layui-icon-prev" style="display: none;"></i></a>
+                    </div>
+                </div>
+                <div class="layui-tab layui-tab-card">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">正文</li>
+                        <li>流程</li>
+                    </ul>
+                    <div class="layui-tab-content" style="overflow: auto;">
+                        <div class="layui-tab-item layui-show formView" id="task-html"></div>
+                        <div class="layui-tab-item" id="task-timeline"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../../assets/js/ADCFormDesignHelper.js"></script>
+<script>
+    var process_history_tpl_view = function (raw_data) {
+        layui.use([], function () {
+            var form = layui.form,
+                config = layui.config,
+                element = layui.element,
+                table = layui.table,
+                admin = layui.adc,
+                // 待办任务 ID
+                id = raw_data.id,
+                // 流程实例 ID
+                processInstanceId = raw_data.processInstanceId,
+                // 保存处理日志
+                processingRecords = [];
+            // 渲染数据
+            $('.task-container').vm(raw_data);
+
+            // 动态确定 Tab 高度
+            $('.task-container .layui-tab-content').css('height', $('.task-container-l').height() - 160);
+            $(window).on('resize', function () {
+                var leftContainerHeight = parseInt($('.process-history-tpl-view .task-container-l').css(
+                        'height')),
+                    remainHeight = leftContainerHeight - 159;
+                $('.process-history-tpl-view .layui-tab-content').css('height', remainHeight + 'px');
+            });
+
+            // 获取已办任务正文表单数据
+            admin.req('/api/activiti-task/history/' + id, {}, function (res) {
+                if (res.ok) {
+                    // 先将表单结构填入容器
+                    $('#task-html').html(ADCFormDesignHelper.formatHtml(res.data.structure));
+                    // 获取权限信息
+                    ADCFormDesignHelper.formatPrivReadonly('#task-html');
+                    // 填入数据
+                    ADCFormDesignHelper.formdataUpdate('#task-html', JSON.parse(res.data.data));
+                    // 渲染表单
+                    form.render();
+                } else {
+                    layer.msg('已办任务正文加载失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            });
+            // 获取已办任务流程数据，绘制流程图
+            admin.req('/api/models/progressImageData', {
+                processInstanceId: processInstanceId
+            }, function (res) {
+                if (res.ok) {
+                    var timelineData = res.data,
+                        timelineHtml = '<ul class="task-timeline">';
+                    if (timelineData.length > 0) {
+                        timelineData.reverse();
+                    }
+                    // console.log(timelineData);
+                    // 将流程制作为 HTML
+                    for (var i = 0; i < timelineData.length; i++) {
+                        var item = timelineData[i],
+                            ccTaskItems = item.ccTaskItems;
+                        if (ccTaskItems.length === 1) {
+                            // 简单串行流程
+                            var tmp = ccTaskItems[0],
+                                // 处理时间
+                                // 对日期时间字符串做格式校验
+                                tmpDealTime =
+                                /^[1-9]\d{3}-(0[1-9]|1[0-2]|[1-9])-(0[1-9]|[1-2][0-9]|3[0-1]|[1-9])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
+                                .test(tmp.dealTime) ? tmp.dealTime.split(' ') : item.status === 1 ? [
+                                    '', '<span style="color: #F14E10;">处理中</span>'
+                                ] : ['', '尚未处理'],
+                                // 处理人姓名
+                                tmpAssigneeRealName = tmp.assigneeRealName ? tmp.assigneeRealName :
+                                '【未指定】',
+                                // 备注，处理意见
+                                tmpRemark = tmp.remark ? tmp.remark : '暂无处理意见',
+                                // 状态
+                                tmpStatus = item.status,
+                                // 任务名
+                                tmpTaskDefName = tmp.taskDefName;
+                            timelineHtml += '<li class="task-timeline-item task-timeline-status' +
+                                tmpStatus + '"><div class="task-timeline-time"><h1>' + tmpDealTime[
+                                    0] + '</h1><h5>' + tmpDealTime[1] +
+                                '</h5></div><div class="task-timeline-axis"><span>' + (i + 1) +
+                                '</span></div><div class="task-timeline-content"><div class="task-timeline-header">' +
+                                tmpTaskDefName + ' - ' + tmpAssigneeRealName +
+                                '</div><div class="task-timeline-body">' + tmpRemark +
+                                '</div></div></li>';
+                        } else if (ccTaskItems.length > 1) {
+                            // 并行流程
+                            var arrDealTime = [];
+                            for (var k = 0; k < ccTaskItems.length; k++) {
+                                arrDealTime.push(ccTaskItems[k].dealTime);
+                            }
+                            // DONE: 将时间排序，时间越晚越靠前
+                            // TODO: 兼容 IE
+                            arrDealTime.sort(function (a, b) {
+                                if (a === '' && b === '') {
+                                    return 0;
+                                } else if (a === '') {
+                                    return 1;
+                                } else if (b === '') {
+                                    return -1;
+                                } else {
+                                    a = new Date(a).getTime();
+                                    b = new Date(b).getTime();
+                                    return b - a;
+                                }
+                            });
+                            tmpDealTime =
+                                /^[1-9]\d{3}-(0[1-9]|1[0-2]|[1-9])-(0[1-9]|[1-2][0-9]|3[0-1]|[1-9])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
+                                .test(arrDealTime[0]) ? arrDealTime[0].split(' ') : item.status === 1 ? [
+                                    '', '<span style="color: #F14E10;">处理中</span>'
+                                ] : ['', '尚未处理'];
+                            timelineHtml += '<li class="task-timeline-item task-timeline-status' +
+                                item.status + '"><div class="task-timeline-time"><h1>' +
+                                tmpDealTime[0] + '</h1><h5>' + tmpDealTime[1] +
+                                '</h5></div><div class="task-timeline-axis"><span>' + (i + 1) +
+                                '</span></div><div class="task-timeline-content">';
+                            for (var j = 0; j < ccTaskItems.length; j++) {
+                                var tmp = ccTaskItems[j],
+                                    // 处理人姓名
+                                    tmpAssigneeRealName = tmp.assigneeRealName ? tmp.assigneeRealName :
+                                    '【未指定】',
+                                    // 备注，处理意见
+                                    tmpRemark = tmp.remark ? tmp.remark : '暂无处理意见',
+                                    // 状态
+                                    tmpStatus = tmp.status,
+                                    // 任务名
+                                    tmpTaskDefName = tmp.taskDefName;
+                                timelineHtml += '<div class="task-timeline-status' + tmpStatus +
+                                    '-important"><div class="task-timeline-header">' +
+                                    tmpTaskDefName +
+                                    ' - ' + tmpAssigneeRealName +
+                                    '</div><div class="task-timeline-body">' + tmpRemark +
+                                    '</div></div>';
+                            }
+                            timelineHtml += '</div></li>';
+                        }
+                    }
+
+                    timelineHtml += '</ul>';
+                    $('#task-timeline').html(timelineHtml);
+                } else {
+                    layer.msg('待办任务流程加载失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            });
+            // 获取已办任务处理人意见区数据
+            admin.req('/api/ppap/activiti-task/processing-records', {
+                processInstanceId: processInstanceId
+            }, function (res) {
+                var records = res.data;
+                // 不显示 status 为 0 的数据，0 为待办、1 为已办
+                if (res.ok) {
+                    var recordsData = res.data,
+                        recordsHtml = '';
+                    processingRecords = recordsData;
+                    for (var i = 0; i < recordsData.length; i++) {
+                        var tmp = recordsData[i];
+                        if (tmp.status === '0') {
+                            continue;
+                        }
+                        var tmpAssigneeName = tmp.assigneeName,
+                            tmpComment = tmp.comment ? tmp.comment : '暂无意见',
+                            tmpFinishTimeStr = tmp.finishTimeStr;
+                        recordsHtml +=
+                            '<div class="task-body-container"><div><img src="../../assets/images/avatar.png"><a>' +
+                            tmpAssigneeName + '</a><strong>已阅</strong><span>' + tmpFinishTimeStr +
+                            '</span></div><p>' + tmpComment + '<hr></p></div>';
+                    }
+                    recordsHtml && $('#task-records').html(recordsHtml);
+                } else {
+                    layer.msg('已办任务处理人意见加载失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            });
+
+            // 事件监听
+            $('a[lay-filter^="task-control"]').on('click', function () {
+                var type = $(this).attr('lay-filter').split('-')[2];
+                taskControl[type]();
+            });
+
+            // 事件处理
+            var taskControl = {
+                // 明细日志
+                records: function () {
+                    layer.open({
+                        title: '明细日志',
+                        type: 1,
+                        id: 'process-mine-pending-tasks-records',
+                        content: '<div class="layui-tab">\
+                                        <ul class="layui-tab-title" style="padding: 0 10px;">\
+                                            <li class="layui-this">处理明细</li>\
+                                            <li>流程日志</li>\
+                                            <li>催办日志</li>\
+                                        </ul>\
+                                        <div class="layui-tab-content" style="height:auto;">\
+                                            <div class="layui-tab-item layui-show"><table id="process-mine-pending-tasks-records-deal" lay-filter="process-mine-pending-tasks-records-deal"></table></div>\
+                                            <div class="layui-tab-item">流程日志</div>\
+                                            <div class="layui-tab-item">催办日志</div>\
+                                        </div>\
+                                    </div>',
+                        area: ['90%', '80%'],
+                        resize: false,
+                        success: function () {
+                            var h = $('#process-mine-pending-tasks-records').height() -
+                                101;
+                            table.render({
+                                elem: '#process-mine-pending-tasks-records-deal',
+                                id: 'process-mine-pending-tasks-records-deal',
+                                data: processingRecords,
+                                height: h,
+                                cols: [
+                                    [{
+                                        type: 'numbers'
+                                    }, {
+                                        field: 'name',
+                                        title: '节点名称',
+                                        minWidth: 300
+                                    }, {
+                                        field: 'createTimeStr',
+                                        title: '开始时间',
+                                        minWidth: 180
+                                    }, {
+                                        field: 'finishTimeStr',
+                                        title: '结束时间',
+                                        minWidth: 180
+                                    }, {
+                                        field: 'assigneeName',
+                                        title: '负责人',
+                                        minWidth: 100
+                                    }, {
+                                        title: '处理结果',
+                                        templet: function (d) {
+                                            return d.status === '0' ?
+                                                '<span style="color: #F14E10;">处理中</span>' :
+                                                '<span style="color: #4D9A00;">完成</span>';
+                                        },
+                                        minWidth: 100,
+                                        align: 'center'
+                                    }, {
+                                        field: 'comment',
+                                        title: '处理意见',
+                                        minWidth: 180
+                                    }]
+                                ],
+                                cellMinWidth: 60,
+                                page: {
+                                    layout: ['limit', 'count', 'prev', 'page',
+                                        'next'
+                                    ]
+                                },
+                                done: function () {
+                                    // TODO: [BUG] 明细日志中表格滚动条和 Tab容器高度异常
+                                }
+                            });
+                        }
+                    });
+                }
+            };
+
+        });
+    };
+</script>

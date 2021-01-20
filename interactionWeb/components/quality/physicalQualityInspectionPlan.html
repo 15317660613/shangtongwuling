@@ -1,0 +1,999 @@
+<style>
+    .layui-table-main {
+        max-height: 310px;
+    }
+    
+    .layui-card-header {
+        height: 40px;
+        line-height: 40px;
+        padding: 0px;
+        display: -webkit-flex;
+        display: flex;
+        align-items: center;
+        border-top: 1px solid #f6f6f6;
+        margin-top: 5px;
+        font-weight: bold;
+        border-bottom: unset;
+    }
+    
+    .xm-select-label {
+        white-space: nowrap;
+        overflow: hidden;
+        position: absolute;
+        right: 30px;
+        left: 0;
+        padding-left: 10px;
+    }
+    
+    .layui-card-body {
+        height: auto;
+        padding-top: 0;
+    }
+    
+    .layui-table-header .layui-table {
+        color: #448EE0;
+        background: #E9F9FF;
+    }
+    
+    .layui-table-cell {
+        height: 20px;
+        line-height: 20px;
+    }
+    
+    .line {
+        height: 16px;
+        border-left: 4px solid #1980CE;
+        line-height: 16px;
+        padding-left: 10px;
+        flex-grow: 1;
+        color: #333333;
+        font-size: 16px;
+    }
+    
+    .line-chart {
+        width: 100%;
+        height: 300px;
+    }
+    
+    .tea_arrowDown {
+        transition: 0.8s;
+        transform-origin: center center;
+        transform: rotateZ(0deg);
+    }
+    
+    .tea_arrowUp {
+        transition: 0.8s;
+        transform-origin: center center;
+        transform: rotateZ(180deg);
+    }
+    /*.table-top-bar .layui-form-label{
+        width: 20%;
+        padding-left: 0;
+    }
+    .layui-form-item .layui-inline{
+        width: 80%;
+    }*/
+    
+    .content-margin {
+        margin: 7px;
+        background: #ffffff;
+    }
+    
+    .table-top-bar .layui-form-label {
+        width: 80px;
+    }
+    
+    @media screen and (min-width: 1360px) and (max-width: 1920px) {
+        .layui-input,
+        .layui-select {
+            width: 180px;
+        }
+        .layui-input,
+        .layui-select,
+        .xm-select-parent {
+            width: 260px;
+        }
+        /* .line-chart {
+            width: 100%;
+            height: 320px;
+        } */
+        .layui-form-label {
+            font-size: 14px;
+        }
+    }
+    
+    @media screen and (min-width: 1920px) {
+        .layui-input,
+        .layui-select {
+            width: 300px;
+        }
+        .table-top-bar .layui-form-label {
+            width: 90px;
+        }
+        /* .line-chart {
+            width: 100%;
+            height: 540px;
+        } */
+        .layui-form-label {
+            font-size: 14px;
+        }
+    }
+    
+    @media screen and (max-width: 1360px) {
+        .layui-input,
+        .layui-select {
+            width: 130px;
+        }
+        /* .line-chart {
+            width: 100%;
+            height: 300px;
+        } */
+        .layui-form-label {
+            font-size: 12px;
+        }
+    }
+    
+    .layui-card-header a {
+        float: right;
+        font-size: 14px;
+        color: #949494;
+        font-weight: 500;
+        margin-left: 24px;
+    }
+</style>
+
+<div class="layui-row">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main content-margin">
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+                    <!--<div class="pull-right"><label id="flex2">展开</label><i class="layui-icon layui-icon-down"></i><i class="layui-icon layui-icon-up hide"></i>&lt;!&ndash;<img src="../../assets/images/arrowdown.png" /><img class="hide" src="../../assets/images/arrowup.png" />&ndash;&gt;</div>-->
+                    <div class="line">查询条件</div>
+                    <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                         src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                </div>
+                <!-- 数据表格顶部控制栏 -->
+                <div id='search-form' class="layui-form" style="display: none">
+                    <div class="layui-form-item table-top-bar">
+                        <div class=" layui-row ">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4  search-item1">
+                                <span class="layui-form-label "> 零件号</span>
+                                <div class="layui-inline">
+                                    <!--<select name="productionAreaId" id="productionAreaId" placeholder="选择零件号" lay-filter="productionAreaId" lay-search>
+                                                        </select>-->
+                                    <select name="productionAreaId" id='productionAreaId' xm-select="productionAreaId" xm-select-skin="normal" xm-select-direction="down" xm-select-search="" xm-select-show-count="1">
+                                                    
+                                                </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4  search-item1">
+                                <span class="layui-form-label "> 零件名称</span>
+                                <div class="layui-inline">
+                                    <!--<select name="teamNameId" id="teamNameId" placeholder="请选择零件名称" lay-filter="teamNameId" lay-search>
+                                                            </select>-->
+                                    <select name="teamNameId" id='teamNameId' xm-select="teamNameId" xm-select-skin="normal" xm-select-direction="down" xm-select-search="" xm-select-show-count="1">
+                                                   
+                                                </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4  search-item1">
+                                <span class="layui-form-label "> 车型/机型</span>
+                                <div class="layui-inline">
+                                    <!--<select name="carTypeId" id="carTypeId" placeholder="请选择车型/机型" lay-filter="carTypeId" lay-search>
+                                                            </select>-->
+                                    <select name="carTypeId" id='carTypeId' xm-select="carTypeId" xm-select-skin="normal" xm-select-direction="down" xm-select-show-count="1">
+                                                   
+                                                </select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3 layui-col-xs-offset9 layui-col-sm-offset9 layui-col-md-offset9 search-item1" style="text-align: right;padding-right: 5%;padding-top: 10px;">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_unpuailfied" id="search_unpuailfied"><span>查询</span></button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="reset_unpuailfied"><span>重置</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="planId">
+                <input type="hidden" name="partsCode">
+                <input type="hidden" name="partsName">
+                <input type="hidden" name="carType">
+                <input type="hidden" name="planName">
+                <input type="hidden" name="partsVersion">
+                <input type="hidden" name="remark">
+
+            </div>
+        </div>
+        <div class="layui-card p-main content-margin">
+
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+
+                <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+                    <div class="line">表格数据</div>
+                </div>
+                <div class=" layui-row">
+                    <div style="border-top: 0">
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-add">新增</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-edit">修改</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-del">删除</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-imort" style="margin-right: 1%">导入</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-export">导出</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-refesh">刷新</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-check">修改履历</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" id="main-down">导入模板下载</button>
+                        <!--<button class="layui-btn layui-btn-sm layui-btn-primary" id="main-save">保存</button>-->
+                    </div>
+                    <table id="tableContent-ability" lay-filter="tableContent-ability"></table>
+
+                </div>
+            </div>
+        </div>
+        <div class='layui-card content-margin'>
+            <div class="layui-card-body">
+                <div class="layui-card-header">
+                    <div class="line pull-left">测量计划明细</div>
+                </div>
+                <table id="tableContent_detial" lay-filter="tableContent_detial"></table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    layui.use(['laydate', 'element', 'table', 'formSelects', 'upload'], function() {
+        var table = layui.table,
+            form = layui.form,
+            upload = layui.upload,
+            laydate = layui.laydate,
+            config = layui.config,
+            tableParmas = {},
+            formSelects = layui.formSelects,
+            admin = layui.admin;
+        //$("#table-btn-group").hide();    
+        //productionAreaId teamNameId carTypeId
+        multipSelect('partsCodeNameType', '#productionAreaId', 'partsCode', 'partsCode');
+
+        multipSelect('partsCodeNameType', '#teamNameId', 'partsName', 'partsName');
+        //文件上传
+        var uploadInst = upload.render({
+            elem: '#main-imort' //绑定元素
+                ,
+            accept: 'file',
+            url: '/api-edu/interaction/qualityInspectionPlan/uploadPartInfo' //上传接口
+                ,
+            done: function(res) {
+                //上传完毕回调
+                //console.log(res)
+                if (res.ok) {
+                    layer.msg('文件上传成功');
+                    table.reload('tableContent-ability');
+                } else {
+                    return layer.msg('导入失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            },
+            error: function() {
+                //请求异常回调
+            }
+        });
+        //form.on('select(productionAreaId)', function(data){
+
+        //setSelectData('partsCodeNameType', '#teamNameId', 'partsName', 'partsName');
+
+        //});
+        // 表单提交，查询与重置
+        form.on('submit(search_unpuailfied)', function(data) {
+            // 获取表单数据          
+
+            var d = data.field;
+            var res = {};
+            // console.log(d)
+
+            //console.log(d.productionAreaId.split(','))
+            res.partsCodeList = d.productionAreaId ? d.productionAreaId : [];
+            res.partsNameList = d.teamNameId ? d.teamNameId : [];
+            res.carTypeList = d.carTypeId ? d.carTypeId : [];
+            //console.log(d)  
+            renderTable(res);
+        });
+
+        $('.table-top-bar input').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $('#search_unpuailfied').click();
+            }
+        });
+
+        //选项渲染
+        function multipSelect(url, id, name, value) {
+            var productionArr = [],
+                teamNameArr = [];
+            admin.req('/api-edu/interaction/qualityInspectionPlan/' + url, {}, function(res) {
+
+                var arr = res.data,
+                    elem = $(id);
+                //console.log(res)
+                //elem.empty().append('');
+                elem.empty();
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                formSelects.render(id);
+                formSelects.btns(id, []);
+                formSelects.on('productionAreaId', function(id, vals, val, isAdd, isDisabled) {
+
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (res.data[i]['partsCode'] == val.value) {
+                            if (isAdd) {
+                                productionArr.push(res.data[i]['partsName']);
+                                teamNameArr.push(res.data[i]['partsCode']);
+                            } else {
+                                var delObj = productionArr.indexOf(res.data[i]['partsName']);
+                                productionArr.splice(delObj, 1);
+                                teamNameArr.splice(delObj, 1);
+                            }
+                            //console.log(productionArr)
+                            formSelects.value('teamNameId', productionArr);
+
+                        }
+                    }
+                    //formSelects.value('teamNameId', ["前围外隔音垫","发动机罩隔热板"]);
+
+                    //console.log(arr)
+
+                });
+                formSelects.on('teamNameId', function(id, vals, val, isAdd, isDisabled) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (res.data[i]['partsName'] == val.value) {
+                            if (isAdd) {
+                                teamNameArr.push(res.data[i]['partsCode']);
+                                productionArr.push(res.data[i]['partsName']);
+
+                            } else {
+                                var delObj = teamNameArr.indexOf(res.data[i]['partsCode']);
+                                teamNameArr.splice(delObj, 1);
+                                productionArr.splice(delObj, 1);
+
+                            }
+                            //console.log(teamNameArr)
+                            formSelects.value('productionAreaId', teamNameArr);
+                        }
+                    }
+                });
+
+            }, {
+                method: 'get'
+            });
+
+        }
+
+
+
+        admin.req('/api-edu/interaction/qualityInspectionPlan/carType', {}, function(res) {
+
+            var arr = res.data,
+                elem = $('#carTypeId');
+
+            //elem.empty().append('');
+            elem.empty();
+            for (var i = 0; i < arr.length; i++) {
+                elem.append('<option value="' + arr[i] + '">' + arr[i] + '</option>');
+            }
+            formSelects.render('carTypeId');
+            formSelects.btns('carTypeId', []);
+
+        });
+
+        function setSelectData(url, id, name, value) {
+            admin.req('/api-edu/interaction/qualityInspectionPlan/' + url, {}, function(res) {
+
+                var elem = $(id);
+                elem.empty();
+                elem.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                form.render('select');
+
+            }, {
+                method: 'get'
+            });
+        };
+        $('#toggle').on('click', function() {
+            $('#search-form').toggle(200);
+            if ($('#toggle').hasClass('tea_arrowUp')) {
+                $('#toggle').removeClass('tea_arrowUp').addClass('tea_arrowDown');
+                $('#toggle').parent().css('border-bottom', '1px solid #f6f6f6');
+
+            } else {
+                $('#toggle').removeClass('tea_arrowDown').addClass('tea_arrowUp');
+                $('#toggle').parent().css('border-bottom', 'none');
+            };
+
+        })
+        $('#toggle').click();
+        //保存计划
+        //$("#main-save").click(function(){
+        //console.log(table.checkStatus('tableContent-ability'))
+        //})
+        //履历
+        $("#main-check").click(function() {
+            var paramas = {};
+            paramas.area = ['100%', '100%'];
+            paramas.title = "计划修改履历";
+            paramas.path = 'components/tpl/quality_check.html';
+            paramas.btn = ['关闭'];
+
+
+            var checkItem = table.checkStatus('tableContent-ability');
+            if (checkItem.data.length == 0) {
+                layer.msg('请选择查看的计划');
+            } else if (checkItem.data.length > 1) {
+                layer.msg('只能选择一条进行查看');
+            } else {
+                $("input[name='partsCode']").val(checkItem.data[0].partsCode)
+                $("input[name='planName']").val(checkItem.data[0].planName)
+                admin.popupCenter(paramas);
+            }
+        })
+
+        function judgeParams() {
+            var res = true;
+            var requiredParams = [{
+                name: 'sizeNumber',
+                remark: '尺寸编号'
+            }, {
+                //specialCharacteristics
+                name: 'specialCharacteristics',
+                remark: '特殊特性分类'
+            }, {
+                name: 'characterName',
+                remark: '特性名称'
+            }, {
+                name: 'upperTolerance',
+                remark: '上公差',
+                isNum: true
+            }, {
+                name: 'lowerTolerance',
+                remark: '下公差',
+                isNum: true
+            }]
+            var detialPar = table.cache.tableContent_detial_layer;
+            console.log(detialPar)
+            for (var i in detialPar) {
+                var item = detialPar[i];
+
+                for (var param of requiredParams) {
+                    if (!item[param.name]) {
+                        layer.msg('第' + (i - 0 + 1) + '行' + param.remark + '必填', {
+                            icon: 5
+                        });
+                        return res = false;
+                    }
+
+                }
+
+            }
+            return res;
+
+        }
+
+        function validata(data) {
+            var tag = true;
+            data.map(function(item) {
+                if (!item.sizeNumber || !item.characterName || !item.standardValue || !item.upperTolerance || !item.lowerTolerance) {
+                    tag = false;
+                    layer.msg('请检查必填项');
+                }
+            })
+            return tag;
+        }
+        //编辑
+        $("#main-edit").click(function() {
+                var paramas = {};
+                paramas.area = '1000px';
+                paramas.title = "编辑计划";
+                paramas.path = 'components/tpl/quality_edit.html';
+                paramas.btn = ['提交', '关闭'];
+                paramas.yes = function(index, layero) {
+                    //console.log(table.cache.tableContent_detial_layer)
+                    if (!judgeParams()) {
+                        return;
+                    }
+
+                    var planPar = [{
+                        "carType": $("#carTypeIdLayer").val(), //车型机型  必填 "id": "",
+                        "id": $("input[name='planId']").val(), //修改时必填，新增时不填
+                        "partsCode": $("#productionAreaIdLayer").val(), //零件编号  必填
+                        "partsName": $("#teamNameIdLayer").val(), //零件名称  非必填
+                        "planName": $("#planNameLayer").val(), //计划名称必填
+                        "remark": $("#remarkLayer").val(), //备注非必填
+                        "partsVersion": $("#versionLayer").val() //版本必填
+                    }]
+                    admin.req('/api-edu/interaction/qualityInspectionPlan', planPar, function(res) {
+                        if (res.ok) {
+                            var detialPar = table.cache.tableContent_detial_layer
+                            var type = true;
+                            var planId = res.data[0].id;
+
+                            if (detialPar.length != 0) {
+                                type = validata(detialPar)
+                            }
+                            if (type && detialPar.length != 0) {
+                                detialPar.map(function(item) {
+                                    item.qualityInspectionId = planId
+                                })
+                                admin.req('/api-edu/interaction/qualityInspectionPlan/partInfo/addOrUpdate', detialPar, function(res) {
+
+                                    if (!res.ok) {
+                                        layer.msg('提交计划明细失败');
+                                        return false;
+                                    }
+                                    table.reload('tableContent-ability')
+                                    table.reload('tableContent_detial')
+                                }, {
+                                    method: 'post'
+                                });
+                            }
+                            layer.msg('提交计划成功');
+                            layer.closeAll('page');
+                            //renderDetialTable.reload()
+                            //table.reload('tableContent_detial')                    
+                        } else {
+                            layer.msg(res.data);
+                        }
+                        //layer.closeAll('page');
+                    }, {
+                        method: 'post'
+                    });
+
+                }
+                var checkItem = table.checkStatus('tableContent-ability');
+                if (checkItem.data.length == 0) {
+                    layer.msg('请选择要编辑的计划');
+                } else if (checkItem.data.length > 1) {
+                    layer.msg('只能选择一条进行编辑');
+                } else {
+                    $("input[name='planId']").val(checkItem.data[0].id)
+                    $("input[name='partsCode']").val(checkItem.data[0].partsCode)
+                    $("input[name='partsName']").val(checkItem.data[0].partsName)
+                    $("input[name='carType']").val(checkItem.data[0].carType)
+                    $("input[name='planName']").val(checkItem.data[0].planName)
+                    $("input[name='partsVersion']").val(checkItem.data[0].partsVersion)
+                    $("input[name='remark']").val(checkItem.data[0].remark)
+                    admin.popupCenter(paramas);
+                }
+            })
+            //新增
+        $("#main-add").click(function() {
+            var paramas = {};
+            paramas.area = '1000px';
+            paramas.title = "新增计划";
+            paramas.path = 'components/tpl/quality_edit.html';
+            paramas.btn = ['提交', '关闭'];
+            paramas.yes = function(index, layero) {
+                if (!$("#carTypeIdLayer").val()) {
+                    layer.msg('请选择车型机型', {
+                        icon: 5
+                    });
+                    return;
+                }
+                if (!$("#productionAreaIdLayer").val()) {
+                    layer.msg('请选择零件编号', {
+                        icon: 5
+                    });
+                    return;
+                }
+                if ($("#planNameLayer").val() == '') {
+                    layer.msg('请输入计划名称', {
+                        icon: 5
+                    });
+                    return;
+                }
+
+                var planPar = [{
+                    carType: $("#carTypeIdLayer").val(), //车型机型  必填 "id": "",     //id  修改时必填，新增时不填
+                    partsCode: $("#productionAreaIdLayer").val(), //零件编号  必填
+                    partsName: $("#teamNameIdLayer").val(), //零件名称  非必填
+                    planName: $("#planNameLayer").val(), //计划名称必填
+                    remark: $("#remarkLayer").val(), //备注非必填
+                    partsVersion: $("#versionLayer").val() //版本必填
+                }]
+
+                if (!judgeParams()) {
+                    return;
+                }
+                admin.req('/api-edu/interaction/qualityInspectionPlan', planPar, function(res) {
+                    if (res.ok) {
+                        var detialPar = table.cache.tableContent_detial_layer
+                        var type = true;
+                        var planId = res.data[0].id;
+
+                        if (detialPar.length != 0) {
+                            type = validata(detialPar)
+                        }
+                        if (type && detialPar.length != 0) {
+                            detialPar.map(function(item) {
+                                    item.qualityInspectionId = planId
+                                })
+                                //console.log(detialPar)
+                            admin.req('/api-edu/interaction/qualityInspectionPlan/partInfo/addOrUpdate', detialPar, function(res) {
+
+                                if (!res.ok) {
+                                    layer.msg('提交计划明细失败');
+                                    return false;
+                                }
+                                table.reload('tableContent-ability')
+                                table.reload('tableContent_detial')
+                            }, {
+                                method: 'post'
+                            });
+                        }
+                        layer.msg('提交计划成功');
+                        layer.closeAll('page');
+                    } else {
+                        layer.msg(res.data);
+                    }
+                    //layer.closeAll('page');
+                }, {
+                    method: 'post'
+                });
+
+            }
+            $("input[name='planId']").val("")
+            $("input[name='partsCode']").val("")
+            $("input[name='partsName']").val("")
+            $("input[name='carType']").val("")
+            $("input[name='planName']").val("")
+            $("input[name='partsVersion']").val("")
+            $("input[name='remark']").val("")
+
+            admin.popupCenter(paramas);
+        })
+
+        //刷新
+        $("#main-refesh").click(function() {
+                $('#search_unpuailfied').click();
+            })
+            //导出
+        $("#main-export").click(function() {
+                var checkItem = table.checkStatus('tableContent-ability');
+                var res = '';
+                if (checkItem.data.length == 0) {
+                    layer.msg('请选择要导出的计划');
+                } else {
+                    for (var i = 0; i < checkItem.data.length; i++) {
+                        //res.push(checkItem.data[i].id);
+                        console.log(checkItem.data[i].id)
+                        res += checkItem.data[i].id + (i != checkItem.data.length - 1 ? "%2C" : "");
+
+                    }
+                    window.location.href = '/api-edu/interaction/qualityInspectionPlan/downloadPart?ids=' + res;
+
+                }
+            })
+            //导入模板下载
+        $("#main-down").click(function() {
+                window.location.href = '/api-edu/interaction/qualityInspectionPlan/partInfo/template';
+            })
+            //删除
+        $("#main-del").click(function() {
+            var checkItem = table.checkStatus('tableContent-ability');
+            if (checkItem.data.length == 0) {
+                layer.msg('请选择要删除的计划');
+            } else if (checkItem.data.length > 1) {
+                layer.msg('只能选择一条计划删除');
+            } else {
+                delTabeData('', checkItem.data[0].id, 'tableContent-ability');
+            }
+        })
+
+
+        function delTabeData(url, id, type) {
+            admin.req('/api-edu/interaction/qualityInspectionPlan/' + (url ? url + '/' : '') + id, {}, function(res) {
+                layer.msg(res.data);
+                table.reload(type);
+            }, {
+                method: 'delete'
+            });
+        }
+        //table =  $.extend(table, {config: {checkName: 'LAY_CHECKED'}});
+        // 渲染左侧表格
+        var renderTable = function(search) {
+            if (!search) {
+                search = {};
+            }
+            // 渲染表格
+            table.render({
+                elem: '#tableContent-ability',
+                id: 'tableContent-ability',
+                url: admin.formatUrl('/api-edu/interaction/qualityInspectionPlan'),
+                // 格式化后台返回的数据
+
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    if (res.data.list.length > 0) {
+                        res.data.list[0].LAY_CHECKED = true;
+                        renderDetialTable(res.data.list[0].id)
+                    }
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count ? res.data.count : 0, //解析数据长度
+                        "data": res.data.list.length != 0 ? res.data.list : [] //解析数据列表
+                    };
+                },
+                cols: [
+                    [{
+                        type: 'radio',
+                    }, {
+                        type: 'numbers',
+                        align: 'center',
+                        title: 'No.'
+                    }, {
+                        field: 'partsCode',
+                        align: 'center',
+                        templet: function(d) {
+                            var value = d.partsCode ? d.partsCode : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '零件号'
+                    }, {
+                        field: 'partsName',
+                        align: 'center',
+                        templet: function(d) {
+                            var value = d.partsName ? d.partsName : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '零件名称'
+                    }, {
+                        field: 'carType',
+                        align: 'center',
+                        templet: function(d) {
+                            var value = d.carType ? d.carType : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '车型/机型'
+                    }, {
+                        field: 'planName',
+                        align: 'center',
+                        title: '测量计划名称',
+                        templet: function(d) {
+                            var value = d.planName ? d.planName : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        //edit: 'text'
+                    }, {
+                        field: 'partsVersion',
+                        width: 80,
+                        align: 'center',
+                        title: '版本号'
+                    }, {
+                        field: 'updaterDate',
+                        align: 'center',
+                        title: '更新日期'
+                    }, {
+                        field: 'fileName',
+                        title: '导入文件名称',
+                        align: 'center',
+                        templet: function(d) {
+                            var temp = ''
+                            if (d.fileName) {
+                                temp = '<a href="javascript:void(0)" class="layui-table-link" data-url=' + d.fileId + '>' + d.fileName + '</a>'
+                            }
+                            return temp
+                        }
+                    }, {
+                        field: 'remark',
+                        align: 'center',
+                        templet: function(d) {
+                            var value = d.remark ? d.remark : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '备注'
+                    }]
+                ],
+                cellMinWidth: 90,
+                request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                        ,
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                where: search,
+                done: function() {
+                    setTimeout(function() {
+                        $(window).resize();
+                    }, 200)
+                }
+            });
+
+            table.on('row(tableContent-ability)', function(obj) {
+                var tableData = table.cache['tableContent-ability'];
+                obj.tr.find('input[lay-type="layTableRadio"]').prop("checked", true);
+                var index = obj.tr.data('index')
+                    //重置数据单选属性
+                layui.each(tableData, function(i, item) {
+                    if (index === i) {
+                        item.LAY_CHECKED = true;
+                    } else {
+                        delete item.LAY_CHECKED;
+                    }
+                });
+                form.render('radio');
+                renderDetialTable(obj.data.id);
+
+            })
+        }
+
+        // table.on('row(tableContent-ability)',function(obj){
+
+        //     var tableData = table.cache['tableContent-ability'];
+        //     //obj.tr.find('.layui-form-checkbox').off('click')
+        //     //var type=obj.tr.find('input[type="checkbox"]').prop('checked')
+        //     //console.log(this)
+        //     var type=obj.tr.find('.layui-form-checkbox').hasClass('layui-form-checked')
+        //     var index = obj.tr.data('index')
+        //     //console.log(obj.tr.find('.layui-form-checkbox').hasClass('layui-form-checked'))
+        //     //console.log(obj.tr.find('input[type="checkbox"]').prop("checked"))
+        //     if(type){
+        //         //obj.tr.find('.layui-form-checkbox').removeClass('layui-form-checked')
+        //         obj.tr.find('input[type="checkbox"]').prop("checked", false);  
+        //         layui.each(tableData, function(i, item) {
+        //             if (index === i) {
+        //                 delete item.LAY_CHECKED;
+        //             }
+        //         });             
+        //     }else{
+        //         //obj.tr.find('.layui-form-checkbox').addClass('layui-form-checked')
+        //         obj.tr.find('input[type="checkbox"]').prop("checked", true);
+        //         layui.each(tableData, function(i, item) {
+        //             if (index === i) {
+        //                 item.LAY_CHECKED = true;
+        //             }
+        //         });
+        //     }
+
+
+
+        //     form.render('checkbox');
+
+        //       //obj.del(); //删除当前行
+        //       //obj.update(fields) //修改当前行数据
+        //     });
+
+        $(document).on('click', '.layui-table-link', function(data) {
+            //console.log($(this).attr("data-url"))
+            var id = $(this).attr("data-url")
+            window.location.href = '/api-edu/interaction/qualityInspectionPlan/downloadFile?fileId=' + id;
+        });
+        var renderDetialTable = function(id) {
+
+                // 渲染表格
+                table.render({
+                    elem: '#tableContent_detial',
+                    id: 'tableContent_detial',
+                    url: admin.formatUrl('/api-edu/interaction/qualityInspectionPlan/' + id),
+                    // 格式化后台返回的数据
+                    parseData: function(res) { //res 即为原始返回的数据
+                        // 返回结果，进行渲染表格
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.data.count ? res.data.count : 0, //解析数据长度
+                            "data": res.data.list.length != 0 ? res.data.list : [] //解析数据列表
+                        };
+                    },
+                    cols: [
+                        [{
+                            type: 'numbers',
+                            title: 'No.'
+                        }, {
+                            field: 'sizeNumber',
+                            align: 'center',
+                            title: '尺寸编号'
+                        }, {
+                            field: 'specialCharacteristics',
+                            align: 'center',
+                            title: '特殊特性分类'
+                        }, {
+                            field: 'characterName',
+                            align: 'center',
+                            title: '特性名称'
+                        }, {
+                            field: 'standardValue',
+                            align: 'center',
+                            title: '标准值'
+                        }, {
+                            field: 'upperTolerance',
+                            align: 'center',
+                            title: '上公差'
+                        }, {
+                            field: 'lowerTolerance',
+                            align: 'center',
+                            title: '下公差'
+                        }, {
+                            field: 'inspectionEquipment',
+                            align: 'center',
+                            title: '检验用具'
+                        }, {
+                            field: 'frequency',
+                            align: 'center',
+                            title: '频次'
+                        }, {
+                            field: 'remark',
+                            align: 'center',
+                            title: '备注'
+                        }]
+                    ],
+                    cellMinWidth: 90,
+                    request: {
+                        pageName: 'page' //页码的参数名称，默认：page
+                            ,
+                        limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                    },
+                    page: {
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                    }
+                });
+                table.on('edit(tableContent_detial)', function(obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+                    //console.log(obj.value); //得到修改后的值
+                    //console.log(obj.field); //当前编辑的字段名              
+                    //obj.data.LAY_CHECKED=true;
+                    //obj.update({LAY_CHECKED: true})
+                    //console.log($(obj.tr).eq(0).find('input').eq(1).prop('checked',true))
+                    //$('input[type="checked"],obj').prop('checked',true)
+                    console.log(table.checkStatus('tableContent_detial')); //所在行的所有相关数据
+                    //alert(obj.value);
+                });
+            }
+            // 初始化，执行一次渲染表格
+        renderTable();
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.admin.addTableCache('tableContent-ability');
+
+        form.on('submit(reset_unpuailfied)', function(data) {
+            reset();
+        });
+
+        // 重置查询表单
+        function reset() {
+            //console.log($(".table-top-bar input").val())
+            //$('.table-top-bar input').val('')
+            formSelects.value('productionAreaId', []);
+            formSelects.value('teamNameId', []);
+            formSelects.value('carTypeId', []);
+            $("#tableContent_detial").next(".layui-table-view").hide()
+            $('#search_unpuailfied').click();
+        }
+    })
+
+    function slideDiv(obj) {
+        //如果查询条件隐藏 则展开查询条件 将展开文字变成收起
+        if ($($(obj).parent().next()[0]).css("display") == 'none') {
+            $($(obj).parent().next()[0]).slideDown();
+            $(obj).find(".slide").text("收起 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slidedown.png");
+        } else { //否则收起查询条件 将收起变成展开
+            $($(obj).parent().next()[0]).slideUp();
+            $(obj).find(".slide").text("展开 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slideup.png");
+        }
+    }
+</script>

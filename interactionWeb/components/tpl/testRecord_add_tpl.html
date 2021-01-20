@@ -1,0 +1,251 @@
+<style>
+    .layui-layout-body .layui-layer-page .layui-layer-content {
+        overflow: auto;
+    }
+    
+    .layui-input,
+    .layui-select {
+        width: 100%
+    }
+    
+    .layui-form-select dl {
+        max-height: 220px;
+    }
+</style>
+<div class="layui-tpl-container layui-form" style="padding-bottom: 60px;" id="setting-form" lay-filter="testRecord">
+    <div class="layui-row">
+        <div class="layui-col-md12" id="formItemDiv" style="position:relative">
+            <i id="smallDelete" class="layui-icon layui-icon-close-fill" style="cursor:pointer;position: absolute;right: 0;bottom: 72px;z-index: 9999999;"></i>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span> 检测日期</label>
+                <div class="layui-input-block">
+                    <input name="inspectDate" id="inspectDate" placeholder="请选择" lay-verify="required" class="layui-input" autocomplete="off" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>生产日期</label>
+                <div class="layui-input-block">
+                    <input name="productDate" id="productDate" placeholder="请选择" lay-verify="required" class="layui-input" autocomplete="off" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>生产线名称</label>
+                <div class="layui-input-block">
+                    <select name="productLineCode" id="productLineName" placeholder="请输入" lay-verify="required"></select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>检测时间</label>
+                <div class="layui-input-block">
+                    <input name="inspectTime" id="inspectTime" placeholder="请输入" class="layui-input" lay-verify="required" autocomplete="off">
+                </div>
+            </div>
+            <!-- <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值1</label>
+                <div class="layui-input-block">
+                    <input name="sample1" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample2" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值2</label>
+                <div class="layui-input-block">
+                    <input name="sample2" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample3" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值3</label>
+                <div class="layui-input-block">
+                    <input name="sample3" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample4" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值4</label>
+                <div class="layui-input-block">
+                    <input name="sample4" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample5" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值5</label>
+                <div class="layui-input-block">
+                    <input name="sample5" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample6" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值6</label>
+                <div class="layui-input-block">
+                    <input name="sample6" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample7" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值7</label>
+                <div class="layui-input-block">
+                    <input name="sample7" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample8" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值8</label>
+                <div class="layui-input-block">
+                    <input name="sample8" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div>
+            <div class="layui-form-item" id="sample9" style="display:none">
+                <label class="layui-form-label"><span style="color: red;">*</span>样本值9</label>
+                <div class="layui-input-block">
+                    <input name="sample9" placeholder="请输入" class="layui-input" lay-verify="required|validNumber">
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <input type="text" name="handleType" id="handleType" style="display: none;">
+    <input type="text" name="id" id="id" style="display: none;">
+    <!-- 提交按钮 -->
+    <!-- 取消按钮 -->
+    <div class="layui-form-item" style="text-align: center;position: absolute;left: 0;right: 0;">
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="recordSave">保存</button>
+        <button class="layui-btn layui-btn-primary" id="recordCancle">取消</button>
+    </div>
+
+</div>
+<input type="text" name="processId" id="processId" style="display: none;">
+<input type="text" name="chartType" id="chartType" style="display: none;">
+
+</div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function() {
+        var form = layui.form,
+            laydate = layui.laydate,
+            admin = layui.admin;
+        //自定义验证规则
+        form.verify({
+            validNumber: function(value) {
+
+                // if (value == '') {
+                //     return '必填项'
+                // }
+                if (isNaN(value) || value.indexOf('e') != -1) {
+                    return '不是合法数字';
+                }
+                if (value - 0 > 100000000) {
+                    return '最大值不能超过100000000';
+                }
+                if (value.indexOf(".") != -1 && value.substring(value.indexOf(".") + 1, value.length).length > 10) {
+
+                    return '小数点后不能超过十位'
+                }
+
+            },
+            validIntNumber: function(value) {
+                if (value == '') {
+                    return '必填项'
+                }
+                if (value - 0 < 0) {
+                    return '请输入正整数'
+                }
+
+                if (value.indexOf(".") != -1) {
+
+                    return '请输入整数'
+                }
+
+            },
+
+            validTen: function(value) {
+                if (value == '') {
+                    return '必填项'
+                }
+                if (value - 0 > 9) {
+                    return '请输入十以内整数'
+                }
+
+                if (value.indexOf(".") != -1) {
+
+                    return '请输入十以内整数'
+                }
+
+            },
+        });
+
+        laydate.render({
+            elem: '#inspectDate',
+            type: 'date'
+        });
+        laydate.render({
+            elem: '#productDate',
+            type: 'date'
+        });
+        laydate.render({
+            elem: '#inspectTime',
+            type: 'time'
+        });
+
+        form.on('submit(recordSave)', function(obj) {
+
+            var data = obj.field,
+                elem = data.elem;
+            // var ajaxType = 'post';
+            // if (data.handleType == 'edit') {
+            //     ajaxType = 'put';
+            // }
+            delete data.handleType;
+            var params = {
+                processId: $("#processId").val(),
+                proCharaSampleVOList: [data]
+            }
+            console.log($("processId").val())
+            admin.req('/api-edu/interaction/charadetection/sample', params, function(data) {
+                if (data.ok) {
+                    layer.msg('保存成功！', {
+                        icon: 1
+                    });
+                    admin.finishPopupCenter();
+                } else {
+                    return layer.msg('保存失败：' + data.message, {
+                        icon: 5
+                    });
+                    admin.finishPopupCenter();
+                }
+            }, {
+                method: 'post'
+            });
+        });
+        /*
+           取消
+         */
+        $('#recordCancle').on('click', function() {
+            admin.closePopupCenter();
+        });
+
+        $("#formItemDiv").on("click", "i.layui-icon-add-circle", function() {
+            var length = $(".sample").length + 1;
+            var chartType = $("#chartType").val();
+            if (length < 10) {
+                $(this).parent().parent().before("<div class=\"layui-form-item sample\">" +
+                    "<label class=\"layui-form-label\">" + (chartType == 'XmR控制图' ? length == 1 ? "<span style=\"color: red;\">*</span>" : "" : "<span style=\"color: red;\">*</span>") + "样本值" + length + "</label>" +
+                    "<div class=\"layui-input-block\">" +
+                    "<input name=\"sample" + length + "\" placeholder=\"请输入\" class=\"layui-input\" autocomplete=\"off\" " + (chartType == 'XmR控制图' ? length == 1 ? "lay-verify=\"required|validNumber\">" : "lay-verify=\"validNumber\">" : "lay-verify=\"required|validNumber\">") +
+                    "</div>" +
+                    "</div>");
+            } else {
+                layer.msg("最多9个样本值！");
+            }
+        })
+
+        $("#formItemDiv").on("click", "i.layui-icon-close-fill", function() {
+            layer.confirm("确定删除该样本值吗？", {
+                icon: 3
+            }, function(index) {
+                $(".sample:last").remove();
+                layer.close(index);
+            })
+        })
+
+        // $('input[type=number]').keypress(function(e) {
+        //     debugger
+        //     if (!String.fromCharCode(e.keyCode).match(/[0-9\.]/)) {
+        //         return false;
+        //     }
+        // });
+
+    })
+</script>

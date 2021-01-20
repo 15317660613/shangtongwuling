@@ -1,0 +1,368 @@
+<!--
+File   : job.html
+Created: Wednesday August 29th 2018 3:11:32 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Wednesday Nov 22th 2018 15:35:31
+Modified By  : wm at
+-----
+Description: 系统管理 - 职位
+-----
+HISTORY:
+-->
+
+<style>
+    .layui-tpl-container .p-form,
+    .layui-layout-body .layui-layer-page .layui-layer-content {
+        overflow: visible !important;
+    }
+</style>
+
+<div class="layui-row layui-col-space15">
+    <!-- 左侧 -->
+    <div class="layui-col-md12 autoScrollLeft">
+        <div class="layui-card p-main">
+            <div class="layui-card-header">职位列表</div>
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <!-- 左侧 -->
+                        <div class="layui-inline">
+                            <div class="layui-inline search-item">
+                                <i class="layui-icon layui-icon-search"></i>
+                                <input type="text" name="jobName" placeholder="输入职位名称" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-filter="btn_search_job" lay-submit>查询</button>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_reset_job" lay-submit>重置</button>
+                            </div>
+                        </div>
+                        <!-- 右侧 -->
+                        <div class="layui-inline layui-pull-right">
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_add_job" lay-submit>
+                                    <i class="layui-icon layui-icon-add-1"></i>新增职位
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 下部表格容器 -->
+                <table id="tableContent-job" lay-filter="tableContent-job"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="control-1">
+    <a class="table-control-btn" lay-event="edit">编辑</a>
+    <a class="table-control-btn table-control-btn-danger" lay-event="del">删除</a>
+</script>
+
+<script>
+    // 初始化 layui
+    layui.use(['treetable', 'treeSelect'], function() {
+        var table = layui.table,
+            treetable = layui.treetable,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc;
+
+        // 渲染左侧表格树
+        var renderTable = function(where) {
+            treetable.render({
+                // treetable 新增的参数
+                treeColIndex: 1, // treetable新增参数
+                treeSpid: '0', // treetable新增参数
+                treeIdName: 'id', // treetable新增参数
+                treePidName: 'pid', // treetable新增参数
+                treeDefaultClose: false, // treetable新增参数
+                treeLinkage: false, // treetable新增参数
+                // table 原有的一些参数
+                elem: '#tableContent-job',
+                id: 'tableContent-job',
+                url: admin.formatUrl('/api/sys/hpm04jobinfo'),
+                height: 472,
+                cols: [
+                    [{
+                        type: 'numbers'
+                    }, {
+                        field: 'jobName',
+                        title: '职位名称',
+                        width: 400
+                    }, {
+                        field: 'createTime',
+                        title: '创建时间'
+                    }, {
+                        field: 'departCode',
+                        title: '部门代码'
+                    }, {
+                        field: 'factoryCode',
+                        title: '工厂代码'
+                    }, {
+                        templet: '#control-1',
+                        title: '操作',
+                        align: 'center',
+                        width: 140,
+                        unresize: true
+                    }]
+                ],
+                where: where,
+                // 列宽最少 120，防止在小屏幕上显示不全列标题
+                cellMinWidth: 120
+            });
+        }
+
+        // 初始化，执行一次渲染表格树
+        renderTable();
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.adc.addTableCache('tableContent-job');
+
+        // 搜索
+        form.on('submit(btn_search_job)', function(data) {
+            var searchValue = data.field;
+            if (searchValue.jobName) {
+                searchValue.jobName = '%' + searchValue.jobName + '%';
+            } else {
+                searchValue.jobName = '';
+            }
+            searchValue.jobNameOperator = 'like'
+                //searchValue.orderBy = 'id';
+            renderTable(searchValue);
+        });
+        // 重置
+        form.on('submit(btn_reset_job)', function() {
+            $('input[name="jobName"]').val('');
+            renderTable({
+                jobName: ''
+            });
+        });
+
+        // 新增
+        form.on('submit(btn_add_job)', function() {
+            popMenu('add');
+        });
+
+        // 监听表格工具条事件
+        table.on('tool(tableContent-job)', function(obj) {
+            // 获取点击列的数据
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            // 判断操作类型
+            if (layEvent === 'del') {
+                // 删除
+                layer.confirm('确定删除职位：' + data.jobName + ' 吗？', {
+                    icon: 3,
+                    title: '提示'
+                }, function() {
+                    admin.req('/api/sys/hpm04jobinfo/' + data.id, {}, function(data) {
+                        if (data.ok) {
+                            layer.msg('删除职位成功！', {
+                                icon: 1
+                            });
+                            renderTable();
+                        } else {
+                            return layer.msg('删除职位失败：' + data.message, {
+                                icon: 5
+                            });
+                        }
+                    }, {
+                        method: 'delete'
+                    });
+                });
+            } else if (layEvent === 'edit') {
+                // 编辑
+                popMenu('edit', data);
+            }
+        });
+
+        // 弹出框
+        function popMenu(type, data) {
+            // 判断操作事件
+            if (type === 'add') {
+                var title = '新增职位';
+                data = {};
+            } else if (type === 'edit') {
+                var title = '编辑职位：' + data.name
+            }
+            data.type = type;
+            admin.popupCenter({
+                title: title,
+                path: 'components/tpl/system_job_tpl_add_edit.html',
+                finish: function() {
+                    renderTable();
+                },
+                success: function() {
+                    setFormValue(data);
+                    // 初始化
+                    //                    // 机构类型 下拉菜单信息
+                    //                    admin.req('/api/sys/dictype/page?dicId=S3G79EH2ME', {}, function (d) {
+                    //                        var datas = d.data.list;
+                    //                        $('select[name="orgType"]').append(
+                    //                            '<option value="">请选择机构类型</option>');
+                    //                        for (var i = 0; i < datas.length; i++) {
+                    //                            var select = '';
+                    //                            if (data.orgType && data.orgType === datas[i].dicTypeName) {
+                    //                                select = 'selected';
+                    //                            }
+                    //                            var html = '<option value="' + datas[i].id + '" ' +
+                    //                                select + '>' + datas[i].dicTypeName + '</option>';
+                    //                            $('select[name="orgType"]').append(html);
+                    //                        }
+                    //                        form.render('select');
+                    //                    });
+                    // 获取树形下拉栏内的数据
+                    admin.req('/api/sys/hpm03department', {}, function(
+                        d) {
+                        var menus = d.data;
+                        treeSelect.render({
+                            elem: '#departmentTree',
+                            data: menus,
+                            dataFilter: function(data) {
+                                var menus = [];
+                                for (var i = 0; i <
+                                    data.length; i++) {
+                                    var valueNow = data[
+                                        i];
+                                    // 写入数据
+                                    menus.push({
+                                        id: valueNow['id'],
+                                        pid: valueNow['pid'],
+                                        name: valueNow['departName'],
+                                    });
+                                }
+                                return menus;
+                            },
+                            // 节点点击回调函数
+                            click: function(d) {
+                                console.log(d);
+                                $('input[name="departCode"]').val(d.id);
+                            }
+                        });
+                        if (type === 'edit') {
+                            treeSelect.checkNode('departCode', data.id);
+                        }
+                    });
+
+                    admin.req('/api/sys/hpm04jobinfo', {}, function(
+                        d) {
+                        var menus = d.data;
+                        treeSelect.render({
+                            elem: '#jobTree',
+                            data: menus,
+                            dataFilter: function(data) {
+                                var menus = [];
+                                for (var i = 0; i <
+                                    data.length; i++) {
+                                    var valueNow = data[
+                                        i];
+                                    // 写入数据
+                                    menus.push({
+                                        id: valueNow['id'],
+                                        pid: valueNow['pid'],
+                                        name: valueNow['jobName'],
+                                    });
+                                }
+                                return menus;
+                            },
+                            // 节点点击回调函数
+                            click: function(d) {
+                                $(
+                                    'input[name="pid"]'
+                                ).val(d.id);
+                            }
+                        });
+                        if (type === 'edit') {
+                            treeSelect.checkNode('pid', data.pid);
+                        }
+                    });
+                }
+            });
+        }
+
+        // 设置表单内容
+        function setFormValue(obj) {
+            var inputs = $('.p-form').find('input'),
+                title = $('.p-form .layui-card-header'),
+                formNames = ['id', 'type', 'jobName', 'departCode', 'pid'];
+
+            obj.title && title.text(obj.title);
+            for (var i = 0; i < formNames.length; i++) {
+                if (obj[formNames[i]]) {
+                    $('.p-form  input[name="' + formNames[i] + '"]').val(obj[formNames[i]]);
+                } else {
+                    $('.p-form  input[name="' + formNames[i] + '"]').val('');
+                }
+            }
+        }
+
+        // 保存新增/编辑的信息
+        form.on('submit(menuSave-job)', function(data) {
+            var field = data.field;
+            var method = field.type === 'add' ? 'POST' : 'PUT';
+            submitDicData(field, method, function() {
+                admin.finishPopupCenter();
+            });
+        });
+        // 弹出框取消按钮
+        $("body").on("click", "#popmenuCancle", function() {
+            admin.closePopupCenter();
+        });
+        // 新增和修改请求的封装
+        function submitDicData(d, ajaxType, success, error) {
+            var ajaxName = ajaxType.toUpperCase() === 'POST' ? '新增' : '修改';
+            // 发送请求
+            delete d.selectFDs;
+            delete d.type;
+            admin.req('/api/sys/hpm04jobinfo', d, function(data) {
+                if (data.ok) {
+                    layer.msg(ajaxName + '职位信息成功！', {
+                        icon: 1
+                    });
+                    success(data);
+                } else {
+                    layer.msg(ajaxName + '职位信息失败：' + data.message, {
+                        icon: 5
+                    });
+                    error && error(data);
+                }
+            }, {
+                method: ajaxType
+            });
+        }
+
+
+
+
+
+    });
+</script>

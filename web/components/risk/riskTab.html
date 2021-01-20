@@ -1,0 +1,225 @@
+<!-- File: dashboard.html
+  --Created: 2018/11/20 10:17:27 am
+  --Author : quym
+  --Description: 页面框架搭建， 图表部分省略，表格显示
+ * -----
+ * HISTORY:
+ * -----
+ * mark: 页面图表均可使用百度echarts绘图工具绘制  参考链接：http://echarts.baidu.com
+   -->
+<link rel="stylesheet" href="../../assets/css/riskTab.css">
+<!-- tab -->
+<div class="layui-tab layui-tab-brief" lay-filter="adc-tab">
+    <!-- tab头部内容 -->
+    <ul class="layui-tab-title">
+        <li>风险地图</li>
+        <li class="layui-this" lay-id="analysis">分析评估</li>
+        <li lay-id="monitor">风险监控</li>
+        <li lay-id="warning">预警应对</li>
+        <li lay-id="forecast">风险预测</li>
+        <li lay-id="manager">管理体系</li>
+    </ul>
+    <!-- tab内容 -->
+    <div class="layui-tab-content">
+        <div class="layui-tab-item"></div>
+        <!-- Tab1 风险分析 -->
+        <div class="layui-tab-item layui-show"></div>
+        <!-- Tab2 风险监控-->
+        <div class="layui-tab-item"></div>
+        <!-- Tab3 风险预警 -->
+        <div class="layui-tab-item"></div>
+        <!-- 风险预测tab -->
+        <div class="layui-tab-item"></div>
+        <!-- 管理体系 -->
+        <div class="layui-tab-item"></div>
+    </div>
+</div>
+<!-- 供应商列表清单弹层 -->
+<div id="gysList" style="display: none; padding: 10px">
+    <table id="tableContent" lay-filter="tableContent"></table>
+</div>
+<!-- 推送清单弹层 -->
+<div id="pushListTpl" style="display: none; padding: 10px">
+    <table id="tableContent1" lay-filter="tableContent1"></table>
+</div>
+<!-- 超链接弹层 -->
+<div id="linkTpl" style="display: none; padding: 10px">
+    <table id="tableContent2" lay-filter="tableContent2"></table>
+</div>
+<!-- 推送清单操作列 -->
+<script type="text/html" id="pushListBtn">
+    <a class="table-control-btn" lay-event="link">超链接</a>
+</script>
+<!-- 风险预警操作列 -->
+<script type="text/html" id="control">
+    <a class="table-control-btn" lay-event="download"><img src="../../assets/images/{{d.fileType}}.png" alt=""></a>
+    <a class="table-control-btn" lay-event="view"><img src="../../assets/images/view.png" alt=""></a>
+</script>
+<!-- 风险履历操作列 -->
+<script type="text/html" id="control-1">
+    <a class="table-control-btn" lay-event="download">下载</a>
+</script>
+<!-- 风险范围列 -->
+<script type="text/html" id="scope">
+    {{# if(d.scope == 0){ }} 3个月 {{# } else { }} 12个月 {{# } }}
+</script>
+<!--排名变化-->
+<script type="text/html" id="threeMonthRankChange">
+    {{# if(d.threeMonthRankChange == 0){ }} {{"-"}} {{# } else if(d.threeMonthRankChange
+    < 0) { }} <img src="../../assets/images/datashow/xiajiang.svg" style='height:10px;width:10px'>{{-d.threeMonthRankChange}} {{# } else if(d.threeMonthRankChange > 0){ }} <img src="../../assets/images/datashow/shangsheng.svg" style='height:10px;width:10px'>{{d.threeMonthRankChange}} {{# }}}
+</script>
+<!--排名变化-->
+<script type="text/html" id="twelveMonthRankChange">
+    {{# if(d.twelveMonthRankChange == 0){ }} {{"-"}} {{# } else if(d.twelveMonthRankChange
+    < 0) { }} <img src="../../assets/images/datashow/xiajiang.svg" style='height:10px;width:10px'>{{-d.twelveMonthRankChange}} {{# } else if(d.twelveMonthRankChange > 0){ }} <img src="../../assets/images/datashow/shangsheng.svg" style='height:10px;width:10px'>{{d.twelveMonthRankChange}} {{# }}}
+</script>
+<!--排名变化-->
+<script type="text/html" id="rankChange">
+    {{# if(d.rankChange == 0){ }} {{"-"}} {{# } else if(d.rankChange
+    < 0) { }} <img src="../../assets/images/datashow/xiajiang.svg" style='height:10px;width:10px'>{{-d.rankChange}} {{# } else if(d.rankChange > 0){ }} <img src="../../assets/images/datashow/shangsheng.svg" style='height:10px;width:10px'>{{d.rankChange}} {{# }}}
+</script>
+<!--排名变化-->
+<script type="text/html" id="control-2">
+    {{# if((d.realRiskRank-d.forecastRiskRank) == 0){ }} {{"-"}} {{# } else if((d.realRiskRank-d.forecastRiskRank)
+    < 0) { }} <img src="../../assets/images/datashow/xiajiang.svg" style='height:10px;width:10px'>{{-(d.realRiskRank-d.forecastRiskRank)}} {{# } else if((d.realRiskRank-d.forecastRiskRank) > 0){ }} <img src="../../assets/images/datashow/shangsheng.svg" style='height:10px;width:10px'>{{d.realRiskRank-d.forecastRiskRank}} {{# }}}
+</script>
+<!-- 风险供应商管理 -->
+<div id="supplierManage_dialog" style="display: none;padding: 25px 10px">
+    <div class="layui-form" lay-filter="supplierManage">
+        <div class="layui-row">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width:80px">日期：</label>
+                    <div class="layui-input-block" style="margin-left: 90px;">
+                        <i class="layui-icon layui-icon-date"></i>
+                        <input type="text" name="riskTime" placeholder="" class="layui-input" id="dateDetail" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md2">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="left:-15px">供应商代码：</label>
+                    <div class="layui-input-block" style="left:-15px; width: 135px;">
+                        <select name="supplierCode" id="supplierCodeDetail" lay-filter="supplierCodeDetail" lay-search></select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">供应商名称：</label>
+                    <div class="layui-input-block">
+                        <select name="supplierName" id="supplierNameDetail" lay-filter="supplierNameDetail" lay-search></select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                <div class="layui-form-item" style="padding-left: 10px;text-align: center">
+                    <input type="radio" name="scope" value="0" title="3个月滚动风险" checked>
+                    <input type="radio" name="scope" value="1" title="12个月滚动风险">
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md2">
+                <div class="layui-form-item" style=" margin-bottom: 0;">
+                    <div class="layui-input-block" style="margin: 0;">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="supplierManage" id="searchAll1">查询
+                            </button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset">重置
+                            </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="task_table">
+        <table id="supplierTable" lay-filter="supplierTable"></table>
+    </div>
+</div>
+<!-- 风险履历表格弹层 -->
+<div id="riskManageFileTpl" style="display: none; padding: 10px">
+    <table id="tableContent3" lay-filter="tableContent3"></table>
+</div>
+<!-- 外部指标修改弹层 -->
+<div id="riskIndexWeightTpl" style="display: none;padding-top: 20px">
+    <form class="layui-form" lay-filter="keyfilter">
+        <div class="layui-form-item">
+            <label class="layui-form-label">指标区分：</label>
+            <div class="layui-input-block">
+                <input type="text" name="indextype" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">指标名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="indexname" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权重值：</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="riskId">
+                <input type="text" name="indexValue" placeholder="请输入权重值" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否关键：</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="riskId">
+                <input type="radio" name="keyvalue" value="1" title="是" class="layui-input">
+                <input type="radio" name="keyvalue" value="0" title="否" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序：</label>
+            <div class="layui-input-block">
+                <input type="text" name="shortsorting" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 外部指标修改弹层 -->
+<div id="riskIndexWeightTplOther" style="display: none;padding-top: 20px">
+    <form class="layui-form" lay-filter="keyfilter">
+        <div class="layui-form-item">
+            <label class="layui-form-label">指标区分：</label>
+            <div class="layui-input-block">
+                <input type="text" name="indextype" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">指标名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="indexname" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权重值：</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="riskId">
+                <input type="text" name="indexValue" placeholder="请输入权重值" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序：</label>
+            <div class="layui-input-block">
+                <input type="text" name="shortsorting" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 引入echarts -->
+<script src="../../assets/libs/echarts.min.js"></script>
+<!-- 页面js -->
+<script src="assets/js/riskTab.js"></script>

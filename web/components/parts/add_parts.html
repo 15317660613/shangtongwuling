@@ -1,0 +1,297 @@
+<style>
+/*     .label-style { */
+/*         float: left; */
+/*         display: block; */
+/*         padding: 9px 15px; */
+/*         width: 110px; */
+/*         font-weight: 400; */
+/*         line-height: 20px; */
+/*         text-align: right; */
+/*     } */
+
+/*     .layui-input-block { */
+/*         margin-left: 140px; */
+/*     } */
+.layui-form-label{
+width: 105px;
+}
+.layui-input-block{
+margin-left: 135px;
+}
+.text-center{
+text-align: center;
+}
+    .input-style {
+        display: inline;
+    }
+
+    .rules {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -khtml-user-select: none;
+        user-select: none;
+    }
+
+    .newLabel {
+        width: 110px;
+    }
+
+    .hide {
+        display: none
+    }
+</style>
+
+<div id="addPart" class="layui-tpl-container layui-form" style="padding-top: 20px;">
+    <div class="layui-card-body">
+        <div class=" layui-row">
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>来源:</label>
+                <div class="layui-input-block">
+			      <select id="sourceadd" name="source" lay-verify="required" lay-filter="source" lay-search="">
+			        <option value="">请选择</option>
+			        <option value="项目阶段">项目阶段</option>
+			        <option value="量产阶段(过程变更)">量产阶段(过程变更)</option>
+			        <option value="量产阶段(EWO变更)">量产阶段(EWO变更)</option>
+			        <option value="量产阶段(新增供应商)">量产阶段(新增供应商)</option>
+			        <option value="量产阶段(其他)">量产阶段(其他)</option>
+			      </select>
+			    </div>
+            </div>
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>车型/机型:</label>
+                <div class="layui-input-block">
+                    <select id="projectmodeladd"  name="projectmodel" lay-verify="required" lay-filter="projectmodel" lay-search="">
+			      </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label">项目单号:</label>
+                <div class="layui-input-block">
+                	<input id="itemtrackingnumadd" name="itemtrackingnum" type="text" readonly="readonly" class="layui-input"  />
+                </div>
+            </div>
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>SQE:</label>
+                <div class="layui-input-block">
+                	<select id="sqeadd"  name="sqe" lay-verify="required" lay-filter="sqe" lay-search=""> </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>最新零件号:</label>
+                <div class="layui-input-block">
+                    <input name="latestpartnum" type="text" placeholder="最新零件号:" class="layui-input" autocomplete="off"
+                        lay-verType="tips" lay-verify="required" required maxlength="11" />
+                </div>
+            </div>
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>零件名称:</label>
+                <div class="layui-input-block">
+                    <input name="partsname" type="text" placeholder="零件名称:" class="layui-input" autocomplete="off"
+                        lay-verType="tips" lay-verify="required" required maxlength="50" />
+                </div>
+            </div>
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>供应商代码:</label>
+                <div class="layui-input-block">
+                    <select id="suppliernumadd"  name="suppliernum" lay-verify="required" lay-filter="suppliernum" lay-search="">
+			      	</select>
+                </div>
+            </div>
+            <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>供应商名称:</label>
+                <div class="layui-input-block">
+                     <select id="suppliernameadd"  name="suppliername" lay-verify="required" lay-filter="suppliername" lay-search="" >
+			      	</select>
+                </div>
+            </div>
+             <div class="layui-inline layui-col-md6">
+                <label class="layui-form-label"><span style="color: red;">*</span>旧零件号:</label>
+                <div class="layui-input-block">
+                    <input name="initialpartnum" type="text" placeholder="旧零件号:" class="layui-input" autocomplete="off"
+                         lay-verify="required" maxlength="50" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" lay-filter="addBasePart" lay-submit>保存</button>
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+    </div>
+</div>
+<script>
+
+    layui.use(['upload', 'laydate', 'form', 'admin', 'config'], function () {
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+        var form = layui.form;
+        var admin = layui.admin;
+        var notice = layui.notice;
+        var $ = layui.jquery;
+        var config = layui.config;
+        var sqeId;
+        
+        admin.req('/api/ppap/edum05user/getSupplierInfoAll', {}, function (res) {
+            if (res.respCode == 200 && res.data) {
+                $('#suppliernumadd').empty()
+                $('#suppliernameadd').empty()
+                $('#suppliernumadd').append('<option value="">请选择</option>')
+                for (var i = 0; i < res.data.length; i++) {
+                	$('#suppliernumadd').append('<option>' + res.data[i].supplierCode + '</option>')
+                }
+                $('#suppliernameadd').append('<option value="">请选择</option>')
+                for (var i = 0; i < res.data.length; i++) {
+                	$('#suppliernameadd').append('<option>' + res.data[i].supplierName + '</option>')
+                }
+            }
+            form.render('select')
+        },
+        {method: 'POST'});
+
+        
+        admin.req('/api/ppap/partslibrary/getAllSQEName', {
+            userId: config.getAccount().userId,
+            roleName: config.getAccount().roleName
+        }, function (res) {
+            if (res.respCode == 200 && res.data) {
+                $('#sqeadd').empty()
+                $('#sqeadd').append('<option value="">请选择</option>')
+                for (var i = 0; i < res.data.length; i++) {
+                    if (config.getAccount().userId == res.data[i].userId) {
+                        $('#sqeadd').append('<option value="'+res.data[i].userId+'"  selected="selected">' + res.data[i].userName + '</option>')
+                    } else {
+                        $('#sqeadd').append('<option value="'+res.data[i].userId+'" >' + res.data[i].userName + '</option>')
+                    }
+                }
+               	$('#sqeadd').append('<option selected="selected" value="'+USER.userId+'" >' + config.getAccount().userName + '</option>')
+                form.render('select')
+            }
+        },
+        {method: 'POST'});
+
+        
+        form.render();
+
+        
+        form.on('select(source)', function(data){
+            var param={};
+            debugger;
+            if(data.value != ''  ){
+            	if(data.value == '项目阶段'){
+            		admin.req('/api/ppap/partslibrary/getPartsQueryProjectModel', param, function (res) {
+                        if (res.respCode == 200 && res.data) {
+                        	$('#projectmodeladd').empty()
+                            $('#projectmodeladd').append('<option value="">请选择</option>')
+                            for (var i = 0; i < res.data.projectmodel.length; i++) {
+                                 $('#projectmodeladd').append('<option>' + res.data.projectmodel[i] + '</option>')
+                            }
+                            form.render('select')
+                        }
+                    },
+                    {method: 'POST'});
+                }else{
+                	admin.req('/api/ppap/carType/carTypeList', param, function (res) {
+                        if (res.respCode == 200 && res.data) {
+                            $('#projectmodeladd').empty()
+                            $('#itemtrackingnumadd').val('');
+                            $('#projectmodeladd').append('<option value="">请选择</option>')
+                            for (var i = 0; i < res.data.length; i++) {
+                            	$('#projectmodeladd').append('<option>' + res.data[i].cartypeid + '</option>')
+                            }
+                            form.render('select')
+                        }
+                    },
+                    {method: 'GET'});
+                }
+            }
+        });
+        form.on('select(projectmodel)', function(data){
+            var param = {};
+            param.projectmodel = data.value;
+        	admin.req('/api/ppap/partslibrary/getPartsQueryProjectModel', param, function (res) {
+                if (res.respCode == 200 && res.data) {
+                    $('#itemtrackingnumadd').append('<option value="">请选择</option>')
+                    for (var i = 0; i < res.data.itemtrackingnum.length; i++) {
+                         $('#itemtrackingnumadd').val(res.data.itemtrackingnum[i])
+                    }
+                    form.render('select')
+                }
+            },
+            {method: 'POST'});
+        })
+        
+        form.on('select(suppliernum)', function(data){
+            admin.req('/api/ppap/edum05user/getSupplierIdByCode', {companycode: data.value}, function (res) {
+                if (res.respCode == 200) {
+                    if (data.value == '') {
+                        $('#suppliernameadd').val('')
+                    } else {
+                        $('#suppliernameadd').val(res.data.companyname)
+                    }
+                    form.render('select')
+                } else {
+                    layer.alert(res.message, {
+                        icon: 5
+                        , btn: ['关闭']
+                    });
+                }
+            }, {method: 'GET'})
+        })
+        form.on('select(suppliername)', function(data){
+            admin.req('/api/ppap/edum05user/getSupplierIdByCode', {companyname: data.value}, function (res) {
+                if (res.respCode == 200) {
+                    if (data.value == '') {
+                        $('#suppliernumadd').val('')
+                    } else {
+                        $('#suppliernumadd').val(res.data.companycode)
+                    }
+                    form.render('select')
+                } else {
+                    layer.alert(res.message, {
+                        icon: 5
+                        , btn: ['关闭']
+                    });
+                }
+            }, {method: 'GET'})
+        })
+
+        form.on('select(sqe)', function(data){
+        	sqeId = data.value;
+        })
+        /**
+         * @Desc 新增按钮
+         * @Date 2018-12-21 14:36:54
+         * @Author qitian
+         * updated by qitian 2019-01-12 当点击新增按钮时，先跳转至第一页，判断是否存在未完善信息的零件
+         */
+        form.on('submit(addBasePart)', function (data) {
+            debugger;
+            var paramData= data.field;
+            if(sqeId!=null){
+            	paramData.sqe=sqeId;
+            }else{
+            	paramData.sqe = USER.userId;
+            }
+        	admin.req('/api/ppap/partslibrary/addBasePart', paramData, function (data) {
+                if (data.respCode == 200) {
+                    loadDatas();
+                    parent.layer.closeAll();
+                } else {
+                    if(data!=null&&data.message!=null){
+                    	layer.alert(data.message, {
+                            icon: 5
+                            , btn: ['关闭']
+                        }); 
+                     }else{
+                    	 layer.alert('请联系后台管理员', {
+                             icon: 5
+                             , btn: ['关闭']
+                         }); 
+                     }
+                }
+            }, {
+                method: 'POST'
+            });
+    	})
+    })
+</script>

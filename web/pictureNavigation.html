@@ -1,0 +1,126 @@
+<!--
+File   : pictureNavigation.html
+Created: 2018-12-12 13:20
+Author : Qitian
+Description: 图片导航页面
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 定义浏览器的渲染方式 -->
+    <!-- 如果存在客户端Chrome Frame并启用，那么浏览器访问页面会被Chrome内核渲染 -->
+    <!-- 使用IE内核浏览器来访问，会渲染至该浏览器的最高版本 -->
+    <!-- 比如你使用IE9浏览器，那么就算在兼容模式切换至IE7，但仍会渲染成IE9的样子 -->
+    <!-- 建议测试IE8兼容性的时候注释掉这一行 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 移动端适配 viewport -->
+    <!-- width 设置 layout viewport 的宽度，为一个正整数，使用字符串”width-device”表示设备宽度 -->
+    <!-- initial-scale 设置页面的初始缩放值，为一个数字，可以带小数 -->
+    <!-- maximum-scale 允许用户的最大缩放值，为一个数字，可以带小数 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 字符集 -->
+    <meta charset="utf-8" />
+    <!-- Page Title -->
+    <title>登录 | 上通五供应商管理系统</title>
+
+    <!-- Favorites Icon Start -->
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="icon" href="./favicon.ico">
+    <!-- Favorites Icon End -->
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="assets/libs/layui/css/layui.css" />
+    <link rel="stylesheet" href="assets/css/pictureNavigation.css" media="all">
+
+    <!--[if lt IE 9]>
+    <script src="./assets/libs/html5.min.js"></script>
+    <script src="./assets/libs/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="navigation-wrapper">
+    <!-- 头部 LOGO -->
+    <div class="navigation-header">
+        <img src="assets/images/navigation/logo.png"/>
+        <div>
+            <!--<img src="assets/images/navigation/chinese-name.png" />
+            <br />
+            <img src="assets/images/navigation/english-name.png" style="margin-top: 5px;"/>-->
+            <label>上汽通用五菱供应商协同管理平台</label>
+            <br />
+            <label>SAIC GM Wuling Supplier Collaborative Management Platform</label>
+        </div>
+    </div>
+    <!-- 图片导航主体 -->
+    <div class="navigation-body">
+            <div class="body-row">
+                <div><img id="business" src="assets/images/navigation/business-white.png" onMouseOver="this.src='assets/images/navigation/business-blue.png';document.getElementsByClassName('title-1')[0].style.color='rgba(126,211,255,1)'" onmouseout="this.src='assets/images/navigation/business-white.png';document.getElementsByClassName('title-1')[0].style.color='rgba(255,255,255,1)'"/></div>
+                <div><img id="score" src="assets/images/navigation/score-white.png" onMouseOver="this.src='assets/images/navigation/score-blue.png';document.getElementsByClassName('title-2')[0].style.color='rgba(126,211,255,1)'" onmouseout="this.src='assets/images/navigation/score-white.png';document.getElementsByClassName('title-2')[0].style.color='rgba(255,255,255,1)'"/></div>
+                <div><img id="ability" src="assets/images/navigation/ability-white.png" onMouseOver="this.src='assets/images/navigation/ability-blue.png';document.getElementsByClassName('title-3')[0].style.color='rgba(126,211,255,1)'" onmouseout="this.src='assets/images/navigation/ability-white.png';document.getElementsByClassName('title-3')[0].style.color='rgba(255,255,255,1)'"/></div>
+                <div><img id="train" src="assets/images/navigation/train-white.png" onMouseOver="this.src='assets/images/navigation/train-blue.png';document.getElementsByClassName('title-4')[0].style.color='rgba(126,211,255,1)'" onmouseout="this.src='assets/images/navigation/train-white.png';document.getElementsByClassName('title-4')[0].style.color='rgba(255,255,255,1)'"/></div>
+                <div><img id="interactive" src="assets/images/navigation/interactive-white.png" onMouseOver="this.src='assets/images/navigation/interactive-blue.png';document.getElementsByClassName('title-5')[0].style.color='rgba(126,211,255,1)'" onmouseout="this.src='assets/images/navigation/interactive-white.png';document.getElementsByClassName('title-5')[0].style.color='rgba(255,255,255,1)'"/></div>
+                <div><img id="power" src="assets/images/navigation/power-white.png" onMouseOver="this.src='assets/images/navigation/power-blue.png';document.getElementsByClassName('title-6')[0].style.color='rgba(126,211,255,1)'" onmouseout="this.src='assets/images/navigation/power-white.png';document.getElementsByClassName('title-6')[0].style.color='rgba(255,255,255,1)'"/></div>
+            </div>
+            <div class="body-note">
+                <div class="title-1" onMouseOver="document.getElementById('business').src='assets/images/navigation/power-blue.png';this.style.color='rgba(126,211,255,1)'" onmouseout="document.getElementById('business').src='assets/images/navigation/power-white.png';this.style.color='rgba(255,255,255,1)'">
+                <p >业务管理系统</p>
+                <p >我是系统介绍文字我是系统介绍文字我是系统介绍文字我是系统介绍文字</p>
+                </div >
+                <div class="title-2" onMouseOver="document.getElementById('score').src='assets/images/navigation/power-blue.png';this.style.color='rgba(126,211,255,1)'" onmouseout="document.getElementById('score').src='assets/images/navigation/power-white.png';this.style.color='rgba(255,255,255,1)'">
+                <p>绩效管理系统</p>
+                <p>我是系统介绍文字我是系统介绍文字我是系统介绍文字我是系统介绍文字</p>
+                </div>
+                <div class="title-3" onMouseOver="document.getElementById('ability').src='assets/images/navigation/power-blue.png';this.style.color='rgba(126,211,255,1)'" onmouseout="document.getElementById('ability').src='assets/images/navigation/power-white.png';this.style.color='rgba(255,255,255,1)'">
+                <p>能力管理系统</p>
+                <p>我是系统介绍文字我是系统介绍文字我是系统介绍文字我是系统介绍文字</p>
+                </div>
+                <div class="title-4" onMouseOver="document.getElementById('train').src='assets/images/navigation/power-blue.png';this.style.color='rgba(126,211,255,1)'" onmouseout="document.getElementById('train').src='assets/images/navigation/power-white.png';this.style.color='rgba(255,255,255,1)'">
+                <p>培训管理系统</p>
+                <p>我是系统介绍文字我是系统介绍文字我是系统介绍文字我是系统介绍文字</p>
+                </div>
+                <div class="title-5" onMouseOver="document.getElementById('interactive').src='assets/images/navigation/power-blue.png';this.style.color='rgba(126,211,255,1)'" onmouseout="document.getElementById('interactive').src='assets/images/navigation/power-white.png';this.style.color='rgba(255,255,255,1)'">
+                <p>交互管理系统</p>
+                <p>我是系统介绍文字我是系统介绍文字我是系统介绍文字我是系统介绍文字</p>
+                </div>
+                <div class="title-6" onMouseOver="document.getElementById('power').src='assets/images/navigation/power-blue.png';this.style.color='rgba(126,211,255,1)'" onmouseout="document.getElementById('power').src='assets/images/navigation/power-white.png';this.style.color='rgba(255,255,255,1)'">
+                <p>产能管理系统</p>
+                <p>我是系统介绍文字我是系统介绍文字我是系统介绍文字我是系统介绍文字</p>
+                </div>
+        </div>
+    </div>
+    <!-- 页脚 -->
+    <div class="navigation-footer">
+        <div class="footer-left">
+            <label>服务咨询热线 (8:30-17:00)</label><br />
+            <label>0772 - 3751515</label>
+        </div>
+        <div class="footer-center">
+            <label>业务管理系统 I 绩效管理系统 I 能力管理系统 I 培训管理系统 I 交互管理系统 I 产能管理系统</label><br />
+            <label>opyright@2017上汽通用五菱汽车股份有限公司 桂ICP备案号05006817号-1</label>
+        </div>
+        <div class="footer-right">
+            <label>中桂公网安街45020402000009号</label>
+        </div>
+    </div>
+</div>
+
+<!--[if IE 8]>
+<script>
+    var IE8 = true;
+</script>
+<![endif]-->
+
+<script type="text/javascript" src="./assets/libs/layui/layui.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

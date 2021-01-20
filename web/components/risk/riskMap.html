@@ -1,0 +1,238 @@
+<!-- File: dataview.html
+  --Created: 2018/11/9 10:17:27 am
+  --Author : quym
+  --Description: 按月查询功能、导出图表功能、圆环图点击弹出供应商列表清单功能、地图下钻与返回功能、地图与其他图表联动功能
+ * -----
+ * HISTORY:
+ * -----
+ * mark: 页面图表均使用百度echarts绘图工具绘制  参考链接：http://echarts.baidu.com
+   -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>供应商管理系统</title>
+    <!-- css引入 -->
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css">
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <link rel="stylesheet" href="../../assets/css/theme.css">
+    <link rel="stylesheet" href="../../assets/css/riskMap.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="header-left">
+                <img src="../../assets/images/navigation/header_logo.png" style="width: 50px; height: 40px;" alt="logo">
+                <div class="logo">供应商风险管理系统</div>
+            </div>
+            <div class="header-right">
+                <ul class="layui-nav" style="background:transparent; float: right">
+                    <li class="layui-nav-item" lay-unselect>
+                        <!-- font-weight: 600; 解决原始图标过细的问题 -->
+                        <a title="主页" href="/"><i class="layui-icon layui-icon-home" style="font-weight: 600;"></i>主页</a>
+                    </li>
+                    <li class="layui-nav-item" lay-unselect ew-event="refresh">
+                        <a title="刷新" href="/components/risk/riskMap.html"><i class="layui-icon layui-icon-refresh-1"></i>刷新</a>
+                    </li>
+                    <!-- <li class="layui-nav-item" lay-unselect>
+                        <a title="消息" href="javascript:;" id="btn-getmsg"><i class="layui-icon layui-icon-notice" style="font-weight: 600;"></i></a>
+                    </li>-->
+                    <li class="layui-nav-item" lay-unselect>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;" class="usname" p-bind="title: {{userName}}">
+                            <cite>您好，{{userName}}</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd lay-unselect id="btn-setinf">
+                                <a>个人信息</a>
+                            </dd>
+                            <dd lay-unselect id="btn-setpw">
+                                <a>修改密码</a>
+                            </dd>
+                            <!-- <dd lay-unselect id="btn-themegene">
+                <a href="#!theme">主题生成器</a>
+            </dd> -->
+                            <hr>
+                            <dd lay-unselect id="btn-logout">
+                                <a>退出</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 主体 -->
+        <div class="content">
+            <div class="content-header">
+                <!-- tab -->
+                <ul class="content-header-tab">
+                    <li style="color: #FFFFFF">风险地图</li>
+                    <li id="analysis">分析评估</li>
+                    <li id="monitor">风险监控</li>
+                    <li id="warning">预警应对</li>
+                    <li id="forecast">风险预测</li>
+                    <li id="manage">管理体系</li>
+                </ul>
+            </div>
+            <!-- tab内容 -->
+            <div class="content-body">
+                <div class="content-body-left">
+                    <!-- 查询框 -->
+                    <div class="search">
+                        <input type="text" class="search-input" id="search-input" readonly placeholder="请选择日期">
+                        <button class="search-button">查询</button>
+                    </div>
+                    <!-- 图表 -->
+                    <div class="bar-left">
+                        <div class="bar-title"></div>
+                        <div id="bar-left-chart"></div>
+                    </div>
+                    <!-- 图表 -->
+                    <div class="pie-left">
+                        <div class="pie-title"></div>
+                        <div id="pie-left-chart"></div>
+                    </div>
+                </div>
+                <div class="content-body-right">
+                    <!-- 导出 -->
+                    <div class="export">
+                        <button class="" id="export">导出</button>
+                        <canvas id='canvasipal' width='1366' height='768' style='display: none'></canvas>
+                    </div>
+                    <!-- 图表 -->
+                    <div class="bar-right">
+                        <div class="bar-title"></div>
+                        <div id="bar-right-chart"></div>
+                    </div>
+                    <!-- 图表 -->
+                    <div class="pie-right">
+                        <div class="pie-title"></div>
+                        <div id="pie-right-chart"></div>
+                    </div>
+                </div>
+                <!-- 地图 -->
+                <div class="content-body-center">
+                    <div class="map-title">
+                        <div class="map-title-text">
+                            <div class="contruy">全国风险分布</div>
+                            <div class="province"></div>
+                            <div class="city"></div>
+                        </div>
+                    </div>
+
+                    <div id="contextMenu" style="position: absolute;background:#000;opacity:0.8;cursor: pointer;border-radius: 2px;padding:8px 30px;display:none;color: #fff;font-size:14px;">返回上一级</div>
+                </div>
+                <!-- 地图图表 -->
+                <div id='main' style="position: absolute;z-index: 99999;"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 供应商列表清单弹层 -->
+    <div id="gysList" style="display: none; padding: 10px;background-color: #f2f6f8">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table id="tableContent" lay-filter="tableContent"></table>
+            </div>
+        </div>
+    </div>
+    <!-- 供应商列表清单弹层 -->
+    <div id="gysList1" style="display: none; padding: 10px;background-color: #f2f6f8">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table id="tableContent3" lay-filter="tableContent3"></table>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="area">
+    <!-- 供应商列表清单查看的弹层 -->
+    <div id="gysListView" style="display: none; padding: 8px;background-color: #f2f6f8;box-sizing: border-box;height: 100%;">
+        <div class="layui-row">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header layui-title-text">
+                        风险主要信息
+                    </div>
+                    <div class="layui-card-body layui-form" lay-filter="form">
+                        <table id="tableContent1" lay-filter="tableContent1"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space8" style="margin-top: 4px;">
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md7">
+                <div class="layui-card">
+                    <div class="layui-card-header layui-title-text">
+                        风险主要产品
+                    </div>
+                    <div class="layui-card-body">
+                        <table id="tableContent2" lay-filter="tableContent2"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm12 layui-col-md5">
+                <div class="layui-card">
+                    <div class="layui-card-header layui-title-text">
+                        风险主要原因类别
+                    </div>
+                    <div class="layui-card-body">
+                        <img src="../../assets/images/nodata.png" style="height: 100px;margin-left: 41%;padding: 132px 0" id="async-img4">
+                        <div id="riskReasonPie" style="width: 100%;height: 364px;margin: 0 auto;display: none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .layui-table,
+        .layui-table-view {
+            margin: 0 0;
+        }
+        
+        .layui-card-body {
+            padding: 10px 10px;
+        }
+        
+        #tableContent2+div .layui-table-body {
+            height: 330px;
+            max-height: 330px;
+        }
+    </style>
+    <!-- 表格操作列 -->
+    <script type="text/html" id="control">
+        <a class="table-control-btn" lay-event="view">查看</a>
+    </script>
+    <!-- 排名变化列 -->
+    <script type="text/html" id="change">
+        {{# if(d.rankChange == 0){ }} {{"-"}} {{# } else if(d.rankChange
+        < 0) { }} <img src="../../assets/images/datashow/xiajiang.svg" style='height:10px;width:10px'>{{-d.rankChange}} {{# } else if(d.rankChange > 0){ }} <img src="../../assets/images/datashow/shangsheng.svg" style='height:10px;width:10px'>{{d.rankChange}} {{# }}} </script>
+
+    <!-- jquery -->
+    <script src="../../assets/libs/jquery-1.12.4.min.js "></script>
+    <!-- echarts -->
+    <script src="../../assets/libs/echarts.min.js "></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+
+    <script src="../../assets/js/china-main-city-map.js "></script>
+    <!-- layui -->
+    <script src="../../assets/libs/layui/layui.js "></script>
+    <!-- jQuery 轻量级 MVVM 框架 -->
+    <script type="text/javascript" src="../../assets/libs/pandyle.min.js"></script>
+    <!-- Q.js 轻量路由框架 -->
+    <script type="text/javascript" src="../../assets/libs/q.js"></script>
+    <!-- 自定义js -->
+    <script src="riskMap.js "></script>
+    <script>
+        layui.config({
+            base: '../../module/'
+        }).extend({
+            treetable: 'treetable-lay/treetable',
+            treeSelect: 'treeSelect/treeSelect'
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+<!--
+File   : reassignment_pop.html
+Created: Sunday May 1st 2018 3:04:34 pm
+Author : chengshibo
+License: MIT License
+
+Copyright (c) 2018 chengshibo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Sunday May 1st 2018 3:04:34 pm
+Modified By  : chengshibo at <chengshibo@adcsoft.cn>
+-----
+Description:
+-----
+HISTORY:
+-->
+<style>
+    /* .xm-select-parent .xm-form-select dl dd,
+    .xm-select-parent .xm-form-select dl dt {
+        overflow: visible;
+    } */
+    
+    .xm-form-checkbox>span {
+        overflow: visible;
+    }
+    
+    .xm-select-parent .xm-form-selected dl {
+        width: 180%;
+    }
+    /* .xm-select-parent .xm-form-select dl dd[xm-tree-hidn='30'] div,
+    .xm-select-parent .xm-form-select dl dd[xm-tree-hidn='30'] i {
+        visibility: hidden;
+    } */
+</style>
+<div class="layui-tpl-container" style="padding:0">
+    <div class="layui-form p-form" lay-filter="agency">
+        <div class="layui-hide" id="taskNum"></div>
+        <!-- 数据表格顶部控制栏 -->
+        <div class="layui-form">
+            <div class="layui-form-item table-top-bar">
+                <!-- 左侧 -->
+                <div class="layui-inline">
+                    <div class="layui-inline search-item">
+                        <i class="layui-icon layui-icon-search"></i>
+                        <input type="text" name="userName" id="userName" placeholder="输入用户姓名" class="layui-input" autocomplete="off">
+                    </div>
+                    <div class="layui-inline formselect-item">
+                        <input type="text" name="jobCode" id="jobTree" placeholder="请选择职位" class="layui-input" lay-filter="jobCode">
+                    </div>
+                    <div class="layui-inline formselect-item" style="width:240px">
+                        <select name="departCode" xm-select="departCode" xm-select-skin="normal" xm-select-radio="">
+                                    <option value="">请选择部门</option>
+                                </select>
+                    </div>
+                    <div class="layui-inline">
+                        <button id="btn_search_user" class="layui-btn layui-btn-sm layui-btn-normal" lay-filter="btn_search_user" lay-submit>查询</button>
+                    </div>
+                    <div class="layui-inline">
+                        <button id="btn_reset_user" class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_reset_user" lay-submit>重置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <table id="reassignment_pop_user_table" lay-filter="reassignment_pop_user_table"></table>
+        </div>
+        <!-- <div class="layui-form-item" style="text-align: center;"> -->
+        <!-- 提交按钮 -->
+        <!-- <button class="layui-btn layui-btn-normal" id="reassign">确定</button> -->
+        <!-- 取消按钮 -->
+        <!-- <button class="layui-btn layui-btn-primary" id="cancel">取消</button> -->
+        <!-- </div> -->
+    </div>
+</div>
+<script>
+    layui.use(['index', 'laydate', 'layer', 'table', 'admin', 'element', 'form', 'formSelects', 'treeSelect'], function() {
+        var table = layui.table;
+        var laydate = layui.laydate;
+        var element = layui.element;
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var config = layui.config;
+        var form = layui.form;
+        var formSelects = layui.formSelects;
+        var treeSelect = layui.treeSelect;
+        var account = config.getAccount();
+
+        function initSelectInfo() {
+            // 初始化部门名搜索列表
+            admin.req('/api/sys/hpm03department', {}, function(res) {
+                var arr = res.data,
+                    tmparr = [];
+                for (var i = 0; i < arr.length; i++) {
+                    tmparr.push({
+                        name: arr[i].departName,
+                        value: arr[i].id,
+                        id: arr[i].id,
+                        parentId: arr[i].pid
+                    });
+                }
+                formSelectArr = admin.toTree(tmparr);
+                formSelects.data('departCode', 'local', {
+                    arr: formSelectArr
+                });
+                formSelects.btns('departCode', []);
+            });
+            // 初始化职位选择列表
+            admin.req('/api/sys/hpm04jobinfo', {}, function(d) {
+                var menus = d.data;
+                treeSelect.render({
+                    elem: '#jobTree',
+                    data: menus,
+                    dataFilter: function(data) {
+                        var menus = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var valueNow = data[i];
+                            // 写入数据
+                            menus.push({
+                                id: valueNow['id'],
+                                pid: valueNow['pid'],
+                                name: valueNow['jobName'],
+                            });
+                        }
+                        return menus;
+                    },
+                    // 节点点击回调函数
+                    click: function(d) {
+                        $('input[name="jobCode"]').val(d.id);
+                        // $('input[name="jobName"]').val(d.name);
+                    }
+                });
+            });
+        }
+
+        function initUserInfoTable() {
+            table.render({
+                id: 'reassignment_pop_user_table',
+                elem: '#reassignment_pop_user_table',
+                url: admin.formatUrl('/api/sys/hpm05user/page'),
+                where: {
+                    orderBy: 'userId'
+                },
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                cols: [
+                    [{
+                        type: 'radio'
+                    }, {
+                        type: 'numbers',
+                        title: '序号'
+                    }, {
+                        field: 'userName',
+                        title: '姓名'
+                    }, {
+                        field: 'departName',
+                        title: '部门'
+                    }, {
+                        field: 'jobName',
+                        title: '职位'
+                    }, {
+                        field: 'email',
+                        title: '邮箱',
+                        minWidth: 150
+                    }, {
+                        field: 'userId',
+                        hide: true
+                    }]
+                ],
+                cellMinWidth: 110,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'page',
+                    limitName: 'pageSize'
+                }
+            });
+        }
+
+        function bindingSearchAndReset() {
+            //查询按钮点击事件
+            $('#btn_search_user').click(function() {
+                var where = {
+                    orderBy: 'userId'
+                };
+                var userName = $('#userName').val();
+                if (userName && '' !== userName) {
+                    where.userName = '%' + userName + '%';
+                    where.userNameOperator = 'like';
+                }
+                where.departCode = $("[name='departCode']").val();
+                where.jobCode = $("[name='jobCode']").val();
+                table.reload('reassignment_pop_user_table', {
+                    where: where
+                });
+            });
+
+            //重置按钮点击事件
+            $('#btn_reset_user').click(function() {
+                $('#userName').val('');
+                $('[name="jobCode"]').parent().find("input").val('');
+                // treeSelect.checkNode('jobCode', '');
+                formSelects.value('departCode', []);
+                form.render();
+                table.reload('reassignment_pop_user_table', {
+                    where: {
+                        orderBy: 'userId',
+                        userName: '%%',
+                        userNameOperator: 'like',
+                        jobCode: '',
+                        departCode: ''
+                    }
+                });
+            });
+        }
+
+        function bindingOkAndCancel() {
+            //确定点击事件
+            $('#reassign').click(function() {
+
+            });
+            //取消点击事件
+            $('#cancel').click(function() {
+                admin.closePopupCenter();
+            });
+        }
+
+        function init() {
+            //todo 1. 加载角色,职位,部门下拉菜单
+            initSelectInfo();
+            //todo 2. 加载用户信息列表
+            initUserInfoTable();
+            //todo 3. 绑定查询,重置按钮功能
+            bindingSearchAndReset();
+            //todo 4. 绑定确定,取消按钮功能
+            bindingOkAndCancel();
+        }
+
+        init();
+    })
+</script>

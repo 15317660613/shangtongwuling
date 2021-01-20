@@ -1,0 +1,357 @@
+<!--
+File   : ppap_approva_create.html
+Created: Sunday September 30th 2018 1:00:29 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Thursday November 1st 2018 10:31:46 am
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: PPAP审批单创建
+-----
+HISTORY:
+-->
+<style>
+    .layui-table{
+        margin: 0;
+    }
+    .rowDiv{
+        height: 39px;
+        background-color: white;
+        border:1px solid #e6e6e6;
+        margin-bottom: -1px;
+        margin-top: -1px;
+        line-height: 37px;
+    }
+    td{
+        /*border-color:grey !important;*/
+    }
+    .leftTitle{
+        background: #f2f2f2;
+    }
+    select{
+        width: 120px;
+    }
+    .titlerowDiv{
+        background-color: white;
+        border:1px solid #e6e6e6;
+        margin-bottom: -1px;
+        margin-top: -1px;
+        line-height: 37px;
+    }
+    .jichuTitle{
+        background-color: #B8DEE8;
+        font-weight:bold;
+        color: #0C0C0C;
+    }
+</style>
+
+<div class="layui-row" style="background-color: white;padding: 20px">
+    <div class="layui-col-lg12 titlerowDiv" style="text-align:center;">
+        <div class="layui-col-lg4">
+            <div class="layui-inline" style="float: left">
+                &nbsp;
+            </div>
+        </div>
+        <div class="layui-col-lg4">
+            <div>
+                <span style="color: red;font-size: 18px">
+               PPAP生产件批准单
+            </span>
+            </div>
+            <div style="margin-top: -17px">
+                <span>
+               表单编号：xxxxx
+            </span>
+            </div>
+
+
+        </div>
+        <div class="layui-col-lg4">
+            <div class="layui-inline layui-pull-right" style="margin-top: 10px;margin-right: 10px">
+                <span>待发布</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="layui-col-lg12 rowDiv leftTitle">
+        <span style="margin-left: 10px">基础信息</span>
+    </div>
+    <div class="layui-col-lg12">
+        <table class="layui-table">
+            <tr>
+                <td class="jichuTitle" width="10%">SQE</td>
+                <td width="10%">
+                    xxxx
+                </td>
+                <td class="jichuTitle" width="10%">SQ业务科室</td>
+                <td width="10%">
+                    xxxx
+                </td>
+                <td class="jichuTitle" width="10%">创建日期</td>
+                <td>
+                    xxxx
+                </td >
+                <td class="jichuTitle" width="10%">PE</td>
+                <td width="10%">
+                    xxxx
+                </td>
+                <td class="jichuTitle" width="10%">TDC业务科室</td>
+                <td width="10%">
+                    xxxx
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="layui-col-lg12">
+        <table class="layui-table" style="margin-top: -1px">
+            <tr style="background-color: #EBF6FF">
+                <th>项目单单号</th>
+                <th>项目车型机型</th>
+                <th>供应商代码</th>
+                <th>供应商名称</th>
+                <th>风险检查结果</th>
+                <th>是否开展PPAP试生产审核</th>
+                <th>计划试生产审核时间</th>
+                <th>PPAP文件提交等级</th>
+            </tr>
+            <tr>
+                <td>
+                    xxx
+                </td>
+                <td>
+                    xxx
+                </td>
+                <td>
+                    xxx
+                </td>
+                <td>
+                    xxx
+                </td>
+                <td>
+                    xxx
+                </td>
+                <td>
+                    <select name="city" lay-verify="required">
+                        <option value=""></option>
+                        <option value="0">北京</option>
+                        <option value="1">上海</option>
+                        <option value="2">广州</option>
+                        <option value="3">深圳</option>
+                        <option value="4">杭州</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="title" required  lay-verify="required"
+                           placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </td>
+                <td>
+                    <select name="city" lay-verify="required">
+                        <option value=""></option>
+                        <option value="0">北京</option>
+                        <option value="1">上海</option>
+                        <option value="2">广州</option>
+                        <option value="3">深圳</option>
+                        <option value="4">杭州</option>
+                    </select>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <div class="layui-col-lg12">
+        <table class="layui-table">
+            <tr>
+                <td>
+                    <label class="layui-form-label" style="width: 120px"><span class="must">*</span>PPAP提交原因:</label>
+                    <div class="layui-input-block">
+                        <select lay-ignore name="city" lay-verify="required" style="margin-top: 4px">
+                            <option value=""></option>
+                            <option value="0">北京</option>
+                            <option value="1">上海</option>
+                            <option value="2">广州</option>
+                            <option value="3">深圳</option>
+                            <option value="4">杭州</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <label class="layui-form-label">说明：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请选择其他时必须填写完整" autocomplete="off" class="layui-input">
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+        <!--<div class="layui-col-lg5">-->
+            <!---->
+        <!--</div>-->
+        <!--<div class="layui-col-lg7">-->
+            <!---->
+        <!--</div>-->
+    </div>
+    <div class="layui-col-lg12 rowDiv leftTitle">
+        <span style="margin-left: 10px">零件批准状态</span>
+    </div>
+    <div class="layui-col-lg12">
+        <table class="layui-table">
+            <thead>
+            <tr style="background-color: #B8DEE8">
+                <th>序号</th>
+                <th>产品阶段</th>
+                <th>最新零件号</th>
+                <th>零件名称</th>
+                <th>旧零件号</th>
+                <th>最新EWO</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>
+                    <input type="text" name="title" required  lay-verify="required"
+                           placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </td>
+            </tr>
+            <tr>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>xxx</td>
+                <td>
+                    <input type="text" name="title" required  lay-verify="required"
+                           placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="layui-col-lg12 rowDiv leftTitle">
+        <span style="margin-left: 10px">PPAP文件要求提交列表</span>
+    </div>
+    <div class="layui-col-lg12 rowDiv" style="padding: 10px;height: 260px">
+        <div class="layui-col-lg12">
+            <div class="layui-col-lg12 rowDiv leftTitle">
+                <span style="margin-left: 10px">分发与接收</span>
+            </div>
+            <div class="layui-col-lg12">
+                <form class="layui-form">
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" name=""  lay-skin="primary"> </th>
+                        <th>序号</th>
+                        <th>文件标识</th>
+                        <th>文件名</th>
+                        <th>备注</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="checkbox" name=""  lay-skin="primary"></td>
+                        <td>1</td>
+                        <td>2016-11-29</td>
+                        <td>人生就像是一场修行</td>
+                        <td>
+                            <input type="text" name="title" required  lay-verify="required"
+                                   placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" name=""  lay-skin="primary"> </td>
+                        <td>2</td>
+                        <td>2016-11-28</td>
+                        <td>xxxxxx</td>
+                        <td>
+                            <input type="text" name="title" required  lay-verify="required"
+                                   placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </form>
+            </div>
+            <div class="layui-col-lg12">
+                <div class="layui-inline layui-pull-right" style="margin-top: 10px">
+                    <div class="layui-inline">
+                        <div class="layui-inline">
+                            <button id="btn_add" class="layui-btn layui-btn-sm layui-btn-normal">新增</button>
+                        </div>
+                        <div class="layui-inline">
+                            <button id="btn_delete" class="layui-btn layui-btn-sm layui-btn-normal">修改</button>
+                        </div>
+                        <div class="layui-inline">
+                            <button id="btn_export" class="layui-btn layui-btn-sm layui-btn-normal">删除</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-col-lg12" style="margin-top: 10px">
+        <div class="layui-col-md12">
+            <div class="layui-inline layui-pull-right" style="margin-right: 10px">
+                <div class="layui-inline">
+                    <div class="layui-inline">
+                        <button id="btn_add" class="layui-btn layui-btn-sm layui-btn-normal">重置</button>
+                    </div>
+                    <div class="layui-inline">
+                        <button id="btn_delete" class="layui-btn layui-btn-sm layui-btn-normal">保存</button>
+                    </div>
+                    <div class="layui-inline">
+                        <button id="btn_export" class="layui-btn layui-btn-sm layui-btn-normal">提交</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- 表单辅助方法，用于启动表单时的权限控制和数据获取与提交 -->
+<script src="../../assets/js/ADCFormDesignHelper.js"></script>
+
+<script>
+    // 初始化 layui
+    layui.use(['table','form'], function () {
+        var table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc;
+        form.render('checkbox');
+    });
+</script>

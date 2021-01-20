@@ -1,0 +1,1103 @@
+<style>
+    /*.layui-card-header {*/
+    /*height: 40px;*/
+    /*line-height: 40px;*/
+    /*padding: 0px;*/
+    /*display: -webkit-flex;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*border-top: 1px solid #f6f6f6;*/
+    /*margin-top: 5px;*/
+    /*}*/
+    /*.layui-card-body {*/
+    /*height: auto;*/
+    /*padding-top: 0;*/
+    /*}*/
+    /*.layui-table-header .layui-table {*/
+    /*color: #448EE0;*/
+    /*background: #E9F9FF;*/
+    /*}*/
+    /*.layui-table-cell {*/
+    /*height: 20px;*/
+    /*line-height: 20px;*/
+    /*}*/
+    /*.line {*/
+    /*height: 16px;*/
+    /*border-left: 2px solid #448EE0;*/
+    /*line-height: 16px;*/
+    /*padding-left: 10px;*/
+    /*flex-grow: 1;*/
+    /*}*/
+    /*.line-chart {*/
+    /*width: 100%;*/
+    /*height: 342px;*/
+    /*}*/
+    /*.tea_arrowDown {*/
+    /*transition: 0.8s;*/
+    /*transform-origin: center center;*/
+    /*transform: rotateZ(0deg);*/
+    /*}*/
+    /*.tea_arrowUp {*/
+    /*transition: 0.8s;*/
+    /*transform-origin: center center;*/
+    /*transform: rotateZ(180deg);*/
+    /*}*/
+    /*.table-top-bar .layui-form-label {*/
+    /*width: 80px;*/
+    /*}*/
+    /*.layui-table-body {*/
+    /*max-height: 300px;*/
+    /*}*/
+    /*@media screen and (min-width: 1360px) and (max-width: 1920px) {*/
+    /*.layui-input,*/
+    /*.layui-select,*/
+    /*.xm-input {*/
+    /*width: 180px!important;*/
+    /*}*/
+    /*!* .line-chart {*/
+    /*width: 100%;*/
+    /*height: 320px;*/
+    /*} *!*/
+    /*.layui-form-label {*/
+    /*font-size: 14px;*/
+    /*}*/
+    /*}*/
+    /*@media screen and (min-width: 1920px) {*/
+    /*.layui-input,*/
+    /*.layui-select,*/
+    /*.xm-input {*/
+    /*width: 300px!important;*/
+    /*}*/
+    /*.table-top-bar .layui-form-label {*/
+    /*width: 90px;*/
+    /*}*/
+    /*!* .line-chart {*/
+    /*width: 100%;*/
+    /*height: 540px;*/
+    /*} *!*/
+    /*.layui-form-label {*/
+    /*font-size: 14px;*/
+    /*}*/
+    /*}*/
+    /*@media screen and (max-width: 1360px) {*/
+    /*.layui-input,*/
+    /*.layui-select {*/
+    /*width: 130px;*/
+    /*}*/
+    /*!* .line-chart {*/
+    /*width: 100%;*/
+    /*height: 300px;*/
+    /*} *!*/
+    /*.layui-form-label {*/
+    /*font-size: 12px;*/
+    /*}*/
+    /*}*/
+    
+    .layui-card-header a {
+        float: right;
+        font-size: 14px;
+        color: #949494;
+        font-weight: 500;
+        margin-left: 24px;
+    }
+</style>
+<link rel="stylesheet" href="assets/css/analysis.css">
+<div class="content-margin">
+    <div class="layui-row">
+        <!-- 单列普通表格 -->
+        <div class="layui-col-md12">
+            <div class="layui-card p-main">
+                <!-- 卡片容器 -->
+                <div class="bottom-border-line">
+                    <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+                        <!--<div class="pull-right"><label id="flex2">展开</label><i class="layui-icon layui-icon-down"></i><i class="layui-icon layui-icon-up hide"></i>&lt;!&ndash;<img src="../../assets/images/arrowdown.png" /><img class="hide" src="../../assets/images/arrowup.png" />&ndash;&gt;</div>-->
+                        <div class="line">查询条件</div>
+                        <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                               src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                    </div>
+                    <!-- 数据表格顶部控制栏 -->
+                    <div id='search-form' class="layui-form " style="display: none">
+                        <div class="layui-form-item table-top-bar">
+                            <div class=" layui-row ">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 起止日期</span>
+                                    <div class="layui-inline" id="lay-date">
+                                        <input readonly autocomplete="off" type="text" id="inspectDate2" placeholder="请选择起止日期" class="layui-input">
+                                        <input style="width: 0px;height: 0px;border-color: #ffffff !important" autocomplete="off" type="text" name="inspectDate" id="inspectDate" placeholder="请选择起止日期" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 生产区域</span>
+                                    <div class="layui-inline">
+                                        <select name="productionAreaId" id="productionAreaId" placeholder="选择生产区域" lay-filter="productionAreaId" lay-search>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 工艺类型</span>
+                                    <div class="layui-inline">
+                                        <select name="processTypeId" id="processTypeId" placeholder="选择工艺类型" lay-filter="processTypeId" lay-search>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 班组名称</span>
+                                    <div class="layui-inline">
+                                        <select name="teamNameId" id="teamNameId" placeholder="请选择班组" lay-filter="teamNameId" lay-search>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" layui-row " style="margin-top: 15px">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 班次</span>
+                                    <div class="layui-inline">
+                                        <input type="text" name="classes" placeholder="请输入班次" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 生产线名称</span>
+                                    <div class="layui-inline">
+                                        <select name="plineCode" id="plineCode" placeholder="选择生产线" lay-filter="plineCode" lay-search>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 零件名称</span>
+                                    <div class="layui-inline">
+                                        <select name="partsName" id="partsName" placeholder="请输入零件名称" lay-filter="partsName" lay-search></select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 零件号</span>
+                                    <div class="layui-inline">
+                                        <select name="partsCode" id="partsCode" placeholder="请输入零件号" lay-filter="partsCode" lay-search></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row" style="margin-top: 15px">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <span class="layui-form-label "> 零件级别</span>
+                                    <div class="layui-inline">
+                                        <select name="partLevel" id="partLevel" placeholder="选择零件级别" xm-select="partLevel">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                    <div class="pull-right btn-form">
+                                        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_unpuailfied" id="search_unpuailfied"><span>查询</span></button>
+                                        <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="reset_unpuailfied"><span>重置</span></button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-header">
+                    <div class="line">计划完成情况统计</div>
+                    <div class="layui-btn-group pull-right" id="type-group-btn">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal" type="day">日</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" type="week">周</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" type="month">月</button>
+                    </div>
+                </div>
+                <div class="layui-row bottom-border-line">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md7 " style="padding: 10px;">
+                        <div class="layui-row">
+                            <div class="layui-col-xs12 layui-col-sm6 layui-col-md12">
+                                <div id="finishBar" class="line-chart" style="height: 390px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md5 left-border-line">
+                        <div class="layui-row">
+                            <div class="layui-col-xs12 layui-col-sm6 layui-col-md12">
+                                <div style="font-size:18px;color:#333;text-align: center; font-weight: bold;font-family: Sans-Serif">生产缺口产品详情-成品</div>
+                                <p style="font-size:12px;text-align: center;color:#aaa;margin-top: 3px" id="finish-table-subtext"></p>
+                                <table id="finishTable" lay-filter="finishTable"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row bottom-border-line">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md7 " style="padding: 10px;">
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12">
+                            <div id="unfinishBar" class="line-chart" style="height:390px"></div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md5 left-border-line">
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12">
+                            <div style="font-size:18px;color:#333;text-align: center; font-weight: bold;font-family: Sans-Serif">生产缺口产品详情-半成品</div>
+                            <p style="text-align: center;color:#aaa;margin-top: 3px;font-size: 12px" id="unfinish-table-subtext"></p>
+                            <table id="unfinishTable" lay-filter="unfinishTable"></table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row">
+                    <div class="layui-card-header">
+                        <div class="line" >前位问题分析
+                            <span id="spanTopProblemDate" style="color:#5583ff;font-size:13px"></span>
+                        </div>
+                        <div class="layui-btn-group pull-right" id="top10-button-group">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" value="0">成品</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="1">半成品</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="2">零件</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="3">生产线</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="4">班组</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="3">工艺类型</button>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md5 right-border-line" id="top10Table">
+                            <table id="tableContent" lay-filter="tableContent"></table>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md7 " style="padding: 10px">
+                            <div id="top10-chart" style="height: 340px;width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="layui-tab layui-tab-brief ">-->
+
+    <!--<div class="layui-tab-content content-margin">-->
+    <!--<div class="layui-tab-item">-->
+
+    <!--</div>-->
+    <!--<div class="layui-tab-item layui-show">-->
+    <!---->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>
+
+
+<script>
+    // 初始化 layui
+    layui.use(['laydate', 'table', 'formSelects'], function() {
+        var table = layui.table,
+            form = layui.form,
+            element = layui.element,
+            laydate = layui.laydate,
+            formSelects = layui.formSelects,
+            config = layui.config,
+            type = 0, //0：日 1：周，2：月
+            searchParams = {},
+            originHandleType,
+            dateValue = '', //用来缓存曾经选中的日期 为了日周月切换
+            admin = layui.admin;
+
+
+        laydate.render({
+            elem: '#inspectDate',
+            range: true,
+            type: 'date',
+            done: function(value, date, endDate) {
+                formoat(value);
+            }
+
+        });
+
+
+        $('#inspectDate2').on('click', function() {
+            setTimeout(function() {
+                $('#inspectDate').focus();
+
+            }, 100)
+
+        });
+
+        $('#toggle').on('click', function() {
+            $('#search-form').toggle(200);
+            if ($('#toggle').hasClass('tea_arrowUp')) {
+                $('#toggle').removeClass('tea_arrowUp').addClass('tea_arrowDown');
+                $('#toggle').parent().css('border-bottom', '1px solid #f6f6f6');
+
+            } else {
+                $('#toggle').removeClass('tea_arrowDown').addClass('tea_arrowUp');
+                $('#toggle').parent().css('border-bottom', 'none');
+            };
+
+        })
+        $('#toggle').click();
+
+        if (admin.GetRequest().timeS && admin.GetRequest().timeE) {
+            $('#inspectDate').val(admin.GetRequest().timeS + ' - ' + admin.GetRequest().timeE);
+            $('#inspectDate2').val(admin.GetRequest().timeS + ' - ' + admin.GetRequest().timeE);
+
+        }
+
+        //渲染完毕后触发查询按钮
+        setTimeout(function() {
+            $('#search_unpuailfied').click();
+
+        }, 100)
+
+
+        /*
+                laydate 类型切换 date month，需要删除实例后重新
+               todo 找到新的办法
+            */
+
+        function changeDateType(dateType) {
+            var type = dateType === 'month' ? 'month' : 'date';
+            //如果切换到月 把先前的日期先保存
+            var value = '';
+            if ($('#inspectDate').val().length == 23) {
+                dateValue = $('#inspectDate').val();
+                //如果是月类型 ，将日格式转为月格式
+                if (type === 'month') {
+                    var startDate = dateValue.split(' - ')[0];
+                    var endDate = dateValue.split(' - ')[1];
+                    value = new Date(startDate).toLocaleMonth() + ' - ' + new Date(endDate).toLocaleMonth();
+                    $('#inspectDate2').val(value);
+                } else {
+                    value = dateValue
+                }
+
+            } else if (dateValue != '') {
+                value = dateValue;
+
+            }
+
+            $('#inspectDate').remove();
+            $('#lay-date').append('<input  style="width: 0px;height: 0px;border-color: #ffffff !important"  autocomplete="off"  type="text" name="inspectDate" id="inspectDate" placeholder="请选择起止日期" class="layui-input" >');
+            laydate.render({
+                elem: '#inspectDate',
+                range: true,
+                type: type,
+                value: value,
+                done: function(value, date, endDate) {
+                    formoat(value);
+                }
+
+            });
+        }
+        /*
+            显示处理 如果是周 显示为 2019-1-1/2019-2-2 (某年某月某周)
+        */
+        function formoat(date) {
+            var value = date ? date : $('#inspectDate').val();
+            var type = $("#type-group-btn .layui-btn-normal").attr('type');
+            if (value == '') {
+                $('#inspectDate2').val(value);
+                return;
+
+            }
+            if (type == 'week') {
+                var startDate = value.split(' - ')[0];
+                var endDate = value.split(' - ')[1];
+                var d1 = window.$calendar[startDate];
+                var d2 = window.$calendar[endDate]
+                var dS = '';
+                var dE = '';
+                if (d1) {
+                    var arr1 = d1.split('-');
+                    dS = arr1[0] + '年' + arr1[1] + '月第' + arr1[2] + '周';
+
+                }
+                if (d2) {
+                    var arr2 = d2.split('-');
+                    dE = arr2[0] + '年' + arr2[1] + '月第' + arr2[2] + '周';
+                }
+                $('#inspectDate2').val(dS + "-" + dE);
+
+            } else {
+                $('#inspectDate2').val(value);
+            }
+        }
+
+        //生产区域
+        setSelectData('stopLineAnalysis/productionArea', '#productionAreaId', 'typeName', 'typeId');
+        //停线类型
+        setSelectData('stopLineAnalysis/stopLineType', '#stopLineTypeId', 'typeName', 'typeId');
+        //班组名称
+        setSelectData('stopLineAnalysis/teamName', '#teamNameId', 'typeName', 'typeId');
+        //工艺类型
+        setSelectData('stopLineAnalysis/processType', '#processTypeId', 'typeName', 'typeId');
+        //生产线名称
+        setSelectData('stopLineAnalysis/PLineName', '#plineCode', 'plineName', 'plineCode');
+        //零件级别
+        setSelectData('oneCheckPassRate/getPartLevel', 'partLevel', 'name', 'code');
+        // 零件名与零件号
+        setPartsData();
+        /*
+           下拉表单赋值方法
+        */
+
+        function setSelectData(url, id, name, value) {
+            admin.req('/api-edu/interaction/' + url, {}, function(res) {
+                if (id != 'partLevel') {
+                    var elem = $(id);
+                    elem.empty();
+                    elem.append('<option value=""></option>');
+                    for (var i = 0; i < res.data.length; i++) {
+                        elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                    }
+                    if (id.substring(1) == "processTypeId") {
+                        if (admin.GetRequest().code) {
+                            $("#processTypeId").val(admin.GetRequest().code)
+                        }
+                    }
+                    form.render('select');
+                } else {
+                    var data = res.data;
+                    var selectData = [];
+                    Object.keys(data).forEach(function(key) {
+                        var selectObj = {};
+                        selectObj.name = key;
+                        selectObj.value = data[key];
+                        selectData.push(selectObj);
+                    });
+                    //formSelect-v4下拉树插件渲染
+                    formSelects.data('partLevel', 'local', {
+                        arr: selectData
+                    });
+                    formSelects.btns('partLevel', []);
+                }
+            }, {
+                method: 'get'
+            });
+
+        };
+
+        function setPartsData() {
+            admin.req('/api-edu/interaction/disqualificationanalysis/parts', {}, function(res) {
+                var elem = $('#partsName');
+                var elem1 = $('#partsCode');
+                elem.empty();
+                elem1.empty();
+                elem.append('<option value=""></option>');
+                elem1.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i]['name'] + '">' + res.data[i]['name'] + '</option>');
+                    elem1.append('<option value="' + res.data[i]['code'] + '">' + res.data[i]['code'] + '</option>');
+                }
+                form.render('select');
+            }, {
+                method: 'get'
+            });
+        }
+        // 零件名称与零件号联动
+        form.on('select(partsName)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("/api-edu/interaction/disqualificationanalysis/parts?name=" + loreGpId, {}, function(res) {
+                    data = res.data[0];
+                    $("#partsCode").val(data.code);
+                    form.render('select');
+                });
+            } else {
+                $("#partsCode").val("");
+                form.render('select');
+            }
+        });
+        form.on('select(partsCode)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("/api-edu/interaction/disqualificationanalysis/parts?code=" + loreGpId, {}, function(res) {
+                    data = res.data[0];
+                    $("#partsName").val(data.name);
+                    form.render('select');
+                });
+            } else {
+                $("#partsName").val("");
+                form.render('select');
+            }
+        });
+
+
+        $("#type-group-btn").on("click", "button", function() { //只需要找到你点击的是哪个ul里面的就行
+            var type = $(this).attr('type');
+            $("#type-group-btn .layui-btn-normal").addClass('layui-btn-primary').removeClass('layui-btn-normal');
+            $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal');
+            changeDateType(type);
+            formoat();
+            $('#search_unpuailfied').click();
+        });
+
+        $("#top10-button-group").on("click", "button", function() { //只需要找到你点击的是哪个ul里面的就行
+            $("#top10-button-group .layui-btn-normal").addClass('layui-btn-primary').removeClass('layui-btn-normal');
+            $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal');
+            searchData(searchParams, 3)
+        });
+
+        function renderTable(search, content, url, type) {
+            var type;
+            var hide = false;
+            if (type) {
+                type = type;
+            } else {
+                type = $("#top10-button-group .layui-btn-normal").html();
+            }
+
+            var name = '零件名称';
+            var codeName = '零件号';
+
+            if (content === 'tableContent') {
+                if (search) {
+                    search.typeName = $("#top10-button-group .layui-btn-normal").html();
+                    if (search.typeName == '零件') {
+                        name = '零件名称';
+                        codeName = '零件号';
+                    } else if (search.typeName == '生产线') {
+                        name = '生产线名称';
+                        codeName = '生产线编码';
+                    } else if (search.typeName == '班组') {
+                        name = '班组名称';
+                        codeName = '班组编码';
+                    } else if (search.typeName == '工艺类型') {
+                        name = '工艺类型名称';
+                        codeName = '工艺类型编码';
+                    }
+                }
+            }
+            // 渲染表格
+            table.render({
+                elem: '#' + content,
+                id: content,
+                url: admin.formatUrl(url),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    if (content == 'tableContent') {
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "data": res.data //解析数据列表
+                        };
+                    } else {
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "data": res.data.list //解析数据列表
+                        };
+                    }
+                },
+                cols: [
+                    [{
+                            type: 'numbers',
+                            title: '序号',
+                        }, 
+                        {
+                            field: 'partsCode',
+                            title: codeName,
+                            align: 'center',
+                            templet: function(d) {
+                                var text = d.partsCode ? d.partsCode : "";
+                                return '<div title="' + text + '"><span>' + text + '</span></div>'
+                            }
+                        }, 
+                        {
+                            field: 'partsName',
+                            title: name,
+                            align: 'center',
+                            templet: function(d) {
+                                var text = d.partsName ? d.partsName : "";
+                                return '<div title="' + text + '"><span>' + text + '</span></div>'
+                            }
+                        },
+                        //     {
+                        //     field: 'value',
+                        //     title: '不合格数',
+                        //     align: 'center',
+                        //     templet: function (d) {
+                        //         var text = d.value ? d.value : "";
+                        //         return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        //     }
+                        // },
+                        {
+                            field: 'planCount',
+                            title: '计划生产数',
+                            align: 'center',
+                            minWidth: 100,
+                            templet: function(d) {
+                                var text = d.planCount;
+                                return '<div title="' + text + '"><span>' + text + '</span></div>'
+                            }
+                        }, {
+                            field: 'trueCount',
+                            title: '实际生产数',
+                            align: 'center',
+                            minWidth: 100,
+                            templet: function(d) {
+                                var text = d.trueCount;
+                                return '<div title="' + text + '"><span>' + text + '</span></div>'
+                            }
+                        }, {
+                            field: 'gapCount',
+                            title: '缺口数',
+                            align: 'center',
+                            templet: function(d) {
+                                var text = d.gapCount;
+                                return '<div title="' + text + '"><span>' + text + '</span></div>'
+                            }
+                        }, {
+                            field: 'completionRate',
+                            title: '计划完成率',
+                            minWidth: 100,
+                            align: 'center',
+                            templet: function(d) {
+                                var text = d.completionRate >= 0 ? (d.completionRate * 100).toFixed(2) + '%' : "";
+                                return '<div title="' + text + '"><span>' + text + '</span></div>'
+                            }
+                        }
+                    ]
+                ],
+                cellMinWidth: 90,
+                where: search,
+                done: function() {
+                    $(window).resize();
+                    admin.tableAdaptionHeight(content);
+                }
+            });
+        }
+
+        function searchData(data, flag) {
+            var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+            var type = $("#top10-button-group .layui-btn-normal").html();
+            var params = data ? data : {};
+            params.dateType = dateType;
+            params.startDate = params.startDate ? params.startDate : '';
+            params.endDate = params.endDate ? params.endDate : '';
+            searchParams = params;
+            /*
+               成品柱形图
+             */
+            if (flag != 1 && flag != 2 && flag != 3) {
+                params.type = '成品';
+                admin.req('/api-edu/interaction/prdrateanalysis/finished/bar', params, function(res) {
+                    if (res.ok) {
+
+                        barSuccessCallack(res, '成品', 'finishBar', dateType);
+                        $('#finish-table-subtext').text(res.message);
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'get'
+                });
+            }
+
+            // 成品列表
+            if (flag != 2 && flag != 3) {
+                params.type = '成品';
+                renderTable(params, 'finishTable', '/api-edu/interaction/prdrateanalysis/finished/list', '零件');
+            }
+
+            // 半成品柱状图
+            if (flag != 1 && flag != 2 && flag != 3) {
+                params.type = '半成品';
+                admin.req('/api-edu/interaction/prdrateanalysis/unfinished/bar', params, function(res) {
+                    if (res.ok) {
+                        barSuccessCallack(res, '半成品', 'unfinishBar', dateType);
+                        $('#unfinish-table-subtext').text(res.message);
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'get'
+                });
+            }
+            // 半成品列表
+            if (flag != 1 && flag != 3) {
+                params.type = '半成品';
+                renderTable(params, 'unfinishTable', '/api-edu/interaction/prdrateanalysis/unfinished/list', '零件');
+            }
+            // top10分析
+            if ((flag != 1 && flag != 2) || dateType != 'day') {
+                params.type = type;
+                admin.req('/api-edu/interaction/prdrateanalysis/top10', params, function(res) {
+                    if (res.ok) {
+                        var xData = [];
+                        var yData = [];
+                        var subtext = res.message;
+
+                        // 前位问题分析- 追加显示日期
+                        $('#spanTopProblemDate').text(res.message);
+
+                        for (var i = 0; i < res.data.length; i++) {
+                            var item = res.data[i];
+                            if (item.partsName && item.partsName.length > 6) {
+                                xData.push(item.partsName.substring(0, 6) + '...');
+                            } else {
+                                xData.push(item.partsName);
+                            }
+                            yData.push({
+                                value: (item.completionRate * 100).toFixed(2),
+                                name: item.partsName
+                            }); //不合格总数
+                        }
+                        setTop1Option(xData, yData, type, subtext);
+                        renderTable(params, 'tableContent', '/api-edu/interaction/prdrateanalysis/top10', type);
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'get'
+                });
+            }
+        }
+
+        // 柱状图成功回调函数
+        function barSuccessCallack(res, type, chart, dateType) {
+            var xData = [];
+            var planCount = [];
+            var trueCount = [];
+            var gapCount = [];
+            var completionRate = [];
+            var subtext = res.message;
+
+            for (var i = 0; i < res.data.length; i++) {
+                var item = res.data[i];
+                var date = '';
+                var subDate = '';
+                if (dateType == 'day') {
+                    date = item.dateTime.substring(item.dateTime.length - 4, item.dateTime.length - 2) + '-' + item.dateTime.substring(item.dateTime.length - 2);
+                    subDate = item.dateTime.substring(0, 4) + '-' + item.dateTime.substring(item.dateTime.length - 4, item.dateTime.length - 2) + '-' + item.dateTime.substring(item.dateTime.length - 2);
+                } else if (dateType == 'week') {
+                    date = item.dateTime.split("年")[1];
+                    subDate = item.dateTime;
+                } else if (dateType == 'month') {
+                    date = item.dateTime.substring(0, item.dateTime.length - 2) + '-' + item.dateTime.substring(item.dateTime.length - 2);
+                    subDate = date;
+                }
+                xData.push(date);
+                planCount.push({
+                    time: item.dateTimeForWeek,
+                    subDate: subDate,
+                    value: item.planCount
+                }); //不合格总数
+                trueCount.push({
+                    time: item.dateTimeForWeek,
+                    subDate: subDate,
+                    value: item.trueCount
+                }); //让步放行数
+                gapCount.push({
+                    time: item.dateTimeForWeek,
+                    subDate: subDate,
+                    value: item.gapCount
+                }); //返工
+                completionRate.push({
+                    time: item.dateTimeForWeek,
+                    subDate: subDate,
+                    value: parseFloat((item.completionRate * 100).toFixed(2))
+                }); //报废
+            }
+            finishedBar(xData, planCount, trueCount, gapCount, completionRate, subtext, type, chart)
+        }
+
+        // 不合格品统计柱状图
+        function finishedBar(xData, planCount, trueCount, gapCount, completionRate, subtext, type, chart) {
+
+            //图表配置项
+            var barOption = {
+                title: {
+                    text: '生产计划完成情况-' + type,
+                    subtext: subtext,
+                    left: 'center',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params, ticket, callback) {
+                        return params[0].name + '</br>' + params[0].marker + params[0].seriesName + ": " + params[0].value +
+                            '</br>' + params[1].marker + params[1].seriesName + ": " + params[1].value + '%';
+                    },
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                grid: {
+                    left: 65,
+                    right: 40,
+                    top: 80
+                },
+                legend: {
+                    data: [{
+                        name: '实际生产数',
+                        icon: 'roundRect'
+                    }, {
+                        name: '计划完成率'
+                    }],
+                    left: 'center',
+                    bottom: 'bottom',
+                    padding: [7, 0, 0, 0],
+                    itemWidth: 10,
+                    itemHeight: 10
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: xData,
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisLabel: {
+                        rotate: 45,
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    }
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '数量',
+                    min: 0,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false,
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    }
+                }, {
+                    type: 'value',
+                    name: '计划完成率(%)',
+                    min: function(value) {
+                        return value.min;
+                    },
+                    max: function(value) {
+                        return value.max;
+                    },
+                    splitLine: {
+                        show: false,
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    }
+                }],
+                series: [
+                    //     {
+                    //     name: '计划生产数',
+                    //     type: 'bar',
+                    //     stack: '故障',
+                    //     barMaxWidth: 30,
+                    //     data: planCount,
+                    //     color: 'RGB(51,185,253)',
+                    // },
+                    {
+                        name: '实际生产数',
+                        type: 'bar',
+                        stack: '故障',
+                        color: 'RGB(255,155,51)',
+                        barMaxWidth: 40,
+                        data: trueCount
+                    },
+                    //     {
+                    //     name: '缺口数',
+                    //     type: 'bar',
+                    //     stack: '故障',
+                    //     color: 'RGB(129,183,125)',
+                    //     data: gapCount
+                    // },
+                    {
+                        name: '计划完成率',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        color: 'RGB(51,204,0)',
+                        data: completionRate
+                    },
+
+                ]
+            };
+            drowBaroption(chart, barOption)
+
+        }
+        echarts.init(document.getElementById('top10-chart')).dispose();
+        var setTop1OptionChart = echarts.init(document.getElementById('top10-chart'));
+
+        function setTop1Option(xData, yData, type, subtext) {
+            var option = {
+                title: {
+                    text: '按' + type + '名称TOP10分析',
+                    subtext: subtext,
+                    left: 'center'
+                },
+                color: ['#71B7EE'],
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params, ticket, callback) {
+                        return params[0].name + '</br>' + params[0].marker + params[0].seriesName + ": " + params[0].value + '%';
+                    },
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                grid: {
+                    x: 40,
+                    x2: 40
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLabel: {
+                        rotate: 25,
+                    },
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisTick: {
+                        show: true
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#000',
+                        }
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    name: '计划完成率(%)',
+                    type: 'value',
+                    min: 0,
+                    // max: 100,
+                    axisTick: {
+                        show: true
+                    },
+                    splitLine: {
+                        show: false,
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#000',
+                        }
+                    }
+                }],
+                series: [{
+                    name: '计划完成率',
+                    type: 'bar',
+                    barMaxWidth: 30,
+                    data: yData
+                }]
+            };
+            drawCharts(setTop1OptionChart, option);
+        }
+
+
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        // layui.admin.addTableCache('tableContent-ability');
+
+        // 表单提交，查询与重置
+        form.on('submit(search_unpuailfied)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+
+            if (d.inspectDate) {
+                d.startDate = d.inspectDate.split(' - ')[0];
+                d.endDate = d.inspectDate.split(' - ')[1];
+                var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+                //注意后台接口无论dateType 类型如何 都要传 日期  yyyy-mm-dd
+                if (dateType == 'month') {
+                    d.startDate = d.startDate + '-01';
+                    d.endDate = d.endDate + '-01';
+                }
+            }
+            originHandleType = d.handleType ? d.handleType : 0;
+            searchData(d);
+        });
+
+        $('.table-top-bar input').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $('#search_unpuailfied').click();
+            }
+        });
+
+
+
+        // drawCharts('r-chart',option);
+
+        function drawCharts(elem, option) {
+            // var myChart = echarts.init(document.getElementById(elem));
+            elem.setOption(option, true);
+        }
+
+
+
+        form.on('submit(reset_unpuailfied)', function(data) {
+            reset();
+        });
+
+        // 重置查询表单
+        function reset() {
+            $('.table-top-bar input').val('');
+            $('.table-top-bar select').val('');
+            $('#search_unpuailfied').click();
+        }
+
+        //生成柱状图 （带点击事件）
+
+        function drowBaroption(id, option) {
+            echarts.init(document.getElementById(id)).dispose();
+            var bar = echarts.init(document.getElementById(id));
+            bar.setOption(option);
+            // 成品柱状图联动点击
+            bar.on('click', function(params) {
+                handleBarClick(id, params)
+            });
+        }
+        //柱状图点击事件
+
+        function handleBarClick(id, params) {
+            console.log(params)
+
+            var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+            if (dateType == 'month') {
+                searchParams.startDate = params.name + '-01';
+                searchParams.endDate = params.name + '-01';
+            } else if (dateType == 'week') {
+                searchParams.startDate = params.data.time;
+                searchParams.endDate = params.data.time;
+            } else if (dateType == 'day') {
+                searchParams.startDate = params.data.subDate;
+                searchParams.endDate = params.data.subDate;
+            }
+
+            switch (id) {
+                case 'unfinishBar':
+                    searchData(searchParams, 2);
+                    $('#unfinish-table-subtext').text(params.data.subDate);
+                    break;
+                case 'finishBar':
+                    searchData(searchParams, 1);
+                    $('#finish-table-subtext').text(params.data.subDate);
+
+                    break
+                default:
+                    break
+
+            }
+
+        }
+
+    });
+
+    function slideDiv(obj) {
+        //如果查询条件隐藏 则展开查询条件 将展开文字变成收起
+        if ($($(obj).parent().next()[0]).css("display") == 'none') {
+            $($(obj).parent().next()[0]).slideDown();
+            $(obj).find(".slide").text("收起 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slidedown.png");
+        } else { //否则收起查询条件 将收起变成展开
+            $($(obj).parent().next()[0]).slideUp();
+            $(obj).find(".slide").text("展开 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slideup.png");
+        }
+    }
+</script>

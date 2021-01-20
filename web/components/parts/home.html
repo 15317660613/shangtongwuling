@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SGMW</title>
+    <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css"/>
+    <link rel="stylesheet" href="../../assets/css/home.css">
+</head>
+<body oncontextmenu="false">
+<!--页面规定宽度-->
+<div id="main_s1" class="main_s">
+    <!--logo-->
+    <img class="logo_img" src="../../assets/images/home/logo.png" height="7%" width="7%"/>
+    <div class="ch_name">
+        <!--中文名称-->
+        <h3>上汽通用五菱供应商协同管理平台</h3>
+        <p class="en_name">
+            <!--英文名称-->
+        <h2 style="">SGMW Supplier Collaborative Management Platform</h2>
+        </p>
+    </div>
+    <a onclick="logout()" title="退出">
+        <img src="../../assets/images/home/退出.png" style="float: right;margin-right: 2%;margin-top: 2.825%;cursor:pointer;"/>
+    </a>
+    <div style="clear: both"></div>
+</div>
+<div id="main_s" class="main_s">
+    <!--main-->
+    <div class="card_slot">
+        <div>
+            <div id="div_width" name="smsh?re=bmgkTab/tabs1-1" class="card_div card_div1" onmousedown="jump($(this),event)" point="BM">
+                <img class="card_img" src="../../assets/images/home/人.png"/>
+                <p><span class="card_p">我的部门</span></p>
+            </div>
+            <div name="smsh?re=jbpm/taskpersonal" class="card_div card_div3" onmousedown="jump($(this),event)" point="YWGL">
+                <img class="card_img" src="../../assets/images/home/业务.png"/>
+                <p><span class="card_p">我的业务</span></p>
+            </div>
+            <div class="card_div card_div3">
+            </div>
+            <div class="div_card">
+            </div>
+            <div name="index.html#!ADC_parts_part_info_query" class="card_div card_div4" onmousedown="jump($(this),event)" point="ZLKF">
+                <img class="card_img" src="../../assets/images/home/开发.png"/>
+                <p><span class="card_p">质量开发</span></p>
+            </div>
+            <div class="card_div card_div3">
+            </div>
+            <div name="smsh?re=jbpm/taskpersonal" class="card_div card_div3" onmousedown="jump($(this),event)" point="ZLBZ">
+                <img class="card_img" src="../../assets/images/home/保障标识.png"/>
+                <p><span class="card_p">质量保障</span></p>
+            </div>
+            <div class="div_card">
+            </div>
+            <div style="clear: both"></div>
+        </div>
+
+        <div>
+            <div name="smsh?re=gysnlpjTab/tabs2-2" class="card_div card_div1" onmousedown="jump($(this),event)" point="QJNLGL">
+                <img class="card_img" src="../../assets/images/home/发展对象.png"/>
+                <p><span class="card_p">Q+能力管理</span></p>
+            </div>
+            <div name="index.html#!ADC_risk_riskTab" class="card_div card_div3" onmousedown="jump($(this),event)" point="GXGL">
+                <img class="card_img" src="../../assets/images/home/风险信息.png"/>
+                <p><span class="card_p">风险管理</span></p>
+            </div>
+            <div name="" class="card_div card_div1" onmousedown="jump($(this),event)" point="CNGL">
+                <img class="card_img" src="../../assets/images/home/风险评分.png"/>
+                <p><span class="card_p">产能管理</span></p>
+            </div>
+            <div class="card_div card_div3">
+            </div>
+            <div class="div_card">
+            </div>
+            <div name="" class="card_div card_div1" onmousedown="jump($(this),event)" point="CLTP">
+                <img class="card_img" src="../../assets/images/home/图片.png"/>
+                <p><span class="card_p">材料图谱</span></p>
+            </div>
+            <div class="card_div card_div4">
+            </div>
+            <div name="index.html#!ADC_system_user" class="card_div card_div1" onmousedown="jump($(this),event)" point="XTGL">
+                <img class="card_img" src="../../assets/images/home/系统设置.png"/>
+                <p><span class="card_p">系统管理</span></p>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+
+        <div>
+            <div class="div_card">
+            </div>
+            <div name="smsh?re=pxcxTab/tabs1-1" class="card_div card_div3" onmousedown="jump($(this),event)" point="QJGLXY">
+                <img class="card_img" src="../../assets/images/home/guanlifangan.png"/>
+                <p><span class="card_p">Q+管理学院</span></p>
+            </div>
+            <div class="div_card">
+            </div>
+            <div class="div_card">
+            </div>
+            <div class="card_div card_div3">
+            </div>
+            <div class="card_div card_div3 ">
+            </div>
+            <div name="" class="card_div card_div3" onmousedown="jump($(this),event)">
+                <img class="card_img1" src="../../assets/images/home/更多点点点.png"/>
+                <p><span class="card_p">期待更多</span></p>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+
+</div>
+<!--footer-->
+<div class="footer_div">
+    <div class="layui-row">
+        <div class="layui-col-md2">
+            <span>咨询热线（8:30-17:00）</span>
+        </div>
+        <div class="layui-col-md8" style="width: 60.666666667% !important;">
+            <span class="footer_span">
+                <span onmousedown="jump($(this),event)" point="BM" name="smsh?re=bmgkTab/tabs1-1" style="cursor:pointer;">我的部门</span> |
+                <span onmousedown="jump($(this),event)" point="YWGL" name="smsh?re=jbpm/taskpersonal" style="cursor:pointer;">我的业务</span> |
+                <span onmousedown="jump($(this),event)" point="ZLKF" name="index.html#!ADC_parts_task_sheet_agent" style="cursor:pointer;">质量开发</span> |
+                <span onmousedown="jump($(this),event)" point="ZLBZ" name="smsh?re=jbpm/taskpersonal" style="cursor:pointer;">质量保障</span> |
+                <span onmousedown="jump($(this),event)" point="QJNLGL" name="smsh?re=gysnlpjTab/tabs2-2" style="cursor:pointer;">Q+能力管理</span> |
+                <span onmousedown="jump($(this),event)" point="GXGL" name="index.html#!ADC_risk_riskTab" style="cursor:pointer;">风险管理</span> |
+                <span onmousedown="jump($(this),event)" point="CNGL" name="" style="cursor:pointer;">产能管理</span> |
+                <span onmousedown="jump($(this),event)" point="CLTP" name="" style="cursor:pointer;">材料图谱</span> |
+                <span onmousedown="jump($(this),event)" point="XTGL" name="index.html#!ADC_system_user" style="cursor:pointer;">系统管理</span> |
+                <span onmousedown="jump($(this),event)" point="QJGLXY" name="smsh?re=pxcxTab/tabs1-1" style="cursor:pointer;">Q+管理学院</span>
+
+            </span>
+        </div>
+        <div class="layui-col-md2">
+            <span class="footer_span">桂公网安备45020402000009号</span>
+        </div>
+    </div>
+    <div style="height: 3px"></div>
+    <div class="layui-row">
+        <div class="layui-col-md2">
+            <span class="footer_span1">0772-3751133</span>
+        </div>
+        <div class="layui-col-md7">
+            <span class="footer_span1">Copyright@2017上汽通用五菱汽车股份有限公司 桂ICP备案号05006817号-1</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../assets/libs/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../assets/libs/layui/layui.js"></script>
+<script>
+    var list = "";
+    var roleNames = [];
+    // 入口文件，统一处理 Ajax 请求
+    // 增加 loading
+    // http://api.jquery.com/jquery.ajax/
+    $.ajaxSetup({
+        complete: function(jqXHR, textStatus) {
+            // 只要返回网页，就跳转登录，暂时只能这么判断了
+            var ctype = jqXHR.getResponseHeader('Content-Type');
+
+            if (ctype.indexOf('text/html;charset=UTF-8') !== -1) {
+                var protocol = 'http:';
+                if ('https:' === window.location.protocol) {
+                    protocol = window.location.protocol;
+                }
+                location.href = '/cas/logout?service=' + protocol + '//' + window.location.host + '/stwl';
+            }
+
+            if (jqXHR.status === 402 && jqXHR.responseJSON && !jqXHR.responseJSON.ok &&
+                jqXHR.responseJSON.respCode === '8688') {
+                layer.msg(jqXHR.responseJSON.message);
+                setTimeout(function() {
+                    window.location.href = "/logout";
+                }, 2000)
+            }
+        }
+    });
+    $(function () {
+        var width = document.body.clientWidth - $('#div_width').width() * 8;
+        var leftwidth = width / 2;
+        $('#main_s').css('margin-left', leftwidth);
+        $('#main_s1').css('padding-left', leftwidth);
+
+        // if ($("span").attr('point') === 'BM') {
+        //     //  $("span").attr('point').attr("mylink",'true') = 'true';
+        //     $(this).attr("mylink", 'true');
+        // }
+        // 通过ajax获取当前人员的权限信息
+        var protocol = 'http:';
+        if ('https:' === window.location.protocol) {
+            protocol = window.location.protocol;
+        }
+        $.ajax({
+            url: protocol + "//" + window.location.host + '/api/login-detail?_ts=' + new Date().getTime(),
+            // url: '../../api/login-detail?_ts=' + new Date().getTime(),
+            type: 'GET',
+            contentType: 'application/json; charset=UTF-8',
+            dataType: 'JSON',
+            timeout: 5000,
+            success: function (res) {
+                layui.config({
+                    base: '../../module/'
+                }).use(['config'], function () {
+                    var config = layui.config;
+                    config.putAccount(res.data);
+                });
+                list = res.data.sysCodes;
+                roleNames = res.data.roleNames;
+
+            }, error: function (er) {
+                console.log(er);
+            }
+            // complete: function (jqXHR, textStatus) {
+            //     reqCount--;
+            //     if (reqCount === 0) admin.removeLoading();
+            //     // 只要返回网页，就跳转登录，暂时只能这么判断了
+            //     var ctype = jqXHR.getResponseHeader('Content-Type');
+            //
+            //     if (ctype.indexOf('text/html;charset=UTF-8') != -1) {
+            //         var protocol = 'http:';
+            //         if ('https:' === window.location.protocol) {
+            //             protocol = window.location.protocol;
+            //         }
+            //         location.href = '/cas/login?service='+protocol+'//'+window.location.host+'/stwl';
+            //     }
+            // }
+        })
+    })
+
+    function logout() {
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.confirm('是否退出?', {icon: 3, title: '提示'}, function (index) {
+                //do
+                window.location.href = '/logout';
+                layer.close(index);
+            });
+        });
+    }
+
+    /**
+     *   根据点击事件判断是否有权限跳转页面
+     * @param $this
+     */
+    function jump($this, event) {
+        //页面地址 ==> div的name值
+        var point = $this.attr('point');
+        var href = "", key = '';
+        var path = "";
+        /**
+         * 根据点击效果 判断调转
+         */
+        if (!list){
+            var protocol = 'http:';
+            if ('https:' === window.location.protocol) {
+                protocol = window.location.protocol;
+            }
+            $.ajax({
+                url: protocol + "//" + window.location.host + '/api/login-detail?_ts=' + new Date().getTime(),
+                // url: '../../api/login-detail?_ts=' + new Date().getTime(),
+                type: 'GET',
+                contentType: 'application/json; charset=UTF-8',
+                dataType: 'JSON',
+                timeout: 5000,
+                async: false,
+                success: function (res) {
+                    layui.config({
+                        base: '../../module/'
+                    }).use(['config'], function () {
+                        var config = layui.config;
+                        config.putAccount(res.data);
+                    });
+                    list = res.data.sysCodes;
+                    roleNames = res.data.roleNames;
+
+                }, error: function (er) {
+                    console.log(er);
+                }
+                // complete: function (jqXHR, textStatus) {
+                //     reqCount--;
+                //     if (reqCount === 0) admin.removeLoading();
+                //     // 只要返回网页，就跳转登录，暂时只能这么判断了
+                //     var ctype = jqXHR.getResponseHeader('Content-Type');
+                //
+                //     if (ctype.indexOf('text/html;charset=UTF-8') != -1) {
+                //         var protocol = 'http:';
+                //         if ('https:' === window.location.protocol) {
+                //             protocol = window.location.protocol;
+                //         }
+                //         location.href = '/cas/login?service='+protocol+'//'+window.location.host+'/stwl';
+                //     }
+                // }
+            })
+        }
+        if (list.indexOf(point) === -1) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+                layer.msg('您没有相关权限！');
+            });
+            return;
+        }
+
+        // for(var i  in list){
+        // if( point ===  list[i]){
+        switch (point) {
+            case 'BM':
+                href = 'smsh?re=/bmgkTab/tabs1-1';
+                break;
+            case 'YWGL':
+                href = 'index.html#!ADC_mybusiness_businessIndex';
+                break;
+            case 'ZLKF':
+                if (roleNames.indexOf('项目管理员') === -1){
+                    href = 'index.html#!ADC_parts_task_sheet_agent';
+                } else {
+                    href = 'index.html#!ADC_project_projectManage';
+                }
+                break;
+            case 'ZLBZ':
+                href = 'smsh?re=/bpm/tabs2-2';
+                break;
+            case 'QJNLGL':
+                href = 'smsh?re=/gysnltsTab/tabs2-1';
+                break;
+            case 'GXGL':
+                href = 'components/risk/riskMap.html';
+                break;
+            case 'CNGL':
+                path = 'https://sq.sgmw.com.cn/smsh?re=/cnsys';
+                break;
+            case 'CLTP':
+                href = 'cqc-support';
+                break;
+            case 'XTGL':
+                href = 'smsh?re=/xtszTab/tabs1-3';
+                break;
+            case 'QJGLXY':
+                href = 'index.html#!ADC_academy_course';
+                break;
+        }
+        // } else{
+        //     alert("您没有相关权限！");
+        // }
+        // }
+
+        //动态获取地址 IP地址+端口号
+        // window.location.href = 'http://'+address +'/'+ $this.attr('name')+'';
+        var protocol = 'http:';
+        if ('https:' === window.location.protocol) {
+            protocol = window.location.protocol;
+        }
+
+        if (path.length === 0){
+            path = protocol + '//' + window.location.host + '/' + href + '';
+        }
+        console.log(event);
+        // 获取页面链接，做跳转
+        if (event.button === 0) {
+            window.location.href = path;
+        }
+        if (event.button === 2) {
+            window.open(path);
+        }
+    }
+
+</script>
+</body>
+</html>

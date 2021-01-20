@@ -1,0 +1,797 @@
+<!--
+File   : process_pending_tpl_handle.html
+Created: Thursday September 20th 2018 9:52:03 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Friday November 2nd 2018 1:43:36 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 处理任务
+-----
+HISTORY:
+-->
+<link rel="stylesheet" href="../../assets/css/form.css">
+
+<div class="layui-container task-container process-pending-tpl-handle">
+    <div class="layui-row">
+        <div class="layui-col-md8 task-container-l">
+            <div class="task-container-l-t">
+                <div class="task-header">
+                    <div class="task-header-title">
+                        <h1>{{name}}</h1>
+                        <h3><span>{{assigneeName}}</span>&nbsp;&nbsp;<span>{{createTimeStr}}</span></h3>
+                    </div>
+                    <div class="task-header-control">
+                        <a href="javascript:;" lay-filter="task-control-print" class="layui-hide"><i class="layui-icon layui-icon-set-sm"></i>打印</a>
+                        <a href="javascript:;" lay-filter="task-control-appendix" class="layui-hide"><i class="layui-icon layui-icon-file"></i>附件列表</a>
+                        <a href="javascript:;" lay-filter="task-control-find" class="layui-hide"><i class="layui-icon layui-icon-search"></i>意见查找</a>
+                        <a href="javascript:;" lay-filter="task-control-records"><i class="layui-icon layui-icon-form"></i>明细日志</a>
+                        <a href="javascript:;"><i class="layui-icon layui-icon-prev" style="display: none;"></i></a>
+                    </div>
+                </div>
+                <div class="layui-tab layui-tab-card">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">正文</li>
+                        <li>流程</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show formView" id="task-html"></div>
+                        <div class="layui-tab-item" id="task-timeline"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="task-container-l-b">
+                <div class="task-header">
+                    <img src="../../assets/images/message3.png">
+                    <h1>处理人意见区</h1>
+                    <div class="task-header-control">
+                        <a href="javascript:;"><i class="layui-icon layui-icon-down"></i></a>
+                    </div>
+                </div>
+                <hr>
+                <div class="task-body" id="task-records">
+                    <span style="font-size: 14px;color: #ccc;line-height: 24px;padding-left: 24px;">暂无处理意见</span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4 task-container-r">
+            <div class="task-header">
+                <h1><i class="layui-icon layui-icon-next"></i>协同</h1>
+            </div>
+            <div class="task-header-control">
+                <a href="javascript:;" lay-filter="task-control-sign">
+                    <img src="../../assets/images/user.png">加签
+                </a>
+                <a href="javascript:;" lay-filter="task-control-forward" class="layui-hide">
+                    <img src="../../assets/images/forward.png">转发
+                </a>
+                <a href="javascript:;" lay-filter="task-control-turn">
+                    <img src="../../assets/images/document.png">转办
+                </a>
+                <a href="javascript:;" lay-filter="task-control-back" class="layui-hide">
+                    <img src="../../assets/images/forward.png">回退
+                </a>
+                <a href="javascript:;" lay-filter="task-control-back1" class="layui-hide">
+                    <img src="../../assets/images/forward.png">指定回退
+                </a>
+            </div>
+            <hr>
+            <div class="layui-form">
+                <div class="layui-form-item" id="task-operations"></div>
+                <div style="line-height: 28px;text-align: right;">
+                    <a href="javascript:;" lay-filter="task-control-common">常用语</a>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <textarea name="comment" placeholder="请输入意见反馈" class="layui-textarea" lay-verify="required" style="height:212px;resize: none;"></textarea>
+                </div>
+                <div class="layui-form-item" style="text-align: right;margin-top: 30px;">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="task-complete"
+                        disabled="disabled">提交</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../../assets/js/ADCFormDesignHelper.js"></script>
+<script>
+    // 右边菜单可以收缩隐藏
+    $('.task-container .task-container-r .task-header .layui-icon-next').on('click', function () {
+        $('.task-container-l').removeClass('layui-col-md8');
+        $('.task-container-l').addClass('layui-col-md12');
+        $('.task-container .task-container-l .task-header .layui-icon-prev').css('display', 'inherit');
+    });
+    $('.task-container .task-container-l .task-header .layui-icon-prev').on('click', function () {
+        $('.task-container-l').removeClass('layui-col-md12');
+        $('.task-container-l').addClass('layui-col-md8');
+        $('.task-container .task-container-l .task-header .layui-icon-prev').css('display', 'none');
+    });
+
+    // 下方意见区可以隐藏
+    $('.task-container .task-container-l-b .task-header .layui-icon-down').on('click', function () {
+        var hide = $('.task-container-l-b .task-header .layui-icon-down').hasClass('task-container-l-b-hide');
+        var leftContainerHeight = parseInt($('.task-container-l').css('height')),
+            remainHeight = leftContainerHeight - 159;
+        if (hide) {
+            // 意见区已隐藏，需要展开
+            $('.task-container-l-b .task-header .layui-icon-down').removeClass('task-container-l-b-hide');
+            $('.layui-tab-content').css('height', (remainHeight / 2 + 43) + 'px');
+        } else {
+            // 意见区未隐藏，需要隐藏
+            $('.task-container-l-b .task-header .layui-icon-down').addClass('task-container-l-b-hide');
+            $('.layui-tab-content').css('height', (remainHeight - 32) + 'px');
+        }
+    });
+
+
+    var process_pending_tpl_handle = function (raw_data) {
+        layui.use([], function () {
+            var form = layui.form,
+                config = layui.config,
+                // element = layui.element,
+                admin = layui.adc,
+                table = layui.table,
+                // 待办任务 ID
+                id = raw_data.id,
+                // 流程实例 ID
+                processInstanceId = raw_data.processInstanceId,
+                // 保存处理日志
+                processingRecords = [];
+            // 渲染数据
+            $('.task-container').vm(raw_data);
+
+            // 左侧容器自定义高度
+            var leftContainerHeight = parseInt($('.task-container-l').css('height')),
+                remainHeight = leftContainerHeight - 159;
+            $('.task-container-l-b').css('height', (remainHeight / 2 - 43) + 'px');
+            $('.layui-tab-content').css('height', (remainHeight / 2 + 43) + 'px');
+            $(window).on('resize', function () {
+                var leftContainerHeight = parseInt($(
+                        '.process-pending-tpl-handle .task-container-l').css('height')),
+                    remainHeight = leftContainerHeight - 159;
+                $('.process-pending-tpl-handle .task-container-l-b').css('height', (remainHeight /
+                    2 - 43) + 'px');
+                $('.process-pending-tpl-handle .layui-tab-content').css('height', (remainHeight / 2 +
+                    43) + 'px');
+            });
+
+            // TODO: raw_data.buttonPrivileges 控制按钮权限
+            // console.log(raw_data)
+            // isShowCountersignButton 加签是否显示
+            if (!raw_data.buttonPrivileges.isShowCountersignButton) {
+                $('[lay-filter="task-control-sign"]').remove();
+            }
+            // isShowMultiInsSelectPeopleButton 会签 提交前是否选接下来的处理人
+
+            // 获取待办任务正文表单数据
+            admin.req('/api-edu/activiti-task/' + id, {}, function (res) {
+                if (res.ok) {
+                    // 先将表单结构填入容器
+                    $('#task-html').html(ADCFormDesignHelper.formatHtml(res.data.structure));
+                    // 获取权限信息
+                    ADCFormDesignHelper.formatPriv('#task-html', JSON.parse(res.data.privilege));
+                    // 填入数据
+                    ADCFormDesignHelper.formdataUpdate('#task-html', JSON.parse(res.data.data));
+                    // 渲染表单
+                    form.render();
+                } else {
+                    layer.msg('待办任务正文加载失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            });
+            // 获取待办任务流程数据，绘制流程图
+            admin.req('/api-edu/models/progressImageData', {
+                processInstanceId: processInstanceId
+            }, function (res) {
+                if (res.ok) {
+                    var timelineData = res.data,
+                        timelineHtml = '<ul class="task-timeline">';
+                    if (timelineData.length > 0) {
+                        timelineData.reverse();
+                    }
+                    // 将流程制作为 HTML
+                    for (var i = 0; i < timelineData.length; i++) {
+                        var item = timelineData[i],
+                            ccTaskItems = item.ccTaskItems;
+                        if (ccTaskItems.length === 1) {
+                            // 简单串行流程
+                            var tmp = ccTaskItems[0],
+                                // 处理时间
+                                // 对日期时间字符串做格式校验
+                                tmpDealTime =
+                                /^[1-9]\d{3}-(0[1-9]|1[0-2]|[1-9])-(0[1-9]|[1-2][0-9]|3[0-1]|[1-9])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
+                                .test(tmp.dealTime) ? tmp.dealTime.split(' ') : item.status === 1 ? [
+                                    '', '<span style="color: #F14E10;">处理中</span>'
+                                ] : ['', '尚未处理'],
+                                // 处理人姓名
+                                tmpAssigneeRealName = tmp.assigneeRealName ? tmp.assigneeRealName :
+                                '【未指定】',
+                                // 备注，处理意见
+                                tmpRemark = tmp.remark ? tmp.remark : '暂无处理意见',
+                                // 状态
+                                tmpStatus = item.status,
+                                // 任务名
+                                tmpTaskDefName = tmp.taskDefName;
+                            timelineHtml += '<li class="task-timeline-item task-timeline-status' +
+                                tmpStatus + '"><div class="task-timeline-time"><h1>' + tmpDealTime[
+                                    0] + '</h1><h5>' + tmpDealTime[1] +
+                                '</h5></div><div class="task-timeline-axis"><span>' + (i + 1) +
+                                '</span></div><div class="task-timeline-content"><div class="task-timeline-header">' +
+                                tmpTaskDefName + ' - ' + tmpAssigneeRealName +
+                                '</div><div class="task-timeline-body">' + tmpRemark +
+                                '</div></div></li>';
+                        } else if (ccTaskItems.length > 1) {
+                            // 并行流程
+                            var arrDealTime = [];
+                            for (var k = 0; k < ccTaskItems.length; k++) {
+                                arrDealTime.push(ccTaskItems[k].dealTime);
+                            }
+                            // DONE: 将时间排序，时间越晚越靠前
+                            // TODO: 兼容 IE
+                            arrDealTime.sort(function (a, b) {
+                                if (a === '' && b === '') {
+                                    return 0;
+                                } else if (a === '') {
+                                    return 1;
+                                } else if (b === '') {
+                                    return -1;
+                                } else {
+                                    a = new Date(a).getTime();
+                                    b = new Date(b).getTime();
+                                    return b - a;
+                                }
+                            });
+                            tmpDealTime =
+                                /^[1-9]\d{3}-(0[1-9]|1[0-2]|[1-9])-(0[1-9]|[1-2][0-9]|3[0-1]|[1-9])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
+                                .test(arrDealTime[0]) ? arrDealTime[0].split(' ') : item.status ===
+                                1 ? ['', '<span style="color: #F14E10;">处理中</span>'] : ['', '尚未处理'];
+                            timelineHtml += '<li class="task-timeline-item task-timeline-status' +
+                                item.status + '"><div class="task-timeline-time"><h1>' +
+                                tmpDealTime[0] + '</h1><h5>' + tmpDealTime[1] +
+                                '</h5></div><div class="task-timeline-axis"><span>' + (i + 1) +
+                                '</span></div><div class="task-timeline-content">';
+                            for (var j = 0; j < ccTaskItems.length; j++) {
+                                var tmp = ccTaskItems[j],
+                                    // 处理人姓名
+                                    tmpAssigneeRealName = tmp.assigneeRealName ? tmp.assigneeRealName :
+                                    '【未指定】',
+                                    // 备注，处理意见
+                                    tmpRemark = tmp.remark ? tmp.remark : '暂无处理意见',
+                                    // 状态
+                                    tmpStatus = tmp.status,
+                                    // 任务名
+                                    tmpTaskDefName = tmp.taskDefName;
+                                timelineHtml += '<div class="task-timeline-status' + tmpStatus +
+                                    '-important"><div class="task-timeline-header">' +
+                                    tmpTaskDefName +
+                                    ' - ' + tmpAssigneeRealName +
+                                    '</div><div class="task-timeline-body">' + tmpRemark +
+                                    '</div></div>';
+                            }
+                            timelineHtml += '</div></li>';
+                        }
+                    }
+
+                    timelineHtml += '</ul>';
+                    $('#task-timeline').html(timelineHtml);
+                } else {
+                    layer.msg('待办任务流程加载失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            });
+            // 获取待办任务处理人意见区数据
+            admin.req('/api-edu/ppap/activiti-task/processing-records', {
+                processInstanceId: processInstanceId
+            }, function (res) {
+                var records = res.data;
+                // 不显示 status 为 0 的数据，0 为待办、1 为已办
+                if (res.ok) {
+                    var recordsData = res.data,
+                        recordsHtml = '';
+                    processingRecords = recordsData;
+                    for (var i = 0; i < recordsData.length; i++) {
+                        var tmp = recordsData[i];
+                        if (tmp.status === '0') {
+                            continue;
+                        }
+                        var tmpAssigneeName = tmp.assigneeName,
+                            tmpComment = tmp.comment ? tmp.comment : '暂无意见',
+                            tmpFinishTimeStr = tmp.finishTimeStr;
+                        recordsHtml +=
+                            '<div class="task-body-container"><div><img src="../../assets/images/avatar.png"><a>' +
+                            tmpAssigneeName + '</a><strong>已处理</strong><span>' + tmpFinishTimeStr +
+                            '</span></div><p>' + tmpComment + '<hr></p></div>';
+                    }
+                    recordsHtml && $('#task-records').html(recordsHtml);
+                } else {
+                    layer.msg('待办任务处理人意见加载失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            });
+
+            // 获取任务节点可选的操作类型，操作类型指同意、回退等
+            admin.req('/api-edu/activiti-task/' + id + '/operations', {}, function (res) {
+                if (res.ok) {
+                    var operationsData = res.data,
+                        operationsHtml = '';
+                    for (var i = 0; i < operationsData.length; i++) {
+                        var tmp = operationsData[i];
+                        operationsHtml += '<input type="radio" name="approve" value="' + tmp.code +
+                            '" title="' + tmp.name + '" lay-verify="required">';
+                    }
+                    $('#task-operations').html(operationsHtml);
+                    // 渲染 form 元素
+                    form.render();
+                    // 启用提交按钮
+                    $('button[lay-filter="task-complete"]').removeAttr("disabled");
+                } else {
+                    layer.msg('待办任务操作列表加载失败，无法处理任务！', {
+                        icon: 5
+                    }, function () {
+                        admin.closePopupCenter();
+                    });
+                }
+            });
+
+            // 提交 处理任务
+            // 暂存右侧处理意见区的数据
+            var processDataCache = null;
+            form.on('submit(task-complete)', function (data) {
+                var field = data.field;
+                // 判断是否选择了操作类型
+                if ($('input[name="approve"]').length > 0 && !field.approve) {
+                    return layer.msg('请选择操作类型！', {
+                        icon: 5
+                    });
+                }
+                processDataCache = field;
+                $('#adcformdesign-submit').click();
+            });
+            // 获取左侧表单数据 并提交请求
+            form.on('submit(adcformdesign)', function (data) {
+                var formData = ADCFormDesignHelper.formdataGet('#task-html', data.field);
+                // 发送请求
+                admin.req('/api-edu/activiti-task/complete', {
+                    comment: processDataCache.comment,
+                    formContent: JSON.stringify(formData),
+                    taskId: id,
+                    variables: {
+                        approve: processDataCache.approve
+                    }
+                }, function (res) {
+                    if (res.ok) {
+                        layer.msg('处理任务成功！', {
+                            icon: 1
+                        });
+                        admin.finishPopupCenter();
+                    } else {
+                        layer.msg('处理任务失败：' + res.message, {
+                            icon: 5
+                        });
+                    }
+                }, {
+                    method: 'post'
+                });
+            });
+
+            // 事件监听
+            $('a[lay-filter^="task-control"]').on('click', function () {
+                var type = $(this).attr('lay-filter').split('-')[2];
+                taskControl[type](this);
+
+                // layer.msg($(this).text() + type);
+            });
+
+            // 事件处理
+            var taskControl = {
+                // 加签
+                // DONE: 弹窗不居中
+                sign: function () {
+                    var layerWidth = window.innerWidth > 600 ? '480px' : '80%';
+                    var layerHeight = window.innerWidth > 600 ? '' : '300px';
+                    var param = {
+                        title: '加签',
+                        type: 1,
+                        area: [layerWidth, layerHeight],
+                        content: '<div class="layui-form" id="taskControlTpl1" style="padding: 20px 0;">\
+                                    <div class="layui-form-item">\
+                                        <label class="layui-form-label">请选择人员</label>\
+                                        <div class="layui-input-block">\
+                                            <input type="text" name="taskControlTpl1" placeholder="点击选择人员" class="layui-input" readonly style="cursor: pointer;">\
+                                        </div>\
+                                    </div>\
+                                    <div class="layui-form-item">\
+                                        <label class="layui-form-label">流程模式</label>\
+                                        <div class="layui-input-block">\
+                                            <input type="radio" name="signFlag" value="2" title="前并发">\
+                                            <input type="radio" name="signFlag" value="0" title="后串发">\
+                                            <input type="radio" name="signFlag" value="1" title="后并发">\
+                                        </div>\
+                                    </div>\
+                                </div>',
+                        btn: ['确定', '取消'],
+                        yes: function (index, layero) {
+                            // 获取人员 ID 和 加签类型
+                            var assigneeListStr = $(
+                                '#taskControlTpl1 input[name="taskControlTpl1"]').data(
+                                'ids');
+                            var signFlag = $('input:radio[name="signFlag"]:checked').val();
+                            if (assigneeListStr === '' || typeof assigneeListStr ===
+                                'undefined') {
+                                return layer.msg('请选择人员', {
+                                    icon: 0
+                                });
+                            }
+                            if (typeof signFlag === 'undefined') {
+                                return layer.msg('请选择流程模式', {
+                                    icon: 0
+                                });
+                            }
+                            if (signFlag === '2') {
+                                // 前串发
+                                admin.req('/api-edu/activiti-task/front/countersign?taskId=' +
+                                    id + '&assigneeListStr=' + assigneeListStr, {},
+                                    function (res) {
+                                        if (res.ok) {
+                                            layer.msg('加签成功！', {
+                                                icon: 1
+                                            });
+                                            admin.finishPopupCenter();
+                                            return layer.close(index);
+                                        } else {
+                                            layer.msg('加签失败：' + res.message, {
+                                                icon: 5
+                                            });
+                                        }
+                                    }, {
+                                        method: 'post'
+                                    });
+                            } else {
+                                // 后串发 后并发
+                                admin.req('/api-edu/activiti-task/after/countersign?taskId=' +
+                                    id + '&assigneeListStr=' + assigneeListStr +
+                                    '&signFlag=' + signFlag, {},
+                                    function (res) {
+                                        if (res.ok) {
+                                            layer.msg('加签成功！', {
+                                                icon: 1
+                                            });
+                                            admin.finishPopupCenter();
+                                            return layer.close(index);
+                                        } else {
+                                            layer.msg('加签失败：' + res.message, {
+                                                icon: 5
+                                            });
+                                        }
+                                    }, {
+                                        method: 'post'
+                                    });
+                            }
+                        },
+                        success: function () {
+                            form.render();
+                            $('#taskControlTpl1 input[name="taskControlTpl1"]').on('click',
+                                function () {
+                                    // 先获取已选择的数据
+                                    var ids = $(
+                                        '#taskControlTpl1 input[name="taskControlTpl1"]'
+                                    ).data('ids');
+                                    var names = $(
+                                        '#taskControlTpl1 input[name="taskControlTpl1"]'
+                                    ).data('names');
+                                    var oldDatas = [];
+                                    if (ids && names) {
+                                        ids = ids.split(',');
+                                        names = names.split(',');
+                                        for (var i = 0; i < ids.length; i++) {
+                                            oldDatas.push({
+                                                id: ids[i],
+                                                name: names[i]
+                                            });
+                                        }
+                                    }
+
+                                    // 弹出选人窗口，在回掉函数中获取选中人的数据
+                                    taskControl.personnelSelect({
+                                        data: oldDatas
+                                    }, function (
+                                        data) {
+                                        // 获取到选中人的信息
+                                        var selectedData = data,
+                                            selectedIds = [],
+                                            selectedNames = [];
+                                        for (var i = 0; i < selectedData.length; i++) {
+                                            selectedNames.push(selectedData[i].name);
+                                            selectedIds.push(selectedData[i].id);
+                                        }
+                                        // 将选中人的信息填入输入框
+                                        $(
+                                            '#taskControlTpl1 input[name="taskControlTpl1"]'
+                                        ).val(selectedNames.join('，'));
+                                        $(
+                                            '#taskControlTpl1 input[name="taskControlTpl1"]'
+                                        ).data('ids', selectedIds.join(','));
+                                        $(
+                                            '#taskControlTpl1 input[name="taskControlTpl1"]'
+                                        ).data('names', selectedNames.join(
+                                            ','));
+                                    });
+                                });
+                        }
+                    };
+                    var layerIns001 = layer.open(param);
+                },
+                // 选人插件
+                // 调用该方法可以调起 iframe 弹窗
+                // 在弹窗内进行人员选择
+                // 该方法接受两个个参数：
+                // 1. 数据对象，所有需要传递到选人弹窗的数据
+                // 2. 回掉函数，会在选完人点击确定的时候将选中的数据以数组的方式回传
+                personnelSelect: function (data, callback) {
+                    var layerIns100 = layer.open({
+                        type: 2,
+                        id: 'personnelSelect',
+                        title: '请选择',
+                        content: 'components/tpl/task_personnel_select.html',
+                        area: ['96%', '80%'],
+                        btn: ['确定', '取消'],
+                        yes: function (index, layero) {
+                            var finalData = $('#personnelSelect iframe')[0].contentWindow
+                                .task_personnel_select.finish();
+                            // 获取到数据，执行回掉函数
+                            callback && typeof callback === 'function' && callback(
+                                finalData);
+                            layer.close(index);
+                        },
+                        success: function () {
+                            form.render();
+                            // 执行 iframe 内的方法
+                            $('#personnelSelect iframe')[0].contentWindow.task_personnel_select
+                                .init(data);
+                        },
+                        resize: false
+                    });
+                },
+                // 常用语
+                common: function (that) {
+                    // 常用语数组，添加常用语直接向数组内加
+                    var commonTipsArr = [
+                            '同意',
+                            '同意，按规定办理',
+                            '按流程办理',
+                            '交相关部门处理',
+                            '按单位相关规章制度办理'
+                        ],
+                        commonTipsStr = '';
+                    $.each(commonTipsArr, function (index, value) {
+                        commonTipsStr += '<li><a href="javascript:;">' + value +
+                            '</span></li>';
+                    });
+                    var tipIndex = layer.tips(
+                        '<ul id="common-tips">' + commonTipsStr + '</ul>',
+                        that, {
+                            time: 0,
+                            skin: 'task-common-tips',
+                            shade: 0.001,
+                            shadeClose: true,
+                            success: function () {
+                                $(document).on("click", "#common-tips li", function () {
+                                    var commonText = $(this).text();
+                                    $('[name="comment"]').val(commonText);
+                                    layer.close(tipIndex)
+                                });
+                            }
+                        });
+                },
+                // 明细日志
+                records: function () {
+                    layer.open({
+                        title: '明细日志',
+                        type: 1,
+                        id: 'process-mine-pending-tasks-records',
+                        content: '<div class="layui-tab">\
+                                        <ul class="layui-tab-title" style="padding: 0 10px;">\
+                                            <li class="layui-this">处理明细</li>\
+                                            <li>流程日志</li>\
+                                            <li>催办日志</li>\
+                                        </ul>\
+                                        <div class="layui-tab-content" style="height:auto;">\
+                                            <div class="layui-tab-item layui-show"><table id="process-mine-pending-tasks-records-deal" lay-filter="process-mine-pending-tasks-records-deal"></table></div>\
+                                            <div class="layui-tab-item">流程日志</div>\
+                                            <div class="layui-tab-item">催办日志</div>\
+                                        </div>\
+                                    </div>',
+                        area: ['90%', '80%'],
+                        resize: false,
+                        success: function () {
+                            var h = $('#process-mine-pending-tasks-records').height() -
+                                101;
+                            table.render({
+                                elem: '#process-mine-pending-tasks-records-deal',
+                                id: 'process-mine-pending-tasks-records-deal',
+                                data: processingRecords,
+                                height: h,
+                                cols: [
+                                    [{
+                                        type: 'numbers'
+                                    }, {
+                                        field: 'name',
+                                        title: '节点名称',
+                                        minWidth: 300
+                                    }, {
+                                        field: 'createTimeStr',
+                                        title: '开始时间',
+                                        minWidth: 180
+                                    }, {
+                                        field: 'finishTimeStr',
+                                        title: '结束时间',
+                                        minWidth: 180
+                                    }, {
+                                        field: 'assigneeName',
+                                        title: '负责人',
+                                        minWidth: 100
+                                    }, {
+                                        title: '处理结果',
+                                        templet: function (d) {
+                                            return d.status === '0' ?
+                                                '<span style="color: #F14E10;">处理中</span>' :
+                                                '<span style="color: #4D9A00;">完成</span>';
+                                        },
+                                        minWidth: 100,
+                                        align: 'center'
+                                    }, {
+                                        field: 'comment',
+                                        title: '处理意见',
+                                        minWidth: 180
+                                    }]
+                                ],
+                                cellMinWidth: 60,
+                                page: {
+                                    layout: ['limit', 'count', 'prev', 'page',
+                                        'next'
+                                    ]
+                                },
+                                done: function () {
+                                    // TODO: [BUG] 明细日志中表格滚动条和 Tab容器高度异常
+                                }
+                            });
+                        }
+                    });
+                },
+                // 转办
+                turn: function () {
+                    var layerWidth = window.innerWidth > 600 ? '480px' : '80%';
+                    var layerHeight = window.innerWidth > 600 ? '' : '300px';
+                    var param = {
+                        title: '转办',
+                        type: 1,
+                        area: [layerWidth, layerHeight],
+                        content: '<div class="layui-form" id="taskControlTpl2" style="padding: 20px 0;">\
+                                    <div class="layui-form-item">\
+                                        <label class="layui-form-label">请选择人员</label>\
+                                        <div class="layui-input-block">\
+                                            <input type="text" name="taskControlTpl2" placeholder="点击选择人员" class="layui-input" readonly style="cursor: pointer;">\
+                                        </div>\
+                                    </div>\
+                                </div>',
+                        btn: ['确定', '取消'],
+                        yes: function (index, layero) {
+                            // 获取人员 ID 和 加签类型
+                            var assigneeListStr = $(
+                                '#taskControlTpl2 input[name="taskControlTpl2"]').data(
+                                'ids');
+                            if (assigneeListStr === '' || typeof assigneeListStr ===
+                                'undefined') {
+                                return layer.msg('请选择人员', {
+                                    icon: 0
+                                });
+                            }
+                            // DONE: 发请求
+                            if (assigneeListStr.indexOf(',') >= 0) {
+                                return layer.msg('转办只可选择一个人员', {
+                                    icon: 0
+                                });
+                            }
+                            admin.req('/api-edu/activiti-task/transfer?taskId=' + id +
+                                '&assignee=' + assigneeListStr + '&orignalAssignee=' +
+                                raw_data.assignee, {},
+                                function (res) {
+                                    if (res.ok) {
+                                        layer.msg('转办成功！', {
+                                            icon: 1
+                                        });
+                                        admin.finishPopupCenter();
+                                        return layer.close(index);
+                                    } else {
+                                        layer.msg('转办失败：' + res.message, {
+                                            icon: 5
+                                        });
+                                    }
+                                }, {
+                                    method: 'post'
+                                });
+                        },
+                        success: function () {
+                            form.render();
+                            $('#taskControlTpl2 input[name="taskControlTpl2"]').on('click',
+                                function () {
+                                    // 先获取已选择的数据
+                                    var ids = $(
+                                        '#taskControlTpl2 input[name="taskControlTpl2"]'
+                                    ).data('ids');
+                                    var names = $(
+                                        '#taskControlTpl2 input[name="taskControlTpl2"]'
+                                    ).data('names');
+                                    var oldDatas = [];
+                                    if (ids && names) {
+                                        ids = ids.split(',');
+                                        names = names.split(',');
+                                        for (var i = 0; i < ids.length; i++) {
+                                            oldDatas.push({
+                                                id: ids[i],
+                                                name: names[i]
+                                            });
+                                        }
+                                    }
+
+                                    // 弹出选人窗口，在回掉函数中获取选中人的数据
+                                    taskControl.personnelSelect({
+                                        data: oldDatas
+                                    }, function (
+                                        data) {
+                                        // 获取到选中人的信息
+                                        var selectedData = data,
+                                            selectedIds = [],
+                                            selectedNames = [];
+                                        for (var i = 0; i < selectedData.length; i++) {
+                                            selectedNames.push(selectedData[i].name);
+                                            selectedIds.push(selectedData[i].id);
+                                        }
+                                        // 将选中人的信息填入输入框
+                                        $(
+                                            '#taskControlTpl2 input[name="taskControlTpl2"]'
+                                        ).val(selectedNames.join('，'));
+                                        $(
+                                            '#taskControlTpl2 input[name="taskControlTpl2"]'
+                                        ).data('ids', selectedIds.join(','));
+                                        $(
+                                            '#taskControlTpl2 input[name="taskControlTpl2"]'
+                                        ).data('names', selectedNames.join(
+                                            ','));
+                                    });
+                                });
+                        }
+                    };
+                    var layerIns002 = layer.open(param);
+                }
+            };
+
+        });
+    };
+</script>

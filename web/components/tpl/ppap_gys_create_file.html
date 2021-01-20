@@ -1,0 +1,180 @@
+<div class="layui-tpl-container">
+    <div class="layui-form p-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span>文件名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="filename" name="filename" lay-verify="required"  placeholder="请输入文件名称" class="layui-input">
+            </div>
+        </div>
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn layui-btn-normal btn1" lay-submit lay-filter="fileSave" >保存</button>
+            <button class="layui-btn layui-btn-normal btn2" lay-submit lay-filter="fileUpdate">保存</button>
+            <button class="layui-btn layui-btn-primary"  id="btn-fileCancle" >取消</button>
+        </div>
+        <input type="hidden" id="filekey">
+    </div>
+</div>
+<script>
+
+    layui.use(['table','laydate'], function () {
+        var table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            laydate = layui.laydate
+            form.render('select');
+        $('#btn-fileCancle').click(function () {
+            admin.closePopupCenter();
+
+        })
+    })
+
+    // ppap文件要求提交取消
+    form.on('submit(fileCancle)', function () {
+        admin.closePopupCenter();
+    });
+
+    form.on('submit(fileSave)', function (data) {
+        var fileidentifier = data.field.fileidentifier;
+        var filename = data.field.filename;
+        data = {
+            fileidentifier: fileidentifier,
+            filename: filename,
+            taskorderkey: param
+        }
+        admin.req('/api/ppap/submitfiletemplate/createSubmitfiletemplate', data, function (data) {
+            queryFileTable();
+            admin.closePopupCenter();
+            tes.alert('' + data.message, {
+                icon: 1
+            });
+
+            // admin.finishPopupCenter();
+        }, {
+            method: 'POST'
+        });
+    });
+
+
+    /**
+     *
+     * 刷新文件table
+     */
+    function queryFileTable() {
+
+        admin.req('/api/ppap/taskorder/supplierCommitFileSelect',{taskorderkey: param}, function (data) {
+            table.render({
+                elem: '#ppapFile'
+                ,height: 312
+                ,data: data.data.submitfiletemplateVOS
+                ,limit:data.data.submitfiletemplateVOS.length
+                ,page: false //开启分页
+                ,cols: [[ //表头
+                    {type:'numbers', title: '序号', width:80}
+                    /*杨琴琴 2019-04-29 去掉文件标识*/
+                    /*,{field: 'fileidentifier', title: '文件标识', width:120,align:'center',templet:function (d) {
+                        if(d.fileidentifier == "*"){
+                            return '<div style="background-color: #c2c2c2">*</div>'
+                        }else if(d.fileidentifier == "S"){
+                            return '<div style="background-color:#F0F8FF">S</div>'
+                        }else {
+                            return '<div>R</div>'
+                        }
+
+                        }}*/
+                    ,{field: 'filename', title: '文件名',width:300}
+                    ,{title: '附件',templet:function (d) {
+                        var str ='';
+                        /*杨琴琴  2019-04-30 不通过文件标红*/
+                        for (var i=0;i<d.submitfileEOList.length;i++){
+                            str +='<div class="layui-inline" style="position: relative;height: 42px;width: 35px;margin-bottom: 23px;">\n' +
+                                '        <div class="fileimg">\n' +
+                                '            <a title="'+d.submitfileEOList[i].uploadfilename+'"><i class="layui-icon" style="font-size: 30px">&#xe655;</i></a>\n' +
+                                '            <a style="position: absolute;left: 7px;top: 25px;cursor:pointer;title:"删除";" onclick="deleteFile('+d.submitfileEOList[i].submitfilekey+')"><i class="layui-icon" style="font-size: 14px;color: black;">&#x1006;</i></a>\n' +
+                                '        </div>\n' +
+                                '    </div>'
+
+                        }
+                        /*  return str + '<div class="layui-inline">' +
+                              '  <form id="uploadForm" enctype="multipart/form-data">\n' +
+                              '        <input type="file" id="file_'+d.filekey+'" name="img" multiple="multiple"/>\n' +
+                              '        <input type="button" value="上传" onclick="doUpload('+d.filekey+')">\n' +
+                              '    </form></div>\n'*/
+                        //by ma 2019-03-13
+                        return str +'<button type="button" class="layui-btn layui-btn-normal upfile" style="float: right;margin-top: 10px;margin-bottom: 10px;"  id="test_'+d.filekey+'">\n' +
+                            '  <i class="layui-icon">&#xe67c;</i>上传文件\n' +
+                            '</button><br /><label class="file-tip" title="文件支持：doc、docx、xls、xlsx、ppt、pptx、png、gif、pdf、jpg;单个文件大小不超过20M">文件支持：doc、docx、xls、xlsx、ppt、pptx、png、gif、pdf、jpg;单个文件大小不超过20M</label>'
+
+                    }
+                    }
+                    /*杨琴琴 2019-04-29 新增文件确认列 显示文件是否通过   说明回显SQE提交内容  不可编辑*/
+                    ,{field: 'singlefilestatus',  title: '文件确认', width:120,align:'center', templet:function (d) {
+                        if(d.singlefilestatus == null || d.singlefilestatus == '') {
+                            return '';
+                        }else if(d.singlefilestatus == 2) {
+                            return '不通过';
+                        } else {
+                            return '通过';
+                        }
+                    }}
+                    ,{field: 'note',width:120, title: '说明',align:'center'}
+                    /*,{field: 'note',width:120, title: '说明(非必需)',templet:function (d) {
+                        if(d.note == null || d.none == 'null'){
+                            return '<input type="text" value="" onchange="fileUpdate('+d.filekey+',this)" class="input-style-s">'
+                        }else {
+                            return '<input type="text" value="'+d.note+'" onchange="fileUpdate('+d.filekey+',this)" class="input-style-s">'
+                        }
+
+                        }
+                    }*/
+                ]]
+                ,done: function(res, curr, count){
+                    $(".upfile").each(function (index, item) {
+                        var id = item.id.split('_')[1];
+                        upload.render({
+                            elem: this//绑定元素
+                            ,url: admin.formatUrl('/api/ppap/taskorder/supplierCommitFileUpload') //上传接口
+                            ,accept: 'file' //普通文件
+                            //by ma 2019-03-13
+                            ,exts: 'doc|docx|xls|xlsx|ppt|pptx|png|gif|pdf|jpg|JPG'
+                            ,size: '20000'
+                            ,multiple: false
+                            ,number: 1
+                            ,data: {filekey: id}
+                            ,done: function(res, index, upload){
+                                //by ma 2019/03/09 上传文件记录上传按钮id，为了刷新表格定位到上传行
+                                fileHeightFlag  = this.item.attr("id");
+                                //udated by qitian 2019-01-15
+                                if (res.respCode != -1) {
+                                    queryFileTable();
+                                } else {
+                                    tes.alert('上传失败，请稍后重试',{icon: 5});
+                                }
+                            }
+                            ,error: function(){
+                                //请求异常回调
+                            }
+                        })
+                    })
+                    //by ma 2019/03/09 上传文件刷新表格定位到上传行
+                    setTimeout(function () {
+                        if(fileHeightFlag!="") {
+                            $('#'+fileHeightFlag+'')[0].scrollIntoView();
+                            fileHeightFlag = "";
+                        }
+                    },1);
+
+                }
+            });
+
+        }, {
+            method: 'POST'
+        });
+
+    }
+
+
+
+</script>

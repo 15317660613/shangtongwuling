@@ -1,0 +1,24 @@
+{
+  "code": "0",
+  "msg": "",
+  "count": "1",
+  "data": [{"earlyWarningState":"Y",
+    "approvalType":"aaaa",
+    "taskNumber":"aaaa",
+    "createTime":"2018-12-12",
+    "listNumber":"aaaa",
+    "itemModel":"aaaa",
+    "supplierCode":"aaaa",
+    "supplierName":"aaaa",
+    "riskCheckResult":"aaaa"
+  },{"earlyWarningState":"Y",
+    "approvalType":"aaaa",
+    "taskNumber":"aaaa",
+    "createTime":"2018-12-12",
+    "listNumber":"aaaa",
+    "itemModel":"aaaa",
+    "supplierCode":"aaaa",
+    "supplierName":"aaaa",
+    "riskCheckResult":"aaaa"
+  }]
+}

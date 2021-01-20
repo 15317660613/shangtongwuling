@@ -1,0 +1,2247 @@
+<!--
+File   : project_tracking_list_details_1.html
+Created: 2018-12-11 14:20
+Author : Liu Huiwen
+Description: 项目单详情1
+-----
+Last Modified: 2018-12-21 09:00
+Modified By  : Qitian
+Description: 页面修改、js逻辑控制、前后端接口对接
+-----
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项目单详情</title>
+    <!-- 马 2019-03-12 项目详情查阅增加关闭按钮，操作舒适性优化-->
+    <link rel="stylesheet" href="../../assets/css/frame.css"/>
+    <!-- 马 2019-03-12 结束-->
+    <style>
+        /* updated by qitian 2018-12-20*/
+        .layui-table-fixed .layui-table-header th {
+            height: 38px !important;
+            background-color: #fafafa;
+        }
+
+        .layui-table-fixed {
+            top: 38px;
+        }
+
+        /*updated by qitian 2019-01-23 bug编号13897*/
+        .linkage-time-block .layui-input-block {
+            line-height: 30px;
+        }
+
+        .layui-input-date {
+            text-align: center;
+            height: 27px;
+            width: 80px;
+            padding: 0;
+        }
+
+        .layui-table-cell span {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .layui-table-fixed {
+            background: #fff;
+        }
+
+        .layui-table-box {
+            overflow-x: auto;
+        }
+
+        .layui-table-header {
+            overflow: initial;
+        }
+
+        table {
+            width: 100% !important;
+        }
+
+        select {
+            width: 100%;
+            height: 100%;
+        }
+
+        .layui-card-body {
+            height: auto;
+        }
+
+        /*.layui-form-item{*/
+        /*margin-bottom: 5px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div class="layui-card" style="height: 98%;">
+    <div class="layui-card-header">项目单详情</div>
+    <!-- 卡片容器 -->
+    <div class="layui-card-body" style="background-color:  white;">
+        <!-- 数据表格顶部控制栏 -->
+        <div class="layui-form ">
+            <!--根据整车和发动机选项，显示不同的头部-->
+            <div class="linkage-time-block">
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="pfollowcode_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="pfollowcode"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="ots1_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="ots1"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="ots2_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="ots2"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="ns_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="ns"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="stime_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="stime"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item">
+                            <label id="soptime_label" class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <span id="soptime"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 下部表格容器 -->
+        <div id="detail-table-round">
+            <table id="project-detail1-table" lay-filter="project-detail1-table"></table>
+        </div>
+        <!--页面显示--页面底部按钮-->
+        <!-- <div class="operate-btns" style="text-align: left;margin-top: 20px;">
+             <button type="button" onclick="javascript:window.history.go(-1);" class="layui-btn layui-btn-primary detail">返回</button>
+         </div>-->
+    </div>
+    <!--马 2019-3-10 15:09 bug修复 项目信息维护-项目单详情-主表/副表-返回按钮显示问题 【15419】-->
+    <!--<div class="operate-btns" style="text-align: left;padding-bottom: 5px;">
+        <button type="button" onclick="javascript:window.history.go(-1);" class="layui-btn layui-btn-primary detail">返回</button>
+    </div>-->
+    <!---马 2019-3-10 15:09 bug修复 结束-->
+</div>
+
+<script>
+    //路径参数---declared by qitian 20181216
+    var param = window.location.hash;
+    //项目单主键
+    var PFOLLOWKEY;
+    //发布状态
+    var status = '';
+    //项目单状态标识，规则【0：正常；1：取消或暂停; 3：来源页面为项目查询】；
+    // 当维护页面跳转，项目单为不是取消或暂停状态时，项目单中的零件可编辑，并且需要根据警示字段标红
+    // 当维护页面跳转，项目单为取消或暂停状态时，项目单中的零件全部不可编辑，并且置灰
+    // 当查询页面跳转，项目单不可编辑，但是需要根据警示字段标红
+    var PFOLLOW_STATUS = 0;
+    //获取url参数
+    if (param.indexOf('?') === -1 || param.indexOf('?') == param.indexOf('&') - 1 || param.indexOf('&') === -1 || param.indexOf('&') == param.length - 1) {
+        alert('抱歉，您没有访问此页面的权限！');
+        window.history.go(-1);
+    } else {
+        param = param.split('?')[1];
+        PFOLLOWKEY = param.split('&')[0];
+        if (decodeURI(param.split('&')[1]) == '开发中' || decodeURI(param.split('&')[1]) == '已投产' || decodeURI(param.split('&')[1]) == '暂停' || decodeURI(param.split('&')[1]) == '取消' || decodeURI(param.split('&')[1]) == 'QT') {
+            PFOLLOW_STATUS = (decodeURI(param.split('&')[1]) == '取消' || decodeURI(param.split('&')[1]) == '暂停') ? 1 : 0;
+        } else {
+            alert('抱歉，您没有访问此页面的权限！');
+            window.history.go(-1);
+        }
+    }
+    //updated by qitian 2019-01-24 15:40 当项目为取消/暂停状态并且从查询页面跳转而来时，需要颜色标识但不可编辑
+    if (PFOLLOW_STATUS == 0 && localStorage.getItem('EDIT_LICENSE')) {
+        if (localStorage.getItem('EDIT_LICENSE') === 'FALSE') {
+            PFOLLOW_STATUS = 3;
+        }
+    }
+    //刷新表格地址
+    var loadTable;
+    layui.use(['table', 'laydate', 'form', 'layer'], function () {
+        var table = layui.table,
+            admin = layui.adc,
+            form = layui.form,
+            layer = layui.layer,
+            laydate = layui.laydate;
+        //刷新表格方法赋值
+        /**
+         * 当项目为取消/暂停状态时，整个列表全部置灰置D
+         * 其他情况下各个字段的额标红置灰说明：
+         * 1、增A/删D：
+         D：
+         （1）再次导入，如果上次有本次没有的需要标红，置于D中的顶部
+         （2）SQE从零件库中删除的零件，标红置列表顶部
+         （3）其余清空均置灰置底
+         A：
+         （1）再次导入，上次没有但这次有的，标红置顶
+         （2）其余情况均无颜色
+
+         2、SQ科室/供应商/PE：如果数据库中不存在或者不对应，则标红；其余均无颜色
+
+         3、SQE1/SQE2/SQE3：
+         （1）如果数据库中不存在或者不对应，则标红
+         （2）如果零件已经进入流程，但是被删除了，则标红
+         （3）如果零件被删除了，对应的SQE显示空，无颜色
+         */
+        loadTable = function () {
+            //需要红色背景颜色的单元格
+            var redList = {
+                per_: [],
+                sqoffice_: [],
+                sqe1_: [],
+                sqe2_: [],
+                sqe3_: [],
+                suppliername1_: [],
+                suppliername2_: [],
+                suppliername3_: [],
+                suppliernumber1_: [],
+                suppliernumber2_: [],
+                suppliernumber3_: [],
+                addanddel_selected_: [],
+                approvalStatus_: [],
+                opapppapapproval_: [],
+                partscode_: []
+            };
+            //需要灰色背景颜色的单元格  updated by qitian 2019-01-24 除二次导入没有一次导入的需要置红至D中的顶部和被删除标红置顶外，其余所有D都需要标灰置底
+            var grayList = {addanddel_selected_: []};
+            //可编辑表格，部分列需要状态警示
+            var editCols = [
+                [
+                    {align: 'center', title: '基础信息', rowspan: 1, colspan: 16}
+                    , {align: 'center', title: '零件批准计划', rowspan: 1, colspan: 11}
+                    , {align: 'center', title: 'OTS认可', rowspan: 1, colspan: 6}
+                    , {align: 'center', title: '外观认可', rowspan: 1, colspan: 5}
+                    , {align: 'center', title: 'FE认可', rowspan: 1, colspan: 5}
+                    /* , {align: 'center', title: '基础信息', rowspan: 1, colspan: 6}*/
+                ],
+                [
+                    {type: 'numbers', title: '序号', rowspan: 1, align: 'center', fixed: 'left'}
+                    , {
+                    field: 'partscode',
+                    title: '零件号',
+                    id: 'partNum',
+                    rowspan: 1,
+                    align: 'center',
+                    edit: 'text',
+                    fixed: 'left',
+                    templet: function (d) {
+                        if (d.isupdateparts == 2) {
+                            /*****杨琴琴  2019-03-14  修改零件号标红判断条件*****/
+                            redList.partscode_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="partscode_' + d.LAY_TABLE_INDEX + '">' + d.partscode + '</span>'
+                        } else {
+                            return d.partscode;
+                        }
+                    }
+                }
+                    , {field: 'partsname', title: '零件名称', rowspan: 1, align: 'center', edit: 'text', fixed: 'left'}
+                    , {
+                    field: 'addanddel',
+                    title: '增A/删D',
+                    rowspan: 1,
+                    fixed: 'left',
+                    align: 'center',
+                    minWidth: 120,
+                    templet: function (d) {
+                        //被删除的需要标红/两次导入的不同的需要标红
+                        //d.lastimporttag == 2 || d.isdelete == 1
+                        if (d.lastimporttag == 3) {
+                            redList.addanddel_selected_.push(d.LAY_TABLE_INDEX);
+                            // updated by qitian 2018-12-20
+                            return '<select name="addanddel" onchange="setStatus(\'addanddel\',\'' + d.LAY_TABLE_INDEX + '\')" id="addanddel_selected_' + d.LAY_TABLE_INDEX + '" data=\'' + JSON.stringify(d) + '\' style="width: 100%" lay-ignore="">' +
+                                '<option value="" ' + (!d.addanddel ? 'selected' : '') + '>-- 请选择 --</option>' +
+                                '<option value="A" ' + (d.addanddel == 'A' && d.isdelete != 1 ? 'selected' : '') + '>A</option>' +
+                                '<option value="D" ' + (d.addanddel == 'D' || d.isdelete == 1 ? 'selected' : '') + '>D</option>' +
+                                '</select>'
+                        } else if (d.addanddel == 'D') {// updated by qitian 2019-01-24 除二次导入没有一次导入的需要置红至D中的顶部和被删除标红置顶外，其余所有D都需要标灰置底
+                            grayList.addanddel_selected_.push(d.LAY_TABLE_INDEX);
+                            return '<select name="addanddel" onchange="setStatus(\'addanddel\',\'' + d.LAY_TABLE_INDEX + '\')" id="addanddel_selected_' + d.LAY_TABLE_INDEX + '" data=\'' + JSON.stringify(d) + '\' style="width: 100%" lay-ignore="">' +
+                                '<option value="" ' + (!d.addanddel ? 'selected' : '') + '>-- 请选择 --</option>' +
+                                '<option value="A" ' + (d.addanddel == 'A' && d.isdelete != 1 ? 'selected' : '') + '>A</option>' +
+                                '<option value="D" ' + (d.addanddel == 'D' || d.isdelete == 1 ? 'selected' : '') + '>D</option>' +
+                                '</select>'
+                        } else {
+                            return '<select name="addanddel" onchange="setStatus(\'addanddel\',\'' + d.LAY_TABLE_INDEX + '\')" id="addanddel_selected_' + d.LAY_TABLE_INDEX + '" data=\'' + JSON.stringify(d) + '\' style="width: 100%" lay-ignore="">' +
+                                '<option value="" ' + (!d.addanddel ? 'selected' : '') + '>-- 请选择 --</option>' +
+                                '<option value="A" ' + (d.addanddel == 'A' && d.isdelete != 1 ? 'selected' : '') + '>A</option>' +
+                                '<option value="D" ' + (d.addanddel == 'D' || d.isdelete == 1 ? 'selected' : '') + '>D</option>' +
+                                '</select>'
+                        }
+
+                    }
+                }
+                    //by 杨琴琴 2019-03-13  去掉SQ科室、PE、供应商信息的、SQE与上次信息填写不一致的标红
+                    //by ma 2019/03/11 去掉sq科室可编辑
+                    , {
+                    field: 'sqoffice',
+                    title: 'SQ科室',
+                    minWidth: 120,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        // 马 2019-03-17 当sqe为空的时候不标红
+                        if(d.sqe1 == null || d.sqe1 == '' || d.sqe1 == undefined) {
+                            return '';
+                        }else if (d.issqematches1 == 2) {
+                            redList.sqoffice_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="sqoffice_' + d.LAY_TABLE_INDEX + '">' + d.sqoffice + '</span>'
+                        }else {
+                            return d.sqoffice;
+                        }
+                    }
+                }
+                    , {
+                    field: 'sqe1', title: 'SQE1', rowspan: 1, align: 'center', edit: 'text', templet: function (d) {
+                        //sqe不存在的标红/已经进入流程，但是在零件库中被删除的需要标红
+                        //by ma 2019-03-14 修改如果零件进入待办sqe1标红 isupdatesqe1为2
+                        // 马 2019-03-17 当sqe为空的时候不标红
+                        if (d.sqe1 == null || d.sqe1 == '' || d.sqe1 == undefined) {
+                            return d.sqe1;
+                        } else if (d.lastimporttag1 == 3 || d.issqematches1 == 2) { //马 2019-3-12 14:06 bug修复 项目信息维护-项目管理主表-编辑SQE问题 【15617】
+                            redList.sqe1_.push(d.LAY_TABLE_INDEX);
+                            //updated by qitian 2019-01-29 bug编号13954
+                            return '<span id="sqe1_' + d.LAY_TABLE_INDEX + '">' + d.sqe1 + '</span>'
+                        } else {
+                            return d.sqe1;
+                        }
+                    }
+                }
+                    , {
+                    field: 'per', title: 'PE', rowspan: 1, align: 'center', edit: 'text', templet: function (d) {
+                        // 2019.03.28 张大伟 pe为空不标红
+                        if (d.per == null || d.per == '' || d.per == undefined) {
+                            return '';
+                        } else if (d.ispematches == 2) {
+                            redList.per_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="per_' + d.LAY_TABLE_INDEX + '">' + d.per + '</span>'
+                        } else {
+                            return d.per;
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliername1',
+                    title: '供应商1<br />(本行跟踪)',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-15 修改为 issupmatches1 =2 供应商标红（供应商不匹配）
+//                        if (d.lastimporttag1 == 3 || (d.lastimporttag1 == 2 && d.isupdatesup1 ==2)) {
+                        if (d.suppliername1 == null || d.suppliername1 == '') {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',1)\'>   </span>';
+                        } else if (d.issupmatches1 == 2) {
+                            redList.suppliername1_.push(d.LAY_TABLE_INDEX);
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',1)\' id="suppliername1_' + d.LAY_TABLE_INDEX + '">' + d.suppliername1 + '</span>'
+                        } else {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',1)\'>' + d.suppliername1 + '</span>';
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliernumber1', title: '供应商1代码', rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        //by ma 2019-03-15 修改为 issupmatches1 =2 供应商标红（供应商不匹配）
+                        //if (d.lastimporttag1 == 3 || (d.lastimporttag1 == 2 && d.isupdatesup1 ==2)) {
+                        if (d.suppliernumber1 == null || d.suppliernumber1 == '') {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',1)\'>   </span>';
+                        } else if (d.issupmatches1 == 2) {
+                            redList.suppliernumber1_.push(d.LAY_TABLE_INDEX);
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',1)\' id="suppliernumber1_' + d.LAY_TABLE_INDEX + '">' + d.suppliernumber1 + '</span>'
+                        } else {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',1)\'>' + d.suppliernumber1 + '</span>';
+                        }
+                    }
+                }
+                    // updated by qitian 2018-12-20
+                    , {
+                    field: 'suppliername2',
+                    title: '供应商2',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-16 修改bug 16116
+                        if (d.suppliername2 == null || d.suppliername2 == '') {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',2)\'></span>';
+                        } else if (d.issupmatches2 == 2) {
+//                        if (d.lastimporttag2 == 3 || (d.lastimporttag2 == 2 && d.isupdatesup2 ==2)) {
+                            redList.suppliername2_.push(d.LAY_TABLE_INDEX);
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',2)\' id="suppliername2_' + d.LAY_TABLE_INDEX + '">' + d.suppliername2 + '</span>'
+                        } else {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',2)\'>' + d.suppliername2 + '</span>';
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliernumber2', title: '供应商2代码', rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-16 修改bug 16116
+                        if (d.suppliernumber2 == null || d.suppliernumber2 == '') {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',2)\'></span>';
+                        } else if (d.issupmatches2 == 2) {
+                            //by ma 2019-03-13
+//                        if (d.lastimporttag2 == 3 || (d.lastimporttag2 == 2 && d.isupdatesup2 ==2)) {
+                            redList.suppliernumber2_.push(d.LAY_TABLE_INDEX);
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',2)\' id="suppliernumber2_' + d.LAY_TABLE_INDEX + '">' + d.suppliernumber2 + '</span>'
+                        } else {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',2)\'>' + d.suppliernumber2 + '</span>';
+                        }
+                    }
+                }
+                    , {
+                    field: 'sqe2', title: 'SQE2', rowspan: 1, align: 'center', edit: 'text', templet: function (d) {
+                        /*if (d.lastimporttag2 == 3 || d.issqematches2 == 3) {*///马 2019-3-12 14:06 bug修复 项目信息维护-项目管理主表-编辑SQE问题 【15617】
+                        /*杨琴琴 2019-04-29 修改主表中SQE错误不标红问题*/
+                        if (d.lastimporttag2 == 3 || d.issqematches2 == 2) {
+                            redList.sqe2_.push(d.LAY_TABLE_INDEX);
+                            //updated by qitian 2019-01-29 bug编号13954
+                            return '<span id="sqe2_' + d.LAY_TABLE_INDEX + '">' + d.sqe2 + '</span>'
+                        } else {
+                            return d.sqe2;
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliername3',
+                    title: '供应商3',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-16 修改bug 16116
+                        if (d.suppliername3 == null || d.suppliername3 == '') {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',3)\'></span>';
+                        } else if (d.issupmatches3 == 2) {
+//                        if (d.lastimporttag3 == 3 || (d.lastimporttag3 == 2 && d.isupdatesup3 ==2)) {
+                            redList.suppliername3_.push(d.LAY_TABLE_INDEX);
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',3)\' id="suppliername3_' + d.LAY_TABLE_INDEX + '">' + d.suppliername3 + '</span>'
+                        } else {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',3)\'>' + d.suppliername3 + '</span>';
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliernumber3', title: '供应商3代码', rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-16 修改bug 16116
+                        if (d.suppliernumber3 == null || d.suppliernumber3 == '') {
+                            return '';
+                        } else if (d.issupmatches3 == 2) {
+                            //by ma 2019-03-13
+//                        if (d.lastimporttag3 == 3 || (d.lastimporttag3 == 2 && d.isupdatesup3 ==2)) {
+                            redList.suppliernumber3_.push(d.LAY_TABLE_INDEX);
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',3)\' id="suppliernumber3_' + d.LAY_TABLE_INDEX + '">' + d.suppliernumber3 + '</span>'
+                        } else {
+                            return '<span onclick=\'chooseSupplier(' + JSON.stringify(d).replace(/\'/g, '') + ',3)\'>' + d.suppliernumber3 + '</span>';
+                        }
+                    }
+                }
+                    , {
+                    field: 'sqe3', title: 'SQE3', rowspan: 1, align: 'center', edit: 'text', templet: function (d) {
+                        /*if (d.lastimporttag3 == 3  || d.issqematches3 == 3) { *///马 2019-3-12 14:06 bug修复 项目信息维护-项目管理主表-编辑SQE问题 【15617】
+                        if (d.lastimporttag3 == 3 || d.issqematches3 == 2) {
+                            redList.sqe3_.push(d.LAY_TABLE_INDEX);
+                            //updated by qitian 2019-01-29 bug编号13954
+                            return '<span id="sqe3_' + d.LAY_TABLE_INDEX + '">' + d.sqe3 + '</span>'
+                        } else {
+                            return d.sqe3;
+                        }
+                    }
+                }
+                    , {field: 'ewocode', title: 'EWO编号', rowspan: 1, align: 'center', edit: 'text'}
+                    , {
+                    field: 'approvalStatus',
+                    title: 'OPAP/PPAP批准状态',
+                    minWidth: 170,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        /* redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: d.approvalStatus});
+                        if(d.approvalStatus == '4'){
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">OPAP临时批准</div>'
+                        }else if (d.approvalStatus == '5') {
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">OPAP不批准</div>'
+                        }else if (d.approvalStatus == '2') {
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP临时批准</div>'
+                        }else if (d.approvalStatus == '1') {
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP批准</div>'
+                        }else if (d.approvalStatus == '3') {
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP不批准</div>'
+                        }else if (d.approvalStatus == '6') {
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">正在进行中</div>'
+                        }else{
+                            return ''
+                        } */
+                        if(!!d.fppapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '1'});
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP批准</div>'
+                        }else if(!!d.sppapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '2'});
+                        	return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP临时批准</div>'
+                        }else if(!!d.opapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '4'});
+                        	return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">OPAP临时批准</div>'
+                        }else{
+                        	return ''
+                        }
+                    }
+                }
+                    /**马 2019-3-12 17:02 bug修复 项目信息维护-项目管理主表-回写PPAP计划最早-格式有误 【15616】**/
+                    /* , {field: 'lppap', title: 'PPAP计划最早', minWidth: 130, rowspan: 1, align: 'center'}*/
+                    //by ma 2019-03-18 修改ppap计划最早
+                    /*, {field: 'lppap', title: 'PPAP计划最早', minWidth: 130, rowspan: 1, align: 'center', templet: function (d) {
+                        return d.lppapSign ? d.lppapSign : '';
+                      }}*/
+                    /**马 2019-3-10 14:10 bug修复 结束**/
+                    , {
+                    field: 'opapppaprecognitionDelayReason',
+                    title: '超期备注',
+                    minWidth: 320,
+                    rowspan: 1,
+                    align: 'center'
+                }
+                    /*, {field: 'earliestSupplier', title: '最早批准供应商', minWidth: 130, rowspan: 1, align: 'center'}*/
+                    , {field: 'opapapprovalPCD', title: 'OPAP批准PCD', minWidth: 130, align: 'center'}
+                    //by ma 2019-03-29
+                    , {
+                    field: 'opapapprovalACD',
+                    title: 'OPAP批准ACD',
+                    minWidth: 130,
+                    align: 'center',
+                    templet: function (d) {
+                        return (d.opapapprovalACD ? new Date(d.opapapprovalACD).Format("yyyy-MM-dd") : '')
+                    }
+                }
+                    , {field: 'escalationRiskDes', title: '升级高风险描述', minWidth: 130, rowspan: 1, align: 'center'}
+                    , {field: 'sppapapprovalPCD', title: 'S-PPAP批准PCD', minWidth: 140, align: 'center'}
+                    //by ma 2019-03-29
+                    , {
+                    field: 'sppapapprovalACD',
+                    title: 'S-PPAP批准ACD',
+                    minWidth: 140,
+                    align: 'center',
+                    templet: function (d) {
+                        return (d.sppapapprovalACD ? new Date(d.sppapapprovalACD).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {field: 'provisionalApprovalWhy', title: '临时批准原因', minWidth: 140, align: 'center'}
+                    , {field: 'fppapapprovalPCD', title: 'F-PPAP批准PCD', minWidth: 140, align: 'center'}
+                    //by ma 2019-03-29
+                    , {
+                    field: 'fppapapprovalACD',
+                    title: 'F-PPAP批准ACD',
+                    minWidth: 140,
+                    align: 'center',
+                    templet: function (d) {
+                        return (d.fppapapprovalACD ? new Date(d.fppapapprovalACD).Format("yyyy-MM-dd") : '');
+
+                    }
+                }
+                    , {field: 'planChangeNotes', title: '计划变更时间', minWidth: 130, align: 'center'}
+                    , {
+                    field: 'otscondtime', title: '计划完成时间', align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="otscondtime" value="' + (d.otscondtime ? new Date(d.otscondtime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {
+                    field: 'otsstatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        return '<select onchange="setStatus(\'otsstatus\',\'' + d.LAY_TABLE_INDEX + '\')" id="otsstatus_selected_' + d.LAY_TABLE_INDEX + '" data=\'' + JSON.stringify(d) + '\' name="otsstatus"   lay-ignore>' +
+                            '<option value="0" ' + (!d.otsstatus ? 'selected' : '') + '>-- 请选择 --</option>' +
+                            '<option value="1" ' + (d.otsstatus == '1' ? 'selected' : '') + '>G</option>' +
+                            '<option value="2" ' + (d.otsstatus == '2' ? 'selected' : '') + '>R</option>' +
+                            '<option value="3" ' + (d.otsstatus == '3' ? 'selected' : '') + '>Y</option>' +
+                            '<option value="4" ' + (d.otsstatus == '4' ? 'selected' : '') + '>W</option>' +
+                            '<option value="5" ' + (d.otsstatus == '5' ? 'selected' : '') + '>N/A</option>' +
+                            '</select>';
+
+                        '</select>'
+                    }
+                }
+                    , {
+                    field: 'otsrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="otsrealtime" value="' + (d.otsrealtime ? new Date(d.otsrealtime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {
+                    field: 'otscompletetime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="otscompletetime" value="' + (d.otscompletetime ? new Date(d.otscompletetime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {field: 'otsaccepttype', title: '认可类型', minWidth: 100, align: 'center', edit: 'text'}
+                    , {field: 'otscataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center', edit: 'text'}
+                    , {
+                    field: 'aspectplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="aspectplantime" value="' + (d.aspectplantime ? new Date(d.aspectplantime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {
+                    field: 'aspectstatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        return '<select name="aspectstatus" onchange="setStatus(\'aspectstatus\',\'' + d.LAY_TABLE_INDEX + '\')" id="aspectstatus_selected_' + d.LAY_TABLE_INDEX + '" data=\'' + JSON.stringify(d) + '\'  lay-ignore>' +
+                            '<option value="0" ' + (!d.aspectstatus ? 'selected' : '') + '>-- 请选择 --</option>' +
+                            '<option value="1" ' + (d.aspectstatus == '1' ? 'selected' : '') + '>G</option>' +
+                            '<option value="2" ' + (d.aspectstatus == '2' ? 'selected' : '') + '>R</option>' +
+                            '<option value="3" ' + (d.aspectstatus == '3' ? 'selected' : '') + '>Y</option>' +
+                            '<option value="4" ' + (d.aspectstatus == '4' ? 'selected' : '') + '>W</option>' +
+                            '<option value="5" ' + (d.aspectstatus == '5' ? 'selected' : '') + '>N/A</option>' +
+                            '</select>';
+                        '</select>'
+                    }
+                }
+                    , {
+                    field: 'aspectcondrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="aspectcondrealtime" value="' + (d.aspectcondrealtime ? new Date(d.aspectcondrealtime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {
+                    field: 'aspectcompleterealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="aspectcompleterealtime" value="' + (d.aspectcompleterealtime ? new Date(d.aspectcompleterealtime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {field: 'aspectcataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center', edit: 'text'}
+                    , {
+                    field: 'feplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="feplantime" value="' + (d.feplantime ? new Date(d.feplantime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {
+                    field: 'festatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        return '<select onchange="setStatus(\'festatus\',\'' + d.LAY_TABLE_INDEX + '\')" id="festatus_selected_' + d.LAY_TABLE_INDEX + '" data=\'' + JSON.stringify(d) + '\' name="festatus"   lay-ignore>' +
+                            '<option value="0" ' + (!d.festatus ? 'selected' : '') + '>-- 请选择 --</option>' +
+                            '<option value="1" ' + (d.festatus == '1' ? 'selected' : '') + '>G</option>' +
+                            '<option value="2" ' + (d.festatus == '2' ? 'selected' : '') + '>R</option>' +
+                            '<option value="3" ' + (d.festatus == '3' ? 'selected' : '') + '>Y</option>' +
+                            '<option value="4" ' + (d.festatus == '4' ? 'selected' : '') + '>W</option>' +
+                            '<option value="5" ' + (d.festatus == '5' ? 'selected' : '') + '>N/A</option>' +
+                            '</select>';
+                        '</select>'
+                    }
+                }
+                    , {
+                    field: 'fecondtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="fecondtime" value="' + (d.fecondtime ? new Date(d.fecondtime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {
+                    field: 'ferealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return '<input data=\'' + JSON.stringify(d) + '\' type="text" name="ferealtime" value="' + (d.ferealtime ? new Date(d.ferealtime).Format("yyyy-MM-dd") : '') + '" placeholder="请选择时间" readonly class="layui-input layui-input-date" />'
+                    }
+                }
+                    , {field: 'fecataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center', edit: 'text'}
+                    /* , {field: 'suppliername2', title: '供应商2', rowspan: 2, align: 'center', edit: 'text'}
+                        , {field: 'suppliernumber2', title: '供应商代码2', rowspan: 2, align: 'center', edit: 'text'}
+                        , {field: 'sqe2', title: 'SQE2', rowspan: 2, align: 'center', edit: 'text'}
+                        , {field: 'suppliername3', title: '供应商3', rowspan: 2, align: 'center', edit: 'text'}
+                        , {field: 'suppliernumber3', title: '供应商代码3', rowspan: 2, align: 'center', edit: 'text'}
+                        , {field: 'sqe3', title: 'SQE3', rowspan: 2, align: 'center', edit: 'text'}*/
+                ]
+            ];
+            //不可编辑表格，部分列需要状态警示
+            var justRedCols = [
+                [
+                    {align: 'center', title: '基础信息', rowspan: 1, colspan: 16}
+                    , {align: 'center', title: '零件批准计划', rowspan: 1, colspan: 11}
+                    , {align: 'center', title: 'OTS认可', rowspan: 1, colspan: 6}
+                    , {align: 'center', title: '外观认可', rowspan: 1, colspan: 5}
+                    , {align: 'center', title: 'FE认可', rowspan: 1, colspan: 5}
+                ],
+                [
+                    {type: 'numbers', title: '序号', rowspan: 1, align: 'center', fixed: 'left'}
+                    , {
+                    field: 'partscode',
+                    title: '零件号',
+                    rowspan: 1,
+                    align: 'center',
+                    fixed: 'left',
+                    templet: function (d) {
+                        /*****杨琴琴  2019-03-14  修改零件号标红判断条件*****/
+                        if (d.isupdateparts == 2) {
+                            redList.partscode_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="partscode_' + d.LAY_TABLE_INDEX + '">' + d.partscode + '</span>'
+                        } else {
+                            return d.partscode;
+                        }
+                    }
+                }
+                    , {field: 'partsname', title: '零件名称', rowspan: 1, align: 'center', fixed: 'left'}
+                    , {
+                    field: 'addanddel',
+                    title: '增A/删D',
+                    rowspan: 1,
+                    fixed: 'left',
+                    align: 'center',
+                    minWidth: 120,
+                    templet: function (d) {
+                        if (d.lastimporttag == 2 || d.isdelete == 1) {
+                            redList.addanddel_selected_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="addanddel_selected_' + d.LAY_TABLE_INDEX + '">' + (d.isdelete == 1 ? 'D' : d.addanddel) + '</span>';
+                        } else if (d.addanddel == 'D') { //updated by qitian 2019-01-24 除二次导入没有一次导入的需要置红至D中的顶部和被删除标红置顶外，其余所有D都需要标灰置底
+                            grayList.addanddel_selected_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="addanddel_selected_' + d.LAY_TABLE_INDEX + '">D</span>';
+                        } else {
+                            return d.addanddel;
+                        }
+                    }
+                }
+                    , {
+                    field: 'sqoffice',
+                    title: 'SQ科室',
+                    minWidth: 120,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        /*杨琴琴 2019-04-29 修改SQ科室为空标红的问题*/
+                        if(d.sqe1 == null || d.sqe1 == '' || d.sqe1 == undefined) {
+                            return '';
+                        }else if (d.issqematches1 == 2) {
+                            redList.sqoffice_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="sqoffice_' + d.LAY_TABLE_INDEX + '">' + d.sqoffice + '</span>'
+                        }else {
+                            return d.sqoffice;
+                        }
+                    }
+                }
+                    , {
+                    field: 'sqe1', title: 'SQE1', rowspan: 1, align: 'center', templet: function (d) {
+                        /*杨琴琴 2019-04-29 修改项目查询项目详情主表中SQE正确但是标红问题*/
+                        if (d.sqe1 == null || d.sqe1 == '' || d.sqe1 == undefined) {
+                            return '';
+                        } else if (d.issqematches1 == 2) {
+                            /*if (d.issqematches1 == 2 || d.issqematches1 == 3 || null == d.sqe1 || "" == d.sqe1 || d.isupdatesqe1 == 2 ) {*/// 马 2019-3-12 修复主表sqe为空标红 【15608】
+                            redList.sqe1_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="sqe1_' + d.LAY_TABLE_INDEX + '">' + d.sqe1 + '</span>'
+                        } else {
+                            return d.sqe1;
+                        }
+                    }
+                }
+                    , {
+                    field: 'per', title: 'PE', rowspan: 1, align: 'center', templet: function (d) {
+                        // 2019.03.28 张大伟 pe为空不标红
+                        if (d.per == null || d.per == '' || d.per == undefined) {
+                            return '';
+                        } else if (d.ispematches == 2) {
+                            redList.per_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="per_' + d.LAY_TABLE_INDEX + '">' + d.per + '</span>'
+                        } else {
+                            return d.per;
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliername1',
+                    title: '供应商1<br />(本行跟踪)',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        /*杨琴琴 2019-04-29 修改项目信息查询项目详情主表中供应商1名称为空但是标红的问题*/
+                        if (d.suppliername1 == null || d.suppliername1 == '' || d.suppliername1 == undefined) {
+                            return '';
+                        } else if (d.issupmatches1 == 2) {
+                            redList.suppliername1_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="suppliername1_' + d.LAY_TABLE_INDEX + '">' + d.suppliername1 + '</span>'
+                        } else {
+                            return d.suppliername1;
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliernumber1', title: '供应商1代码', rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        /*杨琴琴 2019-04-29 修改项目信息查询项目详情主表中供应商1代码为空但是标红的问题*/
+                        if (d.suppliernumber1 == null || d.suppliernumber1 == '' || d.suppliernumber1 == undefined) {
+                            return '';
+                        } else if (d.issupmatches1 == 2) {
+                            redList.suppliernumber1_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="suppliernumber1_' + d.LAY_TABLE_INDEX + '">' + d.suppliernumber1 + '</span>'
+                        } else {
+                            return d.suppliernumber1;
+                        }
+                    }
+                }
+                    // updated by qitian 2018-12-20
+                    , {
+                    field: 'suppliername2',
+                    title: '供应商2',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        /*杨琴琴 2019-04-29 修改项目信息查询项目详情主表中供应商2名称为空但是标红的问题*/
+                        if (d.suppliername2 == null || d.suppliername2 == '' || d.suppliername2 == undefined) {
+                            return '';
+                        } else if (d.issupmatches2 == 2) {
+                            redList.suppliername2_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="suppliername2_' + d.LAY_TABLE_INDEX + '">' + d.suppliername2 + '</span>'
+                        } else {
+                            return d.suppliername2;
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliernumber2', title: '供应商2代码', rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        /*杨琴琴 2019-04-29 修改项目信息查询项目详情主表中供应商2代码为空但是标红的问题*/
+                        if (d.suppliernumber2 == null || d.suppliernumber2 == '' || d.suppliernumber2 == undefined) {
+                            return '';
+                        } else if (d.issupmatches2 == 2) {
+                            redList.suppliernumber2_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="suppliernumber2_' + d.LAY_TABLE_INDEX + '">' + d.suppliernumber2 + '</span>'
+                        } else {
+                            return d.suppliernumber2;
+                        }
+                    }
+                }
+                    , {
+                    field: 'sqe2', title: 'SQE2', rowspan: 1, align: 'center', templet: function (d) {
+                        /*杨琴琴 2019-04-29 修改项目查询项目详情主表中SQE2为空但是标红问题*/
+                        if (d.sqe2 == null || d.sqe2 == '' || d.sqe2 == undefined) {
+                            return '';
+                        } else if (d.issqematches2 == 2) {
+                            redList.sqe2_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="sqe2_' + d.LAY_TABLE_INDEX + '">' + d.sqe2 + '</span>'
+                        } else {
+                            return d.sqe2;
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliername3',
+                    title: '供应商3',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        /*杨琴琴 2019-04-29 修改项目信息查询项目详情主表中供应商3名称为空但是标红的问题*/
+                        if (d.suppliername3 == null || d.suppliername3 == '' || d.suppliername3 == undefined) {
+                            return '';
+                        } else if (d.issupmatches3 == 2) {
+                            redList.suppliername3_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="suppliername3_' + d.LAY_TABLE_INDEX + '">' + d.suppliername3 + '</span>'
+                        } else {
+                            return d.suppliername3;
+                        }
+                    }
+                }
+                    , {
+                    field: 'suppliernumber3', title: '供应商3代码', rowspan: 1, align: 'center',
+                    templet: function (d) {
+                        //by ma 2019-03-13
+                        /*杨琴琴 2019-04-29 修改项目信息查询项目详情主表中供应商3代码为空但是标红的问题*/
+                        if (d.suppliernumber3 == null || d.suppliernumber3 == '' || d.suppliernumber3 == undefined) {
+                            return '';
+                        } else if (d.issupmatches3 == 2) {
+                            redList.suppliernumber3_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="suppliernumber3_' + d.LAY_TABLE_INDEX + '">' + d.suppliernumber3 + '</span>'
+                        } else {
+                            return d.suppliernumber3;
+                        }
+                    }
+                }
+                    , {
+                    field: 'sqe3', title: 'SQE3', rowspan: 1, align: 'center', templet: function (d) {
+                        /*杨琴琴 2019-04-29 修改项目信息查询项目详情主表中SQE3代码为空但是标红的问题*/
+                        if (d.sqe3 == null || d.sqe3 == '' || d.sqe3 == undefined) {
+                            return '';
+                        } else if (d.issqematches3 == 2) {
+                            redList.sqe3_.push(d.LAY_TABLE_INDEX);
+                            return '<span id="sqe3_' + d.LAY_TABLE_INDEX + '">' + d.sqe3 + '</span>'
+                        } else {
+                            return d.sqe3;
+                        }
+                    }
+                }
+                    , {field: 'ewocode', title: 'EWO编号', rowspan: 1, align: 'center'}
+                    , {
+                    field: 'approvalStatus',
+                    title: 'OPAP/PPAP批准状态',
+                    minWidth: 170,
+                    rowspan: 1,
+                    align: 'center',
+                    templet: function (d) {
+                    	if(!!d.fppapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '1'});
+                            return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP批准</div>'
+                        }else if(!!d.sppapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '2'});
+                        	return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">PPAP临时批准</div>'
+                        }else if(!!d.opapapprovalACD){
+                        	redList.approvalStatus_.push({index: d.LAY_TABLE_INDEX, status: '4'});
+                        	return '<div id="approvalStatus_'+d.LAY_TABLE_INDEX+'">OPAP临时批准</div>'
+                        }else{
+                        	return ''
+                        }
+                    }
+                }
+                    //by ma 2019-03-21 修改ppap计划最早 【15616】
+                   /* , {field: 'lppap', title: 'PPAP计划最早', minWidth: 130, rowspan: 1, align: 'center',templet:function (d) {
+                         /!*return (d.lppap?new Date(d.lppap).Format("yyyy-MM-dd"):'');*!/
+                        return d.lppapSign ? d.lppapSign : '';
+                    }}*/
+                    , {
+                    field: 'opapppaprecognitionDelayReason',
+                    title: '超期备注',
+                    minWidth: 320,
+                    rowspan: 1,
+                    align: 'center'
+                }
+                    /* , {field: 'earliestSupplier', title: '最早批准供应商', minWidth: 130, rowspan: 1, align: 'center'}*/
+                    , {field: 'opapapprovalPCD', title: 'OPAP批准PCD', minWidth: 130, align: 'center'}
+                    //by ma 2019-03-29
+                    , {
+                    field: 'opapapprovalACD',
+                    title: 'OPAP批准ACD',
+                    minWidth: 130,
+                    align: 'center',
+                    templet: function (d) {
+                        return (d.opapapprovalACD ? new Date(d.opapapprovalACD).Format("yyyy-MM-dd") : '')
+
+                    }
+                }
+                    , {field: 'escalationRiskDes', title: '升级高风险描述', minWidth: 130, rowspan: 1, align: 'center'}
+                    , {field: 'sppapapprovalPCD', title: 'S-PPAP批准PCD', minWidth: 140, align: 'center'}
+                    //by ma 2019-03-29
+                    , {
+                    field: 'sppapapprovalACD',
+                    title: 'S-PPAP批准ACD',
+                    minWidth: 140,
+                    align: 'center',
+                    templet: function (d) {
+                        return (d.sppapapprovalACD ? new Date(d.sppapapprovalACD).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {field: 'provisionalApprovalWhy', title: '临时批准原因', minWidth: 140, align: 'center'}
+                    , {field: 'fppapapprovalPCD', title: 'F-PPAP批准PCD', minWidth: 140, align: 'center'}
+                    //by ma 2019-03-29
+                    , {
+                    field: 'fppapapprovalACD',
+                    title: 'F-PPAP批准ACD',
+                    minWidth: 140,
+                    align: 'center',
+                    templet: function (d) {
+                        return (d.fppapapprovalACD ? new Date(d.fppapapprovalACD).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {field: 'planChangeNotes', title: '计划变更时间', minWidth: 130, align: 'center'}
+                    , {
+                    field: 'otscondtime', title: '计划完成时间', align: 'center',
+                    templet: function (d) {
+                        return (d.otscondtime ? new Date(d.otscondtime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {
+                    field: 'otsstatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        if (d.otsstatus == '0') {
+                            return '-- 请选择 --';
+                        } else
+                        if (d.otsstatus == '1') {
+                            return 'G';
+                        } else if (d.otsstatus == '2') {
+                            return 'R';
+                        } else if (d.otsstatus == '3') {
+                            return 'Y';
+                        } else if (d.otsstatus == '4') {
+                            return 'W';
+                        } else if (d.otsstatus == '5') {
+                            return 'N/A';
+                        } else {
+                            return '';
+
+
+                        }
+                    }
+                }
+                    , {
+                    field: 'otsrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.otsrealtime ? new Date(d.otsrealtime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {
+                    field: 'otscompletetime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        return (d.otscompletetime ? new Date(d.otscompletetime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {field: 'otscataloguestatus', title: '认可类型', minWidth: 100, align: 'center'}
+                    , {field: 'otsaccepttype', title: '封样完成状态', minWidth: 120, align: 'center'}
+                    , {
+                    field: 'aspectplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.aspectplantime ? new Date(d.aspectplantime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {
+                    field: 'aspectstatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        if (d.aspectstatus == '0') {
+                            return '-- 请选择 --';
+                        } else
+                        if (d.aspectstatus == '1') {
+                            return 'G';
+                        } else if (d.aspectstatus == '2') {
+                            return 'R';
+                        } else if (d.aspectstatus == '3') {
+                            return 'Y';
+                        } else if (d.aspectstatus == '4') {
+                            return 'W';
+                        } else if (d.aspectstatus == '5') {
+                            return 'N/A';
+                        } else {
+                            return '';
+                        }
+                    }
+                }
+                    , {
+                    field: 'aspectcondrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.aspectcondrealtime ? new Date(d.aspectcondrealtime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {
+                    field: 'aspectcompleterealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.aspectcompleterealtime ? new Date(d.aspectcompleterealtime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {field: 'aspectcataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center'}
+                    , {
+                    field: 'feplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.feplantime ? new Date(d.feplantime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {
+                    field: 'festatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        if (d.festatus == '0') {
+                            return '-- 请选择 --';
+                        } else
+                        if (d.festatus == '1') {
+                            return 'G';
+                        } else if (d.festatus == '2') {
+                            return 'R';
+                        } else if (d.festatus == '3') {
+                            return 'Y';
+                        } else if (d.festatus == '4') {
+                            return 'W';
+                        } else if (d.festatus == '5') {
+                            return 'N/A';
+                        } else {
+                            return '';
+                        }
+                    }
+                }
+                    , {
+                    field: 'fecondtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.fecondtime ? new Date(d.fecondtime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {
+                    field: 'ferealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.ferealtime ? new Date(d.ferealtime).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {field: 'fecataloguestatus', title: '封样完成状态', minWidth: 120, align: 'center'}
+                ]
+            ];
+            //不可编辑表格，置灰
+            var grayCols = [
+                [
+                    {align: 'center', title: '基础信息', rowspan: 1, colspan: 16}
+                    , {align: 'center', title: '零件批准计划', rowspan: 1, colspan: 13}
+                    , {align: 'center', title: 'OTS认可', rowspan: 1, colspan: 6}
+                    , {align: 'center', title: '外观认可', rowspan: 1, colspan: 5}
+                    , {align: 'center', title: 'FE认可', rowspan: 1, colspan: 5}
+                    /* , {align: 'center', title: '基础信息', rowspan: 1, colspan: 6}*/
+                ],
+                [
+                    {
+                        type: 'numbers',
+                        title: '序号',
+                        rowspan: 1,
+                        align: 'center',
+                        fixed: 'left',
+                        style: 'background-color: rgb(193, 193, 193);'
+                    }
+                    , {
+                    field: 'partscode',
+                    title: '零件号',
+                    rowspan: 1,
+                    align: 'center',
+                    fixed: 'left',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'partsname',
+                    title: '零件名称',
+                    rowspan: 1,
+                    align: 'center',
+                    fixed: 'left',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'addanddel',
+                    title: '增A/删D',
+                    rowspan: 1,
+                    fixed: 'left',
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);',
+                    templet: function (d) {
+                        return 'D';
+                    }
+                }
+                    , {
+                    field: 'sqoffice',
+                    title: 'SQ科室',
+                    minWidth: 120,
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'sqe1',
+                    title: 'SQE1',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'per',
+                    title: 'PE',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'suppliername1',
+                    title: '供应商1<br />(本行跟踪)',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'suppliernumber1',
+                    title: '供应商1代码',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    // updated by qitian 2018-12-20
+                    , {
+                    field: 'suppliername2',
+                    title: '供应商2',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'suppliernumber2',
+                    title: '供应商2代码',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'sqe2',
+                    title: 'SQE2',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'suppliername3',
+                    title: '供应商3',
+                    minWidth: 160,
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'suppliernumber3',
+                    title: '供应商3代码',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'sqe3',
+                    title: 'SQE3',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'ewocode',
+                    title: 'EWO编号',
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'approvalStatus',
+                    title: 'OPAP/PPAP批准状态',
+                    minWidth: 170,
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);',
+                    templet: function (d) {
+                        if (d.approvalStatus == '4') {
+							return '<div>OPAP临时批准</div>'   //背景蓝色
+                        } else if (d.approvalStatus == '5') {
+                           return '<div>OPAP不批准</div>'     //背景棕色
+                        } else if (d.approvalStatus == '2') {
+                           return '<div>PPAP临时批准</div>'    //背景绿色
+                        } else if (d.approvalStatus == '1') {
+                            return '<div>PPAP批准</div>'      //背景红色
+                        } else if (d.approvalStatus == '3') {
+                            return '<div>PPAP不批准</div>'     //背景黄色
+                        } else if (d.approvalStatus == '6') {
+                            return '<div>正在进行中</div>'     //背景蓝色
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                    //by ma 2019-03-18 修改ppap计划最早
+                    /*, {field: 'lppap', title: 'PPAP计划最早', minWidth: 130, rowspan: 1, align: 'center',style: 'background-color: rgb(193, 193, 193);'}*/
+                    , {
+                    field: 'opapppaprecognitionDelayReason',
+                    title: '超期备注',
+                    minWidth: 320,
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    /*, {field: 'earliestSupplier', title: '最早批准供应商', minWidth: 130, rowspan: 1, align: 'center',style: 'background-color: rgb(193, 193, 193);'}*/
+                    , {
+                    field: 'opapapprovalPCD',
+                    title: 'OPAP批准PCD',
+                    minWidth: 130,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    //by ma 2019-03-29
+                    , {
+                    field: 'opapapprovalACD',
+                    title: 'OPAP批准ACD',
+                    minWidth: 130,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);',
+                    templet: function (d) {
+                        return (d.opapapprovalACD ? new Date(d.opapapprovalACD).Format("yyyy-MM-dd") : '')
+                    }
+                }
+                    , {
+                    field: 'escalationRiskDes',
+                    title: '升级高风险描述',
+                    minWidth: 130,
+                    rowspan: 1,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'sppapapprovalPCD',
+                    title: 'S-PPAP批准PCD',
+                    minWidth: 140,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    //by ma 2019-03-29
+                    , {
+                    field: 'sppapapprovalACD',
+                    title: 'S-PPAP批准ACD',
+                    minWidth: 140,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);',
+                    templet: function (d) {
+                        return (d.sppapapprovalACD ? new Date(d.sppapapprovalACD).Format("yyyy-MM-dd") : '');
+
+                    }
+                }
+                    , {
+                    field: 'provisionalApprovalWhy',
+                    title: '临时批准原因',
+                    minWidth: 140,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'fppapapprovalPCD',
+                    title: 'F-PPAP批准PCD',
+                    minWidth: 140,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    //by ma 2019-03-29
+                    , {
+                    field: 'fppapapprovalACD',
+                    title: 'F-PPAP批准ACD',
+                    minWidth: 140,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);',
+                    templet: function (d) {
+                        return (d.fppapapprovalACD ? new Date(d.fppapapprovalACD).Format("yyyy-MM-dd") : '');
+                    }
+                }
+                    , {
+                    field: 'planChangeNotes',
+                    title: '计划变更时间',
+                    minWidth: 130,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'otscondtime', title: '计划时间', align: 'center',
+                    templet: function (d) {
+                        return (d.otscondtime ? new Date(d.otscondtime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'otsstatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        if (d.otsstatus == '0') {
+                            return '-- 请选择 --';
+                        } else
+                        if (d.otsstatus === '1') {
+                            return 'G';
+                        } else if (d.otsstatus === '2') {
+                            return 'R';
+                        } else if (d.otsstatus === '3') {
+                            return 'Y';
+                        } else if (d.otsstatus === '4') {
+                            return 'W';
+                        } else if (d.otsstatus === '5') {
+                            return 'N/A';
+                        } else {
+                            return '';
+                        }
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'otsrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.otsrealtime ? new Date(d.otsrealtime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'otscompletetime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        return (d.otscompletetime ? new Date(d.otscompletetime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'otsaccepttype',
+                    title: '认可类型',
+                    minWidth: 100,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'otscataloguestatus',
+                    title: '封样完成状态',
+                    minWidth: 120,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'aspectplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.aspectplantime ? new Date(d.aspectplantime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'aspectstatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        // updated by qitian 2018-12-20
+                        if (d.aspectstatus === '1') {
+                            return '-- 请选择 --';
+                        } else
+                        if (d.aspectstatus === '1') {
+                            return 'G';
+                        } else if (d.aspectstatus === '2') {
+                            return 'R';
+                        } else if (d.aspectstatus === '3') {
+                            return 'Y';
+                        } else if (d.aspectstatus === '4') {
+                            return 'W';
+                        } else if (d.aspectstatus === '5') {
+                            return 'N/A';
+                        } else {
+                            return '';
+                        }
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'aspectcondrealtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.aspectcondrealtime ? new Date(d.aspectcondrealtime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'aspectcompleterealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.aspectcompleterealtime ? new Date(d.aspectcompleterealtime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'aspectcataloguestatus',
+                    title: '封样完成状态',
+                    minWidth: 120,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'feplantime', title: '计划完成时间PCD', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.feplantime ? new Date(d.feplantime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'festatus',
+                    title: '状态',
+                    minWidth: 120,
+                    align: 'center',
+                    templet: function (d) {
+                        if (d.festatus === '1') {
+                            return '-- 请选择 --';
+                        } else
+                        // updated by qitian 2018-12-20
+                        if (d.festatus === '1') {
+                            return 'G';
+                        } else if (d.festatus === '2') {
+                            return 'R';
+                        } else if (d.festatus === '3') {
+                            return 'Y';
+                        } else if (d.festatus === '4') {
+                            return 'W';
+                        } else if (d.festatus === '5') {
+                            return 'N/A';
+                        } else {
+                            return '';
+                        }
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'fecondtime', title: '条件认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.fecondtime ? new Date(d.fecondtime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'ferealtime', title: '完全认可实际完成时间', minWidth: 170, align: 'center',
+                    templet: function (d) {
+                        return (d.ferealtime ? new Date(d.ferealtime).Format("yyyy-MM-dd") : '');
+                    }, style: 'background-color: rgb(193, 193, 193);'
+                }
+                    , {
+                    field: 'fecataloguestatus',
+                    title: '封样完成状态',
+                    minWidth: 120,
+                    align: 'center',
+                    style: 'background-color: rgb(193, 193, 193);'
+                }
+                ]
+            ];
+            table.render({
+                elem: '#project-detail1-table'
+                , url: admin.formatUrl('/api/ppap/partsprojectsupplier/getProjectWallInfo')
+                , method: 'POST'
+                , contentType: 'application/json'
+                , where: {
+                    pwkey: PFOLLOWKEY,
+                    projectTrackingType: 1
+                }
+                // 格式化后台返回的数据
+                , parseData: function (res) { //res 即为原始返回的数据
+                    $('#commonCols').remove(); //yangqinqin 2019-05-29
+                    //处理title颜色/格式
+                    initThColor();
+                    if (res.respCode == 200) {
+                        if (res.data && res.data.titleInfo != null && res.data.titleInfo != '') {
+                            //将数据对象去空去undefined  updated by qitian 2018-12-20
+                            res.data = admin.redefinedForObject(res.data);
+                            status = res.data.titleInfo.status;
+                            console.log(res.data, status, 9999999999998888888888)
+                            var type = res.data.titleInfo.projecttype;
+                            if (type === 1) {
+                                $('#pfollowcode_label').html('项目单编号:')
+                                $('#ots1_label').html('OTS1:')
+                                $('#ots2_label').html('OTS2:')
+                                $('#ns_label').html('NS:')
+                                $('#stime_label').html('S:')
+                                $('#soptime_label').html('SOP:')
+                            } else {
+                                $('#pfollowcode_label').html('项目单编号:')
+                                $('#ots1_label').html('BETA:')
+                                $('#ots2_label').html('GAMMA:')
+                                $('#ns_label').html('3C Pilot:')
+                                $('#stime_label').html('Pilot:')
+                                $('#soptime_label').html('SOP:')
+                            }
+                            $('#pfollowcode').html(res.data.titleInfo.pfollowcode);
+                            //在进行时间戳转换时间格式时，一定要先判空 updated by qitian 2018-12-20
+                            $('#ots1').html(res.data.titleInfo.ots1 ? new Date(res.data.titleInfo.ots1).Format("yyyy-MM-dd") : '');
+                            $('#ots2').html(res.data.titleInfo.ots2 ? new Date(res.data.titleInfo.ots2).Format("yyyy-MM-dd") : '');
+                            $('#ns').html(res.data.titleInfo.ns ? new Date(res.data.titleInfo.ns).Format("yyyy-MM-dd") : '');
+                            $('#stime').html(res.data.titleInfo.stime ? new Date(res.data.titleInfo.stime).Format("yyyy-MM-dd") : '');
+                            $('#soptime').html(res.data.titleInfo.soptime ? new Date(res.data.titleInfo.soptime).Format("yyyy-MM-dd") : '');
+                            if (PFOLLOW_STATUS != 3) {
+                                PFOLLOW_STATUS = (res.data.titleInfo.pstatus == '取消' || res.data.titleInfo.pstatus == '暂停') ? 1 : 0;
+                            }
+                        }
+                        res.respCode = '0'
+                    }
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度  yangqinqin 2019-05-29 新增
+                        // updated by qitian 2018-12-20
+                        "data": (res.data && res.data.bodyInfo1 && res.data.bodyInfo1) ? res.data.bodyInfo1 : '' //解析数据列表
+                    };
+                }
+                , height: 460
+                // updated by qitian 2018-12-20
+                , cols: PFOLLOW_STATUS == 0 ? editCols : (PFOLLOW_STATUS === 3 ? justRedCols : grayCols),
+                done: function (res, curr, count) {
+                    if (res.data.length != 0) {
+                        $('.layui-table-box').css('overflow-x', 'hidden');
+                        $('.layui-table-header').css('overflow', 'hidden');
+                        //滚动条 2019-02-22 qitian
+                        var dev_obj; //layui table 父div
+                        var layuitable = null; //当前的layui table
+                        dev_obj = document.getElementById('detail-table-round'); //table的父div,名字替换成相对应的
+                        if (dev_obj != null) {
+                            layuitable = dev_obj.getElementsByClassName("layui-table-main");
+                        }
+                        console.log(dev_obj, layuitable, sessionStorage["scrollleft" + 'detail-table-round']);
+                        //更改滚动条位置
+                        layuitable[0].scrollLeft = sessionStorage["scrollleft" + 'detail-table-round'];
+                        $(window).resize();
+                    }
+                    //by ma 201903/09 修改项目单详情下拉切换颜色
+                    var selectNameArr = ['otsstatus', 'aspectstatus', 'festatus']
+                    for (var m = 0; m < selectNameArr.length; m++) {
+                        var selectName = selectNameArr[m];
+                        for (var i = 0; i < $('select[name="' + selectName + '"]').length; i++) {
+                            var selectData = $('select[name="' + selectName + '"]').eq(i).attr('data');
+                            var selectDataJson = JSON.parse(selectData);
+                            /** 马 2019-3-13 bug修复  项目信息维护-项目管理主表-各认可状态无颜色 【15445】**/
+                            switch (selectDataJson[selectName]) {
+                                case '1':
+                                    $('select[name="' + selectName + '"]').eq(i).css("background", "#28C935");
+                                    $('select[name="' + selectName + '"]').eq(i).parents("td").css("background", "#28C935");
+                                    break;
+                                case '2':
+                                    $('select[name="' + selectName + '"]').eq(i).css("background", "#FF5252");
+                                    $('select[name="' + selectName + '"]').eq(i).parents("td").css("background", "#FF5252");
+                                    break;
+                                case '3':
+                                    $('select[name="' + selectName + '"]').eq(i).css("background", "yellow");
+                                    $('select[name="' + selectName + '"]').eq(i).parents("td").css("background", "yellow");
+                                    break;
+                                case '4':
+                                    $('select[name="' + selectName + '"]').eq(i).css("background", "white");
+                                    $('select[name="' + selectName + '"]').eq(i).parents("td").css("background", "white");
+                                    break;
+
+                                case '5':
+                                    $('select[name="' + selectName + '"]').eq(i).css("background", "white");
+                                    $('select[name="' + selectName + '"]').eq(i).parents("td").css("background", "white");
+                                    break;
+
+                            }
+                            /** 马 2019-3-13 bug修复 结束 【15445】**/
+                        }
+                    }
+
+
+                    //单元格灰色渲染 updated by qitian 2019-01-24 除二次导入没有一次导入的需要置红至D中的顶部外，其余所有D都需要标灰置底
+                    for (var key in grayList) {
+                        for (var i = 0, len = grayList[key].length; i < len; i++) {
+                            $('.layui-table-fixed #' + key + grayList[key][i]).css('background', 'rgb(193, 193, 193)');
+                            $('.layui-table-fixed #' + key + grayList[key][i]).parent().parent().css('background', 'rgb(193, 193, 193)');
+                        }
+                    }
+                    //单元格红色渲染
+                    /*****杨琴琴 2019-03-13 零件编码标红*****/
+                    for (var key in redList) {
+                        for (var i = 0, len = redList[key].length; i < len; i++) {
+                            if (key == 'addanddel_selected_' || key == 'partscode_') {
+                                $('.layui-table-fixed #' + key + redList[key][i]).css('color', '#000');
+                                $('.layui-table-fixed #' + key + redList[key][i]).css('background', '#ff0000');
+                                $('.layui-table-fixed #' + key + redList[key][i]).parent().parent().css('background', '#ff0000');
+                            } else if (key == 'approvalStatus_') {
+                                if (redList[key][i].status) {
+                                    switch (redList[key][i].status) {
+                                        case '4':
+                                        case 4://蓝
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#fff');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#37ABFF');
+                                            break;
+                                        case '2':
+                                        case 2://棕
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#fff');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#dfbf8d');
+                                            break;
+                                        case '1':
+                                        case 1://绿
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#fff');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#65af65');
+                                            break;
+                                        case '3':
+                                        case 3://红
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#000');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#fc0d0bab');
+                                            break;
+                                        case '6':
+                                        case 6://黄
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#000');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#fff');
+                                            break;
+                                        case '6':
+                                        case 6://白
+                                            $('.layui-table-main #' + key + redList[key][i].index).css('color', '#000');
+                                            $('.layui-table-main #' + key + redList[key][i].index).parent().parent().css('background', '#fff');
+                                            break;
+                                    }
+                                }
+
+                            } else {
+                                console.log(key, redList[key][i]);
+                                $('.layui-table-main #' + key + redList[key][i]).css('color', '#000');
+                                $('.layui-table-main #' + key + redList[key][i]).parent().parent().css('background', '#ff0000');
+                            }
+
+                        }
+                    }
+
+                    form.render();
+                    $(".layui-input-date").each(function (index, item) {
+                        // updated by qitian 2018-12-20
+                        laydate.render({
+                            elem: this,
+                            done: function (value, date, endDate) {
+                                console.log(value); //得到日期生成的值，如：2017-08-18
+                                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                                console.log(item.name);
+                                //updated by qitian 2019-01-09 保存失败时，需要提示用户具体失败字段
+                                var nameMap = {
+                                    otscondtime: '计划时间',
+                                    otsrealtime: '条件认可实际完成时间',
+                                    otscompletetime: '完全认可实际完成时间',
+                                    aspectplantime: '计划完成时间PCD',
+                                    aspectcondrealtime: '条件认可实际完成时间',
+                                    aspectcompleterealtime: '完全认可实际完成时间',
+                                    feplantime: '计划完成时间',
+                                    fecondtime: '条件认可实际完成时间',
+                                    ferealtime: '完全认可实际完成时间'
+                                };
+                                //updated by qitian 2019-01-24 16:35 时间可以清空
+                                /*if (value) {*/
+                                var obj = JSON.parse($(item).attr('data'));
+                                var itemName = $(item).attr('name');
+                                obj[itemName] = value;
+                                console.log(obj);
+                                admin.req('/api/ppap/partsmessagetrack/savePartsTrackInfo', obj, function (res) {
+                                    if (res.respCode == 200) {
+                                        //更新表格数据
+                                        loadTable();
+                                    } else {
+                                        console.log(222, nameMap[itemName])
+                                        layer.alert(nameMap[itemName] + '信息保存失败', {
+                                            icon: 5
+                                            , btn: ['关闭']
+                                        })
+                                        //更新表格数据
+                                        loadTable();
+                                    }
+                                }, {method: 'POST'})
+                                /* }*/
+                            }
+                        });
+                    });
+                },
+                cellMinWidth: 110
+                ,page: {
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                }
+                ,limits: [10, 50, 100]
+                ,request: {
+                    pageName: 'page',
+                    limitName: 'pageSize'
+                }
+            });
+        };
+        //加载数据表格
+        loadTable();
+
+        /**
+         * @Desc 可编辑单元格失焦保事件
+         * @Date 2018-12-21 11:04:25
+         * @Author qitian
+         */
+        table.on('edit(project-detail1-table)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj.value); //得到修改后的值
+            console.log(obj.field); //当前编辑的字段名
+            console.log(obj.data); //所在行的所有相关数据
+            //updated by qitian 2019-01-09 保存失败时，需要提示用户具体失败字段
+            var nameMap = {
+                partscode: '零件号',
+                partsname: '零件名称',
+                sqoffice: 'SQ科室',
+                sqe1: 'SQE1',
+                per: 'PE',
+                suppliername1: '供应商1',
+                suppliernumber1: '供应商1代码',
+                sqe2: 'SQE2',
+                suppliername2: '供应商2',
+                suppliernumber2: '供应商2代码',
+                sqe3: 'SQE3',
+                suppliername3: '供应商3',
+                suppliernumber3: '供应商3代码',
+                ewocode: 'EWO编号',
+                otsaccepttype: '认可类型',
+                otscataloguestatus: 'OTS认可-封样完成状态',
+                aspectcataloguestatus: '外观认可-封样完成状态',
+                fecataloguestatus: 'FE认可-封样完成状态'
+            };
+            // 马 2019-3-12 修复项目主表零件号不超过15位 【16003】，2019-05-15 最新需求最长为50位
+            if (obj.value.length > 15 && obj.field == 'partscode') {
+                layer.alert('此项的输入长度不可超过15位！', {
+                    icon: 5
+                    , btn: ['关闭']
+                });
+                return false;
+            } else if(obj.value.length > 50 && obj.field == 'ewocode') {
+                layer.alert('此项的输入长度不可超过50位！', {
+                    icon: 5
+                    , btn: ['关闭']
+                });
+                return false;
+            }
+            // 马 2019-3-12 修复结束
+            //updated by qitian 2019-01-29 bug:13954/13953/13944
+            /*if (!obj.data[obj.field] && obj.field !== 'sqoffice') {
+                return false;
+            }*/
+
+            if (obj.field == 'partscode') {
+                obj.data.partscodechange = 1
+            } else {
+                obj.data.partscodechange = 0
+            }
+
+            admin.req('/api/ppap/partsmessagetrack/savePartsTrackInfo', obj.data, function (res) {
+                if (res.respCode == 200) {
+                    //obj.data[obj.field] = obj.value;
+                } else if (res.respCode == 1) {
+                    /*杨琴琴 2019-05-07 修改提示信息*/
+                    /*layer.alert(nameMap[obj.field] + res.message,{*/
+                    layer.alert(res.message, {
+                        icon: 5
+                        , btn: ['关闭']
+                    });
+                } else {
+                    layer.alert(nameMap[obj.field] + '信息保存失败', {
+                        icon: 5
+                        , btn: ['关闭']
+                    })
+                }
+                //更新表格数据
+                loadTable();
+            }, {method: 'POST'})
+
+        });
+
+        /**
+         * @Des 表格title颜色处理
+         * @Date 2018-12-21 09:04:43
+         * @Author qitian
+         */
+        function initThColor() {
+            //冻结列标题 updated by qitian 2018-12-20
+            //<span style="line-height: 38px;float: right;color: #666;margin-right: 32px;">基础信息</span>
+            //$('.layui-table-fixed').prepend('<div style="height: 38px;background-color: #098fef42;border-bottom: solid 1px #dbdada;"></div>')
+            $('.layui-table-fixed').css('top', '0px');
+            $('.layui-table-fixed').prepend('<div id="commonCols" style="height: 38px;background-color: #fafafa;border-bottom: solid 1px #dbdada;"></div>')
+
+            // updated by qitian 2018-12-20
+            /*$('#detail-table-round tr:eq(0) th:eq(0) span').css({'margin-right': '30%'});
+            $('#detail-table-round tr:eq(0) th:eq(0)').css({'background-color': '#37abff42'});
+            $('#detail-table-round tr:eq(0) th:eq(1)').css({'background-color': '#16e24f5c'});
+            $('#detail-table-round tr:eq(0) th:eq(2)').css({'background-color': '#ffb80066'});
+            $('#detail-table-round tr:eq(0) th:eq(3)').css({'background-color': '#eee'});
+            $('#detail-table-round tr:eq(0) th:eq(4)').css({'background-color': '#25ef5d'});
+            $('#detail-table-round tr:eq(0) th:eq(5)').css({'background-color': '#37abff42'});
+
+            $('#detail-table-round tr:eq(1) th:eq(4)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(5)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(7)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(8)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(9)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(10)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(11)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(12)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(13)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(14)').css({'background-color': '#ff572252'});
+            $('#detail-table-round tr:eq(1) th:eq(15)').css({'background-color': '#ff572252'});*/
+        }
+    });
+
+    /**
+     * @Desc 表格中的下拉框选择保存事件（增删/状态）
+     * @Param itemName 元素name;index:表格索引
+     * @Date 2018-12-20 17:40:45
+     * @Author updated by qitian
+     */
+    function setStatus(itemName, index) {
+        var admin = layui.adc;
+        var msg = '';
+        if (itemName) {
+            var obj = JSON.parse($('#' + itemName + '_selected_' + index + '').attr('data'));
+            //debugger;
+            if (itemName === 'addanddel') {
+                msg = '增A/删D信息更新失败';
+                obj[itemName] = $('.layui-table-fixed #' + itemName + '_selected_' + index + '').val();
+            } else {
+                msg = '状态信息保存失败';
+                obj[itemName] = $('#' + itemName + '_selected_' + index + '').val();
+            }
+            //console.log(admin1);
+            admin.req('/api/ppap/partsmessagetrack/savePartsTrackInfo', obj, function (res) {
+                if (res.respCode != 200) {
+                    console.log("--333--", msg)
+                    layer.alert(msg, {
+                        icon: 5
+                        , btn: ['关闭']
+                    })
+                    //更新表格数据
+                    loadTable();
+                } else {
+                    //更新表格中单元格绑定对象字符串内容
+                    loadTable();
+                    //$('#'+itemName+'_selected_'+index+'').attr('data','\''+JSON.stringify(obj)+'\'');
+                }
+            }, {method: 'POST'})
+        }
+    }
+
+
+    /**
+     * @Desc 供应商点击事件
+     * @Param obj:零件对象;index: 供应商次序
+     * @Date 2019-01-09 20:30:52
+     * @Author qitian
+     */
+    var saveObj = {};//供应商保存信息
+    var zsupname, zsupnum;
+
+    function chooseSupplier(obj, index) {
+        var admin = layui.adc
+            , form = layui.form;
+        var suName = 'suppliername' + index + '';
+        var suNumber = 'suppliernumber' + index + '';
+        var suIssupmatches = 'issupmatches3' + index
+        admin.req('/api/ppap/edum05user/getSupplierInfoAll', {}, function (res) {
+            if (res.respCode != -1) {
+                //打开模态框
+                admin.popupCenter({
+                    title: '修改供应商信息',
+                    path: 'components/tpl/project_detail_supplier_choose.html',
+                    success: function () {
+                        $('#suppliername').empty();
+                        $('#suppliernumber').empty();
+                        var nameSel = false, numSel = false;
+                        //渲染layui下拉框
+                        //默认项
+                        res.data.unshift({supplierName: '请选择', supplierCode: '请选择'});
+                        for (var i = 0, len = res.data.length; i < len; i++) {
+                            var item = res.data[i];
+                            if (obj[suName] == item.supplierName) {
+                                nameSel = true;
+                                $('#suppliername').append('<option value="' + item.supplierName + '" selected>' + item.supplierName + '</option>');
+                                zsupname = item.supplierName;
+                            } else {
+                                $('#suppliername').append('<option value="' + item.supplierName + '">' + item.supplierName + '</option>');
+                            }
+                            if (obj[suNumber] == item.supplierCode) {
+                                numSel = true;
+                                $('#suppliernumber').append('<option value="' + item.supplierCode + '" selected>' + item.supplierCode + '</option>');
+                                zsupnum = item.supplierCode;
+                            } else {
+                                $('#suppliernumber').append('<option value="' + item.supplierCode + '">' + item.supplierCode + '</option>');
+                            }
+                        }
+                        //2019-01-11 ：可以输入不存在的供应商
+
+                        if (!nameSel) {
+                            setTimeout(function () {
+                                //debugger;
+                                $('.layui-select-title .layui-input').eq(0).val(obj[suName]);
+                                //$('#suppliernumber').html("");
+                                //$('#suppliernumber').append('<option value="">'+请输入+'</option>');
+                            }, 1);
+                        }
+                        if (!numSel) {
+                            //debugger;
+                            setTimeout(function () {
+                                $('.layui-select-title .layui-input').eq(1).val(obj[suNumber]);
+                            }, 1);
+                            //$('#suppliername').html("");
+                            //$('#suppliername').append('<option value="">'+请输入+'</option>');
+                        }
+                        form.render('select', 'supplier-content');
+                        //by ma 2019-04-17  修改bug 点击供应商模糊查询(优化代码)
+                        $("#supplier-content").on('focus', 'input[type=text]', function () {
+                            var aa = $(this).val();
+                            var tt = $(this);
+                            setTimeout(function () {
+                                var strNum = aa;
+                                if (aa != '请选择') {
+                                    //此方法加载时间较长，需要优化
+                                    var ss = tt.parent('div').siblings().find("dd");
+                                    var len = ss.length;
+                                    for (var i = 0; i < len; i++) {
+                                        var flag = ss[i].textContent.indexOf(strNum);
+                                        if (flag != -1) {
+                                            ss[i].style.display = "";
+                                        } else {
+                                            ss[i].style.display = "none";
+                                            ;
+                                        }
+                                    }
+                                }
+                                $('.layui-this').show();
+                                //var supname =  $('#suppliername').val();
+                                //var supnum = $('#suppliernumber').val();
+                                $("#supplier-content").on('keyup', 'input[type=text]', function () {
+                                    $('dd').show();
+                                });
+                            }, 1);
+
+                        });
+
+
+                        //复制并赋值保存数据，而在递归调取函数时，需要使用原始数据
+                        saveObj = JSON.parse(JSON.stringify(obj));
+                        //updated by qitian 2019-01-11 21:56 可以输入不存在的供应商，放弃layui下拉框的监听事件，添加自定义监听事件
+                        initSupplierSelect(res, obj, suName, suNumber);
+                        //模态框取消事件
+                        form.on('submit(popCancle)', function () {
+                            admin.closePopupCenter();
+                        });
+                        //模态框确定事件
+                        form.on('submit(popSubmitChoose)', function () {
+                            //by ma 2019-04-08 判断是否修改供应商，是否标红
+                            if (obj[suIssupmatches] != 2 && obj[suNumber] != saveObj[suNumber]) {
+                                saveObj.newsuNuber = obj[suNumber]
+                                saveObj.newsuNuber2 = saveObj[suNumber]
+                            }
+
+
+                            if (saveObj[suNumber] && saveObj[suName] && saveObj[suNumber] != '请选择' && saveObj[suName] != '请选择') {
+                                admin.req('/api/ppap/partsmessagetrack/savePartsTrackInfo', saveObj, function (result) {
+                                    if (result.respCode != 200) {
+                                        /*layer.alert('供应商信息保存失败',{*/
+                                        /*杨琴琴 2019-06-05 将错误信息改为具体信息*/
+                                        layer.alert(result.message, {
+                                            icon: 5
+                                            , btn: ['关闭']
+                                        })
+                                        admin.closePopupCenter();
+                                        //更新表格数据
+                                        loadTable();
+                                    } else {
+                                        admin.closePopupCenter();
+                                        //更新表格中单元格绑定对象字符串内容
+                                        loadTable();
+                                    }
+                                }, {method: 'POST'})
+                            } else {
+                                //updatd by qitian 2019-01-29 bug编号13953
+                                saveObj[suNumber] = '';
+                                saveObj[suName] = '';
+                                admin.req('/api/ppap/partsmessagetrack/savePartsTrackInfo', saveObj, function (result) {
+                                    if (result.respCode != 200) {
+                                        /*layer.alert('供应商信息保存失败',{*/
+                                        /*杨琴琴 2019-06-05 将错误信息改为具体信息*/
+                                        layer.alert(result.message, {
+                                            icon: 5
+                                            , btn: ['关闭']
+                                        })
+                                        admin.closePopupCenter();
+                                        //更新表格数据
+                                        loadTable();
+                                    } else {
+                                        admin.closePopupCenter();
+                                        //更新表格中单元格绑定对象字符串内容
+                                        loadTable();
+                                    }
+                                }, {method: 'POST'})
+                                /* layer.alert('请完善信息',{
+                                     icon: 5
+                                     ,btn:['关闭']
+                                 });
+                                 return*/
+                            }
+                        })
+                    }
+                });
+            }
+        }, {method: 'POST'});
+    }
+
+    /**
+     * @Desc 因为需求需要输入不存在的供应商，所以必须放弃layui下拉框的监听事件，添加自定义监听事件
+     * @Param originData：下拉框原始数据；originObj：选择的供应商对应的行数据；name:供应商名称字段名；num:供应商代码字段名
+     * @Date 2019-01-11 21:57:45
+     * @Author qitian
+     */
+    function initSupplierSelect(originData, originObj, name, num) {
+        var form = layui.form;
+        //复制原始数据，在对比渲染和重新渲染时需要使用复制数据，而在初始数据对比和递归调取函数时，需要使用原始数据
+        var res = JSON.parse(JSON.stringify(originData));
+        setTimeout(function () {
+            //layui下拉框选择事件，因为需要覆盖原有事件，所以需要使用表单监听事件onmousedown不能使用onclick
+            $('dd').on('mousedown', function (e) {
+                var elem = e.currentTarget;
+                $(elem).parent().prev().find('input').val($(elem).attr('lay-value'));
+                //供应商代码
+                if ($(elem).parent().parent().prev().attr('id') == 'suppliernumber') {
+                    saveObj[num] = $(elem).attr('lay-value');
+                    for (var i = 0, len = res.data.length; i < len; i++) {
+                        var item = res.data[i];
+                        if (saveObj[num] == item.supplierCode) {
+                            saveObj[name] = item.supplierName;
+                            break;
+                        }
+                    }
+                }
+                //供应商名称
+                if ($(elem).parent().parent().prev().attr('id') == 'suppliername') {
+                    saveObj[name] = $(elem).attr('lay-value');
+                    for (var i = 0, len = res.data.length; i < len; i++) {
+                        var item = res.data[i];
+                        if (saveObj[name] == item.supplierName) {
+                            saveObj[num] = item.supplierCode;
+                            break;
+                        }
+                    }
+                }
+            });
+            //监听供应商名称输入框
+            $('.layui-select-title .layui-input')[0].onblur = function (e) {
+                var nameSel;//供应商名称是否有效
+                var nameVal = e.currentTarget.value;
+                //首先遍历原始数据，验证输入内容的有效性
+                for (var i = 0, len = originData.data.length; i < len; i++) {
+                    var item = originData.data[i];
+                    if (nameVal == item.supplierName) {
+                        nameSel = true;
+                        //赋值保存数据
+                        nameVal = item.supplierName;
+                    }
+                }
+                $('#suppliername').empty();
+                //如果用户输入内容
+                if (nameVal) {
+                    //如果用户输入的内容无效
+                    if (!nameSel) {
+                        for (var i = 0, len = res.data.length; i < len; i++) {
+                            var item = res.data[i];
+                            $('#suppliername').append('<option value="' + item.supplierName + '">' + item.supplierName + '</option>');
+                        }
+                        var numVal = $('.layui-select-title .layui-input').eq(1).val();
+                        //延时器，将无效的值赋给对应输入框
+                        setTimeout(function () {
+                            $('.layui-select-title .layui-input').eq(0).val(nameVal);
+                            $('.layui-select-title .layui-input').eq(1).val(numVal);
+                            //赋值保存数据
+                            saveObj[num] = numVal;
+                            saveObj[name] = nameVal;
+                        }, 1);
+                    } else {//如果用户输入的内容有效
+                        for (var i = 0, len = res.data.length; i < len; i++) {
+                            var item = res.data[i];
+                            if (nameVal == item.supplierName) {
+                                //赋值保存数据
+                                saveObj[name] = nameVal;
+                                saveObj[num] = item.supplierCode;
+                                $('#suppliernumber').val(item.supplierCode);
+                                $('#suppliername').append('<option value="' + item.supplierName + '" selected>' + item.supplierName + '</option>');
+                            } else {
+                                $('#suppliername').append('<option value="' + item.supplierName + '">' + item.supplierName + '</option>');
+                            }
+                        }
+                    }
+                } else {
+                    //如果用户没有输入内容
+                    for (var i = 0, len = originData.data.length; i < len; i++) {
+                        var item = originData.data[i];
+                        $('#suppliername').append('<option value="' + item.supplierName + '">' + item.supplierName + '</option>');
+                    }
+                    saveObj[name] = '';
+                }
+                //重新渲染下拉框
+                form.render('select', 'supplier-content');
+                //重新渲染后再次监听事件
+                initSupplierSelect(originData, originObj, name, num);
+            };
+            //监听供应商代码输入框
+            $('.layui-select-title .layui-input')[1].onblur = function (e) {
+                var numVal = e.currentTarget.value;
+                var numSel;//供应商代码是否有效
+                //首先遍历原始数据，验证输入内容的有效性
+                for (var i = 0, len = originData.data.length; i < len; i++) {
+                    var item = originData.data[i];
+                    if (numVal == item.supplierCode) {
+                        numSel = true;
+                        //赋值保存数据
+                        numVal = item.supplierCode;
+                    }
+                }
+                $('#suppliernumber').empty();
+                if (numVal) {
+                    //用户输入的内容无效
+                    if (!numSel) {
+                        for (var i = 0, len = res.data.length; i < len; i++) {
+                            var item = res.data[i];
+                            $('#suppliernumber').append('<option value="' + item.supplierCode + '">' + item.supplierCode + '</option>');
+                        }
+                        var nameVal = $('.layui-select-title .layui-input').eq(0).val();
+                        //延时器，将无效的值赋给对应输入框
+                        setTimeout(function () {
+                            $('.layui-select-title .layui-input').eq(0).val(nameVal);
+                            $('.layui-select-title .layui-input').eq(1).val(numVal);
+                            //赋值保存数据
+                            saveObj[num] = numVal;
+                            saveObj[name] = nameVal;
+                        }, 1);
+                    } else {
+                        //用户输入的内容有效
+                        for (var i = 0, len = res.data.length; i < len; i++) {
+                            var item = res.data[i];
+                            if (numVal == item.supplierCode) {
+                                //赋值保存数据
+                                saveObj[num] = numVal;
+                                saveObj[name] = item.supplierName;
+                                $('#suppliername').val(item.supplierName);
+                                $('#suppliernumber').append('<option value="' + item.supplierCode + '" selected>' + item.supplierCode + '</option>');
+                            } else {
+                                $('#suppliernumber').append('<option value="' + item.supplierCode + '">' + item.supplierCode + '</option>');
+                            }
+                        }
+                    }
+                } else {
+                    //用户没有输入任何内容
+                    for (var i = 0, len = originData.data.length; i < len; i++) {
+                        var item = originData.data[i];
+                        $('#suppliernumber').append('<option value="' + item.supplierCode + '">' + item.supplierCode + '</option>');
+                    }
+                    saveObj[num] = '';
+                }
+                //重新渲染下拉框
+                form.render('select', 'supplier-content');
+                //重新渲染后再次监听事件
+                initSupplierSelect(originData, originObj, name, num);
+            };
+        }, 100);
+    }
+
+
+</script>
+</body>
+</html>

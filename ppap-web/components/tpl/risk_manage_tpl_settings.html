@@ -1,0 +1,661 @@
+<!--
+File   : system_user_tpl_add_edit.html
+Created: Tuesday September 18th 2018 11:22:10 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Tuesday September 25th 2018 3:51:12 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 
+-----
+HISTORY:
+-->
+<style>
+    .search-item i {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        color: #6e6e6e;
+    }
+    
+    .search-item input {
+        padding-left: 30px;
+        color: #646464;
+        width: 170px;
+    }
+    
+    .layui-table-body {
+        /* height: 347px; */
+        max-height: 347px;
+    }
+</style>
+<div class="layui-tpl-container layui-form" style="padding-bottom: 10px;" lay-filter="riskSettings">
+    <div class="layui-tab layui-tab-brief" lay-filter="settings">
+        <!-- tab头部内容 -->
+        <ul class="layui-tab-title">
+            <li class="layui-this">风险系统参数设置</li>
+            <li>外部指标权重设置</li>
+            <li>内部指标权重设置</li>
+            <li>能力指标权重设置</li>
+        </ul>
+        <!-- tab内容 -->
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" enctype="multipart/form-data" id="up_form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:155px">外部数据计算程序地址：</label>
+                        <div class="layui-input-block" style="margin-left:165px">
+                            <input type="text" name="externalDataUrl" placeholder="请输入外部数据计算程序地址" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:155px">内部数据计算程序地址：</label>
+                        <div class="layui-input-block" style="margin-left:165px">
+                            <input type="text" name="internalDataUrl" placeholder="请输入内部数据计算程序地址" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:155px">算法参数保存地址：</label>
+                        <div class="layui-input-block" style="margin-left:165px">
+                            <input type="text" name="algorithmParameterUrl" placeholder="请输入算法参数保存地址" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:155px">计算结果保存地址：</label>
+                        <div class="layui-input-block" style="margin-left:165px">
+                            <input type="text" name="calculationUrl" placeholder="请输入计算结果保存地址" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:155px">外部指标导出模板：</label>
+                        <div class="layui-input-block" style="margin-left:165px">
+                            <input type="text" name="externalIndexExportingModule" placeholder="请输入外部指标导出模板" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:155px">内部指标导出模板：</label>
+                        <div class="layui-input-block" style="margin-left:165px">
+                            <input type="text" name="internalIndexExportingModule" placeholder="请输入内部指标导出模板" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:155px">内部指标按天导出模板：</label>
+                        <div class="layui-input-block" style="margin-left:165px">
+                            <input type="text" name="internalIndexExportingByDayModule" placeholder="请输入内部指标按天导出模板" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width:162px">供应商Q+能力导出模板：</label>
+                        <div class="layui-input-block">
+                            <input type="file" name='file' accept="application/vnd.ms-excel">
+                        </div>
+                        <button type="button" class="layui-btn" id="uploadFile">上传履历</button>
+                    </div>
+                    <!-- 提交按钮 -->
+                    <!-- 取消按钮 -->
+                    <div class="layui-form-item" style="text-align: center;">
+                        <button class="layui-btn layui-btn-normal" id="saveSetting" type="button">保存</button>
+                        <button class="layui-btn layui-btn-primary" id="saveCancel" type="button">取消</button>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row">
+                    <!-- 按钮 -->
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-inline">
+                            <div class="layui-inline search-item">
+                                <i class="layui-icon layui-icon-search"></i>
+                                <input type="text" name="dictionaryName" id="externalInput" placeholder="输入指标名称" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" id="externalSearch">查询</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline pull-right">
+                            <button class="layui-btn layui-btn-primary" id="settingExternalEdit">修改</button>
+                            <button class="layui-btn layui-btn-primary" id="settingExternalRefresh">刷新</button>
+                            <!-- <button class="layui-btn layui-btn-primary" id="wanningRefresh">刷新</button>
+                                    <button class="layui-btn layui-btn-primary" id="wanningSearch">查询</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 10px;">
+                        <table id="settingsTable"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row">
+                    <!-- 按钮 -->
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-inline">
+                            <div class="layui-inline search-item">
+                                <i class="layui-icon layui-icon-search"></i>
+                                <input type="text" name="dictionaryName" id="internalInput" placeholder="输入指标名称" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" id="internalSearch">查询</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline pull-right">
+                            <button class="layui-btn layui-btn-primary" id="settingInternalEdit">修改</button>
+                            <button class="layui-btn layui-btn-primary" id="settingInternalRefresh">刷新</button>
+                            <!-- <button class="layui-btn layui-btn-primary" id="wanningRefresh">刷新</button>
+                                            <button class="layui-btn layui-btn-primary" id="wanningSearch">查询</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 10px;">
+                        <table id="settingsTable1"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-row">
+                    <!-- 按钮 -->
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-inline">
+                            <div class="layui-inline search-item">
+                                <i class="layui-icon layui-icon-search"></i>
+                                <input type="text" name="dictionaryName" id="personalInput" placeholder="输入指标名称" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" id="personalSearch">查询</button>
+                            </div>
+                        </div>
+                        <div class="layui-inline pull-right">
+                            <button class="layui-btn layui-btn-primary" id="settingPersonalEdit">修改</button>
+                            <button class="layui-btn layui-btn-primary" id="settingPersonalRefresh">刷新</button>
+                            <!-- <button class="layui-btn layui-btn-primary" id="wanningRefresh">刷新</button>
+                                            <button class="layui-btn layui-btn-primary" id="wanningSearch">查询</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 10px;">
+                        <table id="settingsTable2"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['element'], function() {
+        var element = layui.element;
+        var form = layui.form;
+        // 监听风险管理参数设置tab切换
+        element.on('tab(settings)', function(data) {
+            if (data.index == 0) {
+                setFormValue2();
+            } else if (data.index == 1) {
+                renderTableSettings({
+                    indexType: '外部指标'
+                }, '/api-edu/risk/managementSystem/riskIndexWeight/indexName', 'settingsTable');
+            } else if (data.index == 2) {
+                renderTableSettingss({
+                    indexType: '内部指标'
+                }, '/api-edu/risk/managementSystem/riskIndexWeight/indexName', 'settingsTable1');
+            } else if (data.index == 3) {
+                renderTableSettingss({
+                    indexType: '能力指标'
+                }, '/api-edu/risk/managementSystem/riskIndexWeight/indexName', 'settingsTable2');
+            }
+        });
+    });
+    // 保存修改风险参数
+    $("#saveSetting").on("click", function() {
+        var form = new FormData(document.getElementById("up_form"));
+        $.ajax({
+            url: admin.formatUrl("/api-edu/risk/managementSystem/riskSystemParameters"),
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                if (res.ok) {
+                    layer.msg("保存成功！");
+                    admin.finishPopupCenter();
+                } else {
+                    layer.msg(res.message);
+                }
+            },
+            error: function(e) {
+                alert("错误！！");
+            }
+        });
+    });
+    // 点击上传履历按钮事件
+    $("#uploadFile").click(function() {
+        layer.open({
+            type: 1,
+            title: '履历详情',
+            content: $("#riskManageFileTpl"), //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            area: '70%',
+            // shade: 0.3,
+            success: function(layero, index) {
+                var mask = $(".layui-layer-shade").eq(1);
+                mask.before(layero);
+                renderFileDetailTable();
+            }
+        });
+    });
+    // 渲染履历详情表格
+    function renderFileDetailTable() {
+        table.render({
+            id: "tableContent3",
+            elem: '#tableContent3',
+            url: admin.formatUrl("/api-edu/risk/managementSystem/riskSystemParameters/file"),
+            parseData: function(res) { //res 即为原始返回的数据
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    // "count": total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            cols: [
+                [{
+                    title: '序号',
+                    type: 'numbers'
+                }, {
+                    title: '上传时间',
+                    field: 'creatDate',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '版本号',
+                    field: 'version',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '操作',
+                    templet: '#control-1',
+                    minWidth: 100,
+                    align: 'center'
+                }]
+            ],
+            // height: 429,
+            page: false,
+            done: function(res, curr, count) { // 表格渲染完成之后的回调
+                $(window).resize();
+            }
+        });
+    }
+    // 表格操作列
+    table.on('tool(tableContent3)', function(obj) {
+        // 获取点击列的数据
+        var data = obj.data;
+        var layEvent = obj.event;
+        // 判断操作类型/编辑用户
+        if (layEvent === 'download') {
+            layer.confirm('是否确认下载？', {
+                icon: 3,
+                title: '信息'
+            }, function(index) {
+                //do something
+                admin.showLoading("body");
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', admin.formatUrl("/api-edu/risk/managementSystem/riskSystemParameters/download?fileId=" + data.id), true);
+                xhr.responseType = 'blob';
+                xhr.onload = function(e) {
+                    if (this.status == 200) {
+                        var blob = this.response;
+                        var filename = '风险履历.xls';
+                        var a = document.createElement('a');
+                        blob.type = "application/excel";
+                        var url = URL.createObjectURL(blob);
+                        a.href = url;
+                        a.download = filename;
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        admin.removeLoading("body");
+                    }
+                };
+                xhr.send();
+                layer.close(index);
+            });
+        }
+    });
+    // 外部指标权重查询
+    $("#externalSearch").click(function() {
+        var indexName = $("#externalInput").val();
+        renderTableSettings({
+            indexType: '外部指标',
+            indexName: indexName
+        }, "/api-edu/risk/managementSystem/riskIndexWeight/indexName", "settingsTable");
+    });
+    // 内部指标权重查询
+    $("#internalSearch").click(function() {
+        var indexName = $("#internalInput").val();
+        renderTableSettingss({
+            indexType: '内部指标',
+            indexName: indexName
+        }, "/api-edu/risk/managementSystem/riskIndexWeight/indexName", "settingsTable1");
+    });
+    // 能力指标权重查询
+    $("#personalSearch").click(function() {
+        var indexName = $("#personalInput").val();
+        renderTableSettingss({
+            indexType: '能力指标',
+            indexName: indexName
+        }, "/api-edu/risk/managementSystem/riskIndexWeight/indexName", "settingsTable2");
+    });
+    // 指标权重列表
+    function renderTableSettings(data, url, id) {
+        if (!data) {
+            data = null;
+        }
+        table.render({
+            id: id,
+            elem: '#' + id,
+            where: data,
+            url: admin.formatUrl(url),
+            parseData: function(res) { //res 即为原始返回的数据
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    // "count": total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            cols: [
+                [{
+                    type: "checkbox"
+                }, {
+                    title: '序号',
+                    type: 'numbers'
+                }, {
+                    title: '指标区分',
+                    field: 'indextype',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '指标名称',
+                    field: 'indexname',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '权重值',
+                    field: 'indexvalue',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '是否关键',
+                    field: 'keyvalue',
+                    minWidth: 100,
+                    align: 'center',
+                    templet: function(d) {
+                    switch (d.keyvalue) {
+                        case "0":
+                            return '是';
+                            break;
+                        case "1":
+                            return '否';
+                            break;
+                        default : 
+                            return '';
+                            break;
+                    }
+                }
+                }, {
+                    title: '排序',
+                    field: 'shortsorting',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '备注',
+                    field: 'remark',
+                    minWidth: 100,
+                    align: 'center'
+                }]
+            ],
+            height: 429,
+            page: false,
+            done: function(res, curr, count) { // 表格渲染完成之后的回调
+            }
+        });
+    }
+    // 指标权重列表
+    function renderTableSettingss(data, url, id) {
+        if (!data) {
+            data = null;
+        }
+        table.render({
+            id: id,
+            elem: '#' + id,
+            where: data,
+            url: admin.formatUrl(url),
+            parseData: function(res) { //res 即为原始返回的数据
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    // "count": total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            cols: [
+                [{
+                    type: "checkbox"
+                }, {
+                    title: '序号',
+                    type: 'numbers'
+                }, {
+                    title: '指标区分',
+                    field: 'indextype',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '指标名称',
+                    field: 'indexname',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '权重值',
+                    field: 'indexvalue',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '排序',
+                    field: 'shortsorting',
+                    minWidth: 100,
+                    align: 'center'
+                }, {
+                    title: '备注',
+                    field: 'remark',
+                    minWidth: 100,
+                    align: 'center'
+                }]
+            ],
+            height: 429,
+            page: false,
+            done: function(res, curr, count) { // 表格渲染完成之后的回调
+            }
+        });
+    }
+    // 外部指标修改
+    $("#settingExternalEdit").click(function() {
+        var checkStatus = table.checkStatus('settingsTable'); //test即为基础参数id对应的值
+        if (checkStatus.data.length > 1) {
+            layer.msg("请至多选择一项进行编辑！");
+            return;
+        } else if (checkStatus.data.length == 0) {
+            layer.msg("请至少选择一项进行编辑！");
+            return;
+        };
+        // 打开修改弹层
+        layer.open({
+            type: 1,
+            title: '指标修改:' + checkStatus.data[0].indexname,
+            content: $("#riskIndexWeightTpl"), //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            area: '30%',
+            // shade: 0.3,
+            success: function(layero, index) {
+                var mask = $(".layui-layer-shade").eq(1);
+                mask.before(layero);
+                $("[name='riskId']").val(checkStatus.data[0].riskid);
+                $("[name='indexValue']").val(checkStatus.data[0].indexvalue);
+                $("[name='indextype']").val(checkStatus.data[0].indextype).attr("disabled", "").addClass("layui-disabled");
+                $("[name='indexname']").val(checkStatus.data[0].indexname).attr("disabled", "").addClass("layui-disabled");
+                $("[name='shortsorting']").val(checkStatus.data[0].shortsorting).attr("disabled", "").addClass("layui-disabled");
+                $("[name='remark']").val(checkStatus.data[0].remark).attr("disabled", "").addClass("layui-disabled");
+                //$("[name='keyvalue']").attr("checked", checkStatus.data[0].keyvalue == 0 ? true : false);
+                layui.form.val("keyfilter",{keyvalue:checkStatus.data[0].keyvalue});
+            },
+            btn: ['保存', '关闭'],
+            btnAlign: 'c',
+            btn1: function(index, layero) {
+                var riskId = $("[name='riskId']").val();
+                var indexValue = $("#riskIndexWeightTpl input[name='indexValue']").val();
+                var keyValue = $('input[name="keyvalue"]:checked').val();
+                admin.req("/api-edu/risk/managementSystem/riskIndexWeight?riskId=" + riskId + "&indexValue=" + indexValue + "&keyValue=" + keyValue, {}, function(res) {
+                    if (res.ok) {
+                        layer.msg("保存成功！");
+                        layer.close(index);
+                        table.reload('settingsTable', {});
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'post'
+                })
+            }
+        });
+    });
+    // 内部指标修改
+    $("#settingInternalEdit").click(function() {
+        var checkStatus = table.checkStatus('settingsTable1'); //test即为基础参数id对应的值
+        if (checkStatus.data.length > 1) {
+            layer.msg("请至多选择一项进行编辑！");
+            return;
+        } else if (checkStatus.data.length == 0) {
+            layer.msg("请至少选择一项进行编辑！");
+            return;
+        };
+        // 打开修改弹层
+        layer.open({
+            type: 1,
+            title: '指标修改:' + checkStatus.data[0].indexname,
+            content: $("#riskIndexWeightTplOther"), //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            area: '30%',
+            // shade: 0.3,
+            success: function(layero, index) {
+                var mask = $(".layui-layer-shade").eq(1);
+                mask.before(layero);
+                $("[name='riskId']").val(checkStatus.data[0].riskid);
+                $("[name='indexValue']").val(checkStatus.data[0].indexvalue);
+                $("[name='indextype']").val(checkStatus.data[0].indextype).attr("disabled", "").addClass("layui-disabled");
+                $("[name='indexname']").val(checkStatus.data[0].indexname).attr("disabled", "").addClass("layui-disabled");
+                $("[name='shortsorting']").val(checkStatus.data[0].shortsorting).attr("disabled", "").addClass("layui-disabled");
+                $("[name='remark']").val(checkStatus.data[0].remark).attr("disabled", "").addClass("layui-disabled");
+            },
+            btn: ['保存', '关闭'],
+            btnAlign: 'c',
+            btn1: function(index, layero) {
+                var riskId = $("[name='riskId']").val();
+                var indexValue = $("#riskIndexWeightTplOther input[name='indexValue']").val();
+                admin.req("/api-edu/risk/managementSystem/riskIndexWeight?riskId=" + riskId + "&indexValue=" + indexValue + "&keyValue= ''", {}, function(res) {
+                    if (res.ok) {
+                        layer.msg("保存成功！");
+                        layer.close(index);
+                        table.reload('settingsTable1', {});
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'post'
+                })
+            }
+        });
+    });
+    // 能力指标修改
+    $("#settingPersonalEdit").click(function() {
+        var checkStatus = table.checkStatus('settingsTable2'); //test即为基础参数id对应的值
+        if (checkStatus.data.length > 1) {
+            layer.msg("请至多选择一项进行编辑！");
+            return;
+        } else if (checkStatus.data.length == 0) {
+            layer.msg("请至少选择一项进行编辑！");
+            return;
+        };
+        // 打开修改弹层
+        layer.open({
+            type: 1,
+            title: '指标修改:' + checkStatus.data[0].indexname,
+            content: $("#riskIndexWeightTplOther"), //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            area: '30%',
+            // shade: 0.3,
+            success: function(layero, index) {
+                var mask = $(".layui-layer-shade").eq(1);
+                mask.before(layero);
+                $("[name='riskId']").val(checkStatus.data[0].riskid);
+                $("[name='indexValue']").val(checkStatus.data[0].indexvalue);
+                $("[name='indextype']").val(checkStatus.data[0].indextype).attr("disabled", "").addClass("layui-disabled");
+                $("[name='indexname']").val(checkStatus.data[0].indexname).attr("disabled", "").addClass("layui-disabled");
+                $("[name='shortsorting']").val(checkStatus.data[0].shortsorting).attr("disabled", "").addClass("layui-disabled");
+                $("[name='remark']").val(checkStatus.data[0].remark).attr("disabled", "").addClass("layui-disabled");
+            },
+            btn: ['保存', '关闭'],
+            btnAlign: 'c',
+            btn1: function(index, layero) {
+                var riskId = $("[name='riskId']").val();
+                var indexValue = $("#riskIndexWeightTplOther input[name='indexValue']").val();
+                admin.req("/api-edu/risk/managementSystem/riskIndexWeight?riskId=" + riskId + "&indexValue=" + indexValue + "&keyValue= ''", {}, function(res) {
+                    if (res.ok) {
+                        layer.msg("保存成功！");
+                        layer.close(index);
+                        table.reload('settingsTable2', {});
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'post'
+                })
+            }
+        });
+    });
+    // 刷新外部指标表格
+    $("#settingExternalRefresh").click(function() {
+        table.reload('settingsTable', {});
+    });
+    // 刷新内部指标表格
+    $("#settingInternalRefresh").click(function() {
+        table.reload('settingsTable1', {});
+    });
+    // 刷新能力指标表格
+    $("#settingPersonalRefresh").click(function() {
+        table.reload('settingsTable2', {});
+    });
+    // 取消按钮
+    $("#saveCancel").click(function() {
+        layer.closeAll();
+    })
+</script>

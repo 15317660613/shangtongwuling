@@ -1,0 +1,230 @@
+<!-- 查询条件设置 -->
+<div class="layui-row" style="margin-top: 4px;">
+    <div class="layui-col-xs12 ayui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">查询条件设置
+                <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                        src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+            </div>
+            <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 10px;display: none" lay-filter="form2">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">开始时间</label>
+                            <div class="layui-input-block">
+                                <i class="layui-icon layui-icon-date"></i>
+                                <input type="text" name="riskTime" placeholder="请选择时间" class="layui-input" id="date-3" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">业务模块</label>
+                            <div class="layui-input-block">
+                                <select name="functionCodeList" id="ywmk3" lay-filter="ywmk3" xm-select="functionSelect">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">供应商代码</label>
+                            <div class="layui-input-block">
+                                <select name="supplierCode" id="gysdm3" lay-filter="gysdm3" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">供应商名称</label>
+                            <div class="layui-input-block">
+                                <select name="gysmc3" id="gysmc3" lay-filter="gysmc3" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">风险程度</label>
+                            <div class="layui-input-block">
+                                <select name="riskLevelCode" id="fxcd3" lay-filter="fxcd3">
+                                        </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">影响车型/机型</label>
+                            <div class="layui-input-block">
+                                <select name="affectcarType" id="vehicleType" lay-filter="vehicleType" lay-search>
+                                        </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">主要影响产品</label>
+                            <div class="layui-input-block">
+                                <select name="affectParts" id="product" lay-filter="product" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">SQE</label>
+                            <div class="layui-input-block">
+                                <select name="sqName" id="sqe" lay-filter="sqe" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-block">
+                                <select name="state" id="status" lay-filter="status">
+                                        </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item" style="margin-bottom: 0;">
+                            <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search2" id="searchAll">查询
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset2">重置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 统计表格 -->
+<div class="layui-row" style="margin-top: 10px;">
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">风险信息详情
+                <div class="pull-right" style="line-height: 37px;">
+                    <button class="layui-btn layui-btn-primary" id="wanningEdit">修改</button>
+                    <button class="layui-btn layui-btn-primary" id="wanningExport">导出</button>
+                    <!-- <button class="layui-btn layui-btn-primary" id="wanningRefresh">刷新</button>
+					<button class="layui-btn layui-btn-primary" id="wanningSearch">查询</button> -->
+                </div>
+            </div>
+            <div class="layui-card-body">
+                <!-- 统计表格 -->
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <table id="demo-table2" lay-filter="demo-table2"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 风险预警状态图表 -->
+<div class="layui-row layui-col-space15" style="margin-top: 2.5px;">
+    <!-- 风险预警状态图表 -->
+    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" style="padding-right:5px;">
+        <div class="layui-card">
+            <div class="layui-card-header">2018年各月风险预警状态</div>
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <img src="../../assets/images/nodata.png" style="height: 100px;margin-left: 39%;padding: 80px 0" id="async-img1">
+                        <div id="warningBar" style="width: 96%;height: 260px;margin: 0 auto;display: none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 风险预警状态图表 -->
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md6" style="padding-left:5px;">
+        <div class="layui-card">
+            <div class="layui-card-header" id="warningPieTitle"></div>
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <img src="../../assets/images/nodata.png" style="height: 100px;margin-left: 41%;padding: 80px 0" id="async-img2">
+                        <div id="warningPie" style="width: 96%;height: 260px;margin: 0 auto;display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .layui-table-box {
+        margin-bottom: 10px;
+    }
+    
+    .layui-btn {
+        font-weight: normal!important;
+    }
+    
+    .layui-layout-body .layui-layer-page .layui-layer-content {
+        overflow: auto;
+    }
+    
+    #adminPopupC .layui-disabled,
+    #adminPopupC .layui-disabled:hover {
+        color: #333!important;
+        border-color: #e6e6e6!important;
+    }
+    
+    #adminPopupC .layui-input:enabled,
+    #adminPopupC .layui-textarea:enabled {
+        border-color: #86CCFF!important
+    }
+    
+    #adminPopupC .layui-input:enabled:hover,
+    #adminPopupC .layui-textarea:enabled:hover {
+        border-color: #86CCFF!important
+    }
+    
+    #adminPopupC .layui-input:focus,
+    #adminPopupC .layui-textarea:focus {
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .4);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .4);
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    
+    #uploadFile {
+        background-color: #01D1C9;
+    }
+    
+    #adminPopupC {
+        max-height: 600px;
+    }
+    /* 
+#layui-layer1[type=page]{
+	max-height: 645px;
+} */
+    
+    .layui-textarea {
+        min-height: 60px;
+    }
+    
+    .greenStatus {
+        background-color: #28C935;
+        margin: 5px 0;
+    }
+    
+    .redStatus {
+        background-color: #FF5252;
+        margin: 5px 0;
+    }
+</style>
+<script src="../../assets/js/riskWarning.js"></script>

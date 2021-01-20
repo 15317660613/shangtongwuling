@@ -1,0 +1,50 @@
+<!--
+File   : project_detail_supplier_choose.html
+Created: 2018-12-10 14:20
+Author : Qitian
+Description: 项目详情1-供应商单元格点击弹出框
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<style>
+ .row-div {
+     width: calc(100% - 170px);
+     display: inline-block;
+ }
+
+ .layui-tpl-container .p-form {
+      overflow: visible;
+ }
+</style>
+<div class="layui-tpl-container">
+    <div class="layui-form p-form" id="supplier-content" lay-filter="supplier-content">
+        <div class="layui-col-md12" style="margin-bottom: 15px;">
+            <label class="layui-form-label">供应商名称：</label>
+            <div class="row-div">
+                <select id="suppliername" class="layui-form-select" lay-search lay-filter="inputSuppliernameSelect">
+
+                 </select>
+            </div>
+        </div>
+        <div class="layui-col-md12" style="margin-bottom: 15px;">
+            <label class="layui-form-label">供应商代码：</label>
+            <div class="row-div">
+                <select id="suppliernumber" class="layui-form-select" style="width: 80%;" lay-search lay-filter="inputSuppliernumberSelect">
+
+                </select>
+            </div>
+
+        </div>
+        <!-- 确定按钮 -->
+        <!-- 提交按钮 -->
+        <div class="" style="text-align: right;">
+            <!--确定按钮绑定事件-->
+            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="popCancle">取消</button>
+            <!--提交按钮绑定事件-->
+            <button class="layui-btn layui-btn-normal" id="submitChoose" lay-submit lay-filter="popSubmitChoose">提交</button>
+        </div>
+    </div>
+</div>

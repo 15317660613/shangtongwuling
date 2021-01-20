@@ -1,0 +1,45 @@
+<!--
+File   : edit_overdue_remark.html
+Created: 2018-12-29 16:20
+Author : Qitian
+Description: 填写变更备注/超期备注模态框
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<style>
+    .layui-layer-title {
+        font-size: 20px;
+        padding-top: 8px;
+    }
+
+    .import-title {
+        color: #ff0000;
+        font-size: 22px;
+        font-weight: 700;
+        margin-right: 15px;
+    }
+</style>
+<div class="layui-tpl-container">
+    <div class="layui-form p-form">
+        <!--主体内容-->
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> <label id="show-label">超期备注</label></label>
+            <div class="layui-input-block">
+                <!--隐藏域，放置传值需要的参数-->
+                <input type="hidden"  id="save-obj"/>
+                <input type="hidden"  id="is-save"/>
+                <input type="text" id="save-remark" placeholder="请输入" class="layui-input" required="">
+            </div>
+        </div>
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="submit-remark-save">确定</button>
+            <!--修改时间2019-01-22 liuhuiwen 原来注掉了，不知为什么注掉-->
+            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="cancel-delete">取消</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,301 @@
+/*
+File   : project_manage.css
+Created: 2018-12-10 14:20
+Author : Qitian
+Description: 项目管理-项目信息维护页面样式
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+*/
+
+/*********************************提示面板样式**********************************/
+.tip {
+    background: #fff;
+    padding: 10px 33px;
+}
+
+.tip-input {
+    width: 100%;
+    border: solid #cfcccc 1px;
+    height: 100%;
+}
+
+.manage {
+    margin-bottom: 15px;
+}
+
+.tip-form .hide {
+    margin-bottom: 0;
+}
+
+#tipCount {
+    color: #00a0e9;
+}
+
+.tip .tip-title {
+    height: 33px;
+    padding-left: 5px;
+    background: #CAEEFFFF;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: solid 1px #75CFFF;
+
+}
+
+.tip-count {
+    position: absolute;
+    font-size: 20px;
+    top: -35px;
+    left: 5px;
+    z-index: 999;
+    color: #fff;
+}
+
+.tip-content {
+    position: relative;
+    height: 220px;
+}
+
+/**********************************搜索面板样式**********************************/
+.search {
+    background: #fff;
+    margin: 0 13px 10px 12px;
+}
+
+.search .layui-form-item {
+    padding-top: 10px;
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.search .layui-form-item .search-content .search-item {
+    float: left;
+    margin-top: 10px;
+}
+
+.search .layui-form-item .search-content .search-item .layui-input-block {
+    width: 160px;
+}
+
+.search .layui-form-item .search-btn {
+    margin: 10px 20px 20px 0px;
+    padding: 0;
+    float: right;
+}
+
+.search .layui-form-item .search-btn a {
+    margin-right: 10px;
+}
+
+.search .layui-form-item .search-btn button {
+    width: 85px;
+
+}
+
+.search-r {
+    float: right;
+    padding-right: 35px;
+    line-height: 42px;
+}
+
+#search-input-pcartype {
+    padding-right: 10px;
+}
+/**********************************数据列表样式**********************************/
+.tableList {
+    background: #fff;
+    margin: 15px 13px 10px 12px;
+}
+
+.table-form {
+    clear: both;
+}
+
+.table-round {
+    padding: 0 13px 15px 12px;
+}
+
+#ots1-time, #ots2-time, #ns-time, #stime-time, #soptime-time, .template-select {
+    width: 100%;
+    border: none;
+}
+/**********************************各模块公共样式**********************************/
+ .search .layui-form,.tableList .layui-form {
+    background: #fff;
+}
+
+ .search .search-title button, .tip .tip-title button,.tableList .tableList-title button {
+    height: 27px;
+    border: 2px solid #C1C0BF;
+    font-weight: bolder;
+    background-color: #F1F1F1;
+    border-radius: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+}
+
+ .search .search-title,.tableList .tableList-title {
+    height: 42px;
+    width: 100%;
+    border-bottom: solid 1px #e3dfdf;
+}
+
+ .title-l i {
+    background-color: #00a0e9;
+    border-radius: 50%;
+    font-size: 25px!important;
+    color: #fff;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.title-l {
+    font-size:14px;
+    font-family:PingFangSC-Semibold;
+    font-weight:600;
+    color:rgba(0,0,0,0.65);
+    line-height:32px;
+    float: left;
+}
+
+.search-l,.table-l {
+    border-left: solid 3px #00a0e9;
+    height: 32px;
+    margin-top: 5px;
+}
+
+.search-l label,.table-l label {
+    font-size:16px;
+    font-family:PingFangSC-Semibold;
+    font-weight:600;
+    color:rgba(24,24,24,1);
+    line-height:32px;
+    float: left;
+    margin-left: 20px;
+}
+
+.title-r {
+    float: right;
+    padding-right: 15px;
+    line-height: 33px;
+}
+
+.title-r label, .search-r label {
+    width:28px;
+    height:24px;
+    font-size:14px;
+    font-family:PingFang-SC-Medium;
+    font-weight:500;
+    color:rgba(90,90,90,1);
+    line-height:24px;
+    margin-right: 15px;
+}
+
+.title-r img, .search-r img {
+    margin-left: 3px;
+}
+
+.hide {
+    display: none;
+}
+
+.btns-left {
+    float: left;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.btns-right {
+    float: right;
+    width: auto;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+.nostyle-btn {
+    color: rgba(148,148,148,1);
+    width: 121px;
+    height: 27px;
+    background: rgba(255,255,255,1);
+    border-radius: 2px;
+    border: 1px solid rgba(202,202,202,1);
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.nostyle-btn img {
+    margin-right: 5px;
+    margin-top: -4px;
+}
+
+.layui-btn-submit {
+    position: absolute;
+    bottom: 0;
+    right: 23px;
+}
+
+/**********************************layui样式覆盖**********************************/
+.layui-form-label {
+    white-space: nowrap;
+}
+
+.layui-card {
+    background: none;
+    border: none;
+}
+
+.layui-card-header {
+    background: #fff;
+}
+
+.layui-body {
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    padding-top: 50px;
+}
+.layui-table-box {
+    overflow-x: auto;
+}
+
+.layui-table-header {
+    overflow: initial;
+}
+.layui-form-select{
+    max-height: 200px;
+}
+.layui-input-block {
+    padding-right: 10px;
+    margin-left: 125px;
+}
+
+/*.table-round .layui-table-fixed .layui-table-body {
+    max-height: 310px!important;
+}*/
+
+.layui-table-body {
+    width: 100%;
+}
+
+table {
+    width: 100%!important;
+}
+/**********************************模态框样式**********************************/
+.import-title {
+    color: #229FFF;
+    font-size: 29px;
+    font-weight: 700;
+    margin-right: 15px;
+}
+.layui-layout-admin .layui-body {
+    overflow-y: auto;
+}
+
+/**********************************覆盖layui-formSelect插件下拉框高度(显示5条数据)**********************************/
+
+.xm-select-parent .xm-form-select dl {
+    max-height: 230px;!important;
+}

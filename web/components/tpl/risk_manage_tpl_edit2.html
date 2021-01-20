@@ -1,0 +1,132 @@
+<!--
+File   : system_user_tpl_add_edit.html
+Created: Tuesday September 18th 2018 11:22:10 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Tuesday September 25th 2018 3:51:12 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 
+-----
+HISTORY:
+-->
+
+<div class="layui-tpl-container2 layui-form" style="padding-bottom: 10px;" lay-filter="riskManager">
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">风险类型：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="risktypename" placeholder="" class="layui-input">
+                    <input type="hidden" name="riskid">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">风险项目：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="riskname" class="layui-input">
+                    <input type="hidden" name="risktypecode" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">风险指标：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="riskindexname" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">指标类型：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="indextypename" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">预警类型：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="warningtypename" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">统计频率：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="frequency" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">风险等级：</label>
+                <div class="layui-input-block">
+                    <select name="risklevelcode" id="risklevelcode1"></select>
+                    <input type="hidden" name="risklevelname">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="warningcodewrapper">
+        <div id="warningrule" style="margin-bottom: 15px;">
+        </div>
+    </div>
+    <div class="layui-row" id="warninremarkwrapper">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item">
+                <label class="layui-form-label">预警描述：</label>
+                <div class="layui-input-block">
+                    <textarea name="warninremark" id="warninremark" placeholder="请输入预警描述" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="manageSave2">保存</button>
+            <button class="layui-btn layui-btn-primary" id="popmenuCancle" lay-filter="popmenuCancle">取消</button>
+        </div>
+    </div>
+</div>
+<script>
+    // 取消按钮
+    layui.use(['layer'], function() {
+        var layer = layui.layer;
+        $("#popmenuCancle").click(function() {
+            layer.closeAll();
+        })
+    })
+</script>

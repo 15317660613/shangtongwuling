@@ -1,0 +1,87 @@
+<!--
+File   : system_user_tpl_view.html
+Created: Tuesday September 25th 2018 2:05:27 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Tuesday September 25th 2018 2:36:06 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 
+-----
+HISTORY:
+-->
+
+<style>
+    .layui-tpl-container table tr td:nth-of-type(1) {
+        text-align: right;
+    }
+</style>
+
+<div class="layui-tpl-container" id="userDetail">
+    <table class="layui-table">
+        <tbody>
+            <tr>
+                <td>用户 ID</td>
+                <td>{{userId}}</td>
+            </tr>
+            <tr>
+                <td>用户姓名</td>
+                <td>{{userName}}</td>
+            </tr>
+            <tr>
+                <td>登录账号</td>
+                <td>{{userCode}}</td>
+            </tr>
+            <tr>
+                <td>所属角色</td>
+                <td>{{roles}}</td>
+            </tr>
+            <tr>
+                <td>用户类型</td>
+                <td>{{userType}}</td>
+            </tr>
+            <tr>
+                <td>用户状态</td>
+                <td>{{status}}</td>
+            </tr>
+            <tr>
+                <td>企业代码</td>
+                <td>{{companyCode}}</td>
+            </tr>
+
+            <tr>
+                <td>企业名称</td>
+                <td>{{companyName}}</td>
+            </tr>
+            <tr>
+                <td>职位名称</td>
+                <td>{{jobName}}</td>
+            </tr>
+            <tr>
+                <td>电子邮件</td>
+                <td>{{email}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,1001 @@
+<link href="/assets/css/business.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/pending_tasks.css">
+
+<style>
+    .margion-bottom-5 {
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .rightTopRed {
+        color: #fff;
+        font-size: 12px;
+        margin-left: 10px;
+        display: inline-block;
+        background-color: red;
+        text-align: center;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 15px;
+    }
+
+    .message-font-color {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .message-title {
+        line-height: 1.5;
+    }
+
+    @media screen and (max-width: 1366px) {
+        .layui-col-md2 {
+            width: 25%;
+        }
+        .layui-col-md10 {
+            width: 75%;
+        }
+    }
+</style>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header">任务信息
+                <div class="layui-card-header-right-btn tasks-info-refresh">
+                    更多&nbsp;<i class="layui-icon layui-icon-right"></i>
+                </div>
+            </div>
+            <div class="layui-card-body tasks-track-container">
+                <div class="pic-display">
+                    <div class="category-reload" category="zlkf">
+                        <img src="assets/images/business/1.png" width="70" />
+                        <div class="pic-display-div">
+                            <span id="zlkfCount" class="color-span1">0</span>
+                            <span>质量开发</span>
+                        </div>
+                    </div>
+                    <div class="category-reload" category="zlbz">
+                        <img src="assets/images/business/2.png" width="70" />
+                        <div class="pic-display-div">
+                            <span id="zlbzCount" class="color-span2">0</span>
+                            <span>质量保障</span>
+                        </div>
+                    </div>
+                    <div class="category-reload" category="qPlus">
+                        <img src="assets/images/business/3.png" width="70" />
+                        <div class="pic-display-div">
+                            <span id="qPlusCount" class="color-span1">0</span>
+                            <span>Q+能力</span>
+                        </div>
+                    </div>
+                    <div class="category-reload" category="xtgl">
+                        <img src="assets/images/business/4.png" width="70" />
+                        <div class="pic-display-div">
+                            <span id="xtglCount" class="color-span4">0</span>
+                            <span>系统管理</span>
+                        </div>
+                    </div>
+                    <div class="category-reload" category="clgl">
+                        <img src="assets/images/business/5.png" width="70" />
+                        <div class="pic-display-div">
+                            <span id="clglCount" class="color-span5">0</span>
+                            <span>材料管理</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header">超期任务
+                <div class="layui-card-header-right-btn open_more" task_type="overdue">
+                    更多&nbsp;<i class="layui-icon layui-icon-right"></i>
+                </div>
+            </div>
+            <div class="layui-card-body tasks-track-container">
+                <table id="overdueTable" lay-filter="overdueTableFilter"></table>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header"><span>待办任务</span>
+                <div class="layui-card-header-right-btn open_more" task_type="todo">
+                    更多&nbsp;<i class="layui-icon layui-icon-right"></i>
+                </div>
+            </div>
+            <div class="layui-card-body tableTodolist">
+                <table id="todoTable" lay-filter="todoTableFilter"></table>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header">通知
+                <div class="layui-card-header-right-btn">
+                    更多&nbsp;<i class="layui-icon layui-icon-right"></i>
+                </div>
+            </div>
+            <div class="layui-card-body tableTodolist">
+                <div class="layui-row layui-col-space8 margion-bottom-5" name="6.pdf">
+                    <div class="layui-col-md2">
+                        <img src="assets/images/business/pic1.png" width="100%" height="80" />
+                    </div>
+                    <div class="layui-col-md10 message">
+                        <div class="message-title">“开创新思路，与众不同采购人；服务新宝骏，成本领先供应链”劳动竞赛预通知</div>
+                        <div class="message-font-color">为积极应对复杂严峻的经营形势及行业寒冬，降低企业生产成本与提高企业经营效率，践行公司“艰苦创业，自强不息”的企业精神及2019年“创新创造破旧局”的要求...</div>
+                        <div class="message-time">2019/05/21</div>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-space8 margion-bottom-5" name="2.pdf">
+                    <div class="layui-col-md2">
+                        <img src="assets/images/business/pic2.png" width="100%" height="80" />
+                    </div>
+                    <div class="layui-col-md10 message">
+                        <div class="message-title">沉舟侧畔千帆过，携手Q+度“寒冬”</div>
+                        <div class="message-font-color">随着汽车新四化的迅速发展以及汽车用户需求的不断升级，公司寻求技术创新和品牌创新——倾力建设新宝骏</div>
+                        <div class="message-time">2019/05/05</div>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-space8 margion-bottom-5" name="5.pdf">
+                    <div class="layui-col-md2">
+                        <img src="assets/images/business/pic5.png" width="100%" height="80" />
+                    </div>
+                    <div class="layui-col-md10 message">
+                        <div class="message-title">公司销量再次登顶，居2019年一季度销量榜首</div>
+                        <div class="message-font-color">中国汽车技术研究中心的研究数据显示，2019年一季度，汽车市场终端零售车辆上险数量累计</div>
+                        <div class="message-time">2019/05/03</div>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-space8 margion-bottom-5" name="3.pdf">
+                    <div class="layui-col-md2">
+                        <img src="assets/images/business/pic3.png" width="100%" height="80" />
+                    </div>
+                    <div class="layui-col-md10 message">
+                        <div class="message-title">创造出行新生活，新宝骏启航</div>
+                        <div class="message-font-color">2019年4月11日，“新宝骏品牌之夜”在黄浦江畔的上海国际时尚中心举行</div>
+                        <div class="message-time">2019/04/11</div>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-space8 margion-bottom-5" name="4.pdf">
+                    <div class="layui-col-md2">
+                        <img src="assets/images/business/pic4.png" width="100%" height="80" />
+                    </div>
+                    <div class="layui-col-md10 message">
+                        <div class="message-title">凝心聚力，练内功提能力助力乘用化升级突破</div>
+                        <div class="message-font-color">3月19日~21日，采购中心组织的“SGMW供应商能力提升（Q+）活动（青岛专场）在青岛如期举行</div>
+                        <div class="message-time">2019/03/28</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var click;
+    var allCategory = [
+        'PPAP流程',
+        'OPAP流程',
+        '程序PRR',
+        '质量PRR',
+        '潜在投标质量记录',
+        '质量信息通报',
+        '能力评价报告',
+        '能力提升方案',
+        '提升工作总结',
+        '问题反馈',
+        '权限申请',
+        '零件信息档案维护'
+    ];
+    var searchCategory = '';
+    var searchCategoryList = [];
+    var popTypes = [];
+    popTypes['overdue'] = {
+        title: '超期任务',
+        url: '/api/sys/task-info/overdue/page',
+        group_count: '/api/sys/task-info/overdue/category-count/'
+    };
+    popTypes['todo'] = {
+        title: '待办任务',
+        url: '/api/sys/task-info/todo-list/page',
+        group_count: '/api/sys/task-info/todo-list/category-count/'
+    };
+    var cannotReassignmentCategory = ['PPAP流程', 'OPAP流程'];
+    var zlkfList = ['PPAP流程', 'OPAP流程'];
+    var zlbzList = ['程序PRR', '质量PRR', '质量信息通报'];
+    var qPlusList = ['能力评价报告', '能力提升方案', '提升工作总结'];
+    var xtglList = ['问题反馈', '权限申请', '零件信息档案维护', '潜在投标质量记录'];
+    var clglList = [''];
+    var categoryCountList = [{
+        categoryList: zlkfList,
+        count: 0,
+        div: $('#zlkfCount'),
+        category: 'zlkf'
+    }, {
+        categoryList: zlbzList,
+        count: 0,
+        div: $('#zlbzCount'),
+        category: 'zlbz'
+    }, {
+        categoryList: qPlusList,
+        count: 0,
+        div: $('#qPlusCount'),
+        category: 'qPlus'
+    }, {
+        categoryList: xtglList,
+        count: 0,
+        div: $('#xtglCount'),
+        category: 'xtgl'
+    }, {
+        categoryList: clglList,
+        count: 0,
+        div: $('#clglCount'),
+        category: 'clgl'
+    }];
+
+    layui.use(['index', 'laydate', 'layer', 'table', 'admin', 'element', 'form'], function() {
+        var table = layui.table;
+        var laydate = layui.laydate;
+        var element = layui.element;
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var config = layui.config;
+        var form = layui.form;
+        var account = config.getAccount();
+
+        function init() {
+            // allCategory = zlkfList.concat(zlbzList).concat(qPlusList).concat(xtglList).concat(clglList);
+            loadTaskInfo();
+            renderTodoTable();
+            renderOverdueTable();
+            bindingClickEvent();
+        }
+
+        function renderPopTable(popCategory, popType) {
+            searchCategory = popCategory;
+            table.render({
+                id: 'task_info_more_table',
+                elem: '#task_info_more_table',
+                url: admin.formatUrl(popType.url),
+                method: 'POST',
+                where: getTaskSearchInfo(),
+                contentType: 'application/json',
+                parseData: function(res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                request: {
+                    pageName: 'page', //页码的参数名称，默认：page
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                page: true, //开启分页
+                cols: [
+                    [ //表头
+                        {
+                            type: 'checkbox'
+                        }, {
+                            field: 'category',
+                            title: '任务类型',
+                            width: 100,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.category ? '<span title="' + d.category + '">' + d.category + '</span>' : "";
+                            }
+                        }, {
+                            field: 'content',
+                            title: '主要内容',
+                            minWidth: 280,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.content ? '<span title="' + d.content + '">' + d.content + '</span>' : "";
+                            }
+                        }, {
+                            field: 'taskNum',
+                            title: '任务单编号',
+                            width: '20%',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.taskNum ? '<span title="' + d.taskNum + '">' + d.taskNum + '</span>' : "";
+                            }
+                        }, {
+                            field: 'startUser',
+                            title: '发起人',
+                            width: 100,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.startUser ? '<span title="' + d.startUser + '">' + d.startUser + '</span>' : "";
+                            }
+                        }, {
+                            field: 'startTime',
+                            title: '发布时间',
+                            width: 130,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.startTime ? '<span title="' + d.startTime + '">' + d.startTime + '</span>' : "";
+                            }
+                        }, {
+                            field: 'depart',
+                            hide: true
+                        }, {
+                            field: 'taskOrderKey',
+                            hide: true
+                        }, {
+                            field: 'taskOrderType',
+                            hide: true
+                        }, {
+                            field: 'currentStatus',
+                            hide: true
+                        }, {
+                            field: 'id',
+                            hide: true
+                        }, {
+                            field: 'procInstId',
+                            hide: true
+                        }, {
+                            field: 'nodeName',
+                            hide: true
+                        }, {
+                            field: 'tab',
+                            hide: true
+                        }
+                    ]
+                ]
+            });
+
+            table.on('rowDouble(task_info_more_table_filter)', function(row) {
+                openHandlePage(row.data);
+            });
+            table.on('row(task_info_more_table_filter)', function(row) {
+                click = row;
+            });
+
+        }
+
+        var openPPAPHandlePage = function(rowData) {
+            var taskOrderNumber = rowData.taskNum;
+            var taskOrderKey = rowData.taskOrderKey;
+            var taskOrderType = rowData.taskOrderType;
+            var currentStatus = rowData.currentStatus;
+            var id = rowData.id;
+            var procInstId = rowData.procInstId;
+            var nodeName = rowData.nodeName;
+            if (taskOrderType == '1') {
+			parent.layer.closeAll();
+                //1:待发布
+                if (currentStatus == '1') {
+                    // location.href = './index.html#!OPAP?' + rows[0].taskorderkey + '&' + rows[0].processId + '&' + escape(rows[0].nodeName);
+                    if(id!=null&&nodeName!=null){
+                    	location.href ='./index.html#!OPAP?' + taskOrderKey + '&' + id + '&' + escape(nodeName)+'&2';
+                        }else{
+                        	location.href ='./index.html#!OPAP?' + taskOrderKey + '&&2';
+                            }
+                    return;
+                } else {
+                    // location.href = './index.html#!OPAP1?' + rows[0].taskorderkey + '&' + rows[0].processId + '&' + escape(rows[0].nodeName);
+                    location.href = './index.html#!OPAP1?' + taskOrderKey + '&' + id + '&' + escape(nodeName)+'&2';
+                    return;
+                }
+            }
+
+            if (taskOrderType == '2') {
+            	parent.layer.closeAll();
+                if (config.getAccount().roleName == '供应商') {
+                    location.href = '/index.html#!project10?' + taskOrderKey;
+                    return;
+                }
+                //1:待发布
+                /*if (rows[0].currentstatus == '1') {
+                        location.replace('./index.html#!project11?' + rows[0].taskorderkey);
+                    return;
+                } else */
+                if (currentStatus == 7 && taskOrderType == 2) {
+                    selectPPAPkey(taskOrderKey, procInstId, id, nodeName);
+                } else {
+                    //updated by qitian 2019-01-08 21:21
+                    admin.req('/api/ppap/taskorder/getTaskInfoByLast', {
+                            taskorderkey: taskOrderKey
+                        },
+                        function(res) {
+                            if (res.respCode == 200 && res.data) {
+                                //selectPPAPkey(rows[0].taskorderkey,rows[0].processId, rows[0].nodeid)
+                                var processId = procInstId;
+                                var nodeid = id;
+                                if (processId == '') {
+                                    // location.href = './index.html#!task-second-ppap?' + rows[0].taskorderkey + '&null' + '&' + (nodeid ? nodeid : 'null')+'&'+(nodeName!=""?escape(nodeName):escape("null"));
+                                    location.href ='./index.html#!task-second-ppap?' + taskOrderKey + '&'+(nodeid ? nodeid : 'null') + '&null' +
+                                             '&' + (nodeName !== "" ? escape(nodeName) : escape("null"))+'&2';
+                                } else {
+                                    // location.href = './index.html#!task-second-ppap?' + rows[0].taskorderkey + '&' + processId + '&' + (nodeid ? nodeid : 'null')+'&'+(nodeName!=""?escape(nodeName):escape("null"));
+                                    location.href ='./index.html#!task-second-ppap?' + taskOrderKey + '&' + (nodeid ? nodeid : 'null') +
+                                        '&' + processId + '&' + (nodeName !== "" ? escape(nodeName) : escape("null"))+'&2'
+                                }
+                            } else {
+                                //updated by qitian 2019-01-13 判断当前状态是否为1，如果为暂存的创建单，则需要跳转创建页面
+                                //修改用流程判断nodeName
+                                debugger;
+                                if (nodeName == null || nodeName == "") {
+                                    // location.href = './index.html#!project11?' + rows[0].taskorderkey;
+                                    location.href ='./index.html#!project11?' + taskOrderKey+'&2';
+                                } else {
+                                    // location.href = './index.html#!project9?' + rows[0].taskorderkey + '&' + rows[0].processId + '&' + rows[0].nodeid + '&' + rows[0].taskordernumber+'&'+escape(rows[0].nodeName);
+                                    location.href ='./index.html#!project9?' + taskOrderKey + '&' + id + '&' + procInstId + '&' + taskOrderNumber + '&' + escape(nodeName)+'&2';
+                                }
+                            }
+                        }, {
+                            method: 'POST'
+                        });
+
+                }
+            }
+        };
+
+        //跳转再次创建ppap
+        function selectPPAPkey(taskorderkey, processId, nodeid, nodeName) {
+            var admin = layui.adc;
+            admin.req('/api/ppap/taskorder/createTaskAgain', {
+                taskorderkey: taskorderkey
+            }, function(res) {
+                if (res.respCode == 200 && res.data) {
+                    if (processId == '') {
+                        // location.replace('./index.html#!task-second-ppap?' + res.data + '&null' + '&' + (nodeid ? nodeid : 'null')+'&'+(nodeName!=""?escape(nodeName):escape("null")));
+                        location.href ='./index.html#!task-second-ppap?' + res.data +  '&' + (nodeid ? nodeid : 'null') +'&null' + '&' + (nodeName != "" ? escape(nodeName) : escape("null"))+'&2';
+                    } else {
+                        //修改用流程判断nodeName
+                        // location.replace('./index.html#!task-second-ppap?' + res.data + '&' + processId + '&' + (nodeid ? nodeid : 'null')+'&'+(nodeName!=""?escape(nodeName):escape("null")));
+                       location.href ='./index.html#!task-second-ppap?' + res.data + '&' + (nodeid ? nodeid : 'null') + '&' + processId + '&' + (nodeName != "" ? escape(nodeName) : escape("null"))+'&2';
+                    }
+                }
+            }, {
+                method: 'post'
+            })
+        }
+
+        /**
+         * 打开办理页面
+         * 老系统通过跳转到老系统个人待办列表页面模拟选中待办任务并点击任务办理按钮
+         * PPAP模仿PPAP待办任务页面点击处理按钮执行
+         */
+        function openHandlePage(rowData) {
+            var tab = rowData.tab;
+            var taskNum = rowData.taskNum;
+
+            if (tab === 'O') {
+                window.open('/smsh?re=/jbpm/taskpersonal?taskNum=' + taskNum + '&controlType=handle');
+            } else if (tab === 'N') {
+                openPPAPHandlePage(rowData);
+            }
+        }
+
+        function openReassignmentPop(taskNum) {
+            layer.open({
+                id: 'reassignmentPop',
+                title: '改派',
+                area: ['70%', '80%'],
+                btn: ['确定', '取消'],
+                btnAlign: 'c',
+                // path: 'components/tpl/reassignment_pop.html',
+                success: function(layero, index) {
+                    $(layero).children('.layui-layer-content').load('components/tpl/reassignment_pop.html', function() {
+                        $("#taskNum").val(taskNum);
+                        $(window).resize();
+                    });
+                },
+                btn1: function(index, layero) {
+                    var rowData = table.checkStatus('reassignment_pop_user_table').data;
+                    if (rowData.length !== 1) {
+                        window.alert('请指定一名用户进行改派!');
+                        return false;
+                    }
+                    var userId = rowData[0].userId;
+                    admin.req('/api/sys/task-info/change-assignee/' + $('#taskNum').val() + '?userId=' + userId, {}, function(res) {
+                        if (res.ok) {
+                            layer.msg(res.message, {},
+                                function() {
+                                    admin.closePopupCenter();
+                                });
+                        } else {
+                            layer.msg(res.message);
+                        }
+                    }, {
+                        method: 'post'
+                    });
+                },
+                cancel: function() {
+                    table.reload('task_info_more_table');
+                }
+            });
+            // admin.popupCenter({
+            //     title: '11',
+            //     area: ['50%', '50%'],
+            //     path: 'components/tpl/reassignment_pop.html',
+            //     success: function() {
+            //         $("#taskNum").val(taskNum);
+            //         $(window).resize();
+            //     },
+            //     cancel: function() {
+            //         table.reload('task_info_more_table');
+            //     }
+            // });
+        }
+
+        $(".margion-bottom-5").click(function() {
+            window.open("../../assets/pdf/" + $(this).attr("name"))
+        });
+        /**
+         * 打开改派页面
+         */
+        function openReassignmentPage(rowData) {
+            var taskNum = rowData.taskNum;
+            var tab = rowData.tab;
+            if ('O' === tab) {
+                window.open('/smsh?re=/jbpm/taskpersonal?taskNum=' + taskNum + '&controlType=reassignment');
+            } else if (tab === 'N') {
+                //layer.msg('PPAP流程暂不支持改派');
+                openReassignmentPop(taskNum);
+            }
+        }
+
+        function appendCategoryUlContent($category_ul, category, count) {
+            var $category_new_li = $(
+                "<li class='per-category-reload' category='" + category + "'>" +
+                "<div style='margin: 0 auto'>" + category + '<span class="rightTopRed">' + count + '</span>' + "</div>" +
+
+                "</li>"
+            );
+            if ($category_ul.children().length === 0) {
+                $category_new_li.addClass('layui-this');
+                controlReassignmentBtn(category);
+            }
+            $category_ul.append($category_new_li);
+        }
+
+        function getPopCategoryCountList(popCategoryList, popType) {
+            var categoryCountList = [];
+            admin.req(popType.group_count + account.userId + '?categories=' + popCategoryList, {},
+                function(res) {
+                    for (var categoryIndex in popCategoryList) {
+                        var categoryItem = popCategoryList[categoryIndex];
+                        var tempCategoryCount = {
+                            category: categoryItem,
+                            count: 0
+                        };
+                        for (var resIndex in res.data) {
+                            var resItem = res.data[resIndex];
+                            if (categoryItem === resItem.category) {
+                                tempCategoryCount.count = resItem.count;
+                                break;
+                            }
+                        }
+                        categoryCountList.push(tempCategoryCount);
+                    }
+                }, {
+                    method: "GET",
+                    async: false
+                }
+            );
+            return categoryCountList;
+        }
+
+        /**
+         * 绑定点击事件
+         * 1. 点击左上角各个类型,同步刷新待办任务列表及超时任务列表
+         * 2. 点击待办任务或超时任务列表右上的更多按钮,弹出当前所选大类详情分类信息
+         */
+        function bindingClickEvent() {
+            $('.category-reload').click(function() {
+                var category = $(this).attr('category');
+                changeTaskSearchInfo(category);
+                reloadTodoTable();
+                reloadOverdueTable();
+            });
+
+            $('.open_more').click(function() {
+                var type = $(this).attr('task_type');
+                var popType = popTypes[type];
+
+                admin.popupCenter({
+                    title: popType.title,
+                    area: ['100%', '100%'],
+                    path: 'components/tpl/business_task_info_more_tpl.html',
+                    success: function() {
+                        var $category_ul = $('#category_ul');
+                        var popCategoryList = getPopCategoryList();
+                        var popCategoryCountList = getPopCategoryCountList(popCategoryList, popType);
+                        renderPopTable(popCategoryList[0], popType);
+                        for (var index in popCategoryCountList) {
+                            var categoryCount = popCategoryCountList[index];
+                            appendCategoryUlContent($category_ul, categoryCount.category, categoryCount.count);
+                        }
+
+                        $(".per-category-reload").click(function() {
+                            searchCategory = $(this).attr('category');
+                            controlReassignmentBtn($(this).attr('category'));
+                            table.reload('task_info_more_table', {
+                                where: getTaskSearchInfo()
+                            });
+                        });
+
+                        $('#handler_btn').click(function() {
+                            var checkRows = table.checkStatus('task_info_more_table');
+                            var rowData = checkRows.data;
+                            if (rowData.length === 0) {
+                                layer.msg('请选择一条数据');
+                                return;
+                            } else if (rowData.length > 1) {
+                                layer.msg('只能选择一条数据');
+                                return;
+                            }
+
+                            openHandlePage(rowData[0]);
+                        });
+
+                        $('#reassignment_btn').click(function() {
+                            var checkRows = table.checkStatus('task_info_more_table');
+                            var rowData = checkRows.data;
+                            if (rowData.length === 0) {
+                                layer.msg('请选择一条数据');
+                                return;
+                            } else if (rowData.length > 1) {
+                                layer.msg('只能选择一条数据');
+                                return;
+                            }
+                            openReassignmentPage(rowData[0]);
+                        });
+
+                        $('#business_task_info_more_tpl').on('click', '.layui-table-body tr', function(e) {
+                            $('.layui-form-checkbox', this).click();
+                        });
+                        $('#business_task_info_more_tpl').on('click', '.layui-form-checkbox', function(e) {
+                            e.stopPropagation();
+                        });
+
+                        $(window).resize();
+                    },
+                    cancel: function() {
+                        searchCategory = '';
+                    }
+                });
+            });
+        }
+
+        /**
+         * 设置弹出框中改派按钮是否可见
+         */
+        function controlReassignmentBtn(category) {
+            // if (cannotReassignmentCategory.indexOf(category) !== -1) {
+            //     $('#reassignment_btn').hide();
+            // } else {
+            $('#reassignment_btn').show();
+            // }
+        }
+
+        /**
+         * 获取弹框中列表页签信息列表
+         */
+        function getPopCategoryList() {
+            if (searchCategoryList.length === 0) {
+                return allCategory;
+            }
+            return searchCategoryList;
+        }
+
+        /**
+         * 设置表格查询参数(按大类设置)
+         * 按大类设置后将单个分类清空 category = ''
+         */
+        function changeTaskSearchInfo(category) {
+            for (var index in categoryCountList) {
+                var item = categoryCountList[index];
+                if (item.category === category) {
+                    searchCategoryList = [];
+                    searchCategoryList = item.categoryList;
+                    break;
+                }
+            }
+            searchCategory = '';
+        }
+
+        /**
+         * 分类统计数量归0
+         */
+        function clearCategoryCountList() {
+            for (var index in categoryCountList) {
+                var item = categoryCountList[index];
+                item.count = 0;
+            }
+        }
+
+        /**
+         * 更新分类统计数量
+         */
+        function updateCountByCategoryName(category, count) {
+            for (var index in categoryCountList) {
+                var item = categoryCountList[index];
+                if (item.categoryList.indexOf(category) > -1) {
+                    item.count += count;
+                }
+            }
+        }
+
+        /**
+         * 渲染任务信息下的分类统计数量
+         */
+        function renderTaskInfo() {
+            for (var index in categoryCountList) {
+                var item = categoryCountList[index];
+                item.div.html(item.count);
+            }
+        }
+
+        /**
+         * 加载任务信息下的分类统计数量
+         */
+        function loadTaskInfo() {
+            admin.req('/api/sys/task-info/todo-list/category-count/' + account.userId, {}, function(res) {
+                clearCategoryCountList();
+                var categoryCounts = res.data;
+                if (categoryCounts instanceof Array) {
+                    for (var index in categoryCounts) {
+                        var item = categoryCounts[index];
+                        updateCountByCategoryName(item.category, item.count);
+                    }
+                }
+                renderTaskInfo();
+            }, {
+                method: "GET"
+            })
+        }
+
+
+        /**
+         * 获取表格查询参数
+         * 包括userId,category,categories
+         */
+        function getTaskSearchInfo() {
+            var search = {
+                userId: account.userId
+            };
+            if (searchCategory.length !== 0) {
+                search.category = searchCategory;
+            } else if (searchCategoryList.length !== 0) {
+                search.categories = searchCategoryList;
+            }
+            return search;
+        }
+
+        /**
+         * 待办任务表格重新载入
+         */
+        function reloadTodoTable() {
+            table.reload('todoTable', {
+                where: getTaskSearchInfo()
+            });
+        }
+
+        /**
+         * 渲染待办任务表格
+         */
+        function renderTodoTable() {
+            table.render({
+                id: 'todoTable',
+                elem: '#todoTable',
+                height: '490',
+                url: admin.formatUrl('/api/sys/task-info/todo-list/page'), //数据接口
+                method: 'POST',
+                where: getTaskSearchInfo(),
+                contentType: 'application/json',
+                parseData: function(res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                request: {
+                    pageName: 'page', //页码的参数名称，默认：page
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                page: true, //开启分页
+                cols: [
+                    [ //表头
+                        {
+                            field: 'category',
+                            title: '任务类型',
+                            width: 100,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.category ? '<span title="' + d.category + '">' + d.category + '</span>' : "";
+                            }
+                        }, {
+                            field: 'content',
+                            title: '主要内容',
+                            minWidth: 280,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.content ? '<span title="' + d.content + '">' + d.content + '</span>' : "";
+                            }
+                        }, {
+                            field: 'taskNum',
+                            title: '任务单编号',
+                            width: '20%',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.taskNum ? '<span title="' + d.taskNum + '">' + d.taskNum + '</span>' : "";
+                            }
+                        }, {
+                            field: 'startUser',
+                            title: '发起人',
+                            width: 100,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.startUser ? '<span title="' + d.startUser + '">' + d.startUser + '</span>' : "";
+                            }
+                        }, {
+                            field: 'startTime',
+                            title: '发布时间',
+                            width: 130,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.startTime ? '<span title="' + d.startTime + '">' + d.startTime + '</span>' : "";
+                            }
+                        }, {
+                            field: 'depart',
+                            hide: true
+                        }, {
+                            field: 'taskOrderKey',
+                            hide: true
+                        }, {
+                            field: 'taskOrderType',
+                            hide: true
+                        }, {
+                            field: 'currentStatus',
+                            hide: true
+                        }, {
+                            field: 'id',
+                            hide: true
+                        }, {
+                            field: 'procInstId',
+                            hide: true
+                        }, {
+                            field: 'nodeName',
+                            hide: true
+                        }, {
+                            field: 'tab',
+                            hide: true
+                        }
+                    ]
+                ]
+            });
+
+            table.on('rowDouble(todoTableFilter)', function(row) {
+                openHandlePage(row.data);
+            });
+        }
+
+        /**
+         * 超时任务表格重新载入
+         */
+        function reloadOverdueTable() {
+            table.reload('overdueTable', {
+                where: getTaskSearchInfo()
+            });
+        }
+
+        /**
+         * 渲染超时任务表格
+         */
+        function renderOverdueTable() {
+            table.render({
+                id: 'overdueTable',
+                elem: '#overdueTable',
+                // height: 'full-900',
+                url: admin.formatUrl('/api/sys/task-info/overdue/page'), //数据接口
+                method: 'POST',
+                where: getTaskSearchInfo(),
+                contentType: 'application/json',
+                parseData: function(res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                request: {
+                    pageName: 'page', //页码的参数名称，默认：page
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                // page: true, //开启分页
+                cols: [
+                    [ //表头
+                        {
+                            field: 'category',
+                            title: '任务类型',
+                            width: 100,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.category ? '<span title="' + d.category + '">' + d.category + '</span>' : "";
+                            }
+                        }, {
+                            field: 'content',
+                            title: '主要内容',
+                            minWidth: 280,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.content ? '<span title="' + d.content + '">' + d.content + '</span>' : "";
+                            }
+                        }, {
+                            field: 'taskNum',
+                            title: '任务单编号',
+                            width: '20%',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.taskNum ? '<span title="' + d.taskNum + '">' + d.taskNum + '</span>' : "";
+                            }
+                        }, {
+                            field: 'startUser',
+                            title: '发起人',
+                            width: 100,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.startUser ? '<span title="' + d.startUser + '">' + d.startUser + '</span>' : "";
+                            }
+                        }, {
+                            field: 'startTime',
+                            title: '发布时间',
+                            width: 130,
+                            align: 'center',
+                            templet: function(d) {
+                                return d.startTime ? '<span title="' + d.startTime + '">' + d.startTime + '</span>' : "";
+                            }
+                        }, {
+                            field: 'depart',
+                            hide: true
+                        }, {
+                            field: 'taskOrderKey',
+                            hide: true
+                        }, {
+                            field: 'taskOrderType',
+                            hide: true
+                        }, {
+                            field: 'currentStatus',
+                            hide: true
+                        }, {
+                            field: 'id',
+                            hide: true
+                        }, {
+                            field: 'procInstId',
+                            hide: true
+                        }, {
+                            field: 'nodeName',
+                            hide: true
+                        }, {
+                            field: 'tab',
+                            hide: true
+                        }
+                    ]
+                ]
+            });
+
+            table.on('rowDouble(overdueTableFilter)', function(row) {
+                openHandlePage(row.data);
+            });
+        }
+
+        init();
+
+    });
+</script>

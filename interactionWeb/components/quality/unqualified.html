@@ -1,0 +1,1350 @@
+<!--<style>-->
+<!--.layui-card-header {-->
+<!--height: 40px;-->
+<!--line-height: 40px;-->
+<!--padding: 0px;-->
+<!--display: -webkit-flex;-->
+<!--display: flex;-->
+<!--align-items: center;-->
+<!--border-top: 1px solid #f6f6f6;-->
+<!--margin-top: 5px;-->
+<!--}-->
+<!---->
+<!--.layui-card-body {-->
+<!--height: auto;-->
+<!--padding-top: 0;-->
+<!--}-->
+<!---->
+<!--.layui-table-header .layui-table {-->
+<!--color: #448EE0;-->
+<!--background: #E9F9FF;-->
+<!--}-->
+<!---->
+<!--.layui-table-cell {-->
+<!--height: 20px;-->
+<!--line-height: 20px;-->
+<!--}-->
+<!---->
+<!--.line {-->
+<!--height: 16px;-->
+<!--border-left: 2px solid #448EE0;-->
+<!--line-height: 16px;-->
+<!--padding-left: 10px;-->
+<!--flex-grow: 1;-->
+<!--}-->
+<!---->
+<!--.line-chart {-->
+<!--width: 100%;-->
+<!--height: 300px;-->
+<!--}-->
+<!---->
+<!--.tea_arrowDown {-->
+<!--transition: 0.8s;-->
+<!--transform-origin: center center;-->
+<!--transform: rotateZ(0deg);-->
+<!--}-->
+<!---->
+<!--.tea_arrowUp {-->
+<!--transition: 0.8s;-->
+<!--transform-origin: center center;-->
+<!--transform: rotateZ(180deg);-->
+<!--}-->
+<!---->
+<!--.table-top-bar .layui-form-label {-->
+<!--width: 80px;-->
+<!--}-->
+<!---->
+<!--@media screen and (min-width: 1360px) and (max-width: 1920px) {-->
+<!--.layui-input,-->
+<!--.layui-select {-->
+<!--width: 180px;-->
+<!--}-->
+<!--/* .line-chart {-->
+<!--width: 100%;-->
+<!--height: 320px;-->
+<!--} */-->
+<!--.layui-form-label {-->
+<!--font-size: 14px;-->
+<!--}-->
+<!--}-->
+<!---->
+<!--@media screen and (min-width: 1920px) {-->
+<!--.layui-input,-->
+<!--.layui-select {-->
+<!--width: 300px;-->
+<!--}-->
+<!--.table-top-bar .layui-form-label {-->
+<!--width: 90px;-->
+<!--}-->
+<!--/* .line-chart {-->
+<!--width: 100%;-->
+<!--height: 540px;-->
+<!--} */-->
+<!--.layui-form-label {-->
+<!--font-size: 14px;-->
+<!--}-->
+<!--}-->
+<!---->
+<!--@media screen and (max-width: 1360px) {-->
+<!--.layui-input,-->
+<!--.layui-select {-->
+<!--width: 130px;-->
+<!--}-->
+<!--/* .line-chart {-->
+<!--width: 100%;-->
+<!--height: 300px;-->
+<!--} */-->
+<!--.layui-form-label {-->
+<!--font-size: 12px;-->
+<!--}-->
+<!--}-->
+<!--</style>-->
+
+<link rel="stylesheet" href="assets/css/analysis.css">
+<style>
+	.layui-card-header a{
+		float: right;
+	    font-size: 14px;
+	    color: #949494;
+	    font-weight: 500;
+	    margin-left: 24px;
+	}
+	
+</style>
+<div class="layui-row content-margin">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+            <!-- 卡片容器 -->
+            <div class="layui-card-body bottom-border-line">
+                <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+                    <!--<div class="pull-right"><label id="flex2">展开</label><i class="layui-icon layui-icon-down"></i><i class="layui-icon layui-icon-up hide"></i>&lt;!&ndash;<img src="../../assets/images/arrowdown.png" /><img class="hide" src="../../assets/images/arrowup.png" />&ndash;&gt;</div>-->
+                    <div class="line">查询条件</div>
+                     <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                    src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                </div>
+                <!-- 数据表格顶部控制栏 -->
+                <div id='search-form' class="layui-form bottom-border-line" style="display: none">
+                    <div class="layui-form-item table-top-bar">
+                        <div class=" layui-row ">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 起止日期</span>
+                                <div class="layui-inline" id="lay-date">
+                                    <input readonly autocomplete="off" type="text" id="inspectDate2" placeholder="请选择起止日期" class="layui-input">
+                                    <input style="width: 0px;height: 0px;border-color: #ffffff !important" autocomplete="off" type="text" name="inspectDate" id="inspectDate" placeholder="请选择起止日期" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 生产区域</span>
+                                <div class="layui-inline">
+                                    <select name="productionAreaId" id="productionAreaId" placeholder="选择生产区域" lay-filter="productionAreaId" lay-search>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 班组名称</span>
+                                <div class="layui-inline">
+                                    <select name="teamNameId" id="teamNameId" placeholder="请选择班组" lay-filter="teamNameId" lay-search>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 班次</span>
+                                <div class="layui-inline">
+                                    <input type="text" name="classes" placeholder="请输入班次" class="layui-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" layui-row " style="margin-top: 15px">
+
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 生产线名称</span>
+                                <div class="layui-inline">
+                                    <select name="plineCode" id="plineCode" placeholder="选择生产线" lay-filter="plineCode" lay-search>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 零件名称</span>
+                                <div class="layui-inline">
+                                    <select name="partsName" id="partsName" placeholder="请输入零件名称" lay-filter="partsName" lay-search></select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 零件号</span>
+                                <div class="layui-inline">
+                                    <select name="partsCode" id="partsCode" placeholder="请输入零件号" lay-filter="partsCode" lay-search></select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 发现区域</span>
+                                <div class="layui-inline">
+                                    <select name="happenArea" id="happenArea" placeholder="选择发现区域" lay-filter="happenArea" lay-search>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row" style="margin-top: 15px">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                                <span class="layui-form-label "> 处置类型</span>
+                                <div class="layui-inline">
+                                    <select name="handleType" id="handleType" placeholder="选择处置类型" lay-filter="handleType" lay-search>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1" >
+                                <div class="pull-right btn-form">
+                                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_unpuailfied" id="search_unpuailfied"><span>查询</span></button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="reset_unpuailfied"><span>重置</span></button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+				<div class="layui-card-header">
+                    <div class="line">不合格品统计</div>
+                    <div class="layui-btn-group pull-right" id="type-group-btn">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal" type="day">日</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" type="week">周</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" type="month">月</button>
+                    </div>
+                </div>
+                <div class="layui-row bottom-border-line">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md8 right-border-line">
+
+                        <div class="layui-row ">
+                            <div class="layui-col-xs12 layui-col-sm6 layui-col-md12" >
+                                <div id="x-chart" class="line-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                        <div class="layui-row" style="padding-top: 10px;padding-bottom: 10px">
+                            <div class="layui-col-xs12 layui-col-sm6 layui-col-md12">
+                                <div id="pie-chart" class="line-chart"></div>
+                                <div id="pie-chart-title" style="text-align: center;font-weight: bold;font-size: 18px">
+                                    不合格品处置方式分布
+                                </div>
+                                <div id="pie-chart-subtitle" style="text-align: center;font-size: 12px;padding-top: 8px;color:#A6A6A6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-header">
+                    <div class="line">失效模式分析</div>
+                </div>
+                <div class="layui-row bottom-border-line" >
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 right-border-line" >
+                            <div id="pie-chart1" class="line-chart"></div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md5">
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12 right-border-line" >
+                            <div id="pie-chart2" class="line-chart"></div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md12" style="border-right: 1px solid #f6f6f6;padding-right: 10px">
+                            <div id="pie-chart3" class="line-chart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row">
+                    <div class="layui-card-header">
+                        <div class="line">前位问题分析</div>
+                        <div class="layui-btn-group pull-right" id="top10-button-group">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" value="0">零件</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="1">生产线</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="2">生产区域</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="3">发现区域</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="4">班组</button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" value="5">责任方</button>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md5 right-border-line" >
+                            <table id="tableContent" lay-filter="tableContent"></table>
+                        </div>
+                        <div class="layui-col-xs12 layui-col-sm6 layui-col-md7" style="padding: 10px">
+                            <div id="top10-chart" style="height: 340px;width: 100%;margin-top: 10px"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // 初始化 layui
+    layui.use(['laydate', 'table'], function() {
+        var table = layui.table,
+            form = layui.form,
+            element = layui.element,
+            laydate = layui.laydate,
+            config = layui.config,
+            type = 0, //0：日 1：周，2：月
+            searchParams = {},
+            originHandleType,
+            dateValue = '', //用来缓存曾经选中的日期 为了日周月切换
+            admin = layui.admin;
+
+        // 初始化日期框
+        laydate.render({
+            elem: '#inspectDate',
+            range: true,
+            type: 'date',
+            done: function(value, date, endDate) {
+                formoat(value);
+            }
+
+        });
+
+
+        $('#inspectDate2').on('click', function() {
+            setTimeout(function() {
+                $('#inspectDate').focus();
+
+            }, 100)
+
+        });
+        // 查询条件展开收缩
+        $('#toggle').on('click', function() {
+            $('#search-form').toggle(200);
+            if ($('#toggle').hasClass('tea_arrowUp')) {
+                $('#toggle').removeClass('tea_arrowUp').addClass('tea_arrowDown');
+                $('#toggle').parent().css('border-bottom', '1px solid #f6f6f6');
+
+            } else {
+                $('#toggle').removeClass('tea_arrowDown').addClass('tea_arrowUp');
+                $('#toggle').parent().css('border-bottom', 'none');
+            };
+
+        })
+		$('#toggle').click();
+        if (admin.GetRequest().timeS && admin.GetRequest().timeE) {
+            $('#inspectDate').val(admin.GetRequest().timeS + ' - ' + admin.GetRequest().timeE);
+            $('#inspectDate2').val(admin.GetRequest().timeS + ' - ' + admin.GetRequest().timeE);
+
+        }
+        /*
+                laydate 类型切换 date month，需要删除实例后重新
+               todo 找到新的办法
+            */
+
+        function changeDateType(dateType) {
+            var type = dateType === 'month' ? 'month' : 'date';
+            //如果切换到月 把先前的日期先保存
+            var value = '';
+            if ($('#inspectDate').val().length == 23) {
+                dateValue = $('#inspectDate').val();
+                //如果是月类型 ，将日格式转为月格式
+                if (type === 'month') {
+                    var startDate = dateValue.split(' - ')[0];
+                    var endDate = dateValue.split(' - ')[1];
+                    value = new Date(startDate).toLocaleMonth() + ' - ' + new Date(endDate).toLocaleMonth();
+                    $('#inspectDate2').val(value);
+                } else {
+                    value = dateValue
+                }
+
+            } else if (dateValue != '') {
+                value = dateValue;
+
+            }
+
+            $('#inspectDate').remove();
+            $('#lay-date').append('<input  style="width: 0px;height: 0px;border-color: #ffffff !important"  autocomplete="off"  type="text" name="inspectDate" id="inspectDate" placeholder="请选择起止日期" class="layui-input" >');
+            laydate.render({
+                elem: '#inspectDate',
+                range: true,
+                type: type,
+                value: value,
+                done: function(value, date, endDate) {
+                    formoat(value);
+                }
+
+            });
+        }
+        /*
+            显示处理 如果是周 显示为 2019-1-1/2019-2-2 (某年某月某周)
+        */
+        function formoat(date) {
+            var value = date ? date : $('#inspectDate').val();
+            var type = $("#type-group-btn .layui-btn-normal").attr('type');
+            if (value == '') {
+                $('#inspectDate2').val(value);
+                return;
+
+            }
+            if (type == 'week') {
+                var startDate = value.split(' - ')[0];
+                var endDate = value.split(' - ')[1];
+                var d1=window.$calendar[startDate];
+                var d2=window.$calendar[endDate]
+                var dS='';
+                var dE='';
+                if (d1)
+                {
+                    var arr1=d1.split('-');
+                    dS=arr1[0]+'年'+arr1[1]+'月第'+arr1[2]+'周';
+
+                }
+                if (d2)
+                {
+                    var arr2=d2.split('-');
+                    dE=arr2[0]+'年'+arr2[1]+'月第'+arr2[2]+'周';
+                }
+                $('#inspectDate2').val(dS + "-" +dE);
+
+            } else {
+                $('#inspectDate2').val(value);
+            }
+        }
+
+        //生产区域
+        setSelectData('stopLineAnalysis/productionArea', '#productionAreaId', 'typeName', 'typeId');
+        //停线类型
+        setSelectData('stopLineAnalysis/stopLineType', '#stopLineTypeId', 'typeName', 'typeId');
+        //班组名称
+        setSelectData('stopLineAnalysis/teamName', '#teamNameId', 'typeName', 'typeId');
+        //工艺类型
+        setSelectData('stopLineAnalysis/processType', '#processTypeId', 'typeName', 'typeId');
+        //生产线名称
+        setSelectData('stopLineAnalysis/PLineName', '#plineCode', 'plineName', 'plineCode');
+        //发现区域
+        setSelectData('disqualificationanalysis/happenArea', '#happenArea', 'name', 'code');
+        //处置类型
+        setSelectData('disqualificationanalysis/handleType', '#handleType', 'name', 'code');
+
+        setPartsData();
+        /*
+           下拉表单赋值方法
+        */
+
+        function setSelectData(url, id, name, value) {
+            admin.req('/api-edu/interaction/' + url, {}, function(res) {
+                var elem = $(id);
+                elem.empty();
+                elem.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                form.render('select');
+
+            }, {
+                method: 'get'
+            });
+        };
+        // 零件号零件名称下拉表单赋值
+        function setPartsData() {
+            admin.req('/api-edu/interaction/disqualificationanalysis/parts', {}, function(res) {
+                var elem = $('#partsName');
+                var elem1 = $('#partsCode');
+                elem.empty();
+                elem1.empty();
+                elem.append('<option value=""></option>');
+                elem1.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i]['name'] + '">' + res.data[i]['name'] + '</option>');
+                    elem1.append('<option value="' + res.data[i]['code'] + '">' + res.data[i]['code'] + '</option>');
+                }
+                form.render('select');
+            }, {
+                method: 'get'
+            });
+        }
+
+        // 零件名称与零件号联动
+        form.on('select(partsName)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("/api-edu/interaction/disqualificationanalysis/parts?name=" + loreGpId, {}, function(res) {
+                    data = res.data[0];
+                    $("#partsCode").val(data.code);
+                    form.render('select');
+                });
+            } else {
+                $("#partsCode").val("");
+                form.render('select');
+            }
+        });
+        form.on('select(partsCode)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("/api-edu/interaction/disqualificationanalysis/parts?code=" + loreGpId, {}, function(res) {
+                    data = res.data[0];
+                    $("#partsName").val(data.name);
+                    form.render('select');
+                });
+            } else {
+                $("#partsName").val("");
+                form.render('select');
+            }
+        });
+        setTimeout(function () {
+            $('#search_unpuailfied').click();
+
+        },100)
+
+        $("#type-group-btn").on("click", "button", function() { //只需要找到你点击的是哪个ul里面的就行
+            var type = $(this).attr('type');
+            $("#type-group-btn .layui-btn-normal").addClass('layui-btn-primary').removeClass('layui-btn-normal');
+            $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal');
+            changeDateType(type);
+            formoat();
+            $('#search_unpuailfied').click();
+        });
+
+        $("#top10-button-group").on("click", "button", function() { //只需要找到你点击的是哪个ul里面的就行
+            $("#top10-button-group .layui-btn-normal").addClass('layui-btn-primary').removeClass('layui-btn-normal');
+            $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal');
+            searchParams.handleType = originHandleType;
+            renderTable(searchParams)
+        });
+
+        function renderTable(search) {
+            if (search) {
+                search.type = $("#top10-button-group .layui-btn-normal").val();
+            }
+            var type = $("#top10-button-group .layui-btn-normal").html();
+            // 渲染表格
+            table.render({
+                elem: '#tableContent',
+                id: 'tableContent',
+                url: admin.formatUrl('/api-edu/interaction/disqualificationanalysis/multitype'),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    if (res.ok) {
+                        var xData = [],
+                            yData = [],
+                            subtext = res.message;
+                        for (var i = 0; i < res.data.length; i++) {
+                            if (res.data[i].name && res.data[i].name.length > 6) {
+                                xData.push(res.data[i].name.substring(0, 6) + '...');
+                            } else {
+                                xData.push(res.data[i].name);
+                            }
+                            yData.push({
+                                value: (res.data[i].value),
+                                name: res.data[i].name
+                            });
+                        }
+                        setTop1Option(xData, yData, type, subtext);
+                    } else {
+                        layer.msg(res.message);
+                    }
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "data": res.data //解析数据列表
+                    };
+                },
+
+                cols: [
+                    [{
+                        type: 'numbers',
+                        title: '序号',
+                    }, {
+                        field: 'name',
+                        title: type + '名称',
+                        align: 'center',
+                        templet: function(d) {
+                            var text = d.name ? d.name : "";
+                            return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        }
+                    }, {
+                        field: 'value',
+                        title: '不合格数',
+                        align: 'center',
+                        templet: function(d) {
+                            var text = d.value>=0 ? d.value : "";
+                            return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        }
+                    }, {
+                        field: 'percent',
+                        title: '占比',
+                        align: 'center',
+                        templet: function(d) {
+                            var text = d.percent ? d.percent : "";
+                            return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        }
+                    }]
+                ],
+                cellMinWidth: 90,
+                where: search,
+                done:function () {
+                    admin.tableAdaptionHeight('tableContent')
+                }
+            });
+        }
+
+        function searchData(data, flag, dateName) {
+            var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+            var params = data ? data : {};
+            params.dateType = dateType;
+            params.startDate = params.startDate ? params.startDate : '';
+            params.endDate = params.endDate ? params.endDate : '';
+            params.handleType = params.handleType ? params.handleType : 0;
+            searchParams = params;
+            /*
+               柱形图
+             */
+            if (flag != 1 && flag != 2 && flag != 3) {
+                admin.req('/api-edu/interaction/disqualificationanalysis/list', params, function(res) {
+                    if (res.ok) {
+                        var xData = [];
+                        var disqualificationRate = [];
+                        var permitThroughCount = [];
+                        var reworkCount = [];
+                        var scrapCount = [];
+                        var subtext = res.message;
+
+                        for (var i = 0; i < res.data.length; i++) {
+                            var item = res.data[i];
+                            var date = '';
+                            if (dateType == 'day') {
+                                date = item.dateTime.substring(item.dateTime.length - 4, item.dateTime.length - 2) + '-' + item.dateTime.substring(item.dateTime.length - 2);
+
+                            } else if (dateType == 'week') {
+                                date = item.dateTime.split("年")[1];
+                            } else if (dateType == 'month') {
+                                date = item.dateTime.substring(0, item.dateTime.length - 2) + '-' + item.dateTime.substring(item.dateTime.length - 2);
+                            }
+                            xData.push(date);
+                            disqualificationRate.push({
+                                time: item.dateTimeForWeek,
+                                value: item.disqualificationRate
+                            }); //不合格总数
+                            permitThroughCount.push({
+                                time: item.dateTimeForWeek,
+                                value: item.permitThroughCount
+                            }); //让步放行数
+                            reworkCount.push({
+                                time: item.dateTimeForWeek,
+                                value: item.reworkCount
+                            }); //返工
+                            scrapCount.push({
+                                time: item.dateTimeForWeek,
+                                value: item.scrapCount
+                            }); //报废
+                        }
+                        unqualifiedBar(xData, disqualificationRate, permitThroughCount, reworkCount, scrapCount, subtext)
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'get'
+                });
+            }
+
+            /*
+            处置分布饼图
+          */
+            if (flag != 2 && flag != 3) {
+                admin.req('/api-edu/interaction/disqualificationanalysis/diqualificationPie', params, function(res) {
+                    if (res.ok) {
+                        var colorArray = ['RGB(51,185,253)', 'RGB(255,155,51)', 'RGB(129,183,125)'];
+                        var data = [];
+                        var subtext = res.message;
+                        data.push({
+                            name: '让步使用',
+                            value: res.data[0].permitThroughCount,
+                            itemStyle: {
+                                color: 'RGB(129,183,125)'
+                            }
+                        });
+                        data.push({
+                            name: '返工&返修',
+                            value: res.data[0].reworkCount,
+                            itemStyle: {
+                                color: 'RGB(51,185,253)'
+                            }
+                        });
+                        data.push({
+                            name: '报废',
+                            value: res.data[0].scrapCount,
+                            itemStyle: {
+                                color: 'RGB(255,155,51)'
+                            }
+                        });
+						if(!(res.data[0].scrapCount==0&&res.data[0].reworkCount==0&&res.data[0].permitThroughCount==0)){
+						    $("#pie-chart-title").hide();
+                            $("#pie-chart-subtitle").hide();
+                            $("#pie-chart").show();
+							diqualificationPie(data, subtext);
+						}else{
+						    $("#pie-chart").hide();
+                            $("#pie-chart-title").show();
+                            $("#pie-chart-subtitle").text(subtext);
+                            $("#pie-chart-subtitle").show();
+                        }
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'get'
+                });
+            }
+
+            // 失效模式（1级）分析
+            if (flag != 3) {
+                admin.req('/api-edu/interaction/disqualificationanalysis/failureMode/1st', params, function(res) {
+                    if (res.ok) {
+                        var colorArray = ['#E79647', '#ed6b4b', '#4e93dc', '#e2d061', '#5bb4c0', '#4e93dc'];
+                        var subtext = res.message;
+                        var legend = [];
+                        for (var i = 0; i < res.data.length; i++) {
+                            res.data[i].itemStyle = {
+                                color: colorArray[i]
+                            };
+                            legend.push(res.data[i].name);
+                        }
+                        failureMode1stPie(res.data, legend, subtext);
+                    } else {
+                        layer.msg(res.message);
+                    }
+                }, {
+                    method: 'get'
+                });
+            }
+
+            // 按失效模式2级top10分析柱状图
+            admin.req('/api-edu/interaction/disqualificationanalysis/failureMode/2nd-top10', params, function(res) {
+                if (res.ok) {
+                    var xData = [];
+                    var yData = [];
+                    var subtext = res.message;
+                    for (var i = 0; i < res.data.length; i++) {
+                        var item = res.data[i];
+                        xData.push(item.name);
+                        yData.push(item.value); //不合格总数
+                    }
+                    failureMode2ndTop10Bar(xData, yData, subtext)
+                } else {
+                    layer.msg(res.message);
+                }
+            }, {
+                method: 'get'
+            });
+
+            // 失效模式分布2级
+            admin.req('/api-edu/interaction/disqualificationanalysis/failureMode/2nd', params, function(res) {
+                if (res.ok) {
+                    var colorArray = ['#3ba0ff', '#36cbcb', '#4ecb74', '#fad337', '#ff867f', '#54e6e8', '#d554eb', '#56c0dd', '#fd9e5c', '#153fc4'];
+                    var legend = [];
+                    var subtext = res.message;
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (!res.data[i].name) {
+                            res.data.splice(i, 1);
+                            continue;
+                        }
+                        res.data[i].itemStyle = {
+                            color: colorArray[i]
+                        };
+                        legend.push(res.data[i].name);
+                    }
+                    failureMode2ndPie(res.data, legend, subtext);
+                } else {
+                    layer.msg(res.message);
+                }
+            }, {
+                method: 'get'
+            });
+
+            if (flag != 2 && flag != 3) {
+                renderTable(params);
+            }
+
+        }
+
+       // var unqualifiedChart = echarts.init(document.getElementById('x-chart'));
+        // 不合格品统计柱状图
+        function unqualifiedBar(xData, disqualificationRate, permitThroughCount, reworkCount, scrapCount, subtext) {
+            //图表配置项
+            var barOption = {
+                title: {
+                    text: '不合格品状态',
+                    subtext: subtext,
+                    left: 'center',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function (params, ticket, callback) {
+                        var content= params[0].name+'</br>';
+                        for (var item of params)
+                        {
+                            content+=(item.marker+item.seriesName+": "+item.value)+(item.componentSubType=='line'?'%':'')+'</br>'
+
+                        }
+                        return  content;
+                    },
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                grid: {
+                    left: 65,
+                    right: 40,
+                },
+                legend: {
+                    data: [{
+                        name: '返工&返修数量',
+                        icon: "roundRect"
+                    }, {
+                        name: '报废数量',
+                        icon: "roundRect"
+                    }, {
+                        name: '让步放行数量',
+                        icon: "roundRect"
+                    }, {
+                        name: '不合格品率',
+                        itemWidth:'15'
+                    }],
+                    left: 'center',
+                    bottom: 'bottom',
+                    padding: [7, 0, 0, 0],
+                    itemWidth: 10,
+                    itemHeight: 10
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: xData,
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisLabel: {
+                        rotate: 45,
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    }
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '数量',
+                    min: 0,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                },
+                    {
+                        type: 'value',
+                        name: '不合格率(%)',
+                        min: 0,
+                        axisLine: {
+                            lineStyle: {
+                                color: '#949494',
+                            }
+                        },
+                        splitLine: {
+                            show:false
+                        },
+
+                    }
+
+                ],
+                series: [{
+                    name: '返工&返修数量',
+                    type: 'bar',
+                    stack: '故障',
+                    barMaxWidth: 30,
+                    data: reworkCount,
+                    color: 'RGB(51,185,253)',
+                }, {
+                    name: '报废数量',
+                    type: 'bar',
+                    stack: '故障',
+                    color: 'RGB(255,155,51)',
+                    data: scrapCount
+                }, {
+                    name: '让步放行数量',
+                    type: 'bar',
+                    stack: '故障',
+                    color: 'RGB(129,183,125)',
+                    data: permitThroughCount
+                }, {
+                    name: '不合格品率',
+                    type: 'line',
+                    color: 'RGB(51,204,0)',
+                    yAxisIndex:1,
+                    data: disqualificationRate
+                },
+
+                ]
+            };
+            //drawCharts(unqualifiedChart, barOption);
+            drowEchartoption('x-chart',barOption)
+
+        }
+
+        //var diqualificationPieChart = echarts.init(document.getElementById('pie-chart'));
+        // 不合格品处置方式饼状图
+        function diqualificationPie(data, subtext) {
+            var option = {
+                title: {
+                    text: '不合格品处置方式分布',
+                    subtext: subtext,
+                    left: 'center'
+                },
+                tooltip: {
+                    show: 0
+                },
+                legend: {
+                    data: ['让步使用', '返工&返修', '报废'],
+                    orient: 'vertical', // 'vertical'
+                    right: 'right',
+                    top: 'center',
+                    icon: "roundRect",
+                    itemWidth: 10,
+                    itemHeight: 10
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{b} : {c} ({d}%)"
+                },
+                series: [{
+                    name: '不合格品处置方式',
+                    type: 'pie',
+                    center: ['42%', '50%'],
+                    radius: '55%',
+                    label: {
+                        show: false
+                    },
+                    data: data
+                }]
+            };
+            //drawCharts(diqualificationPieChart, option4);
+            drowEchartoption('pie-chart',option)
+        }
+
+       // var failureMode1stPieChart = echarts.init(document.getElementById('pie-chart1'));
+        // 失效模式1级分析
+        function failureMode1stPie(data, legend, subtext) {
+            var option = {
+                title: {
+                    text: '失效模式（1级）分析',
+                    subtext: subtext,
+                    left: 'center'
+                },
+                legend: {
+                    show: true,
+                    data: legend,
+                    orient: 'vertical', // 'vertical'
+                    right: 'right',
+                    top: 'center',
+                    icon: "roundRect",
+                    itemWidth: 10,
+                    itemHeight: 10
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{b} : {c} ({d}%)"
+                },
+                series: [{
+                    name: '失效模式（1级）分析',
+                    type: 'pie',
+                    center: ['42%', '50%'],
+                    radius: '55%',
+                    label: {
+                        show: false
+                    },
+                    data: data
+                }]
+            };
+            drowEchartoption('pie-chart1', option);
+        }
+        // var failureMode2ndTop10BarChart = echarts.init(document.getElementById('pie-chart2'));
+        // 失效模式2级top10
+        function failureMode2ndTop10Bar(xData, yData, subtext) {
+            //图表配置项
+            var barOption = {
+                title: {
+                    text: '失效模式（2级）TOP分析',
+                    subtext: subtext,
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function (params, ticket, callback) {
+                        return params[0].name + ": " + params[0].value;
+
+                    },
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                // legend: {
+                //     // data: ['不合格品总数'],
+                //     // left: 'center',
+                //     // bottom: 'bottom',
+                //     // icon: "roundRect",
+                //     // itemWidth: 10,
+                //     // itemHeight: 10
+                // },
+                grid: {
+                    left: 65,
+                    right: 40
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: xData,
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisLabel: {
+                        rotate: 20,
+						formatter: function (value, index) {
+						    var v = value.substring(0, 10) + '...'
+						    return value.length > 10 ? v : value
+						},
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    }
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '数量',
+                    min: 0,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }],
+                series: [{
+                    name: '不合格品总数',
+                    type: 'bar',
+                    data: yData,
+                    barMaxWidth: 30,
+                    color: 'RGB(51,185,253)',
+                }]
+            };
+            drowEchartoption('pie-chart2',barOption)
+        }
+
+      //  var failureMode2ndPieChart = echarts.init(document.getElementById('pie-chart3'));
+        // 失效模式分布2级
+        function failureMode2ndPie(data, legend, subtext) {
+            var option4 = {
+                title: {
+                    text: '失效模式分布（2级）',
+                    subtext: subtext,
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{b} : {c} ({d}%)"
+                },
+                legend: {
+                    show: true,
+                    data: legend,
+                    orient: 'vertical', // 'vertical'
+                    right: 'right',
+                    top: 'center',
+                    icon: "roundRect",
+                    itemWidth: 10,
+                    itemHeight: 10
+                },
+
+                series: [{
+                    name: '失效模式分布（2级）',
+                    type: 'pie',
+                    center: ['42%', '50%'],
+                    radius: '55%',
+                    label: {
+                        show: false
+                    },
+                    data: data
+                }]
+            };
+            drowEchartoption('pie-chart3',option4)
+        }
+
+
+        function setTop1Option(xData, yData, type, subtext) {
+            var option = {
+                title: {
+                    text: '按' + type + '名称TOP分析',
+                    subtext: subtext,
+                    left: 'center'
+                },
+                color: ['#71B7EE'],
+                tooltip: {
+                    trigger: 'axis',
+                    // formatter: function(params, ticket, callback) {
+                    //     return params[0].name + '</br>' + params[0].marker + params[0].seriesName + ": " + params[0].value;
+                    // },
+                    formatter: function (params, ticket, callback) {
+                        return params[0].name + ": " + params[0].value;
+
+                    },
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                grid: {
+                    left: 65,
+                    right: 40
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLabel: {
+                        rotate: 25,
+                    },
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    name: '数量',
+                    type: 'value',
+                    min: 0,
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#FFF',
+                            opacity: 0.2
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    }
+                }],
+                series: [{
+                    name: '不合格品总数',
+                    type: 'bar',
+                    barMaxWidth: 30,
+                    data: yData
+                }]
+            };
+            var setTop1OptionChart = echarts.init(document.getElementById('top10-chart'));
+            drawCharts(setTop1OptionChart, option);
+        }
+
+        // // 不合格品统计图联动点击
+        // unqualifiedChart.on('click', function(params) {
+        //     var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+        //     if (dateType == 'month') {
+        //         // var data = searchParams;
+        //         searchParams.startDate = params.name + '-01';
+        //         searchParams.endDate = params.name + '-01';
+        //         searchParams.handleType = originHandleType;
+        //         delete searchParams.lackName1st;
+        //         searchData(searchParams, 1);
+        //     } else if (dateType == 'week') {
+        //         searchParams.startDate = params.data.time;
+        //         searchParams.endDate = params.data.time;
+        //         searchParams.handleType = originHandleType;
+        //         delete searchParams.lackName1st;
+        //         searchData(searchParams, 1);
+        //     } else if (dateType == 'day') {
+        //
+        //     }
+        // });
+
+        // // 不合格品处置方式分布饼状图点击
+        // diqualificationPieChart.on('click', function(params) {
+        //     var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+        //     if (dateType != 'day') {
+        //         if (params.data.name == '返工&返修数') {
+        //             searchParams.handleType = 1;
+        //         } else if (params.data.name == '报废数') {
+        //             searchParams.handleType = 2;
+        //         } else if (params.data.name == '让步使用') {
+        //             searchParams.handleType = 3;
+        //         }
+        //         delete searchParams.lackName1st;
+        //         searchData(searchParams, 2);
+        //
+        //     }
+        // });
+
+        // // 失效模式1级分析饼状图点击
+        // failureMode1stPieChart.on('click', function(params) {
+        //     var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+        //     if (dateType != 'day') {
+        //         searchParams.lackName1st = params.name;
+        //         searchData(searchParams, 3);
+        //
+        //     }
+        // });
+
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        // layui.admin.addTableCache('tableContent-ability');
+
+        // 表单提交，查询与重置
+        form.on('submit(search_unpuailfied)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+
+            if (d.inspectDate) {
+                d.startDate = d.inspectDate.split(' - ')[0];
+                d.endDate = d.inspectDate.split(' - ')[1];
+                var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+                //注意后台接口无论dateType 类型如何 都要传 日期  yyyy-mm-dd
+                if (dateType == 'month') {
+                    d.startDate = d.startDate + '-01';
+                    d.endDate = d.endDate + '-01';
+                }
+            }
+            originHandleType = d.handleType ? d.handleType : 0;
+            searchData(d);
+        });
+
+        $('.table-top-bar input').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $('#search_unpuailfied').click();
+            }
+        });
+
+
+        //生成ehcart图 （带点击事件）
+
+        function drowEchartoption(id,option) {
+            echarts.init(document.getElementById(id)).dispose();
+            var bar  = echarts.init(document.getElementById(id));
+            bar.setOption(option);
+            // 成品柱状图联动点击
+            bar.on('click', function (params) {
+                handleBarClick(id,params)
+            });
+        }
+        //echart图点击事件
+
+        function handleBarClick(id,params) {
+
+            var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+            switch (id) {
+                case 'x-chart':
+                    if (dateType == 'month') {
+                        // var data = searchParams;
+                        searchParams.startDate = params.name + '-01';
+                        searchParams.endDate = params.name + '-01';
+                        searchParams.handleType = originHandleType;
+                        delete searchParams.lackName1st;
+                        searchData(searchParams, 1);
+                    } else if (dateType == 'week') {
+                        searchParams.startDate = params.data.time;
+                        searchParams.endDate = params.data.time;
+                        searchParams.handleType = originHandleType;
+                        delete searchParams.lackName1st;
+                        searchData(searchParams, 1);
+                    }
+                    break;
+                case 'pie-chart':
+                    if (dateType != 'day') {
+                        if (params.data.name == '返工&返修') {
+                            searchParams.handleType = 1;
+                        } else if (params.data.name == '报废') {
+                            searchParams.handleType = 2;
+                        } else if (params.data.name == '让步使用') {
+                            searchParams.handleType = 3;
+                        }
+                        delete searchParams.lackName1st;
+                        searchData(searchParams, 2);
+
+                    }
+                    break;
+                case 'pie-chart1':
+                    if (dateType != 'day') {
+                        searchParams.lackName1st = params.name;
+                        searchData(searchParams, 3);
+                    }
+                    break;
+                case 'finishBar':
+                    searchData(searchParams, 1);
+
+                    break
+                default:
+                    break
+
+            }
+
+        }
+
+
+
+        // drawCharts('r-chart',option);
+
+        function drawCharts(elem, option) {
+            // var myChart = echarts.init(document.getElementById(elem));
+            elem.setOption(option, true);
+        }
+
+
+
+        form.on('submit(reset_unpuailfied)', function(data) {
+            reset();
+        });
+
+        // 重置查询表单
+        function reset() {
+            $('.table-top-bar input').val('');
+            $('.table-top-bar select').val('');
+            $('#search_unpuailfied').click();
+        }
+
+
+    });
+	function slideDiv(obj) {
+	    //如果查询条件隐藏 则展开查询条件 将展开文字变成收起
+	    if ($($(obj).parent().next()[0]).css("display") == 'none') {
+	        $($(obj).parent().next()[0]).slideDown();
+	        $(obj).find(".slide").text("收起 ");
+	        $(obj).find(".img").attr("src", "../../assets/images/icon-slidedown.png");
+	    } else { //否则收起查询条件 将收起变成展开
+	        $($(obj).parent().next()[0]).slideUp();
+	        $(obj).find(".slide").text("展开 ");
+	        $(obj).find(".img").attr("src", "../../assets/images/icon-slideup.png");
+	    }
+	}
+</script>

@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OPAP批准单审核</title>
+    <link rel="stylesheet" href="../../assets/css/task_sheet_agent.css">
+
+</head>
+<style>
+    .layui-table, .layui-table-view {
+        margin: 0px;
+    }
+
+    .layui-table-box {
+        margin-bottom: 10px;
+    }
+    .xm-select-parent .xm-form-select dl {
+        max-height: 230px;!important;
+    }
+    .title-style{
+        width:390px;
+        height:29px;
+        font-size:22px;
+        font-family:PingFangSC-Semibold;
+        font-weight:600;
+        color:rgba(51,51,51,1);
+        line-height:30px;
+        margin: 10px auto;
+    }
+    .layui-breadcrumb{
+    display: none !important;
+}
+</style>
+<body>
+<div class="layui-row layui-col-space15">
+    <!--main-->
+    <div style="background-color: #ffffff;height: 65px;padding-top: 9px">
+        <div class="layui-col-md12" style="padding-top: 10px">
+            <div class="layui-col-md4">
+                <a style="width: 56px;height: 56px;">
+                    <img src="../../assets/images/left_logo.png" alt="../../assets/images/left_logo.png">
+                </a>
+                <a style="width: 56px;height: 56px;">
+                    <img src="../../assets/images/left_copy.png" alt="../../assets/images/left_copy.png">
+                </a>
+            </div>
+            <div class="layui-col-md4" style="text-align: center;">
+                <p class="title-style">OPAP批准单</p>
+            </div>
+            <div class="layui-col-md4">
+                <p style="float: right;">表单编号:<span id="form_number"></span></p>
+                <div style="clear: both"></div>
+                <p style="float: right;padding-top: 5px">状态:
+                    <span><span id="roleName"></span></span>
+                </p>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 基础信息 -->
+    <div class="search">
+        <form class="layui-form search-form" lay-filter="search-form-content">
+            <div class="search-title" onclick="openPanel(this)">
+                <div class="search-l title-l"><label>基础信息</label></div>
+                <div class="search-r "><label id="flex2">收起</label><img class="hide"
+                                                                        src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                        src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="padding: 0 0 0 0">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form" style="padding: 0 0 1% 0;">
+                    <table id="table_1" class="layui-table">
+                        <tbody>
+                        <tr>
+                            <td>SQE</td>
+                            <td></td>
+                            <td>SQ业务科室</td>
+                            <td></td>
+                            <td>发布日期</td>
+                            <td width="10%"></td>
+                            <td width="10%">PE</td>
+                            <td width="10%"></td>
+                            <td width="10%">TDC业务科室</td>
+                            <td width="10%"></td>
+                        </tr>
+                        <tr>
+                            <td>项目单编号</td>
+                            <td></td>
+                            <td>车型/机型</td>
+                            <td></td>
+                            <td>风险检查结果</td>
+                            <td></td>
+                            <td>供应商名称</td>
+                            <td></td>
+                            <td>供应商代码</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>供应商代表姓名</td>
+                            <td></td>
+                            <td>供应商代表职务</td>
+                            <td></td>
+                            <td>邮箱</td>
+                            <td colspan="5" width="50%"></td>
+                        </tr>
+                        <!--layui表格-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 零件批准状态 -->
+    <div class="search">
+        <form class="layui-form search-form" lay-filter="search-form-content">
+            <div class="search-title" onclick="openPanel1(this)">
+                <div class="search-l title-l"><label>零件批准状态</label></div>
+                <div class="search-r "><label id="flex21">收起</label><img class="hide"
+                                                                         src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                        src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="padding: 0 0 0 0">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form" style="padding: 0 0 1% 0;">
+                    <!--layui表格-->
+                    <div id="table_div">
+                        <table id="table-task" lay-filter="table-task" style="margin: 0px"></table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- OPAP批准状态 -->
+    <div class="search">
+        <form class="layui-form search-form" lay-filter="search-form-content">
+            <div class="search-title" onclick="openPanel2(this)">
+                <div class="search-l title-l"><label>OPAP批准状态</label></div>
+                <div class="search-r "><label id="flex22">收起</label><img class="hide"
+                                                                         src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                        src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="padding: 0 0 0 0">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form" style="padding: 0 0 1% 0;">
+                    <!--layui表格-->
+                    <table id="table_2" class="layui-table">
+                        <tbody>
+                        <tr>
+                            <td width="20%">OPAP批准状况</td>
+                            <td><span id="approvalstatus"></span></td>
+                            <td>临批有效期至</td>
+                            <td><span id="provisionalapprovaldate"></span></td>
+                            <td width="15%">说明</td>
+                            <td><span id="approvalnote"></span></td>
+                        </tr>
+                        <tr style="display: none;">
+                            <td colspan="1">临时批准原因</td>
+                            <td colspan="5"><span id="provisionalapprovalwhy"></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 审批栏 -->
+    <div class="search">
+        <form class="layui-form search-form" lay-filter="search-form-content">
+            <div class="search-title" onclick="openPanel3(this)">
+                <div class="search-l title-l"><label>审批栏</label></div>
+                <div class="search-r "><label id="flex23">收起</label><img class="hide"
+                                                                         src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                        src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="padding: 0 0 0 0">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form" style="padding: 0 0 1% 0;">
+                    <!--layui表格-->
+                    <table id="table_3" class="layui-table">
+                        <tbody id="tbody_1">
+
+                        </tbody>
+                        <tr>
+                            <td id="isroleName"></td>
+                            <td><input style="display: none" id="shenpiid" >
+                                <input disabled="disabled" class="layui-input" id="pe"></td>
+                            <td width="9%"><span style="color: red">*</span>审批意见</td>
+                            <td>
+                                <div class="layui-form"><select id="finalapprovalopinions" class="layui-select">
+                                    <option value="">请选择</option>
+                                    <option value="1">同意</option>
+                                    <option value="2">不同意</option>
+                                </select>
+                                </div>
+                            </td>
+                            <td>审批时间</td>
+                            <td><span id="approvaltime"></span></td>
+                            <td width="6%">说明</td>
+                            <td><input class="layui-input" id="note"></td>
+                        </tr>
+                        <div id="table_is_show">
+
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 分发与报送 -->
+    <div class="search">
+        <form class="layui-form search-form" lay-filter="search-form-content">
+            <div class="search-title" onclick="openPanel4(this)">
+                <div class="search-l title-l"><label>分发与报送</label></div>
+                <div class="search-r "><label id="flex24">收起</label><img class="hide"
+                                                                         src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                        src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="padding: 0 0 0 0">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form" style="padding: 0 0 1% 0;">
+                    <!--layui表格-->
+                    <table id="table_f" class="layui-table">
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="text-align: center">
+        <button onclick="resetOPAP()" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+        <button onclick="saveOpap()" class="layui-btn layui-btn-sm layui-btn-primary">保存</button>
+        <button onclick="submitOpap()" class="layui-btn layui-btn-sm layui-btn-normal">提交</button>
+    </div>
+</div>
+<script>
+
+    //获取跳转参数
+    var param = window.location.hash;//路径参数---declared by qitian 20181216
+    if (param.indexOf('?') === -1) {
+        window.history.go(-1);
+    }
+    var parameter = param.split('?')[1];
+
+    //taskorderkey
+    param = parameter.split('&')[0]
+
+    //流程ID
+    var processId = parameter.split('&')[1]
+    //右上角状态
+    var nodeName = unescape(parameter.split('&')[2])
+
+    //临批有效期至
+    // var pr_time;
+
+    //业务表id
+    var approvaltaskkey;
+
+    //零件库id
+    var partskey = [];
+
+    //零件库数据
+    var partslibraryEOSlist;
+
+    //tdc
+    var tdcchiefengineer
+
+    //userId
+    var initiator;
+
+    //项目单编号
+    var pfollowcode;
+
+    //tdcId
+    var tdcId;
+
+    //任务单业务主键
+    var approverkey = ''
+
+    //流程角色
+    var NODE_ROLE;
+    //layui主方法
+    layui.use(['table', 'laydate', 'form', 'layer', 'adc'], function () {
+        //定义全局变量
+        var table, admin, form, layer, laydate, config;
+        table = layui.table,
+            admin = layui.adc,
+            form = layui.form,
+            layer = layui.layer,
+            config = layui.config,
+            laydate = layui.laydate;
+        initiator = config.getAccount().userId;//当前登录人的id
+
+        //表格加载
+        table.render({
+            elem: '#table-task',
+            method: 'post'
+            , url: admin.formatUrl('/api/ppap/taskorder/queryTaskOrderOPAPApproval')
+            , contentType: 'application/json'
+            , where: {
+                taskorderkey: param,
+                userId: initiator
+            },
+
+            // 格式化后台返回的数据
+            parseData: function (res) { //res 即为原始返回的数据
+                res.data = admin.redefinedForObject(res.data);
+                for (var j = 0; j < res.data.length; j++) {
+                    if (res.data[j].name == 'SQE' || res.data[j].name == '供应商') {
+                        res.data.splice(j, 1);                        
+                        j--;
+                    }
+                }
+                if (res.respCode == -1) {
+                    layer.alert(res.message, {
+                        icon: 5
+                        ,btn:['关闭']
+                    });
+                    return;
+                }
+                if (res.respCode == 200) {
+                    res.respCode = 0
+                }
+                var str = res.data
+
+                //零件库id
+                for (var i = 0; i < str.partslibraryEOS.length; i++) {
+                    partskey.push(str.partslibraryEOS[i].partskey)
+                }
+                //tdc
+                tdcchiefengineer = str.taskorderPPAPBasicInfo.tdcchiefengineer
+
+                //零件库数据
+                partslibraryEOSlist = str.partslibraryEOS;
+                pfollowcode = str.taskorderPPAPBasicInfo.partslibraryEO.itemtrackingnum
+                switch (parseInt(str.taskorderEO.currentstatus)) {
+                    case 1:
+                        NODE_ROLE = 'SQE工程师';
+                        break;
+                    case 2:
+                        NODE_ROLE = 'PE';
+                        break;
+                    case 3:
+                        NODE_ROLE = 'SQE经理';
+                        break;
+                    case 4:
+                        NODE_ROLE = 'TDC平台总工';
+                        break;
+                    case 5:
+                        NODE_ROLE = 'SQE总监';
+                        break;
+                }
+                gettdcId(pfollowcode)
+                // pr_time = res.data.partslibraryEOS[0].provisionalapprovaldate
+                $('#form_number').html(str.taskorderEO.taskordernumber)
+                if (nodeName == '' || nodeName == 'undefined'){
+                    nodeName = 'SQE工程师待发布'
+                }else{
+                    nodeName = nodeName+'待审批'
+                }
+                $('#roleName').html(nodeName)
+                selectSQEName(str.taskorderPPAPBasicInfo.partslibraryEO.sqe)
+                $('#table_1 tr:eq(0) td:eq(3)')[0].innerText = str.taskorderPPAPBasicInfo.sqoffice
+                if (str.taskorderPPAPBasicInfo.submitdate != ''){
+                    $('#table_1 tr:eq(0) td:eq(5)')[0].innerText = new Date(str.taskorderPPAPBasicInfo.submitdate).Format("yyyy-MM-dd")
+                }                initiator = str.taskorderPPAPBasicInfo.partslibraryEO.responsiblepe
+                selectPEName(str.taskorderPPAPBasicInfo.partslibraryEO.responsiblepe)
+                if (str.approvaltaskEOS.length != 0) {
+                    approverkey = str.approvaltaskEOS.approvaltaskkey
+                }
+                $('#pe').val(config.getAccount().userName)
+                $('#table_1 tr:eq(0) td:eq(9)')[0].innerText = str.taskorderPPAPBasicInfo.tdcchiefengineer
+                $('#table_1 tr:eq(1) td:eq(1)')[0].innerText = str.taskorderPPAPBasicInfo.partslibraryEO.itemtrackingnum
+                $('#table_1 tr:eq(1) td:eq(3)')[0].innerText = str.taskorderPPAPBasicInfo.partslibraryEO.projectmodel
+                $('#table_1 tr:eq(1) td:eq(5)')[0].innerText = str.taskorderPPAPBasicInfo.partslibraryEO.riskinspectionresults
+                $('#table_1 tr:eq(1) td:eq(7)')[0].innerText = str.taskorderPPAPBasicInfo.partslibraryEO.suppliername
+                $('#table_1 tr:eq(1) td:eq(9)')[0].innerText = str.taskorderPPAPBasicInfo.partslibraryEO.suppliernum
+                $('#table_1 tr:eq(2) td:eq(1)')[0].innerText = str.taskorderEO.supplierrepresentname
+
+                var supplierrepresentposition = str.taskorderEO.supplierrepresentposition
+                if (supplierrepresentposition == 1){
+                    $('#table_1 tr:eq(2) td:eq(3)')[0].innerText = '总经理'
+                }
+                if (supplierrepresentposition == 2){
+                    $('#table_1 tr:eq(2) td:eq(3)')[0].innerText = '质量副总'
+                }
+                if (supplierrepresentposition == 3){
+                    $('#table_1 tr:eq(2) td:eq(3)')[0].innerText = '技术副总'
+                }
+                if (supplierrepresentposition == 4){
+                    $('#table_1 tr:eq(2) td:eq(3)')[0].innerText = '采购副总'
+                }
+                if (supplierrepresentposition == 5){
+                    $('#table_1 tr:eq(2) td:eq(3)')[0].innerText = '项目经理'
+                }
+                $('#table_1 tr:eq(2) td:eq(5)')[0].innerText = str.taskorderEO.email
+                $('#table_f').empty();
+                var html = '';
+                for (var i = 0; i < str.taskdistributeEOS.length; i++) {
+                    if (str.taskdistributeEOS[i].distributetime != '') {
+                        str.taskdistributeEOS[i].distributetime = new Date(str.taskdistributeEOS[i].distributetime).Format("yyyy-MM-dd")
+                    }
+                    html += '<tr>\n' +
+                        '       <td width="6%">职务</td>\n' +
+                        '       <td>' + str.taskdistributeEOS[i].publisher + '</td>\n' +
+                        '       <td width="7%">分发人</td>\n' +
+                        '       <td>' + str.taskdistributeEOS[i].name + '</td>\n' +
+                        '       <td width="6%">邮箱</td>\n' +
+                        '       <td>' + str.taskdistributeEOS[i].email + '</td>\n' +
+                        '       <td width="8%">分发日期</td>\n' +
+                        '       <td width="10%">' + str.taskdistributeEOS[i].distributetime + '</td>\n' +
+                        '       </tr>'
+                }
+                $('#table_f').append(html);
+                $('#table_3 #tbody_1').empty();
+                $('#shenpiid').val('');
+                $('#finalapprovalopinions').val('');
+                form.render('select');
+                $('#note').val('');
+                var latestApprovalTime = null;
+                if (str.approvaltaskEOS.length != 0){
+                    for (var i = 0; i < str.approvaltaskEOS.length; i++) {
+                        if (str.approvaltaskEOS[i].taskcategroy  == '1'){
+                            //判断approvalstatus是有值
+                            if (str.approvaltaskEOS[i].approvalstatus != ''&&(latestApprovalTime==null||latestApprovalTime<str.approvaltaskEOS[i].approvaltime)) {
+                                approvaltaskkey = str.approvaltaskEOS[i].approvaltaskkey
+                                latestApprovalTime=str.approvaltaskEOS[i].approvaltime;
+                                if (str.approvaltaskEOS[i].approvalstatus == '2') {
+                                    $('#approvalstatus').html('临时批准');
+                                }
+                                if (str.approvaltaskEOS[i].approvalstatus == '3') {
+                                    $('#approvalstatus').html('不批准');
+                                }
+                                if (str.approvaltaskEOS[i].provisionalapprovalvalidity != ''){
+                                    $('#provisionalapprovaldate').html(new Date(str.approvaltaskEOS[i].provisionalapprovalvalidity).Format("yyyy-MM-dd"))
+                                } else{
+                                    $('#provisionalapprovaldate').html('')
+                                }
+                                $('#approvalnote').html(str.approvaltaskEOS[i].approvalnote);
+                                if (str.approvaltaskEOS[i].approvalstatus == '2') {
+                                    $('#table_2 tr:eq(1)').attr('style', 'display:""');
+                                    $('#provisionalapprovalwhy').html(str.approvaltaskEOS[i].provisionalapprovalwhy)
+                                }
+                            }
+                        } else if (str.approvaltaskEOS[i].submitstatus  == '2'){
+                            $('#shenpiid').val(str.approvaltaskEOS[i].approvaltaskkey);
+                            $('#finalapprovalopinions').val(str.approvaltaskEOS[i].approvalopinion);
+                            form.render('select');
+                            $('#note').val(str.approvaltaskEOS[i].approvalnote)
+                        }
+                    }
+                }
+                processingRecords();
+
+                // 返回结果，进行渲染表格
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "data": res.data && res.data.taskpartsEOS ? res.data.taskpartsEOS : [] //解析数据列表
+                };
+            }
+            , cols: [[
+                {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'latestpartnum', title: '最新零件号', minWidth: 100, align: 'center'}
+                , {field: 'partsname', title: '零件名称', minWidth: 100, align: 'center'}
+                , {field: 'initialpartnum', title: '旧零件号', minWidth: 100, align: 'center'}
+                , {field: 'latestewo', title: '最新EWO', minWidth: 100, align: 'center'}
+                , {
+                    field: 'ots_approvalptatus', title: 'OTS认可状态(Y/N或N/A)', minWidth: 190, align: 'center'
+                    , templet: function (d) {
+                        var str = d.ots_approvalptatus;
+                        if (str == '0') {
+                            return '请选择'
+                        }
+                        if (str == '1') {
+                            return 'Y'
+                        }
+                        if (str == '2') {
+                            return 'N'
+                        }
+                        if (str == '3') {
+                            return 'N/A'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {
+                    field: 'app_earanceapprovalstatus', title: 'AAR认可状态(Y/N或N/A)', minWidth: 220, align: 'center'
+                    , templet: function (d) {
+                        var str = d.app_earanceapprovalstatus;
+                        if (str == '0') {
+                            return '请选择'
+                        }
+                        if (str == '1') {
+                            return 'Y'
+                        }
+                        if (str == '2') {
+                            return 'N'
+                        }
+                        if (str == '3') {
+                            return 'N/A'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {
+                    field: 'fe_approvalstatus', title: 'FE认可状态(Y/N或N/A)', minWidth: 210, align: 'center'
+                    , templet: function (d) {
+                        var str = d.fe_approvalstatus;
+                        if (str == '0') {
+                            return '请选择'
+                        }
+                        if (str == '1') {
+                            return 'Y'
+                        }
+                        if (str == '2') {
+                            return 'N'
+                        }
+                        if (str == '3') {
+                            return 'N/A'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {
+                    field: 'escalationriskdes',
+                    title: '升级高风险描述',
+                    minWidth: 250,
+                    align: 'center'
+                }
+                , {
+                    field: 'plansandmeasures',
+                    title: '计划及措施',
+                    width: 250,
+                    align: 'center',
+                    templet: function (d) {
+                        var rolename = config.getAccount().roleName
+                        if (rolename.indexOf('PE') != -1) {
+                            /*杨琴琴 2019-04-14 修改变更184 去掉计划及措施必填项校验*/
+                            return '<input name=\''+JSON.stringify(d)+'\' onblur="editplan(value,$(this))" class="layui-input" maxlength="150" id="plansandmeasures" value="'+d.plansandmeasures+'">'
+                        }else{
+                            return d.plansandmeasures
+                        }
+                    }
+                }
+            ]],
+            done: function (res, curr, count) {
+                //2019/02/21 liuhuiwen
+                var dev_obj; //layui table 父div
+                    var layuitable = null; //当前的layui table
+                    dev_obj = document.getElementById('table_div'); //table的父div,名字替换成相对应的
+                    if (dev_obj != null) {
+                        layuitable = dev_obj.getElementsByClassName("layui-table-main");
+                    }
+                    console.log(dev_obj, layuitable, sessionStorage["scrollleft" + 'table_div']);
+                    //更改滚动条位置
+                    layuitable[0].scrollLeft = sessionStorage["scrollleft" + 'table_div'];
+                //表格状态绑定颜色
+                if (res.data) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        //ots_status绑定颜色
+                        var ots_status = res.data[i].ots_approvalptatus;
+
+                        $('#table_div tr:eq(' + (i + 1) + ') td:eq(5) select').val(ots_status)
+                        if (ots_status == '0') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(5)').css({
+                                'background-color': 'white',
+                                'color': 'black',
+                                'width:': '50%',
+                                'height': '80%'
+                            })
+                        }else
+                        if (ots_status == '1') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(5)').css({
+                                'background-color': '#28C935',
+                                'color': 'black',
+                                'width:': '50%',
+                                'height': '80%'
+                            })
+                        } else if (ots_status == '2') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(5)').css({
+                                'background-color': '#FF5252',
+                                'color': 'black'
+
+                            })
+                        } else if (ots_status == '3') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(5)').css({
+                                'background-color': 'white',
+                                'color': 'black'
+                            })
+                        }                         //aar_status绑定颜色
+                        var aar_status = res.data[i].app_earanceapprovalstatus;
+                        $('#table_div tr:eq(' + (i + 1) + ') td:eq(6) select').val(aar_status)
+                        if (aar_status == '0') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(5)').css({
+                                'background-color': 'white',
+                                'color': 'black',
+                                'width:': '50%',
+                                'height': '80%'
+                            })
+                        }else
+                        if (aar_status == '1') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(6)').css({
+                                'background-color': '#28C935',
+                                'color': 'black'
+                            })
+                        } else if (aar_status == '2') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(6)').css({
+                                'background-color': '#FF5252',
+                                'color': 'black'
+
+                            })
+                        } else if (aar_status == '3') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(6)').css({
+                                'background-color': 'white',
+                                'color': 'black'
+                            })
+                        }                         //fe_status绑定颜色
+                        var fe_status = res.data[i].fe_approvalstatus;
+                        $('#table_div tr:eq(' + (i + 1) + ') td:eq(6) select').val(fe_status)
+                        if (fe_status == '0') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(5)').css({
+                                'background-color': 'white',
+                                'color': 'black',
+                                'width:': '50%',
+                                'height': '80%'
+                            })
+                        }
+                        if (fe_status == '1') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(7)').css({
+                                'background-color': '#28C935',
+                                'color': 'black'
+                            })
+                        } else if (fe_status == '2') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(7)').css({
+                                'background-color': '#FF5252',
+                                'color': 'black'
+
+                            })
+                        } else if (fe_status == '3') {
+                            $('#table_div tr:eq(' + (i + 1) + ') td:eq(7)').css({
+                                'background-color': 'white',
+                                'color': 'black'
+                            })
+                        }
+                    }
+                    form.render();
+                }
+
+            },
+            cellMinWidth: 110
+        });
+    });
+    var peNameTemp ="";
+
+    function editplan(value,$this) {
+        var admin = layui.adc,
+            layer = layui.layer;
+        var data = JSON.parse($this[0].name)
+        data.plansandmeasures = value;
+        data.responsiblepe = peNameTemp;
+
+        //马    将highriskdes和escalationriskdes字段合为一个 2019-03-17
+        if (value) {
+            admin.req('/api/ppap/taskparts/updateParts', data, function (res) {
+                if (res.respCode == 200) {
+
+                } else {
+                    layer.alert(res.message, {
+                        icon: 5
+                        ,btn:['关闭']
+                    })
+                }
+            }, {method: 'POST'})
+        }
+    }
+    /**
+     * 面板 显示/隐藏
+     * @param _this  当前元素this
+     */
+    //基础信息 显示/隐藏
+    function openPanel(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            $('#flex2').html('收起')
+            $('#flex2').next().next().removeClass('hide');
+            $('#flex2').next().addClass('hide');
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            $('#flex2').html('展开')
+            $('#flex2').next().next().addClass('hide');
+            $('#flex2').next().removeClass('hide');
+        }
+    }
+
+    //零件批准状态 显示/隐藏
+    function openPanel1(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            $('#flex21').html('收起')
+            $('#flex21').next().next().removeClass('hide');
+            $('#flex21').next().addClass('hide');
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            $('#flex21').html('展开')
+            $('#flex21').next().next().addClass('hide');
+            $('#flex21').next().removeClass('hide');
+        }
+    }
+
+    //零件批准状态 显示/隐藏
+    function openPanel2(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            $('#flex22').html('收起')
+            $('#flex22').next().next().removeClass('hide');
+            $('#flex22').next().addClass('hide');
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            $('#flex22').html('展开')
+            $('#flex22').next().next().addClass('hide');
+            $('#flex22').next().removeClass('hide');
+        }
+    }
+
+    //分发与报送 显示/隐藏
+    function openPanel3(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            $('#flex23').html('收起')
+            $('#flex23').next().next().removeClass('hide');
+            $('#flex23').next().addClass('hide');
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            $('#flex23').html('展开')
+            $('#flex23').next().next().addClass('hide');
+            $('#flex23').next().removeClass('hide');
+        }
+    }
+
+    //分发与报送 显示/隐藏
+    function openPanel4(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            $('#flex24').html('收起')
+            $('#flex24').next().next().removeClass('hide');
+            $('#flex24').next().addClass('hide');
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            $('#flex24').html('展开')
+            $('#flex24').next().next().addClass('hide');
+            $('#flex24').next().removeClass('hide');
+        }
+    }
+
+
+    //保存
+    function saveOpap() {
+        var admin = layui.adc,
+            layer = layui.layer,
+            config = layui.config;
+        if ($('#finalapprovalopinions').val() == '') {
+            layer.alert('请选择审批意见', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        }
+        /*杨琴琴 2019-04-23 修改变更238*/
+        if ($('#finalapprovalopinions').val() != '1') {
+            if ($('#note').val().replace(/\s+/g, '') == '') {
+                layer.alert('请输入说明', {
+                    icon: 5
+                    ,btn:['关闭']
+                });
+                return;
+            }
+            if ($('#note').val().replace(/\s+/g, '').length > 300) {
+                layer.alert('说明应在1~300字符之间', {
+                    icon: 5
+                    ,btn:['关闭']
+                });
+                return;
+            }
+        }
+        var data = {
+            userId: config.getAccount().userId,
+            userName: config.getAccount().userName,
+            roleName: config.getAccount().roleName,
+            taskorderkey: param,
+            approvaltaskEOs: {
+                approverkey: config.getAccount().userId,
+                approvalopinion: $('#finalapprovalopinions').val(),
+                approvalnote: $('#note').val(),
+                approvaltaskkey: $('#shenpiid').val(),
+            }
+        };
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/taskorder/saveTaskOrderOPAPApproval'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (data) {
+                if (data.respCode == 200) {
+                    layer.alert(data.message, {
+                        icon: 1
+                        ,btn:['关闭']
+                    });
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                        ,btn:['关闭']
+                    });
+                }
+            }
+        });
+
+    }
+
+    //提交
+    function submitOpap() {
+        var admin = layui.adc,
+            layer = layui.layer,
+            config = layui.config;
+        var acases = layui.table.cache;
+        var flag = true;
+        if (acases["table-task"].length > 0) {
+            for (var risk = 0; risk < acases["table-task"].length; risk ++) {
+                if (acases["table-task"][risk].riskinspectionresults == '高'
+                    // && acases["table-task"][risk].plansandmeasures == ''
+                ) {
+                    var datas = {taskorderkey: param,
+                        userId: initiator};
+                    $.ajax({
+                        type: 'POST',
+                        url: admin.formatUrl('/api/ppap/taskorder/queryTaskOrderOPAPApproval'),
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(datas),
+                        dataType: "json",
+                        async:false,
+                        success: function (res) {
+                            $("#allBody").html(data);//刷新整个body页面的html
+                        }
+                    });
+                }
+            }
+        }
+        if (flag == false) {
+            return;
+        }
+        if ($('#finalapprovalopinions').val() == '') {
+            layer.alert('请选择审批意见', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        }
+        /*杨琴琴 2019-04-23 修改变更238*/
+         if ($('#finalapprovalopinions').val() != '1') {
+             if ($('#note').val().replace(/\s+/g, '') == '') {
+                 layer.alert('请输入说明', {
+                     icon: 5
+                     ,btn:['关闭']
+                 });
+                 return;
+             }
+            if ($('#note').val().replace(/\s+/g, '').length > 300) {
+                layer.alert('说明应在1~300字符之间', {
+                    icon: 5
+                    ,btn:['关闭']
+                });
+                return;
+            }
+         }
+        var data = {
+            userId: config.getAccount().userId,
+            userName: config.getAccount().userName,
+            roleName: config.getAccount().roleName,
+            taskorderkey: param,
+            approvaltaskEOs: {
+                approverkey: config.getAccount().userId,
+                approvalopinion: $('#finalapprovalopinions').val(),
+                approvalnote: $('#note').val(),
+            }
+        };
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/taskorder/submitTaskOrderOPAPApproval'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (res) {
+                if (res.respCode == 200) {
+                    handlingTasks()
+                    if ($('#finalapprovalopinions').val() != 1) {
+                    } else {
+                        //判断是不是最后一个
+                        var ptovalkey = config.getAccount().roleName;
+                        if (ptovalkey.indexOf('总监') != -1) {
+                            sendEmailIsNo()
+                        }
+                    }
+                    layer.alert(res.message, {
+                        icon: 1
+                        ,btn:['关闭']
+                    });
+                    location.href = './index.html#!ADC_parts_task_sheet_agent?' + processId;
+                } else {
+                    // layer.alert(res.message, {
+                    //     icon: 5
+                    //     ,btn:['关闭']
+                    // });
+                }
+            }
+        });
+    }
+    //根据SQE主键查SQE名称
+    function selectSQEName(sqeName) {
+        var admin = layui.adc;
+        var data = {
+            userId: sqeName
+        };
+        $.ajax({
+            type: 'GET',
+            url: admin.formatUrl('/api/sys/hpm05user'),
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                //获取userId
+                if (data.respCode != -1) {
+                    $('#table_1 tr:eq(0) td:eq(1)')[0].innerText = data.data[0].userName;
+                }
+            }
+        });
+    }
+
+    //根据PE主键查PE名称
+    function selectPEName(peName) {
+        var admin = layui.adc;
+        var data = {
+            userId: peName
+        };
+        $.ajax({
+            type: 'GET',
+            url: admin.formatUrl('/api/sys/hpm05user'),
+            data: data,
+            dataType: "json",
+            success: function (data1) {
+                //获取userId
+                if (data1.respCode != -1) {
+                    $('#table_1 tr:eq(0) td:eq(7)')[0].innerText = data1.data[0].userName;
+                    peNameTemp=data1.data[0].userName;
+                }
+            }
+        });
+    }
+
+    //办理任务
+    function handlingTasks() {
+        debugger;
+        var admin = layui.adc,
+            layer = layui.layer,
+            config = layui.config;
+        var data = {
+            comment: $('#finalapprovalopinions').val() + $('#note').val(),//审批意见
+            taskId: processId,//隐藏列获取 工作流主键
+            variables: {
+            },
+        }
+        var data1 = data.variables;
+        if (config.getAccount().roleName.indexOf('经理') != -1) {
+            if ($('#finalapprovalopinions').val() == 1) {
+                data1.approve = 'agree'
+                data1.TDC = tdcId
+            } else {
+                data1.approve = '1'//找客户确定
+            }
+        } else {
+            if ($('#finalapprovalopinions').val() == 1) {
+                data1.approve = 'agree'
+            } else {
+                data1.approve = '1'//找客户确定
+            }
+        }
+        
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/activiti-task/complete'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (data1) {
+                if (data1.respCode == -1) {
+                    callbackCurrentStatus ()
+                }
+            }
+        });
+    }
+
+    //处理记录
+    function processingRecords() {
+        var admin = layui.adc;
+        var data = {
+            businessKey: $('#form_number').html()
+        };
+        $.ajax({
+            type: 'GET',
+            url: admin.formatUrl('/api/ppap/activiti-task/processing-records'),
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                if (data.respCode != -1 && data.data) {
+                    data = admin.redefinedForObject(data.data);
+                    var isagree = '';
+                    data.reverse();
+                    //添加签名图
+                    data.forEach(function (value, keys) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/api/sys/file-management/sign-pic/' + value.assignee,
+                            async: false,
+                            dataType: "json",
+                            success: function (resP) {
+                                if (resP.respCode != -1) {
+                                    data[keys].assigneeName = "<img src=" + resP.data + ">";
+                                    layer.closeAll();
+                                } else {
+                                    layer.closeAll();
+                                }
+                            },
+                            error: function () {
+                                layer.closeAll();
+                            }
+                        })
+                    });
+
+                    for (var j = 0; j < data.length; j++) {
+                        if (data[j].name == 'SQE' || data[j].name == '供应商') {
+                            data.splice(j, 1);
+                            j--;
+                        }
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        //2019-01-01
+                        if (data[i].finishTimeStr != '') {
+                            // if (data[i].name.indexOf('SQE') != -1) {
+                                //审批意见
+                                var approvalOpinion = data[i].comment.substring(0, 1);
+                                //说明
+                                var comments = data[i].comment.substring(1);
+                                if (approvalOpinion == 2) {
+                                    isagree = '不同意'
+                                } else {
+                                    isagree = '同意'
+                                }
+                                $('#table_3 #tbody_1').append('<tr>\n' +
+                                    '                            <td>' + data[i].name + '</td>\n' +
+                                    '                            <td>' + data[i].assigneeName + '</td>\n' +
+                                    '                            <td>审批意见</td>\n' +
+                                    '                            <td>' + isagree + '</td>\n' +
+                                    '                            <td>审批时间</td>\n' +
+                                    '                            <td>' + data[i].finishTimeStr + '</td>\n' +
+                                    '                            <td>说明</td><td>' + comments + '</td>\n' +
+                                    '     ' +
+                                    '                      </tr>')
+                        }else{
+                            $('#isroleName').html(data[i].name)
+                        }
+
+                    }
+                }
+            }
+        })
+    }
+
+    function gettdcId() {
+        var admin = layui.adc;
+        var data = {
+            pfollowcode: pfollowcode
+        };
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/projectwall/searchAllInfoForOPAP'),
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                if (data.respCode != -1 && data.data && data.data.page.length) {
+                    var tdcName = data.data.page[0].tdcchiefengineer
+                    selecttdcId(tdcName)
+                }
+            }
+        });
+    }
+
+    //根据PE主键查PE名称
+    function selecttdcId(tdcName) {
+        var admin = layui.adc;
+        var data = {
+            userName: tdcName
+        };
+        $.ajax({
+            type: 'GET',
+            url: admin.formatUrl('/api/sys/hpm05user'),
+            data: data,
+            dataType: "json",
+            success: function (data1) {
+                //获取userId
+                if (data1.respCode != -1) {
+                    tdcId = data1.data[0].userId
+                }
+            }
+        });
+    }
+
+    //重置
+    function resetOPAP() {
+        var table = layui.table,
+            admin = layui.adc,
+            layer = layui.layer,
+            config = layui.config;
+        var data = {
+            userId: config.getAccount().userId,
+            taskorderkey: param,
+            approvaltaskkey: approvaltaskkey
+        };
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/taskorder/resetTaskOrderOPAPApproval'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (data) {
+                if (data.respCode == 200) {
+                    table.reload('table-task');
+                    layer.alert(data.message, {
+                        icon: 1
+                        ,btn:['关闭']
+                    });
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                        ,btn:['关闭']
+                    });
+                }
+            }
+        });
+    }
+
+    //不同意发送邮件
+    function sendEmailIsNo() {
+        var admin = layui.adc;
+        //提交回显零件库状态
+        //submitback();
+        //更新分发时间
+        updateTime();
+        var data =
+            {
+                taskorderkey: param,
+                taskordernumber: $('#form_number').html(),
+                taskordertype: 1,
+                approvaltaskEOs: {
+                    approvalstatus: 2
+                },
+                partslibraryVOS: []
+            };
+        for (var i = 0; i < partslibraryEOSlist.length; i++) {
+            data.partslibraryVOS.push({
+                partskey: partslibraryEOSlist[i].partskey,
+                projectmodel: partslibraryEOSlist[i].projectmodel,
+                suppliername: partslibraryEOSlist[i].suppliername,
+                partsname: partslibraryEOSlist[i].partsname,
+                supplierrepresentativename: partslibraryEOSlist[i].supplierrepresentativename,
+                supplierrepresentativeposition: partslibraryEOSlist[i].supplierrepresentativeposition,
+                email: partslibraryEOSlist[i].email,
+                provisionalapprovaldate: $('#provisionalapprovaldate').html(),
+                provisionalapprovalwhy: partslibraryEOSlist[i].provisionalapprovalwhy
+            })
+        }
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/sendemaillog/sendToDistribute'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (result) {
+                if (result.respCode != -1) {
+                } else {
+                }
+            }
+        })
+    }
+    //更新分发时间
+    function updateTime() {
+        var admin = layui.adc,
+            layer = layui.layer;
+        var data =
+            {
+                taskorderkey:param
+            };
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/updatedistridate/updateDistriDate'),
+            data: data,
+            dataType: "json",
+            success: function (result) {
+                if (result.respCode != -1) {
+                } else {
+                    layer.alert(result.message, {
+                        icon: 5
+                        ,btn:['关闭']
+                    });
+                }
+            }
+        })
+    }
+
+    //办理任务成功更新状态
+    function modifyCurrentstatus() {
+        var admin = layui.adc,
+            layer = layui.layer;
+        var data = {
+            taskorderkey:param,
+            approvaltaskEOs:{
+                approvalopinion: $('#finalapprovalopinions').val(),
+            }
+        };
+        admin.req('/api//ppap/taskorder/modifyCurrentstatusByOPAPApproval', data, function (res) {
+            if (res.respCode == 200) {
+            } else {
+                layer.alert(res.message, {
+                    icon: 5
+                    ,btn:['关闭']
+                })
+            }
+        }, {method: 'POST'})
+    }
+    function callbackCurrentStatus () {
+        var admin = layui.adc;
+        admin.req('/api/ppap/taskorder/resetTaskStatus', {taskorderkey: TASK_ORDER_KEY, rolename: NODE_ROLE, taskordertype: 1}, function (data) {
+            layer.alert('提交失败', {
+                icon: 5
+                ,btn:['关闭']
+            });
+        }, {
+            method: 'POST'
+        });
+    }
+</script>
+</body>
+</html>

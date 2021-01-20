@@ -1,0 +1,72 @@
+<!--
+File   : system_agency_tpl_add_edit.html
+Created: Monday September 17th 2018 8:51:22 am
+Author : quym
+License: MIT License
+
+Copyright (c) 2018 quym
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Monday September 17th 2018 10:12:34 am
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 
+-----
+HISTORY:
+-->
+
+<div class="layui-tpl-container">
+    <div class="layui-form p-form" lay-filter="agency">
+        <input type="hidden" name="id">
+        <input type="hidden" name="type">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 被代理人</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="originalUserId">
+                <input type="text" name="originalUsername" placeholder="请输入被代理人" class="layui-input layui-disabled" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 代理人</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="agencyUserId">
+                <input type="text" name="agencyUsername" placeholder="请选择代理人" class="layui-input" readonly>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 代理开始时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="startTime" id="startTime" placeholder="请选择代理开始时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 代理结束时间</label>
+            <div class="layui-input-block">
+                <input type="text" name="endTime" id="endTime" placeholder="请选择代理结束时间" class="layui-input">
+            </div>
+        </div>
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="agencySave">保存</button>
+            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="agencyCancle">取消</button>
+        </div>
+    </div>
+</div>

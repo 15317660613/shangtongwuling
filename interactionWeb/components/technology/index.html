@@ -1,0 +1,51 @@
+<style>
+    div[xm-select-skin=normal] .xm-select-title div.xm-select-label>span {
+        font-size: 12px !important;
+    }
+
+</style>
+<div class="layui-tab layui-tab-brief" lay-filter="index-tab" id="technology">
+    <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="abilitySetting">过程能力设置</li>
+        <li lay-id="testRecord">特性检测记录</li>
+        <li lay-id="abilityList">过程能力一览</li>
+    </ul>
+</div>
+<div id="main-area" style="background: #eee;padding: 5px;padding-top: 2px"></div>
+<script>
+    layui.use(['element'], function() {
+        var element = layui.element,
+            menuPath={abilitySetting:'components/technology/abilitySetting.html',testRecord:'components/technology/testRecord.html',abilityList:'components/technology/abilityList.html'}
+        //先判断是否从外界跳转,获得最后一个值
+        var path = getLastPath();
+        if (menuPath[path]) {
+            $('#technology .layui-tab-title .layui-this').removeClass('layui-this');
+            $('li[lay-id="' + path + '"]').addClass('layui-this');
+        } else {
+            path = $('#technology .layui-tab-title .layui-this').attr('lay-id');
+            location.hash = '!' + Q.lash + '/' + path;
+        }
+        $('#main-area').load(menuPath[path]);
+        //监听切换事件
+
+        element.on('tab(index-tab)', function(data) {
+            //替换最后一位 然后跳转
+            var layId=this.getAttribute('lay-id');
+            var url= window.location.href
+            path = url.substring(url.lastIndexOf('/') + 1);//本页切换时应该移除替他页面传递后？后的参数
+            var url=location.hash.replace(path,layId)
+            location.hash=url;
+        });
+        function getLastPath() {
+            var url = window.location.href
+            var path = '';
+            if (url.lastIndexOf('?') != -1) {
+                path = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('?'));
+            } else {
+                path = url.substring(url.lastIndexOf('/') + 1);
+            }
+            return path;
+        }
+
+    })
+</script>

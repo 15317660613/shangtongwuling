@@ -1,0 +1,1212 @@
+<!--1920X1080-->
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    ol,
+    li,
+    input,
+    select,
+    button,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    
+    html,
+    body {
+        height: 100%;
+        color: #FFFFFF;
+        font-family: "微软雅黑";
+    }
+    
+    ul {
+        list-style: none;
+    }
+    
+    ul li {
+        float: left;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
+    a:hover {
+        color: #FFFFFF;
+    }
+    
+    ul li a {
+        color: #FFFFFF
+    }
+    
+    .content {
+        width: 100%;
+        position: absolute;
+        top: 95px;
+        bottom: 0;
+        /*background: url("./assets/images/datashow/bg-jiaohu.png") no-repeat;
+        background-size: 100%;*/
+    }
+    
+    .content-header {
+        height: 44px;
+        background: url("./assets/images/datashow/content-header-bg.png");
+        background-size: 100% 100%;
+        font-size: 16px;
+    }
+    
+    .content-header-tab {
+        overflow: hidden;
+        width: 45%;
+        height: 44px;
+        line-height: 36px;
+        margin: 0 auto;
+        font-weight: bold;
+    }
+    
+    ul.content-header-tab li {
+        width: 25%;
+        text-align: center;
+        cursor: pointer;
+        color: #FFFFFF;
+        font-size: 18px;
+    }
+    
+    ul.content-header-tab li:hover {
+        color: #FFFFFF
+    }
+    
+    .content-body {
+        position: absolute;
+        top: 36px;
+        bottom: 0;
+        width: 100%;
+    }
+    
+    .content-body-left {
+        float: left;
+    }
+    
+    .content-body-right {
+        float: right;
+    }
+    
+    .content-body-left,
+    .content-body-right {
+        width: 25%;
+        height: 75%;
+    }
+    
+    .content-body-center {
+        height: 100%;
+    }
+    
+    .search,
+    .export {
+        height: 7%;
+        display: flex;
+        /*justify-content: center;*/
+        align-items: center;
+        padding-left: 5%;
+    }
+    
+    .pie-left,
+    .pie-right {
+        margin-top: 3%;
+    }
+    
+    #bar-left-chart {
+        width: 100%;
+        height: 83%;
+        margin: 0 auto;
+    }
+    
+    #bar-right-chart {
+        width: 100%;
+        height: 83%;
+        margin: 0 auto;
+    }
+    
+    #pie-left-chart {
+        width: 100%;
+        height: 95%;
+        margin: 0 auto;
+    }
+    
+    #pie-right-chart {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+    
+    @media screen and (max-width: 1440px) {
+        #main {
+            width: 50%;
+            height: 70%;
+            margin: 0 auto;
+            top: 8%;
+            left: 25%;
+            background: url(./assets/images/bigQ2.png) no-repeat center 56% fixed;
+            background-size: 28%;
+        }
+        .search {
+            height: 10%;
+            margin-right: -21%;
+        }
+        #info-list {
+            font-size: 12px;
+            width: 100%;
+            height: 50%;
+            overflow-y: scroll;
+            scrollbar-track-color: #3C5984;
+            scrollbar-arrow-color: #3C5984;
+            scrollbar-face-color: #3C5984;
+            scrollbar-shadow-color: #3C5984;
+        }
+        .bar-title {
+            font-size: 14px
+        }
+        .map-title {
+            font-size: 16px;
+        }
+        .bar-title-2nd,
+        .pie-title-2nd {
+            font-size: 12px;
+            padding: 2% 4%;
+        }
+        .bottom-words {
+            height: 20%;
+            margin-top: 0;
+            margin-left: 3%;
+            font-size: 12px;
+        }
+        .bottom-words-detail>div {
+            margin-top: 4%;
+        }
+        .top-words {
+            color: #B9F4FF;
+            font-size: 12px;
+            margin-top: 4.5%;
+            margin-left: 3%;
+            height: 9%;
+        }
+        .calendar {
+            height: 59%;
+        }
+        .legend {
+            height: 100%;
+            width: 19%;
+            float: right;
+            margin-top: 0;
+            font-size: 12px;
+        }
+        #info-list>ul>li>.span3 {
+            margin-left: 6%;
+        }
+    }
+    
+    @media screen and (max-width: 1920px) and (min-width: 1440px) {
+        #main {
+            width: 50%;
+            height: 70%;
+            margin: 0 auto;
+            top: 8%;
+            left: 25%;
+            background: url(./assets/images/bigQ2.png) no-repeat center 52% fixed;
+            background-size: 30%;
+        }
+        .search {
+            height: 10%;
+            margin-right: -8%;
+        }
+        #info-list {
+            font-size: 12px;
+            width: 100%;
+            height: 57%;
+            overflow-y: scroll;
+            scrollbar-track-color: #3C5984;
+            scrollbar-arrow-color: #3C5984;
+            scrollbar-face-color: #3C5984;
+            scrollbar-shadow-color: #3C5984;
+        }
+        .bar-title {
+            font-size: 18px
+        }
+        .map-title {
+            font-size: 18px;
+        }
+        .bar-title-2nd,
+        .pie-title-2nd {
+            font-size: 14px;
+            padding: 2% 4%;
+        }
+        .bottom-words {
+            height: 20%;
+            margin-top: -0.3%;
+            margin-left: 3%;
+            font-size: 14px;
+        }
+        .bottom-words-detail>div {
+            margin-top: 4%;
+        }
+        .top-words {
+            color: #B9F4FF;
+            font-size: 12px;
+            margin-top: 4.5%;
+            margin-left: 3%;
+            height: 9%;
+        }
+        .calendar {
+            height: 60%;
+        }
+        .legend {
+            height: 100%;
+            width: 19%;
+            float: right;
+            margin-top: 1.5%;
+            font-size: 12px;
+        }
+        #info-list>ul>li>.span3 {
+            margin-left: 9%;
+        }
+    }
+    
+    .export {
+        padding-right: 5%;
+        justify-content: flex-end;
+        padding-left: 0;
+        height: 10%;
+        position: relative;
+        /*margin-top: 4%;*/
+    }
+    
+    .span-support {
+        position: absolute;
+        bottom: 10%;
+    }
+    
+    .bar-right,
+    .pie-right {
+        margin-right: 5%;
+        margin-left: 0;
+    }
+    
+    .map-title {
+        width: 23%;
+        height: 5.4%;
+        left: 39%;
+        top: 7.5%;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        color: #49DCFF;
+        /*font-size: 18px;*/
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0 0;
+    }
+    
+    .map-title-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .contruy,
+    .province,
+    .city {
+        cursor: pointer;
+    }
+    /* .layui-table-view .layui-table {
+        width: 100%;
+    } */
+    
+    .layui-laydate-main {
+        width: 205px !important;
+        height: 230px;
+    }
+    
+    .laydate-month-list>li {
+        margin: 8px 0 !important;
+    }
+    
+    input::-webkit-input-placeholder {
+        /* WebKit browsers */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    input:-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    input::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    input:-ms-input-placeholder {
+        /* Internet Explorer 10+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .table-control-btn {
+        color: #2487DA;
+        font-size: 12px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    
+    .table-control-btn:hover {
+        color: #2487DA;
+    }
+    /* 加skin皮肤样式 */
+    
+    .whiteStyle .layui-layer-title {
+        background: #FFF;
+        color: #000;
+        font-size: 16px;
+        border: none;
+    }
+    
+    .layui-title-text {
+        font-weight: 600;
+    }
+    /* 日期选择控件中的确定按钮样式 */
+    
+    .layui-laydate .laydate-btns-confirm {
+        background-color: #1890FF;
+        color: white;
+    }
+    
+    .layui-laydate .laydate-btns-confirm:hover {
+        opacity: 0.7;
+        color: white;
+    }
+    
+    .layui-table-view .layui-table td,
+    .layui-table-view .layui-table th {
+        padding: 2px 0;
+    }
+    /* 风险信息详情表格主体的最高高度 */
+    
+    .layui-table-body {
+        max-height: 330px;
+        /*overflow-y: auto;*/
+    }
+    /* 无数据显示图片 */
+    
+    .nodatastyle {
+        background: url("./assets/images/nodatatransparent.png") no-repeat center 44px;
+        background-size: 23%;
+    }
+    
+    .layui-table,
+    .layui-table-view {
+        margin: 0 0;
+    }
+    
+    .layui-card-body {
+        padding: 10px 10px;
+    }
+    
+    #tableContent2+div .layui-table-body {
+        height: 330px;
+        max-height: 330px;
+    }
+    /*****************************公共部分样式*********************************/
+    
+    .content-body-left {
+        height: 75%;
+    }
+    /************************重写layui部分样式*********************************/
+    
+    .layui-layout-admin .layui-body {
+        top: 0;
+        padding: 0;
+        overflow-y: auto;
+    }
+    /*****************************查询样式************************************/
+    
+    .search-input {
+        width: 28%;
+        height: 40%;
+        background: rgba(73, 220, 255, 0.17);
+        /*background-size: 100% 100%;*/
+        border: 1px solid #00FFFF;
+        color: #FFFFFF;
+        padding-left: 5px;
+        margin: 0 5px;
+    }
+    
+    .search-button,
+    #export {
+        height: 48%;
+        margin: 0 1%;
+        width: 10%;
+        background: url("./assets/images/datashow/50_40.png") no-repeat;
+        background-size: 100% 100%;
+        border: none;
+        color: #9BE3F9;
+        cursor: pointer;
+    }
+    
+    .select-button {
+        border: none;
+        background: none;
+        color: #949494;
+        cursor: pointer;
+        width: 50px;
+        /*opacity: 0.6;*/
+    }
+    
+    .search>label {
+        width: 45px;
+    }
+    /*****************************图表样式************************************/
+    
+    .bar-title,
+    .pie-title {
+        text-align: center;
+        height: 16%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0px 0px;
+        color: #49DCFF;
+    }
+    
+    .title-span {
+        float: right;
+        margin-right: 2%;
+        font-size: 12px;
+        color: #949494;
+        margin-top: 2px;
+    }
+    
+    .bar-left,
+    .pie-left,
+    .bar-right,
+    .pie-right {
+        margin-left: 5%;
+        height: 45%;
+        box-sizing: border-box;
+        background: rgba(11, 73, 159, 0.4);
+        border-radius: 4px;
+        color: #FFFFFF;
+    }
+    
+    .bar-left,
+    .pie-left {
+        height: 45%;
+    }
+    /*****************************进度条样式************************************/
+    
+    .circle {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .circle-span {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-75%);
+    }
+    
+    .desc-span {
+        display: block;
+        margin-top: 2%;
+    }
+    
+    .content-tail {
+        width: 100%;
+        height: 24%;
+        float: left;
+    }
+    
+    .content-tail>div {
+        display: inline-block;
+        vertical-align: top;
+    }
+    
+    .content-tail>div>div {
+        display: inline-block;
+    }
+    
+    .progress-lf {
+        margin-left: 1.3%;
+    }
+    
+    .progress-lf,
+    .progress-md {
+        width: 20%;
+        height: 100%;
+        background: rgba(11, 73, 159, 0.4);
+    }
+    
+    .progress-rt {
+        width: 33%;
+        height: 100%;
+        background: rgba(11, 73, 159, 0.4);
+    }
+    
+    .progress-lf>.circle,
+    .progress-md>.circle {
+        width: calc(50% - 3px);
+        height: 69%;
+        text-align: center;
+        padding-top: 5%;
+        position: relative;
+    }
+    
+    .progress-rt>.circle {
+        width: calc(33.33333333% - 4px);
+        height: 69%;
+        text-align: center;
+        padding-top: 3.5%;
+        position: relative;
+    }
+    
+    .progress-lf>.bar-title,
+    .progress-md>.bar-title,
+    .progress-rt>.bar-title {
+        height: 20%;
+    }
+    
+    .desc-span {
+        display: block;
+        margin-top: 2%;
+        font-size: 12px;
+    }
+    /*****************************列表样式************************************/
+    
+    #info-list::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 10px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+    
+    #info-list::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    #info-list::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        display: none;
+    }
+    
+    #info-list::-webkit-scrollbar-corner {
+        /*滚动条边角*/
+        display: none;
+    }
+    
+    #info-list>ul>li {
+        width: 90%;
+        margin: 1% 5%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        opacity: 0.6;
+    }
+    
+    #info-list>ul>li>.span1 {
+        /*margin-left: 5%;*/
+    }
+    
+    #info-list>ul>li>.span2 {
+        margin-left: 8.5%;
+    }
+    
+    .notice {
+        width: 23.75%;
+        /* margin-top: 3.4%; */
+        /* margin-right: 5%; */
+        height: 100%;
+        background: rgba(11, 73, 159, 0.4);
+    }
+    
+    .notice>.bar-title {
+        height: 20%;
+    }
+    
+    .list-title-2nd {
+        margin: 2% auto;
+        width: 100%;
+    }
+    /*****************************中心样式************************************/
+    
+    .bottom-words-detail {
+        color: #40EFFF;
+        float: left;
+        width: 50%;
+    }
+    
+    .bottom-words-detail>div>span {
+        background: rgba(0, 205, 254, 0.1);
+        border-bottom: 1px solid #40EFFF;
+        padding: 2px;
+    }
+    
+    .legend>ul>li {
+        margin: 3%;
+        width: 100%;
+    }
+    
+    .legend>ul>li>span {
+        opacity: 0.6;
+        margin-top: -3px;
+        display: inherit;
+    }
+    
+    .trancle1 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #00FF00;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+    
+    .trancle2 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #D6B939;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+    
+    .trancle3 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #FF6349;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+    
+    .imgab {
+        display: inline-block;
+        position: absolute;
+        top: 293px;
+        left: 744px;
+        z-index: 99999;
+    }
+    
+    .imgab>img {}
+    /*for temporary use*/
+    
+    .layui-body {
+        background: url(./assets/images/datashow/bg-jiaohu.png) no-repeat;
+        background-size: 100%;
+    }
+</style>
+<div style="width: 99%;height: 42px;color: #FFF;position: absolute;top: 56px;font-size: 18px;font-weight: 600;padding-left: 1.5%;background-color: rgba(58,146,255,0.3)">
+    <ul style="margin-top: 12px;">
+        <li style="width: 8%;color: #49DCFF">工厂总览</li>
+        <li style="width: 8%;">项目管理</li>
+        <li style="width: 8%;">质量管理</li>
+        <li style="width: 8%;">交付管理</li>
+        <li style="width: 8%;">风险管理</li>
+        <li style="width: 8%;">基础档案</li>
+    </ul>
+</div>
+<div class="content">
+    <div class="content-header">
+        <!-- tab -->
+        <ul class="content-header-tab">
+            <li><a href="./#!demo2" style="color: #49DCFF;">工厂运行总览</a></li>
+            <li id="analysis"><a href="./#!demo3">生产运行状态</a></li>
+            <li id="monitor"><a href="./#!demo4">质量运行状态</a></li>
+            <li id="warning">交付完成状态</li>
+        </ul>
+    </div>
+    <!-- tab内容 -->
+    <div class="content-body">
+        <div class="content-body-left">
+            <!-- 查询框 -->
+            <div class="search">
+                <label>时间段</label>
+                <input type="text" class="search-input" id="search-input" readonly placeholder="请选择日期">
+                <span>-</span>
+                <input type="text" class="search-input" id="search-input2" readonly placeholder="请选择日期">
+                <button class="search-button">查询</button>
+                <!--<button class="select-button">筛选<i class="layui-icon layui-icon-down"></i></button>-->
+                <!--先这样吧，之后再换成layer的形式-->
+                <select class="select-button">
+                    <option value="">筛选</option>
+                    <option value="1">年</option>
+                    <option value="2">月</option>
+                    <option value="3">日</option>
+                </select>
+            </div>
+            <!-- 图表 -->
+            <div class="bar-left">
+                <div class="bar-title">生产运行</div>
+                <div class="bar-title-2nd">
+                    <span>滚动12个月生产计划完成率状态</span>
+                    <span class="title-span">目标值：xx</span>
+                </div>
+                <div id="bar-left-chart"></div>
+            </div>
+            <!-- 图表 -->
+            <div class="pie-left" style="height: 40%;">
+                <div class="pie-title-2nd">
+                    <span>滚动12个月生产计划完成率状态</span>
+                    <span class="title-span">目标值：xx</span>
+                </div>
+                <div id="pie-left-chart"></div>
+            </div>
+        </div>
+        <div class="content-body-right">
+            <!-- 导出 -->
+            <div class="export">
+                <div class="span-support">
+                    <span>2018年05月05日</span>
+                    <span style="font-size: 12px;">（最近更新日期）</span>
+                </div>
+            </div>
+            <!-- 图表 -->
+            <div class="bar-right" style="margin-left: 0;">
+                <div class="bar-title">生产效率</div>
+                <div class="bar-title-2nd">
+                    <span>滚动12个月生产计划完成率状态</span>
+                    <span class="title-span">目标值：xx</span>
+                </div>
+                <div id="bar-right-chart"></div>
+            </div>
+            <!-- 图表 -->
+            <div class="pie-right" style="height: 40%;margin-left: 0;">
+                <div class="pie-title-2nd">
+                    <span>滚动12个月生产计划完成率状态</span>
+                    <span class="title-span">目标值：xx</span>
+                </div>
+                <div id="pie-right-chart"></div>
+            </div>
+        </div>
+        <!--进度条-->
+        <div class="content-tail">
+            <div class="progress-lf">
+                <div class="bar-title" style="display: flex;">每日生产效率情况</div>
+                <div id="circle1" class="circle"><span class="circle-span">32%</span><span class="desc-span" d>设备综合效率OEE</span></div>
+                <div id="circle2" class="circle"><span class="circle-span">60%</span><span class="desc-span">设备综合效率OEE</span></div>
+            </div>
+            <div class="progress-md">
+                <div class="bar-title" style="display: flex;">每日质量指标情况</div>
+                <div id="circle3" class="circle"><span class="circle-span">60%</span><span class="desc-span">设备综合效率OEE</span></div>
+                <div id="circle4" class="circle"><span class="circle-span">60%</span><span class="desc-span">设备综合效率OEE</span></div>
+            </div>
+            <div class="progress-rt">
+                <div class="bar-title" style="display: flex;">每日计划完成情况</div>
+                <div id="circle5" class="circle"><span class="circle-span">60%</span><span class="desc-span">设备综合效率OEE</span></div>
+                <div id="circle6" class="circle"><span class="circle-span">60%</span><span class="desc-span">设备综合效率OEE</span></div>
+                <div id="circle7" class="circle"><span class="circle-span">40%</span><span class="desc-span">设备综合效率OEE</span></div>
+            </div>
+            <!--公告栏-->
+            <div class="notice">
+                <div class="bar-title" style="display: flex;">本月质量风险预警</div>
+                <div class="list-title-2nd">
+                    <span style="margin-left: 11%">日期</span>
+                    <span style="margin-left: 11%">风险类型</span>
+                    <span style="margin-left: 10%">预警描述</span>
+                </div>
+                <div id="info-list">
+                    <ul>
+                        <li><span class="span1">2019/05/25</span><span class="span2">变更风险</span><span class="span3">物料变更风险，变更...</span>
+                        </li>
+                        <li><span class="span1">2019/05/25</span><span class="span2">变更风险</span><span class="span3">物料变更风险，变更...</span>
+                        </li>
+                        <li><span class="span1">2019/05/25</span><span class="span2">变更风险</span><span class="span3">物料变更风险，变更...</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 地图 -->
+        <div class="content-body-center">
+            <div class="map-title">
+                <div class="map-title-text">
+                    <div class="contruy">零缺陷质量</div>
+                </div>
+            </div>
+
+        </div>
+        <!-- 中心日历 -->
+        <div id='main' style="position: absolute;z-index: 99999;">
+            <div class="top-words">
+                <div>内部质量：零缺陷xx天，当年不良累计XX件，累计报废XX件</div>
+                <div>2019/02-2019/06 SGMW质量反馈：现场质量问题XX起；DT质量停线XX分钟；重大质量问题XX起。</div>
+            </div>
+            <div class="calendar">
+                <!--文字排版参考http://www.daqianduan.com/6704.html-->
+            </div>
+            <div class="bottom-words">
+                <div class="bottom-words-detail">
+                    <div><span>客诉：XX起</span></div>
+                    <div><span>内诉：XX起；A类：XX起  B类：XX起；C类：XX起</span></div>
+                </div>
+                <div class="legend">
+                    <ul>
+                        <li>
+                            <div class="trancle1"></div><span>无质量问题</span></li>
+                        <li>
+                            <div class="trancle2"></div><span>内部质量问题</span></li>
+                        <li>
+                            <div class="trancle3"></div><span>客户质量问题</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="imgab"><img src="./assets/images/triangle/reddown.png"></div>-->
+<script>
+    //layui初始化
+    layui.use(['element', 'table', 'jquery', 'layer', 'laydate', 'admin'], function() {
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        var admin = layui.admin;
+        var table = layui.table;
+        var $ = layui.jquery;
+        //var curDate1 = getPreMonth(new Date(), 1);
+
+        var option = {
+            color: ['#71B7EE'],
+            tooltip: {},
+            grid: {
+                top: '4%',
+                left: '16%'
+            },
+            xAxis: [{
+                type: 'category',
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.6)'
+                    }
+                },
+                axisLabel: {
+                    //interval: 0
+                },
+                axisTick: {
+                    show: false
+                },
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            }],
+            yAxis: [{
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}%'
+                },
+                min: 0,
+                max: 100,
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.3)'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#FFF',
+                        opacity: 0.2
+                    }
+                }
+            }],
+            series: [{
+                name: '完成率',
+                type: 'bar',
+                barWidth: '40%',
+                data: [36, 75, 75, 39, 75, {
+                    value: 52,
+                    itemStyle: {
+                        color: '#D1060B'
+                    }
+                }, 36, 75, 75, 39, 75, 52]
+            }]
+        };
+
+        var option2 = {
+            color: ['#71B7EE'],
+            tooltip: {},
+            grid: {
+                top: '4%',
+                left: '16%'
+            },
+            xAxis: [{
+                type: 'category',
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.6)'
+                    }
+                },
+                axisLabel: {
+                    //interval: 0
+                },
+                axisTick: {
+                    show: false
+                },
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            }],
+            yAxis: [{
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}%'
+                },
+                min: 0,
+                max: 100,
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.3)'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                }
+            }],
+            series: [{
+                name: '完成率',
+                type: 'bar',
+                barWidth: '40%',
+                data: [36, 75, 75, 39, 75, {
+                    value: 52,
+                    itemStyle: {
+                        color: '#D1060B'
+                    }
+                }, 36, 75, 75, 39, 75, 52]
+            }]
+        };
+
+        var option3 = {
+            color: ['#71B7EE'],
+            tooltip: {},
+            toolbox: {},
+            legend: {
+                data: ['停线时间', '停线率', '停线率目标'],
+                textStyle: {
+                    color: 'rgba(255,255,255,0.6)'
+                },
+                top: '0%',
+                itemHeight: 8,
+                itemWidth: 20
+            },
+            grid: {
+                top: '20%',
+                left: '16%'
+            },
+            xAxis: [{
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                axisTick: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.6)'
+                    }
+                },
+                axisLabel: {
+                    //interval: 0
+                }
+            }],
+            yAxis: [{
+                type: 'value',
+                name: '',
+                min: 0,
+                max: 100,
+                axisLabel: {
+                    formatter: '{value} %'
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.3)'
+                    }
+                }
+            }, {
+                type: 'value',
+                name: '',
+                min: 0,
+                max: 25,
+                axisLabel: {
+                    formatter: '{value}'
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.3)'
+                    }
+                }
+            }],
+            series: [{
+                name: '停线时间',
+                type: 'bar',
+                data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 35.6, 62.2, 32.6, 20.0, 6.4, 3.3]
+            }, {
+                name: '停线率',
+                type: 'line',
+                itemStyle: {
+                    color: '#00ECC6'
+                },
+                data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 75.6, 82.2, 48.7, 18.8, 6.0, 2.3]
+            }, {
+                name: '停线率目标',
+                type: 'line',
+                yAxisIndex: 1,
+                itemStyle: {
+                    color: '#FFB90C'
+                },
+                data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            }]
+        };
+
+        /**
+         * @Desc  绘制柱状图
+         * @Param elem :HTML元素ID;option:图形配置项
+         * @Date 2019-1-22 10:34:52
+         * @Author Sucdaze
+         */
+        function drawCharts(elem, option) {
+            var myChart = echarts.init(document.getElementById(elem));
+            myChart.setOption(option);
+        }
+
+        drawCharts('bar-left-chart', option);
+        drawCharts('bar-right-chart', option);
+        drawCharts('pie-left-chart', option2);
+        drawCharts('pie-right-chart', option3);
+
+        //不同分辨率在这儿加
+        function setScreenOption() {
+            //1366
+            var progressOptionX1366 = {
+                value: 0.6,
+                startAngle: -(1 + 0.1) * Math.PI,
+                size: 60,
+                thickness: 5,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(20, 23, 24, .1)"
+            };
+
+            //1920
+            var progressOptionX1920 = {
+                value: 0.6,
+                startAngle: -(1 + 0.1) * Math.PI,
+                size: 80,
+                thickness: 10,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(20, 23, 24, .1)"
+            };
+
+            if ($(window).width() < 1400) {
+                return progressOptionX1366;
+            } else {
+                return progressOptionX1920;
+            }
+        }
+
+        /**
+         * @Desc  绘制进度条
+         * @Param elem :HTML元素ID;option:进度条配置项
+         * @Date 2019-1-24 13:44:37
+         * @Author Sucdaze
+         */
+        function drawProgressBar(elem, option) {
+            $('#' + elem).circleProgress(option);
+        }
+
+        for (var i = 2; i < 7; i++) {
+            drawProgressBar('circle' + i, setScreenOption());
+        }
+
+        if ($(window).width() < 1400) {
+            drawProgressBar('circle1', {
+                value: 0.32,
+                startAngle: -(1 - 0.18) * Math.PI,
+                size: 60,
+                thickness: 5,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(20, 23, 24, .1)"
+            });
+
+            drawProgressBar('circle7', {
+                value: 0.4,
+                startAngle: -(1 - 0.1) * Math.PI,
+                size: 60,
+                thickness: 5,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(20, 23, 24, .1)"
+            });
+        } else {
+            drawProgressBar('circle1', {
+                value: 0.32,
+                startAngle: -(1 - 0.18) * Math.PI,
+                size: 80,
+                thickness: 10,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(20, 23, 24, .1)"
+            });
+
+            drawProgressBar('circle7', {
+                value: 0.4,
+                startAngle: -(1 - 0.1) * Math.PI,
+                size: 80,
+                thickness: 10,
+                fill: {
+                    color: "#49DCFF"
+                },
+                lineCap: "round",
+                emptyFill: "rgba(20, 23, 24, .1)"
+            });
+        }
+
+        /*窗口大小改变事件 图表自适应窗口大小*/
+        /*window.onresize = function() {
+            leftBar.resize();
+            rightBar.resize();
+            leftPie.resize();
+            rightPie.resize();
+            myChart.resize();
+        };*/
+
+    });
+</script>

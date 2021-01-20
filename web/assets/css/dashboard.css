@@ -1,0 +1,234 @@
+/**
+ *
+ * 重写 layui card 样式
+ *
+ */
+
+.layui-card-header {
+    height: 48px;
+    line-height: 48px;
+    color: #181818;
+    border-bottom: 2px solid #EEEEEE;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.layui-card-body {
+    height: auto;
+    min-height: auto;
+}
+
+
+/* card header 右面的功能按钮 */
+
+.layui-card-header .layui-card-header-right-btn {
+    float: right;
+    color: #949494;
+    font-size: 14px;
+    font-weight: normal;
+    cursor: pointer;
+    margin-left: 10px;
+    height: 48px;
+    transition: color .3s;
+}
+
+.layui-card-header .layui-card-header-right-btn:hover {
+    color: rgba(85, 183, 255, 1);
+}
+
+
+/**
+ *
+ * 任务信息
+ *
+ */
+
+.tasks-info {
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* flex-direction: column; */
+}
+
+.tasks-info img {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: block;
+}
+
+.tasks-info strong {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0 auto;
+    margin-top: 8px;
+    display: block;
+    text-align: center;
+}
+
+.tasks-info span {
+    font-size: 16px;
+    color: #949494;
+    margin: 0 auto;
+    margin-bottom: 24px;
+    display: block;
+    text-align: center;
+}
+
+
+/**
+ *
+ * 跟踪任务
+ *
+ */
+
+.tasks-track-container {
+    overflow: hidden;
+    height: 160px;
+}
+
+.tasks-track {
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, .65);
+}
+
+.tasks-track p {
+    display: inline-block;
+    max-width: 48%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 380px) {
+    /* 适配 iPhone 5 小屏幕 */
+    .tasks-track p {
+        max-width: 32%;
+    }
+}
+
+.tasks-track span {
+    float: right;
+    margin-left: 8px;
+    width: 100px;
+    height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tasks-track a {
+    color: rgba(85, 183, 255, 1);
+    float: right;
+    margin-left: 8px;
+}
+
+.tasks-track a:hover {
+    color: rgba(85, 183, 255, .8);
+}
+
+
+/**
+ *
+ * 待办任务 跟踪任务
+ * 重写 layui 表格样式
+ *
+ */
+
+.tableTodolist {
+    height: 357px;
+}
+
+.tasks-track-container .layui-table td,
+.tasks-track-container .layui-table th,
+.tasks-track-container .layui-table-header,
+.tasks-track-container .layui-table-page,
+.tasks-track-container .layui-table-view,
+.tasks-track-container .layui-table-box,
+.tableTodolist .layui-table td,
+.tableTodolist .layui-table th,
+.tableTodolist .layui-table-header,
+.tableTodolist .layui-table-page,
+.tableTodolist .layui-table-view,
+.tableTodolist .layui-table-box {
+    border: none;
+}
+
+.tasks-track-container .layui-table thead tr,
+.tableTodolist .layui-table thead tr {
+    background-color: #FAFAFA;
+    height: 48px;
+    color: rgba(0, 0, 0, .65);
+}
+
+.tasks-track-container .layui-table thead th,
+.tableTodolist .layui-table thead th {
+    font-weight: bold;
+}
+
+.tasks-track-container .layui-table-header,
+.tableTodolist .layui-table-header {
+    background-color: #fff;
+}
+
+.tasks-track-container .layui-table-header,
+.tableTodolist .layui-table tbody tr {
+    border-bottom: 1px solid #EBEBEB;
+    height: 48px;
+    color: rgba(0, 0, 0, .65);
+}
+
+.tasks-track-container .layui-table tbody tr:hover,
+.tableTodolist .layui-table tbody tr:hover {
+    background-color: transparent;
+}
+
+.tasks-track-container .layui-table-page,
+.tableTodolist .layui-table-page {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.tasks-track-container .layui-table-box,
+.tableTodolist .layui-table-box {
+    margin-bottom: 10px;
+}
+
+
+/**
+ *
+ * 日程事件
+ *
+ */
+
+.dateViewer {
+    height: 357px;
+}
+
+.dateViewer .layui-laydate,
+.layui-laydate-header {
+    border: none;
+    box-shadow: none;
+}
+
+.dateViewer .layui-laydate,
+.dateViewer .layui-laydate .layui-laydate-main,
+.dateViewer .layui-laydate .layui-laydate-main table {
+    width: 100%;
+}
+
+.dateViewer .layui-laydate .layui-this {
+    background-color: #55B7FF !important;
+}
+
+.dateViewer .laydate-day-mark::after {
+    background-color: #55B7FF;
+}
+
+.layui-laydate-header i:hover,
+.layui-laydate-header span:hover {
+    color: #55B7FF;
+}

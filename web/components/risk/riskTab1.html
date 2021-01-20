@@ -1,0 +1,699 @@
+<!-- File: dashboard.html
+  --Created: 2018/11/20 10:17:27 am
+  --Author : quym
+  --Description: 页面框架搭建， 图表部分省略，表格显示
+ * -----
+ * HISTORY:
+ * -----
+ * mark: 页面图表均可使用百度echarts绘图工具绘制  参考链接：http://echarts.baidu.com
+   -->
+<style>
+
+
+</style>
+<link rel="stylesheet" href="../../assets/css/riskTab.css">
+<!-- tab -->
+<div class="layui-tab layui-tab-brief" lay-filter="adc-tab" id="risk-check">
+    <!-- tab头部内容 -->
+    <ul class="layui-tab-title">
+        <li>风险地图</li>
+        <li>分析评估</li>
+        <li class="layui-this">风险监控</li>
+        <li>预警应对</li>
+        <li>风险预测</li>
+        <li>管理体系</li>
+    </ul>
+    <!-- tab内容 -->
+    <div class="layui-tab-content">
+        <div class="layui-tab-item"></div>
+        <!-- Tab1 分布图 -->
+        <div class="layui-tab-item">
+            <!-- 查询条件设置 -->
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">查询条件设置
+                            <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                                        src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                        </div>
+                        <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 25px;display: none" lay-filter="form">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">日期：</label>
+                                        <div class="layui-input-block">
+                                            <i class="layui-icon layui-icon-date"></i>
+                                            <input type="text" name="date" placeholder="" class="layui-input" id="date-1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md9">
+                                    <div class="layui-form-item" style="padding-left: 10px">
+                                        <input type="radio" name="sex" value="0" title="3个月滚动风险" checked>
+                                        <input type="radio" name="sex" value="1" title="12个月滚动风险">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">业务模块：</label>
+                                        <div class="layui-input-block">
+                                            <select name="ywmk" id="ywmk1" xm-select="functionSelect"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label" style="width: 90px;">供应商代码：</label>
+                                        <div class="layui-input-block" style="margin-left: 100px;">
+                                            <select name="gysdm" id="gysdm1" lay-filter="gysdm1">
+                                                    <option value="1" disabled>请选择供应商代码</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称：</label>
+                                        <div class="layui-input-block">
+                                            <select name="gysmc" id="gysmc1">
+                                                    <option value="1" disabled>请选择供应商名称</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">风险程度：</label>
+                                        <div class="layui-input-block">
+                                            <select name="fxcd" id="fxcd1" xm-select="level">
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                            <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search">查询
+                                                </button>
+                                            <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset">重置
+                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 统计表格 -->
+            <div class="layui-row" style="margin-top: 8px;">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险信息详情</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                                    <button class="layui-btn layui-btn-primary green" id="top10" value="1">TOP10</button>
+                                    <button class="layui-btn layui-btn-primary" id="top20" value="2">TOP20</button>
+                                    <button class="layui-btn layui-btn-primary" id="top30" value="3">TOP30</button>
+                                    <button class="layui-btn layui-btn-primary" id="top50" value="5">TOP50</button>
+                                </div>
+                                <div class="pull-right" id="analysisBtn">
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 15px;">
+                                    <table id="demo-table"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 统计图 + 空白图表 -->
+            <div class="layui-row layui-col-space8" style="margin-top: 4px;">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md7">
+                    <div class="layui-card">
+                        <div class="layui-card-header" id="bar-title"></div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div id="chart-bar" style="width: 96%;height: 260px;margin: 0 auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md5">
+                    <div class="layui-card">
+                        <div class="layui-card-header" id="pie-title"></div>
+                        <div class="layui-card-body" id="pieBody">
+                            <div class="layui-row" id="chart-pie-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div id="chart-pie" style="width: 96%;height: 260px;margin: 0 auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tab2 数据分析-->
+        <div class="layui-tab-item  layui-show">
+            <!-- 查询条件设置 -->
+            <div class="layui-row">
+                <div class="layui-col-xs12 ayui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">查询条件设置
+                            <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                                            src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                        </div>
+                        <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 25px;display: none" lay-filter="form1">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">开始时间：</label>
+                                        <div class="layui-input-block">
+                                            <i class="layui-icon layui-icon-date"></i>
+                                            <input type="text" name="date" placeholder="" class="layui-input" id="date-2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">业务模块：</label>
+                                        <div class="layui-input-block">
+                                            <select name="ywmk2" id="ywmk2" lay-filter="ywmk2">
+                                                    </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label" style="width: 90px;">供应商代码：</label>
+                                        <div class="layui-input-block" style="margin-left: 100px;">
+                                            <select name="gysdm2" id="gysdm2" lay-filter="gysdm2">
+                                                    </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称：</label>
+                                        <div class="layui-input-block">
+                                            <select name="gysmc2" id="gysmc2" lay-filter="gysmc2">
+                                                    </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                            <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search1" id="searchAll">查询
+                                                    </button>
+                                            <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset1">重置
+                                                    </button>
+                                            <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="supplierManage" onclick="supplierManage()">风险供应商管理
+                                                    </button>
+                                            <button class="layui-btn layui-btn-sm layui-btn-primary" id="exportAnalysis" style="padding: 0 30px;">导出
+                                                    </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 统计表格 + 风险供应商状态图 -->
+            <div class="layui-row layui-col-space8" style="margin-top: 4px;">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险供应商状态图</div>
+                        <div class="layui-card-body">
+                            <!-- 风险供应商状态图 -->
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div id="chart-barFist" style="width: 100%;height: 546px;margin: 0 auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 统计表格 -->
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md9">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险供应商状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 15px;">
+                                    <table id="demo-table1" class="layui-hide" lay-filter="demo-table1"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row layui-col-space8" style="margin-top: 4px;">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险监控供应商质量PRR状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-bar1" style="width: 400px;height: 260px;margin: 0 auto;z-index: 9999999;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-pie1" style="width: 158px;height: 260px;margin-left: 100px"></div>
+                                    <span id="chart-pie1Text" class="pieText">1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险监控供应商现场问题状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-bar2" style="width: 400px;height: 260px;margin: 0 auto;z-index: 9999999;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-pie2" style="width: 158px;height: 260px;margin-left: 100px;"></div>
+                                    <span id="chart-pie2Text" class="pieText">1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row layui-col-space8" style="margin-top: 4px;">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险监控供应商DT状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-bar3" style="width: 400px;height: 260px;margin: 0 auto;z-index: 9999999;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-pie3" style="width: 168px;height: 260px;margin-left: 100px"></div>
+                                    <span id="chart-pie3Text" class="pieText">1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险监控供应商SPILL状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-bar4" style="width: 400px;height: 260px;margin: 0 auto;z-index: 9999999;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-pie4" style="width: 158px;height: 260px;margin-left: 100px"></div>
+                                    <span id="chart-pie4Text" class="pieText">1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row layui-col-space8" style="margin-top: 4px;">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险监控供应商PPM状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-bar5" style="width: 400px;height: 260px;margin: 0 auto;z-index: 9999999;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-pie5" style="width: 158px;height: 260px;margin-left: 100px"></div>
+                                    <span id="chart-pie5Text" class="pieText">1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险监控供应商FPE状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-bar6" style="width: 400px;height: 260px;margin: 0 auto;z-index: 9999999;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                                    <div id="chart-pie6" style="width: 158px;height: 260px;margin-left: 100px"></div>
+                                    <span id="chart-pie6Text" class="pieText">1</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tab3 改进措施 -->
+        <div class="layui-tab-item">
+            <!-- 查询条件设置 -->
+            <div class="layui-row">
+                <div class="layui-col-xs12 ayui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">查询条件设置
+                            <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                                        src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                        </div>
+                        <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 25px;display: none" lay-filter="form2">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">开始时间</label>
+                                        <div class="layui-input-block">
+                                            <i class="layui-icon layui-icon-date"></i>
+                                            <input type="text" name="date" placeholder="" class="layui-input" id="date-3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">业务模块</label>
+                                        <div class="layui-input-block">
+                                            <select name="ywmk3" id="ywmk3" lay-filter="ywmk3">
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label" style="width: 90px;">供应商代码</label>
+                                        <div class="layui-input-block" style="margin-left: 100px;">
+                                            <select name="gysdm3" id="gysdm3" lay-filter="gysdm3">
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称</label>
+                                        <div class="layui-input-block">
+                                            <select name="gysmc3" id="gysmc3" lay-filter="gysmc3">
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">风险程度</label>
+                                        <div class="layui-input-block">
+                                            <select name="fxcd3" id="fxcd3" lay-filter="fxcd3">
+                                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">影响车型/机型</label>
+                                        <div class="layui-input-block">
+                                            <select name="vehicleType" id="vehicleType" lay-filter="vehicleType">
+                                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">主要影响产品</label>
+                                        <div class="layui-input-block">
+                                            <select name="product" id="product" lay-filter="product">
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">SQE</label>
+                                        <div class="layui-input-block">
+                                            <select name="sqe" id="sqe" lay-filter="sqe">
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">状态</label>
+                                        <div class="layui-input-block">
+                                            <select name="status" id="status" lay-filter="status">
+                                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                            <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search2">查询
+                                                </button>
+                                            <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset2">重置
+                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 统计表格 -->
+            <div class="layui-row" style="margin-top: 16px;">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险信息详情</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <!-- 按钮 -->
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div class="pull-right">
+                                        <button class="layui-btn layui-btn-primary">修改</button>
+                                        <button class="layui-btn layui-btn-primary">导出</button>
+                                        <button class="layui-btn layui-btn-primary">刷新</button>
+                                        <button class="layui-btn layui-btn-primary">查询</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 统计表格 -->
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 15px;">
+                                    <table id="demo-table2"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 风险预警状态图表 -->
+            <div class="layui-row layui-col-space15" style="margin-top: 8.5px;">
+                <!-- 风险预警状态图表 -->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">2018年各月风险预警状态</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div id="chart-bar8" style="width: 96%;height: 260px;margin: 0 auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 风险预警状态图表 -->
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">2018年10月风险类型分析</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div id="chart-bar9" style="width: 96%;height: 260px;margin: 0 auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tab4 跟踪验证 -->
+        <div class="layui-tab-item">
+            <!-- 查询条件设置 -->
+            <div class="layui-row">
+                <div class="layui-col-xs12 ayui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">查询条件设置
+                            <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                                        src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                        </div>
+                        <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 25px;display: none" lay-filter="form3">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">开始时间：</label>
+                                        <div class="layui-input-block">
+                                            <i class="layui-icon layui-icon-date"></i>
+                                            <input type="text" name="date" placeholder="" class="layui-input" id="date-4">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">业务模块：</label>
+                                        <div class="layui-input-block">
+                                            <select name="ywmk" id="ywmk">
+                                                    <option value="1" disabled>请选择业务模块</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label" style="width: 90px;">供应商代码：</label>
+                                        <div class="layui-input-block" style="margin-left: 100px;">
+                                            <select name="gysdm">
+                                                    <option value="1" disabled>请选择供应商代码</option>
+                                                    <option value="DEMO" selected>DEMO</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称：</label>
+                                        <div class="layui-input-block">
+                                            <select name="gysmc">
+                                                    <option value="1" disabled>请选择供应商名称</option>
+                                                    <option value="DEMO" selected>DEMO</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                            <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search3">查询
+                                                </button>
+                                            <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset3">重置
+                                                </button>
+                                            <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;">导出
+                                                </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 统计表格 + 图表 -->
+            <div class="layui-row layui-col-space15" style="margin-top: 8.5px;">
+                <!-- 统计表格 -->
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">风险供应商清单</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 10px;">
+                                    <table id="demo-table3"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 空白图表 -->
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">7月风险与8月风险对比分析</div>
+                        <div class="layui-card-body">
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                                    <div id="chart-pie7" style="width: 96%;height: 251px;margin: 0 auto;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                                    <div id="chart-pie8" style="width: 96%;height: 251px;margin: 0 auto;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                                    <div id="chart-pie9" style="width: 96%;height: 251px;margin: 0 auto;"></div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                                    <div id="chart-pie10" style="width: 96%;height: 251px;margin: 0 auto;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                                    <div id="chart-pie11" style="width: 96%;height: 251px;margin: 0 auto;"></div>
+                                </div>
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                                    <div id="chart-pie12" style="width: 96%;height: 251px;margin: 0 auto;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 供应商列表清单弹层 -->
+<div id="gysList" style="display: none; padding: 10px">
+    <table id="tableContent" lay-filter="tableContent"></table>
+</div>
+<!-- 推送清单弹层 -->
+<div id="pushListTpl" style="display: none; padding: 10px">
+    <table id="tableContent1" lay-filter="tableContent1"></table>
+</div>
+<!-- 超链接弹层 -->
+<div id="linkTpl" style="display: none; padding: 10px">
+    <table id="tableContent2" lay-filter="tableContent2"></table>
+</div>
+<!-- 推送清单操作列 -->
+<script type="text/html" id="pushListBtn">
+    <a class="table-control-btn" lay-event="link">超链接</a>
+</script>
+<!-- 风险范围列 -->
+<script type="text/html" id="scope">
+    {{# if(d.scope == 0){ }} 3个月 {{# } else { }} 12个月 {{# } }}
+</script>
+<!--排名变化-->
+<script type="text/html" id="threeMonthRankChange">
+    {{# if(d.threeMonthRankChange == 0){ }} {{"-"}} {{# } else if(d.threeMonthRankChange
+    < 0) { }} <img src="../../assets/images/datashow/xiajiang.svg" style='height:10px;width:10px'>{{-d.threeMonthRankChange}} {{# } else if(d.threeMonthRankChange > 0){ }} <img src="../../assets/images/datashow/shangsheng.svg" style='height:10px;width:10px'>{{d.threeMonthRankChange}} {{# }}}
+</script>
+<!--排名变化-->
+<script type="text/html" id="twelveMonthRankChange">
+    {{# if(d.twelveMonthRankChange == 0){ }} {{"-"}} {{# } else if(d.twelveMonthRankChange
+    < 0) { }} <img src="../../assets/images/datashow/xiajiang.svg" style='height:10px;width:10px'>{{-d.twelveMonthRankChange}} {{# } else if(d.twelveMonthRankChange > 0){ }} <img src="../../assets/images/datashow/shangsheng.svg" style='height:10px;width:10px'>{{d.twelveMonthRankChange}} {{# }}}
+</script>
+<div id="supplierManage_dialog" style="display: none">
+    <form class="layui-form">
+        <div class="task_table">
+            <table id="supplierTable" class="layui-hide" lay-filter="supplierTable"></table>
+        </div>
+    </form>
+</div>
+
+<!-- 引入echarts -->
+<script src="../../assets/libs/echarts.min.js"></script>
+<!-- 页面js -->
+<script src="assets/js/riskTab.js"></script>

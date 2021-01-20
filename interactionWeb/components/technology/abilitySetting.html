@@ -1,0 +1,1071 @@
+<!--<style>-->
+<!--.layui-card-header{-->
+<!--height: 40px;-->
+<!--line-height: 40px;-->
+<!--padding: 0px;-->
+<!--display: -webkit-flex;-->
+<!--display: flex;-->
+<!--align-items: center;-->
+<!--border-top: 1px solid #f6f6f6;-->
+<!--margin-top: 5px;-->
+<!--color: #333333;-->
+<!--}-->
+<!--.layui-card-body{-->
+<!--height: auto;-->
+<!--padding-top: 0px !important;-->
+<!--}-->
+<!--.layui-table-header .layui-table {-->
+<!--color:#448EE0;-->
+<!--background: #E9F9FF;-->
+<!--}-->
+
+<!--.layui-table-cell{-->
+<!--height: 20px;-->
+<!--line-height: 20px;-->
+<!--font-size: 12px;-->
+<!--}-->
+<!--.line{-->
+<!--height: 16px;-->
+<!--border-left:4px solid #448EE0;-->
+<!--line-height: 16px;-->
+<!--padding-left: 10px;-->
+<!--flex-grow: 1;-->
+<!--color: #333333;-->
+<!--font-size: 16px;-->
+
+<!--}-->
+<!--.tea_arrowDown{transition: 0.8s;transform-origin:center center;transform: rotateZ(0deg);}-->
+<!--.tea_arrowUp{transition: 0.8s;transform-origin:center center;transform: rotateZ(180deg);}-->
+
+<!--.table-top-bar .layui-form-label{-->
+<!--width: 80px;-->
+<!--}-->
+
+<!--@media screen and (min-width: 1360px) and (max-width: 1920px) {-->
+<!--.layui-input, .layui-select, .xm-select-parent{-->
+<!--width: 260px;-->
+
+<!--}-->
+<!--.line-chart{-->
+<!--width: 100%;-->
+<!--height: 340px;-->
+<!--}-->
+<!--.layui-form-label{-->
+<!--font-size: 14px;-->
+<!--}-->
+<!--}-->
+
+<!--@media screen and (min-width: 1920px) {-->
+<!--.layui-input, .layui-select{-->
+<!--width: 320px;-->
+<!--}-->
+<!--.table-top-bar .layui-form-label{-->
+<!--width: 90px;-->
+<!--}-->
+<!--.line-chart{-->
+<!--width: 100%;-->
+<!--height: 540px;-->
+<!--}-->
+<!--.layui-form-label{-->
+<!--font-size: 14px;-->
+<!--}-->
+<!--}-->
+
+<!--@media screen and (max-width: 1360px) {-->
+<!--.layui-input, .layui-select{-->
+<!--width: 130px;-->
+<!--}-->
+<!--.line-chart{-->
+<!--width: 100%;-->
+<!--height: 300px;-->
+<!--}-->
+<!--.layui-form-label{-->
+<!--font-size: 12px;-->
+<!--}-->
+
+<!--}-->
+
+<!--</style>-->
+<style>
+    @media screen and (min-width: 1920px) {
+        .layui-table-main {
+            max-height: 310px;
+        }
+    }
+    
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+        .layui-table-main {
+            max-height: 327px;
+        }
+    }
+    
+    @media screen and (min-width: 1360px) and (max-width: 1439px) {
+        .layui-table-main {
+            max-height: 327px;
+        }
+    }
+    
+    @media screen and (max-width: 1359px) {}
+    
+    .layui-card-header a {
+        float: right;
+        font-size: 14px;
+        color: #949494;
+        font-weight: 500;
+        margin-left: 24px;
+    }
+</style>
+<link rel="stylesheet" href="assets/css/technology.css">
+<div class="layui-row content-margin">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+
+                <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+                    <!--<div class=""><label id="flex2">展开</label><i class="layui-icon layui-icon-down"></i><i class="layui-icon layui-icon-up hide"></i>&lt;!&ndash;<img src="../../assets/images/arrowdown.png" /><img class="hide" src="../../assets/images/arrowup.png" />&ndash;&gt;</div>-->
+                    <div class="line">查询条件</div>
+                    <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                         src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                </div>
+                <!-- 数据表格顶部控制栏 -->
+                <div id='search-form' class="layui-form" style="display: none">
+                    <div class="layui-form-item table-top-bar">
+                        <div class=" layui-row ">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">零件号</span>
+                                <div class="layui-inline">
+                                    <i class="layui-icon icon-search"></i>
+                                    <select name="partsCodeList" id='partsCodeList' xm-select="partsCodeList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">零件名称</span>
+                                <div class="layui-inline">
+                                    <select name="partsNameList" id='partsNameList' xm-select="partsNameList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">车型/机型</span>
+                                <div class="layui-inline">
+                                    <select name="carTypeList" id="carTypeList" placeholder="请选择" xm-select="carTypeList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class=" layui-row " style="margin-top: 15px">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">特性名称</span>
+                                <div class="layui-inline">
+                                    <select name="characterNameList" id="characterNameList" placeholder="请选择" xm-select="characterNameList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">控制图类型</span>
+                                <div class="layui-inline">
+                                    <select name="charType" id="charType" placeholder="请选择" xm-select="charType" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <div class="btn-form pull-right">
+                                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_ability" id="search_ability"><span>查询</span></button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="reset_ability"><span>重置</span></button>
+                                    <!--help按钮 获得表单导出时表单值-->
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" id="form_export" lay-submit lay-filter="form_export" style="display: none"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="split-line"></div>
+            <div class="layui-card-body" style="padding: 10px;">
+                <div class="layui-card-header">
+                    <div class="line pull-left">特性一览</div>
+                </div>
+                <div class="btn-area" style="margin-top: 10px">
+                    <div>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage" id="btn-add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-delete"><i class="layui-icon layui-icon-delete"></i>删除</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-upload"><i class="layui-icon layui-icon-upload-circle"></i>导入</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-export"><i class="layui-icon layui-icon-release"></i>导出</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-download"><i class="layui-icon layui-icon-download-circle"></i>下载导入模板</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-refresh"><i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-check-record"><i class="layui-icon layui-icon-survey"></i>修改履历</button>
+                    </div>
+
+                </div>
+                <table id="tableContent-ability" lay-filter="tableContent-ability"></table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // 初始化 layui
+    layui.use(['laydate', 'table', 'formSelects', 'upload'], function() {
+        var table = layui.table,
+            form = layui.form,
+            formSelects = layui.formSelects,
+            laydate = layui.laydate,
+            config = layui.config,
+            upload = layui.upload,
+            admin = layui.admin;
+
+        laydate.render({
+            elem: '#inspectDate',
+            range: true,
+            type: 'date',
+        });
+        setSelectData('abilitysetting/character', 'characterNameList');
+        setSelectData('abilitysetting/cartype', 'carTypeList');
+        setSelectData('abilitysetting/chart', 'charType');
+
+
+        admin.req('/api-edu/interaction/abilitysetting/parts', {}, function(res) {
+
+            var nameArray = [];
+            var codeArray = [];
+            for (var i = 0; i < res.data.length; i++) {
+
+                nameArray.push({
+                    name: res.data[i].partsName,
+                    remark: res.data[i].partsCode,
+                    carType: res.data[i].carType,
+                    value: res.data[i].partsName
+                });
+                codeArray.push({
+                    name: res.data[i].partsCode,
+                    value: res.data[i].partsCode,
+                    carType: res.data[i].carType,
+                    remark: res.data[i].partsName
+                });
+            }
+            formSelects.data('partsNameList', 'local', {
+                arr: nameArray
+            });
+            formSelects.data('partsCodeList', 'local', {
+                arr: codeArray
+            });
+            formSelects.on('partsNameList', function(id, vals, val, isAdd) {
+
+                //必须延时
+                serCartypeValue('partsNameList', 'partsCodeList');
+
+
+            });
+            formSelects.on('partsCodeList', function(id, vals, val, isAdd) {
+                serCartypeValue('partsCodeList', 'partsNameList');
+
+            });
+        }, {
+            method: 'get'
+        });
+
+        //上传
+        var uploadInst = upload.render({
+            elem: '#btn-upload' //绑定元素
+                ,
+            url: '/api-edu/interaction/charadetection/excel/upload/' //上传接口
+                ,
+            accept: 'file',
+            done: function(res) {
+                //上传完毕回调
+                if (res.respCode == 0) {
+
+                    admin.req('/api-edu/interaction/abilitysetting/excel/import/' + res.data.fileId, {
+
+                    }, function(res) {
+                        layer.closeAll();
+
+                        if (res.respCode == 0) {
+                            layer.msg('导入成功！', {
+                                icon: 1
+                            });
+                            table.reload("tableContent-ability");
+                        } else {
+                            return layer.msg('导入失败：' + res.message, {
+                                icon: 5
+                            });
+                        }
+
+                    }, {
+                        method: 'get'
+                    });
+                } else {
+                    return layer.msg('导入失败：' + res.message, {
+                        icon: 5
+                    });
+
+                }
+            },
+            error: function() {
+                //请求异常回调
+            }
+        });
+        //导出
+        $('#btn-export').on('click', function() {
+            $('#form_export').click();
+        });
+        $('#btn-download').on('click', function() {
+            var url = '/api-edu/interaction/abilitysetting/template/export';
+            admin.downloadByAlink(url, '过程能力设置模板')
+        });
+        //目的是获得表单查询参数（不使用查询参数缓存方式因为可能会出现表单数据变了，没有点击按钮的情况出现）
+
+        form.on('submit(form_export)', function(data) {
+                var d = data.field;
+                var a = document.createElement('a');
+                a.href = '/api-edu/interaction/abilitysetting/excel/export?' + $.param(d);
+                a.download = '导出'
+                document.body.append(a);
+                a.click();
+
+            })
+            //查看 修改履历
+
+        $('#btn-check-record').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-ability');
+            if (checkStatus.data.length != 1) {
+                return layer.msg('请选择一条数据？', {
+                    icon: 0
+                });
+            }
+            admin.popupCenter({
+                title: '修改履历',
+                area: ['100%', '100%'],
+                path: 'components/tpl/ability_setting_record.html',
+                finish: function() {
+
+                },
+                success: function() {
+                    var url = '/api-edu/interaction/abilitysetting/history/' + checkStatus.data[0].id;
+
+                    table.render({
+                        elem: '#tableContent-ability-record',
+                        id: 'tableContent-ability-record',
+                        url: admin.formatUrl(url),
+                        // 格式化后台返回的数据
+                        parseData: function(res) { //res 即为原始返回的数据
+                            // 返回结果，进行渲染表格
+                            return {
+                                "code": res.respCode, //解析接口状态
+                                "msg": res.message, //解析提示文本
+                                "data": res.data //解析数据列表
+                            };
+                        },
+                        initSort: {
+                            field: 'updaterDate' //排序字段，对应 cols 设定的各字段名
+                                ,
+                            type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+                        },
+                        cols: getTableCols(1),
+                        cellMinWidth: 90
+                    });
+
+                }
+            });
+
+        })
+
+        $('#btn-delete').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-ability');
+            if (checkStatus.data.length != 1) {
+                return layer.msg('请选择1个要删除的数据', {
+                    icon: 0
+                });
+            }
+            layer.confirm('确定删除该数据吗？', {
+                icon: 3,
+                title: '提示'
+            }, function() {
+                admin.req('/api-edu/interaction/abilitysetting/' + checkStatus.data[0].id, {}, function(data) {
+                    if (data.ok) {
+                        layer.msg('删除成功！', {
+                            icon: 1
+                        });
+                        renderTable();
+                    } else {
+                        return layer.msg('删除角色信息失败：' + data.message, {
+                            icon: 5
+                        });
+                    }
+                }, {
+                    method: 'delete'
+                });
+            });
+
+        });
+        $('#btn-refresh').on('click', function() {
+            $('#search_ability').click();
+        })
+
+        $('#btn-edit').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-ability');
+            if (checkStatus.data.length != 1) {
+                return layer.msg('请选择1个要编辑的数据', {
+                    icon: 0
+                });
+            }
+            popMenu('edit', checkStatus.data[0]);
+
+        });
+
+
+        function serCartypeValue(elem1, elem2) {
+
+            setTimeout(function() {
+                var vals = layui.formSelects.value(elem1);
+                var selected = [],
+                    selectCartype = [];
+                for (var i = 0; i < vals.length; i++) {
+                    selected.push(vals[i].remark);
+                    var carType = vals[i].carType.replace(/&/g, "/");
+                    var carTypes = carType.split('/');
+                    selectCartype = selectCartype.concat(carTypes);
+                }
+                formSelects.value(elem2, selected);
+                formSelects.value('carTypeList', selectCartype);
+            }, 100)
+
+        }
+
+        $('#toggle').on('click', function() {
+            $('#search-form').toggle(200);
+            if ($('#toggle').hasClass('tea_arrowUp')) {
+                $('#toggle').removeClass('tea_arrowUp').addClass('tea_arrowDown');
+                $('#toggle').parent().css('border-bottom', '1px solid #f6f6f6');
+
+            } else {
+                $('#toggle').removeClass('tea_arrowDown').addClass('tea_arrowUp');
+                $('#toggle').parent().css('border-bottom', 'none');
+            };
+
+        })
+        $('#toggle').click();
+        /* formSelect 动态加载
+         *  defaultValue：[1,2]
+         * */
+        function setSelectData(url, id, name, value, defaultValue) {
+            admin.req('/api-edu/interaction/' + url, {}, function(res) {
+                var elem = $('#' + id);
+                elem.empty();
+                elem.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    if (name) {
+                        elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                    } else {
+                        elem.append('<option value="' + res.data[i] + '">' + res.data[i] + '</option>')
+                    }
+                }
+                formSelects.render(id);
+                if (defaultValue) {
+                    formSelects.value(id, defaultValue);
+                    form.render();
+                }
+            }, {
+                method: 'get'
+            });
+        };
+
+        $('#btn-add').on('click', function() {
+            popMenu('add')
+        });
+
+        /*
+         弹窗
+      */
+        function popMenu(handleType, data) {
+            var params = {};
+            var title = "过程能力设置添加";
+            if (handleType === 'edit') {
+                title = '过程能力设置编辑';
+                params = data;
+            } else {
+                params.planVersion = 1;
+                params.sampleSize = 1;
+            }
+            params.handleType = handleType;
+            admin.popupCenter({
+                title: title,
+                width: '1000',
+                path: 'components/tpl/ability_setting_form.html',
+                finish: function() {
+
+                    renderTable();
+
+                },
+                success: function() {
+                    admin.req('/api-edu/interaction/abilitysetting/chart', {}, function(res) {
+                        var array = [];
+                        for (var i = 0; i < res.data.length; i++) {
+                            array.push({
+                                name: res.data[i],
+                                value: res.data[i]
+                            });
+                        }
+
+                        formSelects.data('chartType_select', 'local', {
+                            arr: array
+                        });
+                        if (params.chartType) {
+                            formSelects.value('chartType_select', [params.chartType]);
+                            if (params.chartType === 'XmR控制图') {
+                                $('#sampleSize').addClass('input-disabled');
+                                $('#sampleSize').attr('disabled', true);
+                                $('#sampleSize').attr('lay-verify', '');
+                            }
+                            form.render();
+                        }
+
+                        formSelects.on('chartType_select', function(id, vals, val, isAdd) {
+                            if (val.value != 'Xbar-S控制图' && val.value != 'Xbar-R控制图') {
+                                $('#sampleSize').addClass('input-disabled');
+                                $('#sampleSize').val(1);
+                                $('#sampleSize').attr('disabled', true);
+                                $('#sampleSize').attr('lay-verify', '');
+                            } else {
+                                $('#sampleSize').attr('disabled', false);
+                                $('#sampleSize').removeClass('input-disabled');
+                                $('#sampleSize').attr('lay-verify', 'validTen');
+                            }
+                        });
+
+                    }, {
+                        method: 'get'
+                    });
+
+                    admin.req('/api-edu/interaction/abilitysetting/parts', {}, function(res) {
+                        var nameArray = [];
+                        var codeArray = [];
+                        for (var i = 0; i < res.data.length; i++) {
+                            nameArray.push({
+                                name: res.data[i].partsName,
+                                remark: res.data[i].partsCode,
+                                carType: res.data[i].carType,
+                                value: res.data[i].partsName
+                            });
+                            codeArray.push({
+                                name: res.data[i].partsCode,
+                                value: res.data[i].partsCode,
+                                carType: res.data[i].carType,
+                                remark: res.data[i].partsName
+                            });
+                        }
+                        formSelects.data('partsName', 'local', {
+                            arr: nameArray
+                        });
+                        formSelects.data('partsCode', 'local', {
+                            arr: codeArray
+                        });
+                        if (params.partsCode) {
+                            formSelects.value('partsCode', [params.partsCode]);
+                        }
+                        if (params.partsName) {
+                            formSelects.value('partsName', [params.partsName]);
+                        }
+                        formSelects.on('partsName', function(id, vals, val) {
+
+                            formSelects.value('partsCode', [val.remark]);
+                            $('.layui-tpl-container  input[name="carType"]').val(val.carType);
+
+                        });
+                        formSelects.on('partsCode', function(id, vals, val) {
+                            formSelects.value('partsName', [val.remark]);
+                            $('.layui-tpl-container  input[name="carType"]').val(val.carType);
+
+                        });
+                    }, {
+                        method: 'get'
+                    });
+
+                    admin.req('/api-edu/interaction/abilitysetting/tolerance', {}, function(res) {
+                        var array = [];
+                        for (var i = 0; i < res.data.length; i++) {
+                            array.push({
+                                name: res.data[i],
+                                value: res.data[i]
+                            });
+                        }
+
+                        formSelects.data('toleranceType_select', 'local', {
+                            arr: array
+                        });
+                        if (params.chartType) {
+                            formSelects.value('toleranceType_select', [params.chartType]);
+                            form.render();
+                        }
+
+                        formSelects.on('toleranceType_select', function(id, vals, val, isAdd) {
+                            if (val.value == '单侧上公差') {
+                                $('#thresholdMin').addClass('input-disabled');
+                                $('#thresholdMin').val("NA");
+                                $('#thresholdMin').attr('disabled', true);
+                                $('#thresholdMin').attr('lay-verify', '');
+                            } else {
+                                if("NA" ==  $('#thresholdMin').val()){
+                                    $('#thresholdMin').val("");
+                                }
+                                $('#thresholdMin').attr('disabled', false);
+                                $('#thresholdMin').removeClass('input-disabled');
+                                $('#thresholdMin').attr('lay-verify', 'validNumber');
+                            }
+                            if (val.value == '单侧下公差') {
+                                $('#thresholdMax').addClass('input-disabled');
+                                $('#thresholdMax').val("NA");
+                                $('#thresholdMax').attr('disabled', true);
+                                $('#thresholdMax').attr('lay-verify', '');
+                            } else {
+                                if("NA" ==  $('#thresholdMax').val()){
+                                    $('#thresholdMax').val("");
+                                }
+                                $('#thresholdMax').attr('disabled', false);
+                                $('#thresholdMax').removeClass('input-disabled');
+                                $('#thresholdMax').attr('lay-verify', 'validNumber');
+                            }
+                        });
+
+                    }, {
+                        method: 'get'
+                    });
+
+                    setFormValue(params);
+                    // console.log(params);
+                }
+            });
+        };
+
+
+        function setFormValue(obj) {
+            var formNames = ['id', 'xucl', 'ucl', 'xlcl', 'thresholdStandard', 'carType', 'xcenterLine',
+                'thresholdMin', 'thresholdMax', 'sampleSize', 'planVersion', 'lcl', 'handleType', 'characterName'
+            ];
+            for (var i = 0; i < formNames.length; i++) {
+                if (obj[formNames[i]]) {
+                    $('.layui-tpl-container  input[name="' + formNames[i] + '"]').val(obj[formNames[i]]);
+                } else {
+                    $('.layui-tpl-container  input[name="' + formNames[i] + '"]').val('');
+                }
+            }
+
+        }
+        // 渲染左侧表格
+        var renderTable = function(search, id) {
+            if (!search) {
+                search = {};
+            }
+            // 渲染表格
+            table.render({
+                elem: id ? '#' + id : '#tableContent-ability',
+                id: id ? id : 'tableContent-ability',
+                url: admin.formatUrl('/api-edu/interaction/abilitysetting'),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                cols: getTableCols(),
+                cellMinWidth: 90,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'page',
+                    limitName: 'pageSize'
+                },
+                done: function() {
+                    /* var contentHeight = $('.content-margin').innerHeight() + 186;
+                    var remainHeight = window.innerHeight - contentHeight;
+                    $('.layui-table-body').css('height', 'auto');
+                    if (remainHeight > 0) {
+                        var tableMainHeight = $('.layui-table-body').innerHeight();
+                        $('.layui-table-body').css('height', (tableMainHeight + remainHeight - 14) + 'px');
+                        $('.layui-table-body .layui-none').css('margin-top', ((tableMainHeight + remainHeight - 14) - $('.layui-table-body .layui-none').innerHeight()) / 2 + 'px')
+                    } */
+                },
+                where: search
+            });
+        }
+
+        // 初始化，执行一次渲染表格
+        renderTable();
+
+        function getTableCols(type) {
+            var cols = [
+                    [{
+                            type: 'radio',
+                            rowspan: '2',
+                            title: '选择'
+                        }, {
+                            field: 'partsCode',
+                            rowspan: '2',
+                            align: 'center',
+                            width: 100,
+                            templet: function(d) {
+                                var value = d.partsCode ? d.partsCode : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件号'
+                        }, {
+                            field: 'partsName',
+                            width: 150,
+                            align: 'center',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.partsName ? d.partsName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件名称'
+                        }, {
+                            field: 'carType',
+                            align: 'center',
+                            rowspan: '2',
+                            width: 150,
+                            templet: function(d) {
+                                var value = d.carType ? d.carType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '车型/机型'
+                        }, {
+                            field: 'characterName',
+                            align: 'center',
+                            rowspan: '2',
+
+                            templet: function(d) {
+                                var value = d.characterName ? d.characterName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '特性名称'
+                        }, {
+                            field: 'planVersion',
+                            align: 'center',
+                            rowspan: '2',
+                            width: 130,
+                            title: '控制计划版本号'
+                        },{
+                            field: 'sp1',
+                            align: 'center',
+                            rowspan: '2',
+                            width: 110,
+                            title: '公差类型'
+                        }, {
+
+                            title: '技术要求',
+                            align: 'center',
+                            colspan: '3',
+                        }, {
+                            field: 'chartType',
+                            align: 'center',
+                            rowspan: '2',
+                            minWidth: 120,
+                            templet: function(d) {
+                                var value = d.chartType ? d.chartType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '控制图类型'
+                        }, {
+                            field: 'sampleSize',
+                            align: 'center',
+                            rowspan: '2',
+                            minWidth: 130,
+                            title: '每组样本数',
+
+                        }, {
+                            field: 'xucl',
+                            align: 'center',
+                            rowspan: '2',
+                            minWidth: 130,
+                            title: 'X上控制线',
+
+
+                        }, {
+                            field: 'xcenterLine',
+                            align: 'center',
+                            rowspan: '2',
+                            title: 'X中心线',
+
+                        }, {
+                            field: 'xlcl',
+                            align: 'center',
+                            rowspan: '2',
+                            minWidth: 130,
+                            title: 'X下控制线',
+
+                        }, {
+
+                            title: 'R/S/Rm',
+                            align: 'center',
+                            colspan: '2',
+                        },
+
+                    ],
+                    [{
+                            field: 'thresholdMax',
+                            align: 'center',
+                            title: '上限值',
+
+                        }, {
+                            field: 'thresholdStandard',
+                            align: 'center',
+                            title: '标准值',
+                        }, {
+                            field: 'thresholdMin',
+                            align: 'center',
+                            title: '下限值',
+
+                        }, {
+                            field: 'ucl',
+                            align: 'center',
+                            title: '上控制线',
+                        }, {
+                            field: 'lcl',
+                            align: 'center',
+                            title: '下控制线',
+
+                        },
+
+                    ]
+                ]
+                // for (var item of cols[0])
+                // {
+                //     if (item.field)
+                //     {
+                //         var templet= function(d) {
+                //             var value = d[item.field] ? d[item.field] : ''
+                //             return '<div title="' + value + '"><span>' + value + '</span></div>'
+                //
+                //         };
+                //
+                //         item.templet=templet;
+                //
+                //     }
+                //
+                // }
+            if (type == 1) {
+                cols = [
+                    [{
+                            type: 'radio',
+                            rowspan: '2',
+                            title: '选择'
+                        }, {
+                            field: 'partsCode',
+                            rowspan: '2',
+                            align: 'center',
+                            width: 100,
+                            templet: function(d) {
+                                var value = d.partsCode ? d.partsCode : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件号'
+                        }, {
+                            field: 'partsName',
+                            width: 150,
+                            align: 'center',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.partsName ? d.partsName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件名称'
+                        }, {
+                            field: 'carType',
+                            align: 'center',
+                            rowspan: '2',
+                            width: 150,
+                            templet: function(d) {
+                                var value = d.carType ? d.carType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '车型/机型'
+                        }, {
+                            field: 'characterName',
+                            align: 'center',
+                            rowspan: '2',
+
+                            templet: function(d) {
+                                var value = d.characterName ? d.characterName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '特性名称'
+                        }, {
+                            field: 'updaterDate',
+                            align: 'center',
+                            rowspan: '2',
+                            width: 170,
+                            title: '修改时间'
+                        }, {
+                            field: 'planVersion',
+                            align: 'center',
+                            rowspan: '2',
+                            width: 130,
+                            title: '控制计划版本号'
+                        }, {
+
+                            title: '技术要求',
+                            align: 'center',
+                            colspan: '3',
+                        }, {
+                            field: 'chartType',
+                            align: 'center',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.chartType ? d.chartType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '控制图类型'
+                        }, {
+                            field: 'sampleSize',
+                            align: 'center',
+                            rowspan: '2',
+                            title: '每组样本数',
+
+                        }, {
+                            field: 'xucl',
+                            align: 'center',
+                            rowspan: '2',
+                            title: 'X上控制线',
+
+
+                        }, {
+                            field: 'xcenterLine',
+                            align: 'center',
+                            rowspan: '2',
+                            title: 'X中心线',
+
+                        }, {
+                            field: 'xlcl',
+                            align: 'center',
+                            rowspan: '2',
+                            title: 'X下控制线',
+
+                        }, {
+
+                            title: 'R/S/Rm',
+                            align: 'center',
+                            colspan: '2',
+                        },
+
+                    ],
+                    [{
+                            field: 'thresholdMax',
+                            align: 'center',
+                            title: '上限值',
+
+                        }, {
+                            field: 'thresholdStandard',
+                            align: 'center',
+                            title: '标准值',
+                        }, {
+                            field: 'thresholdMin',
+                            align: 'center',
+                            title: '下限值',
+
+                        }, {
+                            field: 'ucl',
+                            align: 'center',
+                            title: '上控制线',
+                        }, {
+                            field: 'lcl',
+                            align: 'center',
+                            title: '下控制线',
+
+                        },
+
+                    ]
+                ]
+            }
+            console.log(cols[0])
+            return cols;
+        }
+
+
+        // 表单提交，查询与重置
+        form.on('submit(search_ability)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+
+            renderTable(d);
+        });
+
+        $('.table-top-bar input').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $('#search_ability').click();
+            }
+        });
+        //点击行 使radio选中
+        table.on('row(tableContent-ability)', function(obj) {
+            var tableData = table.cache['tableContent-ability'];
+            obj.tr.find('input[lay-type="layTableRadio"]').prop("checked", true);
+            var index = obj.tr.data('index')
+                //重置数据单选属性
+            layui.each(tableData, function(i, item) {
+                if (index === i) {
+                    item.LAY_CHECKED = true;
+                } else {
+                    delete item.LAY_CHECKED;
+                }
+            });
+            form.render('radio');
+        });
+
+
+        form.on('submit(reset_ability)', function(data) {
+            reset();
+        });
+
+        // 重置查询表单
+        function reset() {
+            $('.table-top-bar input').val('');
+            formSelects.value('partsCodeList', []);
+            formSelects.value('partsNameList', []);
+            formSelects.value('carTypeList', []);
+            formSelects.value('characterNameList', []);
+            formSelects.value('charType', []);
+            renderTable();
+        }
+
+    });
+
+    function slideDiv(obj) {
+        //如果查询条件隐藏 则展开查询条件 将展开文字变成收起
+        if ($($(obj).parent().next()[0]).css("display") == 'none') {
+            $($(obj).parent().next()[0]).slideDown();
+            $(obj).find(".slide").text("收起 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slidedown.png");
+        } else { //否则收起查询条件 将收起变成展开
+            $($(obj).parent().next()[0]).slideUp();
+            $(obj).find(".slide").text("展开 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slideup.png");
+        }
+    }
+</script>

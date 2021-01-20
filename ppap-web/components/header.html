@@ -1,0 +1,98 @@
+<div class="layui-logo">
+    <!--<img src="assets/images/logo.png" />-->
+    <!--<img src="assets/images/datashow/header.png" alt="logo">-->
+    <img src="assets/images/navigation/header_logo.png" style="width: 50px; height: 40px;" alt="logo">
+    <cite>供应商管理系统</cite>
+</div>
+
+<ul class="layui-nav layui-layout-left">
+    <li class="layui-nav-item" lay-unselect>
+        <a ew-event="flexible" title="侧边伸缩"><i class="layui-icon layui-icon-shrink-right"></i></a>
+    </li>
+</ul>
+
+<style>
+    .scroll-notice {
+        width: 600px;
+        height: 30px;
+        background-color: transparent;
+        position: absolute;
+        top: 13px;
+        left: 250px;
+        line-height: 30px;
+        font-size: 14px;
+        color: #fff;
+        opacity: 0.8;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .scroll-notice div {
+        overflow: hidden;
+    }
+
+    @media screen and (max-width: 1150px) {
+        .scroll-notice {
+            width: 360px;
+        }
+    }
+
+
+    @media screen and (max-width: 900px) {
+        .scroll-notice {
+            width: 200px;
+        }
+    }
+
+    @media screen and (max-width: 750px) {
+        .scroll-notice {
+            width: 240px;
+            left: 50px;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .scroll-notice {
+            width: 0;
+        }
+    }
+</style>
+<div class="scroll-notice">
+    <div><span></span></div>
+</div>
+
+<ul class="layui-nav layui-layout-right">
+    <li class="layui-nav-item" lay-unselect>
+        <!-- font-weight: 600; 解决原始图标过细的问题 -->
+        <a title="主页" href="/edu"><i class="layui-icon layui-icon-home" style="font-weight: 600;"></i></a>
+    </li>
+    <li class="layui-nav-item" lay-unselect ew-event="refresh">
+        <a title="刷新" href="javascript:;"><i class="layui-icon layui-icon-refresh-1"></i></a>
+    </li>
+    <!--<li class="layui-nav-item" lay-unselect>-->
+        <!--<a title="消息" href="javascript:;" id="btn-getmsg"><i class="layui-icon layui-icon-notice" style="font-weight: 600;"></i></a>-->
+    <!--</li>-->
+    <li class="layui-nav-item" lay-unselect>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+    <li class="layui-nav-item" lay-unselect>
+        <a href="javascript:;" class="usname" p-bind="title: {{userName}}">
+            <cite>您好，</cite><cite>{{supplierJc}}</cite><cite> {{userName}}</cite>
+        </a>
+        <dl class="layui-nav-child">
+            <dd lay-unselect id="btn-setpw">
+                <a>修改密码</a>
+            </dd>
+            <dd lay-unselect>
+                <a href="/edu/EDUPSystem">用户管理</a>
+            </dd>
+            <dd lay-unselect>
+                <a href="/edu/AutAndMal">帮助</a>
+            </dd>
+            <dd lay-unselect>
+                <a href="/edu/Content/ServerFiles/tempFiles/SGMW供应商协同管理平台操作指导书.pdf">操作指导书</a>
+            </dd>
+            <dd lay-unselect id="btn-logout">
+                <a>退出</a>
+            </dd>
+        </dl>
+    </li>
+</ul>

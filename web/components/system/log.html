@@ -1,0 +1,542 @@
+<!--
+File   : log.html
+Created: Wednesday August 29th 2018 3:12:18 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Sunday September 30th 2018 3:34:03 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 系统管理 - 日志管理
+-----
+HISTORY:
+2018-09-06	yuchunyu97	日期组件设置最大日期为当天
+-->
+<style>
+    .layui-layout-admin .layui-body .layui-tab .layui-tab-content {
+        top: 55px;
+    }
+    
+    .layui-card-body {
+        height: 700px;
+    }
+    
+    .layui-layout-admin .layui-body .layui-tab .layui-tab-title {
+        padding-left: 0;
+    }
+    
+    .layui-form>.layui-inline {
+        margin: 0 8px 10px 8px;
+    }
+</style>
+<div class="layui-row layui-col-space15">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+            <!-- <div class="layui-card-header">日志管理</div> -->
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="log">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">内部记录管理</li>
+                        <li>供应商操作记录管理</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <!-- 数据表格顶部控制栏 -->
+                            <div class="layui-form" lay-filter="internal">
+                                <!--运行时间-->
+                                <div class="layui-inline">
+                                    <span>运行时间：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="logTime1" id="logTime1" placeholder="开始时间" class="layui-input">
+                                    </div> -
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="logTime2" id="logTime2" placeholder="结束时间" class="layui-input">
+                                    </div>
+                                </div>
+                                <!-- 用户ID -->
+                                <div class="layui-inline">
+                                    <span>用户ID：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="userCode" id="userCode" placeholder="输入用户ID" class="layui-input" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5]*$/,'')">
+                                    </div>
+                                </div>
+                                <!--用户名-->
+                                <div class="layui-inline">
+                                    <span>用户名称：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="userName" id="userName" placeholder="输入用户名称" class="layui-input" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5]*$/,'')">
+                                    </div>
+                                </div>
+                                <!--职位名称-->
+                                <div class="layui-inline">
+                                    <span>职位名称：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="jobCode" id="jobCode" placeholder="请选择职位" class="layui-input" lay-filter="jobCode">
+                                    </div>
+                                </div>
+                                <!--所属模块：-->
+                                <div class="layui-inline">
+                                    <span>所属模块：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="subSysCode" id="subSysCode" placeholder="输入所属模块" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                        <div class="layui-form-item" style="margin-bottom: 0;">
+                                            <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                                <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search">查询
+                                                    </button>
+                                                <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset">重置
+                                                    </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 下部表格容器 -->
+                            <table id="tableContent-log" lay-filter="tableContent-log"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <!-- 数据表格顶部控制栏 -->
+                            <div class="layui-form" lay-filter="supplierlog">
+                                <!--运行时间-->
+                                <div class="layui-inline">
+                                    <span>运行时间：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="logTime1" id="logTime3" placeholder="开始时间" class="layui-input">
+                                    </div> -
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="logTime2" id="logTime4" placeholder="结束时间" class="layui-input">
+                                    </div>
+                                </div>
+                                <!-- 供应商编号 -->
+                                <div class="layui-inline">
+                                    <span>供应商编号：</span>
+                                    <div class="layui-inline search-item">
+                                        <select name="companyCode" id="companyCode" lay-filter="companyCode" lay-search></select>
+                                    </div>
+                                </div>
+                                <!--供应商名称-->
+                                <div class="layui-inline">
+                                    <span>供应商名称：</span>
+                                    <div class="layui-inline search-item">
+                                        <select name="companyName" id="companyName" lay-filter="companyName" lay-search></select>
+                                    </div>
+                                </div>
+                                <!-- 用户ID -->
+                                <div class="layui-inline">
+                                    <span>用户ID：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="userCode" id="userCode" placeholder="输入用户ID" class="layui-input" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5]*$/,'')">
+                                    </div>
+                                </div>
+                                <!--用户名-->
+                                <div class="layui-inline">
+                                    <span>用户名称：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="userName" id="userName" placeholder="输入用户名称" class="layui-input" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5]*$/,'')">
+                                    </div>
+                                </div>
+                                <!--职位名称-->
+                                <div class="layui-inline">
+                                    <span>职位名称：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="jobCode" id="jobCode1" placeholder="请选择职位" class="layui-input" lay-filter="jobCode">
+                                    </div>
+                                </div>
+                                <!--所属模块：-->
+                                <div class="layui-inline">
+                                    <span>所属模块：</span>
+                                    <div class="layui-inline search-item">
+                                        <input type="text" name="subSysCode" id="subSysCode" placeholder="输入所属模块" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                        <div class="layui-form-item" style="margin-bottom: 0;">
+                                            <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                                <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search1">查询
+                                                    </button>
+                                                <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset1">重置
+                                                    </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 下部表格容器 -->
+                            <table id="tableContent-supplierlog" lay-filter="tableContent-supplierlog"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 初始化 layui
+    layui.use(['laydate', 'table', 'treeSelect'], function() {
+        var table = layui.table,
+            form = layui.form,
+            laydate = layui.laydate,
+            config = layui.config,
+            admin = layui.adc,
+            treeSelect = layui.treeSelect;
+
+        // 初始化日期组件
+        laydate.render({
+            elem: '#logTime1',
+            max: 0
+        });
+        laydate.render({
+            elem: '#logTime2',
+            max: 0
+        });
+        laydate.render({
+            elem: '#logTime3',
+            max: 0
+        });
+        laydate.render({
+            elem: '#logTime4',
+            max: 0
+        });
+
+        // 渲染左侧表格
+        var renderTable = function(search, content, url, getCols) {
+            if (!search) {
+                search = {};
+            }
+            // 渲染表格
+            table.render({
+                elem: '#' + content,
+                id: content,
+                url: admin.formatUrl(url),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                height: 472,
+                //
+                cols: getCols,
+                cellMinWidth: 90,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'page',
+                    limitName: 'pageSize'
+                },
+                where: search
+            });
+        }
+
+        // 初始化，执行一次渲染表格
+        renderTable({
+            userType: '内部用户'
+        }, 'tableContent-log', '/api/sys/syslog/page?orderBy=logtime', getCols(1));
+        renderTable({
+            userType: '供应商'
+        }, 'tableContent-supplierlog', '/api/sys/syslog/page?orderBy=logtime', getCols(0));
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.adc.addTableCache('tableContent-log');
+
+        admin.req('/api/sys/hpm04jobinfo', {}, function(
+            d) {
+            var menus = d.data;
+            treeSelect.render({
+                elem: '#jobCode',
+                data: menus,
+                dataFilter: function(data) {
+                    var menus = [];
+                    for (var i = 0; i <
+                        data.length; i++) {
+                        var valueNow = data[
+                            i];
+                        // 写入数据
+                        menus.push({
+                            id: valueNow['id'],
+                            pid: valueNow['pid'],
+                            name: valueNow['jobName'],
+                        });
+                    }
+                    return menus;
+                },
+                // 节点点击回调函数
+                click: function(d) {
+                    console.log(d);
+                    $('input[name="jobCode"]').val(d.id);
+                }
+            });
+
+            treeSelect.render({
+                elem: '#jobCode1',
+                data: menus,
+                dataFilter: function(data) {
+                    var menus = [];
+                    for (var i = 0; i <
+                        data.length; i++) {
+                        var valueNow = data[
+                            i];
+                        // 写入数据
+                        menus.push({
+                            id: valueNow['id'],
+                            pid: valueNow['pid'],
+                            name: valueNow['jobName'],
+                        });
+                    }
+                    return menus;
+                },
+                // 节点点击回调函数
+                click: function(d) {
+                    console.log(d);
+                    $('#jobCode1').val(d.id);
+                }
+            });
+        });
+
+        // 请求供应商代码
+        $.ajax({
+            url: admin.formatUrl('api/risk/analysis/supplierCode'),
+            success: function(res) {
+                var data = res.data;
+                var queGpSelect = "<option value=''></option>";
+                var queGpSelect1 = "<option value=''></option>";
+                $.each(data, function(i, n) {
+                    queGpSelect += "<option value='" + n.suppliercode + "'>" + n.suppliercode + "</option>";
+                    queGpSelect1 += "<option value='" + n.suppliername + "'>" + n.suppliername + "</option>";
+                });
+                $("#companyCode").html(queGpSelect);
+                $("#companyName").html(queGpSelect1);
+                form.render('select');
+            }
+        });
+        // 风险分析供应商代码选择回调
+        form.on('select(companyCode)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("api/risk/analysis/supplier/" + loreGpId, {}, function(res) {
+                    data = res.data;
+                    $("#companyName").val(data.suppliername);
+                    form.render('select', 'supplierlog');
+                });
+            } else {
+                $("#companyName").val("");
+                form.render('select', 'supplierlog');
+            }
+        });
+        // 风险分析供应商名称选择回调
+        form.on('select(companyName)', function(data) {
+            if (data.value) {
+                var loreGpId = data.value;
+                admin.req("/api/risk/analysis/supplier-fuzzy?supplierName=" + loreGpId, {}, function(res) {
+                    data = res.data[0];
+                    $("#companyCode").val(data.supplierCode);
+                    form.render('select', 'supplierlog');
+                });
+            } else {
+                $("#companyCode").val("");
+                form.render('select', 'supplierlog');
+            }
+        });
+
+        function getCols(type) {
+            var cols;
+            if (type == 1) {
+                cols = [
+                    [{
+                        type: 'numbers'
+                    }, {
+                        field: 'userType',
+                        title: '用户类别'
+                    }, {
+                        field: 'userName',
+                        title: '用户名'
+                    }, {
+                        field: 'roleName',
+                        title: '角色名称'
+                    }, {
+                        field: 'departCode',
+                        title: '所属部门'
+                    }, {
+                        field: 'jobName',
+                        title: '职位名称'
+                    }, {
+                        field: 'ipAddr',
+                        title: 'IP地址',
+                        width: 180,
+                        sort: true
+                    }, {
+                        field: 'logTime',
+                        title: '操作日期',
+                        width: 180,
+                        sort: true
+                    }, {
+                        field: 'subSysCode',
+                        title: '所属模块'
+                    }, {
+                        field: 'logContext',
+                        title: '操作内容'
+                    }]
+                ]
+            } else {
+                cols = [
+                    [{
+                        type: 'numbers'
+                    }, {
+                        field: 'userType',
+                        title: '用户类别'
+                    }, {
+                        field: 'userName',
+                        title: '用户名'
+                    }, {
+                        field: 'companyCode',
+                        title: '企业代码'
+                    }, {
+                        field: 'companyName',
+                        title: '企业名称'
+                    }, {
+                        field: 'roleName',
+                        title: '角色名称'
+                    }, {
+                        field: 'departCode',
+                        title: '所属部门'
+                    }, {
+                        field: 'jobName',
+                        title: '职位名称'
+                    }, {
+                        field: 'ipAddr',
+                        title: 'IP地址',
+                        width: 180,
+                        sort: true
+                    }, {
+                        field: 'logTime',
+                        title: '操作日期',
+                        width: 180,
+                        sort: true
+                    }, {
+                        field: 'subSysCode',
+                        title: '所属模块'
+                    }, {
+                        field: 'logContext',
+                        title: '操作内容'
+                    }]
+                ]
+            }
+            return cols;
+        }
+        // 表单提交，查询与重置
+        form.on('submit(search)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+            d.userType = '内部用户';
+            d.logTime1 = $.trim(d.logTime1);
+            d.logTime2 = $.trim(d.logTime2);
+
+            // 判断开始时间早于结束时间
+            if (d.logTime1 !== '' && d.logTime2 !== '') {
+                var s = d.logTime1.split('-'),
+                    e = d.logTime2.split('-'),
+                    sDate = new Date(parseInt(s[0]), parseInt(s[1]) - 1, parseInt(s[2])).getTime(),
+                    eDate = new Date(parseInt(e[0]), parseInt(e[1]) - 1, parseInt(e[2])).getTime();
+                if (sDate > eDate) {
+                    return layer.msg('开始时间不能晚于结束时间！', {
+                        icon: 5
+                    });
+                }
+            }
+            renderTable(d, 'tableContent-log', '/api/sys/syslog/page?orderBy=logtime', getCols(1));
+        });
+
+        form.on('submit(search1)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+            d.userType = '供应商';
+            d.logTime1 = $.trim(d.logTime1);
+            d.logTime2 = $.trim(d.logTime2);
+
+            // 判断开始时间早于结束时间
+            if (d.logTime1 !== '' && d.logTime2 !== '') {
+                var s = d.logTime1.split('-'),
+                    e = d.logTime2.split('-'),
+                    sDate = new Date(parseInt(s[0]), parseInt(s[1]) - 1, parseInt(s[2])).getTime(),
+                    eDate = new Date(parseInt(e[0]), parseInt(e[1]) - 1, parseInt(e[2])).getTime();
+                if (sDate > eDate) {
+                    return layer.msg('开始时间不能晚于结束时间！', {
+                        icon: 5
+                    });
+                }
+            }
+            renderTable(d, 'tableContent-supplierlog', '/api/sys/syslog/page?orderBy=logtime', getCols(0));
+        });
+        $("#reset").click(function() {
+            reset();
+        })
+
+        $("#reset1").click(function() {
+            form.val("supplierlog", {
+                "logTime1": "",
+                "logTime2": "",
+                "userCode": "",
+                "userName": "",
+                "jobCode": "",
+                "subSysCode": "",
+                "companyCode": "",
+                "companyName": ""
+            })
+            $("#jobCode1").next("div").find("input").val("");
+            form.render();
+            renderTable({
+                userType: '供应商'
+            }, 'tableContent-supplierlog', '/api/sys/syslog/page?orderBy=logtime', getCols(0));
+        })
+
+        // 重置查询表单
+        function reset() {
+            form.val("internal", {
+                "logTime1": "",
+                "logTime2": "",
+                "userCode": "",
+                "userName": "",
+                "jobCode": "",
+                "subSysCode": ""
+            })
+            $("#jobCode").next("div").find("input").val("");
+            form.render();
+            renderTable({
+                userType: '内部用户'
+            }, 'tableContent-log', '/api/sys/syslog/page?orderBy=logtime', getCols(1));
+        }
+
+    });
+</script>

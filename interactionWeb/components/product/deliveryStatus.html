@@ -1,0 +1,1096 @@
+
+<!--1920X1080-->
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    ol,
+    li,
+    input,
+    select,
+    button,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        height: 100%;
+        color: #FFFFFF;
+        font-family: "微软雅黑";
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    ul li {
+        float: left;
+    }
+
+    a {
+        text-decoration: none;
+    }
+    /* a:hover {
+        color: #FFFFFF;
+    } */
+
+    ul li a {
+        color: #FFFFFF
+    }
+
+    .content {
+        width: 100%;
+        position: absolute;
+        top: 95px;
+        bottom: 0;
+        /*background: url("./assets/images/datashow/bg-jiaohu.png") no-repeat;
+        background-size: 100%;*/
+    }
+
+    .content-header {
+        height: 44px;
+        background: url("../../assets/images/datashow/content-header-bg.png");
+        background-size: 100% 100%;
+        font-size: 16px;
+    }
+
+    .content-header-tab {
+        overflow: hidden;
+        width: 45%;
+        height: 44px;
+        line-height: 36px;
+        margin: 0 auto;
+        font-weight: bold;
+    }
+
+    ul.content-header-tab li {
+        width: 25%;
+        text-align: center;
+        cursor: pointer;
+        color: #FFFFFF;
+        font-size: 18px;
+    }
+
+    ul.content-header-tab li:hover {
+        color: #FFFFFF
+    }
+
+    .content-body {
+        position: absolute;
+        top: 36px;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .content-body-left {
+        float: left;
+    }
+
+    .content-body-right {
+        float: right;
+    }
+
+    .content-body-left,
+    .content-body-right {
+        width: 26%;
+        height: 100%;
+    }
+
+    .content-body-center {
+        height: 100%;
+    }
+
+    .search,
+    .export {
+        height: 7%;
+        display: flex;
+        /*justify-content: center;*/
+        align-items: center;
+        padding-left: 5%;
+    }
+
+    .pie-left,
+    .pie-right {
+        margin-top: 3%;
+    }
+
+    #bar-left-chart {
+        width: 100%;
+        height: 78%;
+        margin: 0 auto;
+    }
+
+    #bar-right-chart {
+        width: 100%;
+        height: 63%;
+        margin: 0 auto;
+        padding: 0 3%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .bottom-legend {
+        width: 90%;
+        height: 7%;
+        margin: 0 auto;
+        font-size: 12px;
+        /*padding-top: 1.5%;*/
+    }
+
+    .bottom-legend>ul>li {
+        width: 25%;
+    }
+
+    .bottom-legend>ul>li>div {
+        vertical-align: middle;
+    }
+
+    .bottom-legend-words {
+        opacity: 0.6;
+    }
+
+    #pie-left-chart {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    #pie-right-chart {
+        width: 100%;
+        height: 78%;
+        margin: 0 auto;
+    }
+
+    .layui-layout-admin .layui-body {
+        bottom: 0!important;
+    }
+
+    @media screen and (max-width: 1900px) and (min-width: 1360px) {
+        #main {
+            width: 44%;
+            height: 70%;
+            margin: 0 auto;
+            top: 8%;
+            left: 28%;
+            background: url(../../assets/images/bigQ2.png) no-repeat center 52% fixed;
+            background-size: 30%;
+        }
+        #main1 {
+            width: 50%;
+            height: 70%;
+            margin: 0 auto;
+            top: 3%;
+            left: 27%;
+        }
+        .search {
+            height: 8%;
+            margin-right: -6%;
+        }
+        #info-list {
+            font-size: 12px;
+            width: 100%;
+            height: 57%;
+            overflow-y: scroll;
+            scrollbar-track-color: #3C5984;
+            scrollbar-arrow-color: #3C5984;
+            scrollbar-face-color: #3C5984;
+            scrollbar-shadow-color: #3C5984;
+        }
+        .bar-title {
+            font-size: 18px
+        }
+        .map-title {
+            font-size: 18px;
+        }
+        .mouthmouth {
+            position: absolute;
+            margin: 102px 0 0 158px;
+        }
+        .bar-title-2nd,
+        .pie-title-2nd {
+            font-size: 14px;
+            padding: 1% 4%;
+            text-align: right;
+        }
+        .bottom-words {
+            height: 20%;
+            margin-top: 2.7%;
+            margin-left: 0;
+            font-size: 13px;
+        }
+        .bottom-words-detail {
+            color: #40EFFF;
+            float: left;
+            width: 50%;
+            margin-left: 3%;
+        }
+        .bottom-words-detail>div {
+            margin-top: 3%;
+        }
+        .bottom-words-detail>div>span {
+            background: rgba(0, 205, 254, 0.1);
+            border-bottom: 1px solid #40EFFF;
+            padding: 2px;
+        }
+        .top-words {
+            color: #B9F4FF;
+            font-size: 12px;
+            margin-top: 2.5%;
+            margin-left: 3%;
+            height: 9%;
+        }
+        .calendar {
+            height: 55%;
+        }
+        .legend {
+            height: 100%;
+            width: 19%;
+            float: right;
+            margin-top: 1.5%;
+            font-size: 12px;
+        }
+    }
+
+    @media screen and (min-width: 1910px) {
+        #main {
+            width: 44%;
+            height: 66%;
+            margin: 0 auto;
+            top: 8%;
+            left: 28%;
+            background: url(../../assets/images/bigQ2.png) no-repeat center 60% fixed;
+            background-size: 28%;
+        }
+        #main1 {
+            width: 50%;
+            height: 70%;
+            margin: 0 auto;
+            top: 36%;
+            left: 29.5%;
+        }
+        #main1 img {
+            width: 36px;
+            height: 36px;
+        }
+        .mouthmouth {
+            position: absolute;
+            margin: 78px 0 0 185px;
+        }
+        #img02 {
+            margin-left: 103px !important;
+        }
+        #img03 {
+            margin-left: 124px !important;
+        }
+        #img04 {
+            margin-left: 146px !important;
+        }
+        #img05 {
+            margin-left: 166px !important;
+        }
+        #img06 {
+            margin-left: 186px !important;
+        }
+        #img07 {
+            margin-left: 206px !important;
+        }
+        #img08 {
+            margin-left: 226px !important;
+        }
+        #img09 {
+            margin-left: 248px !important;
+        }
+        #img10 {
+            margin-left: 268px !important;
+        }
+        #img11 {
+            margin-left: 290px !important;
+        }
+        #img12 {
+            margin: 140px 0 0 103px !important;
+        }
+        #img13 {
+            margin: 138px 0px 0 122px !important
+        }
+        #img14 {
+            margin: 138px 0px 0 143px !important
+        }
+        #img15 {
+            margin: 138px 0px 0 163px !important
+        }
+        #img16 {
+            margin: 138px 0px 0 183px !important
+        }
+        #img17 {
+            margin: 138px 0px 0 205px !important
+        }
+        #img18 {
+            margin: 138px 0px 0 226px !important
+        }
+        #img19 {
+            margin: 138px 0px 0 247px !important
+        }
+        #img20 {
+            margin: 138px 0px 0 268px !important
+        }
+        #img21 {
+            margin: 103px 0 0 124px !important;
+        }
+        #img22 {
+            margin: 103px 0 0 144px !important;
+        }
+        #img23 {
+            margin: 103px 0 0 166px !important;
+        }
+        #img24 {
+            margin: 103px 0 0 186px !important;
+        }
+        #img25 {
+            margin: 103px 0 0 206px !important;
+        }
+        #img26 {
+            margin: 103px 0 0 228px !important;
+        }
+        #img27 {
+            margin: 103px 0 0 248px !important;
+        }
+        #img28 {
+            margin: 32px 0 0 165px !important;
+        }
+        #img29 {
+            margin: 32px 0 0 186px !important;
+        }
+        #img30 {
+            margin: 32px 0 0 207px !important;
+        }
+        #img31 {
+            margin: -5px 0 0 186px !important;
+        }
+        #div01 {
+            margin: 188px 0 0 95px !important;
+        }
+        #div02 {
+            margin: 180px 0 0 117px !important;
+        }
+        #div03 {
+            margin: 188px 0 0 138px !important;
+        }
+        #div04 {
+            margin: 180px 0 0 160px !important;
+        }
+        #div05 {
+            margin: 188px 0 0 180px !important;
+        }
+        #div06 {
+            margin: 180px 0 0 200px !important;
+        }
+        #div07 {
+            margin: 188px 0 0 220px !important;
+        }
+        #div08 {
+            margin: 180px 0 0 240px !important;
+        }
+        #div09 {
+            margin: 188px 0 0 260px !important;
+        }
+        #div10 {
+            margin: 180px 0 0 280px !important;
+        }
+        #div11 {
+            margin: 188px 0 0 300px !important;
+        }
+        #div12 {
+            margin: 155px 0 0 113px !important;
+        }
+        #div13 {
+            margin: 144px 0 0 132px !important;
+        }
+        #div14 {
+            margin: 155px 0 0 154px !important;
+        }
+        #div15 {
+            margin: 144px 0 0 173px !important;
+        }
+        #div16 {
+            margin: 155px 0 0 193px !important;
+        }
+        #div17 {
+            margin: 144px 0 0 215px !important;
+        }
+        #div18 {
+            margin: 155px 0 0 235px !important;
+        }
+        #div19 {
+            margin: 144px 0 0 256px !important;
+        }
+        #div20 {
+            margin: 155px 0 0 278px !important;
+        }
+        #div21 {
+            margin: 117px 0 0 135px !important;
+        }
+        #div22 {
+            margin: 106px 0 0 154px !important;
+        }
+        #div23 {
+            margin: 117px 0 0 176px !important;
+        }
+        #div24 {
+            margin: 106px 0 0 196px !important;
+        }
+        #div25 {
+            margin: 117px 0 0 216px !important;
+        }
+        #div26 {
+            margin: 106px 0 0 238px !important;
+        }
+        #div27 {
+            margin: 117px 0 0 258px !important;
+        }
+        #div28 {
+            margin: 47px 0 0 176px !important;
+        }
+        #div29 {
+            margin: 36px 0 0 197px !important;
+        }
+        #div30 {
+            margin: 47px 0 0 217px !important;
+        }
+        #div31 {
+            margin: 10px 0 0 197px !important;
+        }
+        .search {
+            height: 8%;
+            /*margin-right: -18%;*/
+        }
+        #info-list {
+            font-size: 12px;
+            width: 100%;
+            height: 50%;
+            overflow-y: scroll;
+            scrollbar-track-color: #3C5984;
+            scrollbar-arrow-color: #3C5984;
+            scrollbar-face-color: #3C5984;
+            scrollbar-shadow-color: #3C5984;
+        }
+        .bar-title {
+            font-size: 14px
+        }
+        .map-title {
+            font-size: 16px;
+        }
+        .bar-title-2nd,
+        .pie-title-2nd {
+            font-size: 12px;
+            padding: 3% 4%;
+            text-align: right;
+        }
+        .bottom-words {
+            height: 20%;
+            margin-top: 0;
+            margin-left: 0;
+            font-size: 12px;
+            color: #40EFFF;
+        }
+        .bottom-words-detail>div {
+            margin-top: 4%;
+        }
+        .top-words {
+            color: #B9F4FF;
+            font-size: 12px;
+            margin-top: 7.5%;
+            margin-left: 3%;
+            height: 9%;
+        }
+        .calendar {
+            height: 55%;
+        }
+        .legend {
+            height: 100%;
+            width: 19%;
+            float: right;
+            margin-top: 0;
+            font-size: 12px;
+        }
+    }
+
+    .export {
+        padding-right: 5%;
+        justify-content: flex-end;
+        padding-left: 0;
+        height: 8%;
+        position: relative;
+    }
+
+    .span-support {
+        position: absolute;
+        bottom: 10%;
+    }
+
+    .bar-right,
+    .pie-right {
+        margin-right: 5%;
+        margin-left: 0;
+    }
+
+    .map-title {
+        width: 42%;
+        height: 5.4%;
+        left: 29%;
+        top: 5.5%;
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        color: #40EFFF;
+        /*font-size: 18px;*/
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0 0;
+    }
+
+    .map-title-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .map-title-text1 {
+        position: absolute;
+        right: 0;
+        line-height: 28px;
+    }
+
+    .contruy1 {
+        cursor: pointer;
+        font-size: 14px;
+        justify-content: center;
+    }
+
+    .contruy,
+    .province,
+    .city {
+        cursor: pointer;
+    }
+    /* .layui-table-view .layui-table {
+        width: 100%;
+    } */
+
+    .layui-laydate-main {
+        /* width: 205px !important;
+        height: 230px; */
+    }
+
+    #bar-right-chart .laydate-month-list>li {
+        margin: 8px 0 !important;
+    }
+
+    input::-webkit-input-placeholder {
+        /* WebKit browsers */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    input:-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    input::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    input:-ms-input-placeholder {
+        /* Internet Explorer 10+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .table-control-btn {
+        color: #2487DA;
+        font-size: 12px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .table-control-btn:hover {
+        color: #2487DA;
+    }
+    /* 加skin皮肤样式 */
+
+    .whiteStyle .layui-layer-title {
+        background: #FFF;
+        color: #000;
+        font-size: 16px;
+        border: none;
+    }
+
+    .layui-title-text {
+        font-weight: 600;
+    }
+    /* 日期选择控件中的确定按钮样式 */
+
+    .layui-laydate .laydate-btns-confirm {
+        background-color: #1890FF;
+        color: white;
+    }
+
+    .layui-laydate .laydate-btns-confirm:hover {
+        opacity: 0.7;
+        color: white;
+    }
+
+    .layui-table-view .layui-table td,
+    .layui-table-view .layui-table th {
+        padding: 2px 0;
+    }
+    /* 风险信息详情表格主体的最高高度 */
+
+    .layui-table-body {
+        min-height: calc(100% - 30px);
+        border-color: #075B97 !important;
+        overflow-y: hidden;
+    }
+
+    .layui-table-body tr:nth-child(2n) {
+        background-color: transparent;
+    }
+
+    .layui-table-body tr:nth-child(2n+1) {
+        background-color: transparent;
+    }
+    /* 无数据显示图片 */
+
+    .nodatastyle {
+        background: url("../../assets/images/nodatatransparent.png") no-repeat center 44px;
+        background-size: 23%;
+    }
+
+    .layui-table,
+    .layui-table-view {
+        margin: 0 0;
+        height: 100%;
+    }
+
+    .layui-card-body {
+        padding: 10px 10px;
+    }
+    /*****************************公共部分样式*********************************/
+    /************************重写layui部分样式*********************************/
+
+    .layui-layout-admin .layui-body {
+        top: 0;
+        padding: 0;
+        overflow-y: auto;
+    }
+
+    .layui-table {
+        background: rgba(11, 73, 159, 0.4);
+        color: #40EFFF;
+    }
+
+    .layui-table tbody tr:hover,
+    .layui-table thead tr,
+    .layui-table-click,
+    .layui-table-header,
+    .layui-table-hover,
+    .layui-table-mend,
+    .layui-table-patch,
+    .layui-table-tool,
+    .layui-table-total,
+    .layui-table-total tr,
+    .layui-table[lay-even] tr:nth-child(even) {
+        background-color: #075B97 !important;
+    }
+
+    .layui-table td,
+    .layui-table th,
+    .layui-table-col-set,
+    .layui-table-fixed-r,
+    .layui-table-grid-down,
+    .layui-table-header,
+    .layui-table-page,
+    .layui-table-tips-main,
+    .layui-table-tool,
+    .layui-table-total,
+    .layui-table-view,
+    .layui-table[lay-skin=line],
+    .layui-table[lay-skin=row] {
+        border-color: rgba(0, 186, 254, 0.3) !important;
+    }
+    /* .layui-table-header tr:nth-child(2n+1) {
+    background-color: #E9F9FF !important;
+    } */
+
+    .layui-table-box {
+        border-color: rgba(0, 186, 254, 0.3);
+        height: 100%;
+    }
+
+    .layui-table>thead {
+        background: none;
+        color: #FFF;
+    }
+
+    #bar-right-chart .layui-laydate-content {
+        padding: 0;
+        height: 100%;
+    }
+
+    #bar-right-chart .layui-laydate-content table {
+        height: 100%;
+        width: 100%;
+    }
+
+    #bar-right-chart .layui-laydate-content>table>thead {
+        display: none;
+    }
+
+    #bar-right-chart .layui-laydate-main {
+        width: auto !important;
+        height: 100%;
+    }
+
+    #bar-right-chart .layui-laydate-content td,
+    .layui-laydate-content th {
+        width: 52px;
+        padding: 1px;
+        height: 20px;
+    }
+
+    #bar-right-chart .layui-laydate {
+        font-size: 12px;
+        width: 97%;
+        height: 95%;
+    }
+
+    #bar-right-chart .laydate-theme-grid .laydate-month-list>li,
+    .laydate-theme-grid .laydate-year-list>li,
+    .laydate-theme-grid .layui-laydate-content td,
+    .laydate-theme-grid .layui-laydate-content thead,
+    .laydate-theme-molv .layui-laydate-footer {
+        border: 1px solid rgba(73, 220, 255, 0.5);
+    }
+
+    #bar-right-chart .layui-laydate-content .laydate-day-next,
+    #bar-right-chart .layui-laydate-content .laydate-day-prev {
+        color: rgba(0, 0, 0, 0) !important;
+    }
+
+    #bar-right-chart .layui-laydate-content td {
+        color: #FFF;
+    }
+
+    #bar-right-chart .layui-laydate,
+    #bar-right-chart .layui-laydate-hint {
+        background: rgba(43, 84, 127, 0.5);
+        border: none;
+    }
+
+    #bar-right-chart .layui-laydate-content td:hover,
+    #bar-right-chart .layui-laydate-list li:hover {
+        background-color: rgba(11, 73, 159, 1);
+        color: #FFF;
+    }
+
+    #bar-right-chart .laydate-day-mark {
+        line-height: 22px;
+    }
+
+    .laydate-day-mark::after {
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 0;
+        border-top: 10px solid #1DD41D;
+        border-right: 10px solid transparent;
+        width: 0;
+        height: 0;
+        border-radius: 0;
+        background-color: rgba(0, 0, 0, 0) !important;
+    }
+    /*****************************查询样式************************************/
+
+    .search-input {
+        width: 28%;
+        height: 40%;
+        background: rgba(73, 220, 255, 0.17);
+        /*background-size: 100% 100%;*/
+        border: 1px solid #00FFFF;
+        color: #FFFFFF;
+        padding-left: 5px;
+        margin: 0 5px;
+    }
+
+    .search-button,
+    #export {
+        height: 58%;
+        margin: 0 1%;
+        width: 10%;
+        background: url("../../assets/images/datashow/50_40.png") no-repeat;
+        background-size: 100% 100%;
+        border: none;
+        color: #9BE3F9;
+        cursor: pointer;
+    }
+
+    .select-button {
+        border: none;
+        background: none;
+        color: #FFF;
+        cursor: pointer;
+        width: 48px;
+        opacity: 0.6;
+    }
+
+    .search>label {
+        width: 45px;
+    }
+    /*****************************图表样式************************************/
+
+    .bar-title,
+    .pie-title {
+        text-align: center;
+        height: 16%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0px 0px;
+        color: #40EFFF;
+    }
+
+    #ppmstatus .bar-title1 {
+        text-align: center;
+        height: 16%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0px 0px;
+        color: #40EFFF;
+    }
+
+    #ppmstatus .bar-title2 {
+        text-align: right;
+        height: 16%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0px 0px;
+        color: #40EFFF;
+    }
+
+    .title-span {
+        margin-right: 2%;
+        font-size: 12px;
+        color: #949494;
+        margin-top: 2px;
+    }
+
+    .bar-left,
+    .pie-left,
+    .bar-right,
+    .pie-right {
+        margin-left: 5%;
+        box-sizing: border-box;
+        background: rgba(11, 73, 159, 0.4);
+        border-radius: 4px;
+        color: #FFFFFF;
+        height: 44%;
+        overflow: hidden;
+    }
+
+    .pie-right {
+        background: none;
+    }
+    /*****************************列表样式************************************/
+
+    .layui-table-body::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 10px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+
+    .layui-table-body::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .layui-table-body::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        display: none;
+    }
+
+    .layui-table-body::-webkit-scrollbar-corner {
+        /*滚动条边角*/
+        display: none;
+    }
+    /*****************************中心样式************************************/
+
+    .legend>ul>li {
+        margin: 3%;
+        width: 100%;
+    }
+
+    .bottom-words-detail {
+        color: #40EFFF;
+        float: left;
+        width: 50%;
+        margin-left: 3%;
+    }
+
+    .legend>ul>li>span {
+        opacity: 0.6;
+        margin-top: -3px;
+        display: inherit;
+    }
+
+    .bottom-words-detail>div>span {
+        background: rgba(0, 205, 254, 0.1);
+        border-bottom: 1px solid #40EFFF;
+        padding: 2px;
+    }
+
+    .trancle1 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #00FF00;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle2 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #D6B939;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle3 {
+        width: 0;
+        height: 0;
+        border-bottom: 12px solid #FF6349;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle4 {
+        width: 0;
+        height: 0;
+        border-top: 10px solid #1DD41D;
+        border-right: 10px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle5 {
+        width: 0;
+        height: 0;
+        border-top: 10px solid #D6B939;
+        border-right: 10px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle7 {
+        width: 0;
+        height: 0;
+        border-top: 10px solid #0000FF;
+        border-right: 10px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .trancle6 {
+        width: 0;
+        height: 0;
+        border-top: 10px solid #FF6349;
+        border-right: 10px solid transparent;
+        float: left;
+        margin-right: 6%;
+    }
+
+    .content-tail-center {
+        width: 45%;
+        height: 24.1%;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 74%;
+        position: absolute;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    /*for temporary use*/
+
+    .layui-body {
+        background: url(../../assets/images/datashow/bg-jiaohu.png) no-repeat;
+        background-size: 100%;
+    }
+
+    #bar-right-chart .layui-laydate-header {
+        display: none;
+    }
+
+    .layui-layer-content {
+        color: #000;
+    }
+
+    .layui-layer-msg .layui-layer-content {
+        color: #fff;
+    }
+
+    #outsideProblems,
+    #insideProblems {
+        cursor: pointer;
+    }
+
+    .layui-table td {
+        position: unset;
+    }
+
+
+</style>
+<div style="width: 100%;height: 42px;color: #FFF;position: absolute;top: 56px;font-size: 18px;font-weight: 600;background-color: rgba(58,146,255,0.3)">
+    <ul style="display: flex;justify-content: space-around;align-items: center;height: 100%;" id="mainHeader">
+        <li style="color: #49DCFF">工厂总览</li>
+        <li><a href="/edu/fx/projectMgt">项目管理</a></li>
+        <li><a href="/html-edu/index.html#!product_index">生产管理</a></li>
+        <li><a href="/html-edu/index.html#!quality_unqualified">质量管理</a></li>
+        <li><a href="/edu/llManage/indexIn">交付管理</a></li>
+        <li><a href="/edu/fx/modifiView">变更管理</a></li>
+        <li><a href="/html-edu/index.html#!riskManage_riskIndex">风险管理</a></li>
+        <li><a href="/edu/classfield">基础档案</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="content-header">
+        <!-- tab -->
+        <ul class="content-header-tab" id="subHeader">
+            <li><a href="./indexChart.html#!factoryPandect">工厂运行总览</a></li>
+            <li id="analysis"><a href="./indexChart.html#!productStatus">生产运行状态</a></li>
+            <li id="monitor"><a href="./indexChart.html#!qualityStatus" >质量运行状态</a></li>
+            <li id="warning"><a href="./indexChart.html#!deliveryStatus" style="color: #40EFFF;">交付完成状态</a></li>
+        </ul>
+    </div>
+    <!-- tab内容 -->
+    <div style="display: flex;justify-content: center;align-items: center;height: calc(100% - 44px);">
+        <img style="width: 50%;" src="http://139.219.96.215:8889/edu/Content/images/img_41.png">
+    </div>
+
+
+
+

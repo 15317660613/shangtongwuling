@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="utf-8" />
+    <title>上通五供应商管理系统</title>
+
+    <!-- Favorites Icon Start -->
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="icon" href="./favicon.ico">
+    <!-- Favorites Icon End -->
+
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="assets/libs/layui/css/layui.css" />
+    <link rel="stylesheet" href="assets/css/admin.css" />
+
+    <link rel="stylesheet" href="module/formSelects/formSelects-v4.css" />
+    <link rel="stylesheet" href="module/treeSelect/treeSelect.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="assets/css/theme.css" />
+
+    <link rel="stylesheet" href="components/stwl_material_control/common/css/Tool.css"></link>
+    <!-- 自定义主题，使用主题文件生成器生成 -->
+
+    <!--[if lt IE 9]>
+    <script src="./assets/libs/html5.min.js"></script>
+    <script src="./assets/libs/respond.min.js"></script>
+    <script src="https://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <![endif]-->
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部 -->
+        <div class="layui-header" p-com="header"></div>
+
+        <!-- 侧边栏 -->
+        <div class="layui-side" p-com="side"></div>
+
+
+        <!-- 主体部分 -->
+        <div class="layui-body">
+            <div>
+                <!-- 面包屑 -->
+                <span class="layui-breadcrumb admin-breadcrumb" lay-separator=">">
+                    <!-- <i class="layui-icon layui-icon-location"></i> -->
+                </span>
+                <div class="layui-body-content" style="margin-top:35px">正在加载中，请稍等...</div>
+            </div>
+        </div>
+
+        <!-- 底部footer -->
+        <!-- <div class="layui-footer"></div> -->
+
+        <!-- 手机屏幕遮罩层 -->
+        <div class="site-mobile-shade"></div>
+    </div>
+    <a href="javascript:;" id="mylayer" hidden></a>
+
+    <!-- jQuery 1.x 版本兼容 IE8 -->
+    <script type="text/javascript" src="assets/libs/jquery-1.12.4.min.js"></script>
+    <!--circleProgressBar-->
+    <script type="text/javascript" src="assets/libs/circle-progress.js"></script>
+    <!-- Q.js 轻量路由框架 -->
+    <script type="text/javascript" src="assets/libs/q.js"></script>
+    <!-- jQuery 轻量级 MVVM 框架 -->
+    <script type="text/javascript" src="assets/libs/pandyle.min.js"></script>
+    <!-- layui 脚本文件 -->
+    <script type="text/javascript" src="assets/libs/layui/layui.js"></script>
+    <!-- circle-progress环形进度条 -->
+    <script type="text/javascript" src="assets/libs/circle-progress.js"></script>
+
+    <script type="text/javascript" src="components/stwl_material_control/common/js/vue.min.js"></script>
+
+    <!-- 公告管理页面table表格 -->
+    <script type="text/javascript" src="components/stwl_material_control/bulletinBoard/table-com.js"></script>
+
+    <script type="text/javascript" src="components/stwl_material_control/common/js/Tool.js"></script>
+
+    <script type="text/javascript" src="components/stwl_material_control/common/js/InterfaceMap.js"></script>
+
+
+    <script>
+        // UEditor 路径
+        window.UEDITOR_HOME_URL = '/assets/libs/ueditor_v1.4.3/';
+        var reqCount = 0;
+
+        var list;
+        layui.config({
+            base: 'module/'
+        }).extend({
+            formSelects: 'formSelects/formSelects-v4',
+            treetable: 'treetable-lay/treetable',
+            treeSelect: 'treeSelect/treeSelect'
+        }).use(['index'], function() {
+            var index = layui.index,
+                admin = layui.adc,
+                layer = layui.layer,
+                config = layui.config;
+            list = config.getAccount().sysCodes;
+
+            // 入口文件，统一处理 Ajax 请求
+            // 增加 loading
+            // http://api.jquery.com/jquery.ajax/
+            $.ajaxSetup({
+                headers: {
+                    "Authorization": 'Basic JWTJWTJWTJWTJWTJWTJWTJWTJWTJWTJWTJWT'
+                },
+                beforeSend: function(jqXHR, settings) {
+                    reqCount++;
+                    if (reqCount > 0) admin.showLoading();
+                },
+                complete: function(jqXHR, textStatus) {
+                    reqCount--;
+                    if (reqCount === 0) admin.removeLoading();
+                    // 只要返回网页，就跳转登录，暂时只能这么判断了
+                    var ctype = jqXHR.getResponseHeader('Content-Type');
+
+                    if (jqXHR.status === 402 && jqXHR.responseJSON && !jqXHR.responseJSON.ok &&
+                        jqXHR.responseJSON.respCode === '8688') {
+                        layer.msg(jqXHR.responseJSON.message);
+                        setTimeout(function() {
+                            window.location.href = "/logout";
+                        }, 2000)
+                    }
+
+                    if (ctype.indexOf('text/html;charset=UTF-8') !== -1) {
+                        var protocol = 'http:';
+                        if ('https:' === window.location.protocol) {
+                            protocol = window.location.protocol;
+                        }
+                        location.href = '/cas/logout?service=' + protocol + '//' + window.location.host + '/stwl';
+                    }
+                }
+            });
+            // 初始化
+            index.init();
+        });
+
+        function jump($this, event) {
+            //页面地址 ==> div的name值
+            var point = $this.attr('point');
+            var href = "",
+                key = '';
+            /**
+             * 根据点击效果 判断调转
+             */
+            if (list.indexOf(point) === -1) {
+                layui.use('layer', function() {
+                    var layer = layui.layer;
+                    layer.msg('您没有相关权限！');
+                });
+                return;
+            }
+
+            // for(var i  in list){
+            // if( point ===  list[i]){
+            switch (point) {
+                case 'BM':
+                    href = 'smsh?re=bmgkTab/tabs1-1';
+                    break;
+                case 'YWGL':
+                    href = 'smsh?re=jbpm/taskpersonal';
+                    break;
+                case 'ZLKF':
+                    href = 'index.html#!ADC_parts_part_info_query';
+                    break;
+                case 'ZLBZ':
+                    href = 'smsh?re=bpm/tabs2-2';
+                    break;
+                case 'QJNLGL':
+                    href = 'smsh?re=gysnlpjTab/tabs2-2';
+                    break;
+                case 'GXGL':
+                    href = 'components/risk/riskMap.html';
+                    break;
+                case 'CNGL':
+                    href = 'smsh';
+                    break;
+                case 'CLTP':
+                    href = 'smsh';
+                    break;
+                case 'XTGL':
+                    href = 'index.html#!ADC_system_user';
+                    break;
+                case 'QJGLXY':
+                    href = 'index.html#!ADC_academy_course';
+                    break;
+            }
+            // } else{
+            //     alert("您没有相关权限！");
+            // }
+            // }
+
+            //动态获取地址 IP地址+端口号
+            // window.location.href = 'http://'+address +'/'+ $this.attr('name')+'';
+            var protocol = 'http:';
+            if ('https:' === window.location.protocol) {
+                protocol = window.location.protocol;
+            }
+
+            var path = protocol + '//' + window.location.host + '/' + href + '';
+            console.log(event);
+            // 获取页面链接，做跳转
+            if (event.button === 0) {
+                window.location.href = path;
+            }
+            if (event.button === 2) {
+                window.open(path);
+            }
+        }
+    </script>
+    <!-- 委托列表 -->
+    <div id="agencyList" style="display:none;padding:20px">
+        <table id="tableContent-agencyList" lay-filter="tableContent-agencyList"></table>
+    </div>
+</body>
+
+</html>

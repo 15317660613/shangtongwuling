@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任务单待办（供应商）</title>
+    <link rel="stylesheet" href="../../assets/css/task_sheet_agent.css">
+    <style>
+        .layui-table-box {
+            overflow-x: auto;
+        }
+
+        .layui-table-header {
+            overflow: initial;
+        }
+        /*将供应商代码供应商名称隐藏2019-03-09（马文勇）*/
+        .hideLayuiModular{
+            display: none
+        }
+        /*by ma 2019-04-15*/
+        div[xm-select-skin=default] dl dd:not(.xm-dis-disabled) i {border-color: #1E9FFF}         .xm-select-parent .xm-form-select dl {             max-height: 230px;!important;         }
+        .xm-select-parent .xm-form-select dl {
+            max-height: 230px;!important;
+        }
+        div[xm-select-skin=default] dl dd.xm-select-this:not(.xm-dis-disabled) i {color: #1E9FFF}
+        .search-form .layui-input, .layui-select{
+            height: 36px !important;
+
+        }
+    </style>
+</head>
+<body>
+<div class="layui-row layui-col-space15" id="ppap_task_sheet_agent">
+    <!--by ma 2019-04-15-->
+    <div class="layui-col-md12 autoScrollLeft" style="padding-top: 0px">
+        <div class="layui-card">
+            <!--by ma 2019-04-15-->
+            <div class="search" style="margin-top: 6px">
+                <form class="layui-form search-form" lay-filter="search-form-content">
+                    <div class="search-title" onclick="openPanel(this)">
+                        <div class="search-l title-l"><label>数据查找</label></div>
+                        <div class="search-r "><label id="flex2">展开</label><img
+                                src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img class="hide"
+                                                                                                                      src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item hide">
+                        <!-- 数据表格顶部控制栏 -->
+                        <div class="layui-form" style="padding: 0 0 1% 0;">
+                            <div class="layui-row">
+                                <div class="layui-col-md12">
+                                    <div class="layui-col-md3">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">预警状态:</label>
+                                            <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                                <div class="layui-select-title self-select-title ">
+                                                    <input type="text" placeholder="请选择" value="" name="alert" readonly="" class="layui-input layui-unselect params-item" id="search-input-alert">
+                                                </div>
+                                                <dl class="layui-anim layui-anim-upbit" style="" id="alert">
+                                                    <!--
+                                                                                                <dd><input type="checkbox" class="check-all" name="alert" title="全部" lay-filter="chooseAllPeroson" value="" lay-skin="primary" ></dd>
+                                                    -->
+                                                    <dd><input type="checkbox" title="R" value="R" lay-skin="primary" ></dd>
+                                                    <dd><input type="checkbox" title="Y"  value="Y" lay-skin="primary" ></dd>
+                                                    <dd><input type="checkbox" title="W" value="W" lay-skin="primary" ></dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md3">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">批准类型:</label>
+                                            <div class="layui-input-block">
+                                                <select name="taskordertype" id="taskordertype" lay-search="">
+                                                    <option value=""></option>
+                                                    <option value="1">OPAP</option>
+                                                    <option value="2">PPAP</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md3">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">任务单编号:</label>
+                                            <div class="layui-input-block">
+                                                <select name="taskordernumber" id="taskordernumber" lay-search="">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md3">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">时间范围:</label>
+                                            <div id="timeFrame" class="layui-input-block">
+                                                <input name="createtime" type="text" class="layui-input" id="test6"
+                                                       placeholder="请输入">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <!--<div class="layui-col-md3">-->
+                                    <!--<div class="layui-form-item">-->
+                                        <!--<label class="layui-form-label">项目单编号:</label>-->
+                                        <!--<div class="layui-input-block">-->
+                                            <!--<select name="itemtrackingnum" id="itemtrackingnum" lay-filter="itemtrackingnum" lay-search="">-->
+                                            <!--</select>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="layui-col-md3">-->
+                                    <!--<div class="layui-form-item">-->
+                                        <!--<label class="layui-form-label">车型/机型:</label>-->
+                                        <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">-->
+                                            <!--<div class="layui-select-title self-select-title " >-->
+                                                <!--<input type="text" placeholder="请选择" value="" name="projectmodel" readonly="" class="layui-input layui-unselect params-item" id="search-input-projectmodel">-->
+                                            <!--</div>-->
+                                            <!--<dl class="layui-anim layui-anim-upbit" style="" id="projectmodel">-->
+
+                                            <!--</dl>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <div class="layui-col-md3">
+                                    <!--by ma 2019-04-15-->
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">项目单编号:</label>
+                                        <div class="layui-input-block">
+                                            <!-- <select name="itemtrackingnum" id="itemtrackingnum"
+                                                     lay-filter="itemtrackingnum" lay-search="">
+                                             </select>-->
+                                            <select  id="xmdbh"  name="itemtrackingnum" lay-filter="itemtrackingnum" xm-select="itemtrackingnum" xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">车型/机型:</label>
+                                        <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title ">
+                                                <input type="text" placeholder="请选择" value="" name="projectmodel"
+                                                       readonly="" class="layui-input layui-unselect params-item project"
+                                                       id="search-input-projectmodel">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="projectmodel">
+
+                                            </dl>
+                                        </div>-->
+                                        <div class="layui-input-block">
+                                            <select  id="xmcxjx" lay-filter="projectmodel" name="projectmodel"  xm-select="projectmodel" xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3 hideLayuiModular">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商代码:</label>
+                                        <div class="layui-input-block">
+                                            <select name="suppliernum" id="suppliernum" lay-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3 hideLayuiModular">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称:</label>
+                                        <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title " >
+                                                <input type="text" placeholder="请选择" value="" name="suppliername" readonly="" class="layui-input layui-unselect params-item" id="search-input-suppliername">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="suppliername">
+
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">风险检查结果:</label>
+                                        <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title " >
+                                                <input type="text" placeholder="请选择" value="" name="riskinspectionresults" readonly="" class="layui-input layui-unselect params-item" id="search-input-riskinspectionresults">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="riskinspectionresults">
+
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">负责PE:</label>
+                                        <div class="layui-input-block">
+                                            <select name="responsiblepe" id="responsiblepe" lay-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">SQE:</label>
+                                        <div class="layui-input-block">
+                                            <select name="sqe" id="sqe" lay-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3 layui-col-md-offset6">
+                                    <div class="layui-form-item">
+                                        <div style="float: right;padding-right: 2%">
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-sm layui-btn-normal"
+                                                        type="button"
+                                                        lay-filter="search-btn"
+                                                        lay-submit>查询
+                                                </button>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-sm layui-btn-primary"
+                                                        type="button"
+                                                        lay-filter="reset-task"
+                                                        lay-submit>重置
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="clear: both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="tableList">
+                <!--<div class="tableList-title">
+                        <button onclick="return false;">项目单列表</button>
+                </div>-->
+                <div class="layui-form">
+                    <div class="tableList-title" onclick="openPanel(this)">
+                        <div class="table-l title-l"><label>任务单列表</label></div>
+                    </div>
+                    <div style="padding-top: 1%">
+                        <div class="layui-form layui-row">
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item ">
+                                    <label id="pfollowcode_label" class="layui-form-label">项目单编号:</label>
+                                    <div class="layui-input-block">
+                                        <input id="linkage-itemtrackingnum" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">车型/机型</label>
+                                    <div class="layui-input-block">
+                                        <input id="linkage-projectmodel" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="ots1_label" class="layui-form-label">OTS1/BETA:</label>
+                                    <div class="layui-input-block">
+                                        <input id="OTS1" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;" disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="ots2_label" class="layui-form-label">OTS2/GAMMA:</label>
+                                    <div class="layui-input-block">
+                                        <input id="OTS2" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;" disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form layui-row">
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="ns_label" class="layui-form-label">NS/Pilot:</label>
+                                    <div class="layui-input-block">
+                                        <input id="NS" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;" disabled="disabled"
+                                               placeholder="">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="stime_label" class="layui-form-label">S/3C Pilot:</label>
+                                    <div class="layui-input-block">
+                                        <input id="S" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;" disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="soptime_label" class="layui-form-label">SOP:</label>
+                                    <div class="layui-input-block">
+                                        <input id="SOP" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;" disabled="disabled"
+                                               placeholder="">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div style="float: right; padding-right: 1%">
+                                <div class="layui-inline" style="">
+                                    <button onclick="jump()" class="layui-btn layui-btn-sm layui-btn-normal">处理
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="table-round">
+                        <div id="table_div">
+                            <table id="table-task" class="table-form" lay-filter="table-task"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var tableIns;
+    var USER = {};
+    var multipleItems = ['alert','source','suppliername','riskinspectionresults'];
+    // by ma 2019-04-15
+    var formSelectItems =  ['itemtrackingnum','projectmodel']
+    layui.use(['table', 'laydate', 'form', 'layer', 'adc','formSelects'], function () {
+        var table, admin, form, layer, laydate,config;
+        table = layui.table,
+            admin = layui.adc,
+            form = layui.form,
+            config = layui.config,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            // by ma 2019-04-15
+        formSelects = layui.formSelects;
+        /*if (window.location.hash.indexOf('#!suppliersubmission') != -1 || window.location.hash.indexOf('#!project10') != -1) {
+            let supplierId = window.location.hash;
+            if (supplierId.indexOf('?') === -1) {
+                window.history.go(-1);
+            } else {
+                config.getAccount().userId = supplierId.split('?')[1];
+            }
+        }*/
+
+        //多选框监听事件
+        admin.listenMultipleSelect(linkageByProjectItem);
+        loadSearch()
+        laydate.render({
+            elem: '#test6'
+            , range: true
+        });
+        //供应商代码和供应商名称联动
+        tableIns = table.render({
+            elem: '#table-task'
+            , id: 'table-task'
+            , url: admin.formatUrl('/api/ppap/taskorder/searchTaskorderStay')
+            , method: 'POST'
+            // 格式化后台返回的数据
+            , parseData: function (res) { //res 即为原始返回的数据
+                if (res.respCode == 1) {
+                    return {
+                        "msg": res.message, //解析提示文本
+                    };
+                }
+                // 返回结果，进行渲染表格
+                console.log(res)
+                if (res.respCode == 200) {
+                    res.respCode = 0;
+                }
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.count, //解析数据长度
+                    "data": admin.redefinedForObject(res.data.page) //解析数据列表
+                };
+            }
+            , height: 'full-370'
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {
+                    field: 'alert',
+                    title: '预警状态',
+                    minWidth: 100,
+                    align: 'center',
+                    edit: 'text',
+                    templet: function (d) {
+                        if (d.alert == 'Y') {
+                            return '<div style="background-color: yellow;color: black;width: 100%;height: 100%"><span></span></div>'
+                        } else if (d.alert == 'R') {
+                            return '<div style="background-color: red;color: black;width: 100%;height: 100%"><span></span></div>'
+                        }else if (d.alert == 'W'){
+                            return '<div style="color: black;width: 100%;height: 100%"><span></span></div>'
+                        } else {
+                            return d.alert;
+                        }
+                    }
+                }
+                , {
+                    field: 'taskordertype', title: '批准类型', minWidth: 100, align: 'center', templet: function (d) {
+                        if (d.taskordertype == 1) {
+                            return 'OPAP'
+                        } else {
+                            return 'PPAP'
+                        }
+                    }
+                }
+                , {field: 'taskordernumber', title: '任务单编号', minWidth: 100, align: 'center'}
+                , {field: 'createtime', title: '创建时间', minWidth: 100, align: 'center',templet:function (d) {
+                        return '<div>' + (d.createtime ? new Date(d.createtime).Format('yyyy-MM-dd hh:mm:ss') : '') + '</div>';
+                    }}
+                , {field: 'itemtrackingnum', title: '项目单编号', minWidth: 130, align: 'center'}
+                , {field: 'projectmodel', title: '车型/机型', minWidth: 120, align: 'center'}
+                // , {field: 'suppliernum', title: '供应商代码', minWidth: 100, align: 'center'}
+                // , {field: 'suppliername', title: '供应商名称', minWidth: 100, align: 'center'}
+                , {field: 'riskinspectionresults', title: '风险检查结果', minWidth: 120, align: 'center'}
+                , {field: 'responsiblepe', title: '负责PE', minWidth: 100, align: 'center'}
+                , {field: 'sqe', title: 'SQE', minWidth: 100, align: 'center'}
+            ]],
+            done: function (res, curr, count) {
+                if(res.data != undefined &&res.data.length > 0){setTimeout(function () {
+                    $('.layui-table-box').css('overflow-x', 'hidden');
+                    $('.layui-table-header').css('overflow', 'hidden');
+                    $(window).resize();
+                },1);}
+                if (config.getAccount().roleName.indexOf('工程师') != -1){
+
+                }
+            },
+            cellMinWidth: 110,
+            page: {
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+            },
+            request: {
+                pageName: 'page',
+                limitName: 'pageSize'
+            },
+            where: {
+                userId: config.getAccount().userId
+            }
+        });
+        // by ma 2019-04-15
+        // 项目单编号查项目车型机型
+        formSelects.on('itemtrackingnum', function(id, vals, val, isAdd, isDisabled) {
+            if(isAdd){
+                if(vals.length == 0){
+                    linkageByProjectItem(0,val.value);
+                }else {
+                    linkageByProjectItem("","")
+                }
+            }else {
+                if(vals.length-1 ==1) {
+                    linkageByProjectItem(0,val.value);
+                }else {
+                    linkageByProjectItem("","");
+                }
+            }
+
+            admin.req("api/ppap/partslibrary/queryProjectmodelByItemtrackingnum?queryItemtrackingnums=" + val.value, {}, function(res) {
+                data = res.data;
+
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('projectmodel', data, true);
+                } else {
+                    layui.formSelects.value('projectmodel', data, false);
+                }
+                form.render('select', 'form1');
+            }, {
+                method: 'GET'
+            });
+        });
+
+        //项目车型/机型查询项目单编号
+        formSelects.on('projectmodel', function(id, vals, val, isAdd, isDisabled) {
+            if(isAdd){
+                if(vals.length == 0){
+                    linkageByProjectItem(1,val.value);
+                }else {
+                    linkageByProjectItem("","")
+                }
+            }else {
+                if(vals.length-1 ==1){
+                    linkageByProjectItem(1,val.value);
+                }else {
+                    linkageByProjectItem("","");
+                }
+            }
+            admin.req("api/ppap/partslibrary/queryItemtrackingnumByProjectmodel?projectmodels=" + val.value, {}, function(res) {
+                data = res.data;
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('itemtrackingnum', data, true);
+                } else {
+                    layui.formSelects.value('itemtrackingnum', data, false);
+                }
+                // form.render('select', 'form1');
+            }, {
+                method: 'GET'
+            });
+        });
+
+        table.on('edit(table-task)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+
+        });
+        //监听提交
+        form.on('submit(search-btn)', function (data) {
+            var startOrendtime = data.field.createtime
+            var _data = data.field
+            if (startOrendtime != '') {
+                var createtimestart = startOrendtime.split(' - ')[0]
+                var createtimeend = startOrendtime.split(' - ')[1]
+                _data.createtimestart = createtimestart
+                _data.createtimeend = createtimeend
+            }
+            console.log(data.field)
+            // by ma 2019-04-15
+            _data.itemtrackingnum  =formSelects.value('itemtrackingnum', 'valStr');
+            _data.projectmodel  =formSelects.value('projectmodel', 'valStr');
+            //这里以搜索为例
+            table.reload('table-task', {
+                where: _data
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                done: function (res, curr, count) {
+                    if(res.data != undefined &&res.data.length > 0){setTimeout(function () {
+                        $('.layui-table-box').css('overflow-x', 'hidden');
+                        $('.layui-table-header').css('overflow', 'hidden');
+                        $(window).resize();
+                    },1);}
+                },
+            });
+        });
+
+        //监听重置
+        form.on('submit(reset-task)', function (data) {
+            var resetItems = [
+                'search-input-alert',
+                'taskordertype',
+                'taskordernumber',
+                'createtime',
+                'itemtrackingnum',
+                'search-input-projectmodel',
+                'suppliernum',
+                'search-input-suppliername',
+                'search-input-riskinspectionresults',
+                'sqe',
+                'linkage-itemtrackingnum',
+                'linkage-projectmodel',
+                'OTS1',
+                'OTS2',
+                'NS',
+                'S',
+                'SOP'
+            ];
+            resetForm(resetItems);
+            loadSearch();
+            tableIns.reload({
+                where: {
+                    userId: config.getAccount().userId
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                done: function (res, curr, count) {
+                    if(res.data != undefined &&res.data.length > 0){setTimeout(function () {
+                        $('.layui-table-box').css('overflow-x', 'hidden');
+                        $('.layui-table-header').css('overflow', 'hidden');
+                        $(window).resize();
+                    },1);}
+                },
+            });
+            form.render();
+        });
+
+    });
+    /**
+     * 重置表单内容
+     */
+    function resetForm(resetItems) {
+        for (var i = 0; i < resetItems.length; i++) {
+            var item = $("#" + resetItems[i]);
+            switch (item.prop("tagName")) {
+                case "INPUT":
+                case "SELECT":
+                    item.val("");
+                    break;
+                case "DL":
+                    item.empty();
+                    break;
+            }
+        }
+        $(".layui-anim.layui-anim-upbit input:checkbox").prop("checked", false);
+    }
+
+
+
+    /**
+     * @Desc 根据项目单编号联动
+     * @Date 2018-12-21 20:55:34
+     * @Author qitian
+     */
+    function linkageByProjectItem () {
+        var admin = layui.adc,
+            form = layui.form,
+            config = layui.config;
+        var itemtrackingnum = $('#itemtrackingnum').val();
+        form.on('select(linkageByProjectItem)',function (obj) {
+            itemtrackingnum = obj.value;
+        })
+        var projectmodel = $('#search-input-projectmodel').val();
+        //请求接口
+        if (config.getAccount().roleName.indexOf('供应商') != -1) {
+            var data = {
+                itemtrackingnum: itemtrackingnum,
+                projectmodel: projectmodel,
+                suppliernum: config.getAccount().companyCode
+            }
+        }
+        admin.req('/api/ppap/partslibrary/linkageByProjectItem',data, (res) => {
+            if (res.respCode == 200 && res.data && res.data.length === 1) {
+            //赋值
+            var type = res.data[0].projecttype
+            if (type == 1) {
+                $('#pfollowcode_label').html('项目单编号:')
+                $('#ots1_label').html('OTS1:')
+                $('#ots2_label').html('OTS2:')
+                $('#ns_label').html('NS:')
+                $('#stime_label').html('S:')
+                $('#soptime_label').html('SOP:')
+            }
+            $('#linkage-itemtrackingnum').val(res.data[0].pfollowcode);
+            $('#linkage-projectmodel').val(res.data[0].pcartype);
+            if (res.data[0].ots1 != null) {
+                $('#OTS1').val(new Date(res.data[0].ots1).Format("yyyy-MM-dd"));
+            }
+            if (res.data[0].ots2 != null) {
+                $('#OTS2').val(new Date(res.data[0].ots2).Format("yyyy-MM-dd"));
+            }
+            if (res.data[0].ns != null) {
+                $('#NS').val(new Date(res.data[0].ns).Format("yyyy-MM-dd"));
+            }
+            if (res.data[0].stime != null) {
+                $('#S').val(new Date(res.data[0].stime).Format("yyyy-MM-dd"));
+            }
+            if (res.data[0].soptime != null) {
+                $('#SOP').val(new Date(res.data[0].soptime).Format("yyyy-MM-dd"));
+            }
+        } else {
+            $('#linkage-itemtrackingnum').val('');
+            $('#linkage-projectmodel').val('');
+            $('#OTS1').val('');
+            $('#OTS2').val('');
+            $('#NS').val('');
+            $('#S').val('');
+            $('#SOP').val('');
+        }
+    },{
+            method: 'POST'
+        })
+
+    }
+
+    /**
+     * @Desc 搜索下拉面板数据获取
+     * @Date 2018-12-21 17:13:08
+     * @Author qitian
+     */
+    function loadSearch() {
+        var admin = layui.adc,
+            form = layui.form,
+            config = layui.config,
+            // by ma 2019-04-15
+            formSelects = layui.formSelects;
+        admin.req('/api/ppap/taskorder/taskorderStayItems', {userId: config.getAccount().userId}, function (res) {
+            if (res.respCode == 200 && res.data) {
+                for (var selName in res.data) {
+                    $('#'+selName).empty();
+                    //多选项
+                    if (multipleItems.includes(selName)) {
+                        admin.initMultipleSelect(selName, res.data[selName]
+                        );
+                        // by ma 2019-04-15
+                    }else if(formSelectItems.includes(selName)){
+                        //formSelects 多选  [itemtrackingnum、projectmodel]
+                        var selectData = [];
+                        for(var i=0;i<res.data[selName].length;i++){
+                            var value = res.data[selName];
+                            var selectObj = {};
+                            selectObj.name = value[i];
+                            selectObj.value = value[i];
+                            selectData.push(selectObj);
+                        }
+                        //formSelect-v4下拉树插件渲染
+                        formSelects.data(''+selName+'', 'local', {
+                            arr: selectData
+                        });
+                        formSelects.btns(''+selName+'', []);
+
+                    } else {//单选项
+                        if (res.data[selName].length > 0) {
+                            $('#'+selName).append('<option value="">全部</option>');
+                            // for (let item of res.data[selName]) {
+                            for (var i = 0,len = res.data[selName].length; i < len;i++) {
+                                var item = res.data[selName][i];
+                                if (item) {
+                                    if (history && history[selName] == item) {
+                                        $('#'+selName).append('<option value="'+item+'" selected>'+item+'</option>');
+                                    } else {
+                                        $('#'+selName).append('<option value="'+item+'">'+item+'</option>');
+                                    }
+                                }
+                            }
+                        } else {
+                            $('#'+selName).append('<option value="">没有选项</option>');
+                        }
+                        form.render('select');
+                        $('#itemtrackingnum').next().find('dd').on('click',function (e) {
+                            linkageByProjectItem();
+                        })
+                    }
+
+                }
+            }
+        }, {
+            method: 'POST'
+        });
+    };
+    /**
+     * 面板 显示
+     * @param _this  当前元素this
+     */
+    function openPanel(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('收起');
+                $('#flex1').next().next().removeClass('hide');
+                $('#flex1').next().addClass('hide');
+            } else {
+                $('#flex2').html('收起')
+                $('#flex2').next().next().removeClass('hide');
+                $('#flex2').next().addClass('hide');
+            }
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('展开');
+                $('#flex1').next().next().addClass('hide');
+                $('#flex1').next().removeClass('hide');
+            } else {
+                $('#flex2').html('展开')
+                $('#flex2').next().next().addClass('hide');
+                $('#flex2').next().removeClass('hide');
+            }
+        }
+    }
+
+    //跳转PPAP创建
+    function jump() {
+        var table = layui.table,
+            admin = layui.adc,
+            layer = layui.layer;
+        var checkStatus = table.checkStatus('table-task'); //test即为基础参数id对应的值
+        var rows = checkStatus.data; //获取选中行的数据
+        var longth = checkStatus.data.length; //获取选中行数量，可作为是否有选中行的条件
+        if (longth == 0 || longth > 1) {
+            layer.alert('请选择一条数据', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        }
+        //updated by qitian 2019-01-08 21:21
+        admin.req('/api/ppap/taskorder/getTaskInfoByLast', {taskorderkey: rows[0].taskorderkey}, (res) => {
+            if (res.respCode == 200 && res.data) {
+            var processId = rows[0].processId;
+            var nodeid = rows[0].nodeid;
+            if (processId == ''){
+                location.replace('./index.html#!task-second-ppap-supplier?' + rows[0].taskorderkey + '&null' + '&' + (nodeid ? nodeid : 'null'));
+            } else {
+                location.replace('./index.html#!task-second-ppap-supplier?' + rows[0].taskorderkey + '&' + processId + '&' + (nodeid ? nodeid : 'null'));
+            }
+        } else {
+            location.replace('./index.html#!ppap_supplier?' + rows[0].taskorderkey + '&' + rows[0].processId+'&' + rows[0].nodeid);
+        }
+    },{method: 'POST'});
+        //location.replace('./index.html#!project10?' + rows[0].taskorderkey +  '&' +rows[0].processId);
+    }
+    //by ma 2019/03/10 selectFrom 添加鼠标悬停显示全部
+    $("#ppap_task_sheet_agent").on('mouseover','.xm-form-checkbox',function (){
+        var text = $(this).find("span").text()
+        $(this).attr('title',text)
+    });
+
+</script>
+</body>
+</html>

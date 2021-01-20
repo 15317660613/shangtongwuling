@@ -1,0 +1,1552 @@
+<!--
+File   : ppap_gystjwj.html
+Created: Sunday September 30th 2018 1:00:29 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Thursday November 1st 2018 10:31:46 am
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 供应商提交文件
+-----
+HISTORY:
+-->
+<style>
+    /*by ma 2019-03-17*/
+    .layui-table-cell{
+        white-space:initial
+
+    }
+    .jiryongchexing{
+        width: 180px;
+    }
+    .file-tip {
+        /*position: absolute;*/
+        bottom: 20px;
+        font-size:10px;
+        font-family:PingFangSC-Semibold;
+        font-weight:600;
+        color:rgba(148,148,148,0.5);
+        line-height:14px;
+        right: 14px;
+        max-width: calc(100% - 28px);
+        word-wrap: break-word;
+        text-overflow:ellipsis;
+    }
+
+    .select-inline{
+        width: 150px;
+    }
+    .layui-form-label{
+        width: 120px;
+    }
+    .layui-input-block{
+        margin-left: 150px;
+    }
+    .jichufrom .layui-form-label{
+        width: 90px;
+    }
+    .jichufrom .layui-input-block{
+        margin-left: 120px;
+    }
+    .layui-table-cell{
+        height: auto;
+    }
+    .noInput{
+        width:150px;
+        height:32px;
+        background:rgba(244,251,255,1) !important;
+        border-radius:4px!important;
+        border:1px solid rgba(0,0,0,0.15)!important;
+        padding-left: 10px;
+    }
+    .layui-unselect input{
+        width:164px;
+        height:32px;
+        background:rgba(244,251,255,1) !important;
+        border-radius:4px!important;
+        border:1px solid rgba(0,0,0,0.15)!important;
+        padding-left: 10px;
+    }
+    /*.fileimg:hover{*/
+        /*opacity:0.4;*/
+    /*}*/
+    .layui-inline{
+        margin-top: 7.5px;
+        margin-bottom: 7.5px;
+    }
+    .input-style-s {
+        height: 32px;
+        background: rgba(244, 251, 255, 1);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding-left: 10px;
+        width: 90px;
+    }
+    .input-style {
+        height: 32px;
+        background: rgba(244, 251, 255, 1);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding-left: 10px;
+    }
+    .input-style-small{
+        width:168px;
+        height:32px;
+        background:rgba(244,251,255,1);
+        border-radius:4px;
+        border:1px solid rgba(0,0,0,0.15);
+        padding-left: 10px;
+    }
+    .input-style-big{
+        width:218px;
+        height:32px;
+        background:rgba(244,251,255,1);
+        border-radius:4px;
+        border:1px solid rgba(0,0,0,0.15);
+        padding-left: 10px;
+    }
+    .title-style{
+        width:390px;
+        height:29px;
+        font-size:22px;
+        font-family:PingFangSC-Semibold;
+        font-weight:600;
+        color:rgba(51,51,51,1);
+        line-height:30px;
+        margin: 0 auto;
+    }
+    .btn-save{
+        width:81px;
+        height:27px;
+        background:rgba(255,255,255,1);
+        border-radius:2px;
+        border:1px solid rgba(39,169,247,1);
+        color:rgba(39,169,247,1);
+    }
+    .btn-save:hover{
+        color:rgba(39,169,247,1)!important;
+    }
+    .btn-submit{
+        width:81px;
+        height:27px;
+        background:rgba(39,169,247,1);
+        border-radius:2px;
+        color:rgba(255,255,255,1);
+    }
+    .title-red{
+        color:red;
+    }
+
+
+</style>
+<div class="layui-row layui-col-space15" id="ppap_gystjwj">
+
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12" style="background-color: white;height: 89px;">
+        <div class="layui-col-md4" style="padding-top: 19px">
+            <a style="width: 56px;height: 56px;">
+                <img src="../../assets/images/left_logo.png" alt="../../assets/images/left_logo.png">
+            </a>
+            <a style="width: 56px;height: 56px;">
+                <img src="../../assets/images/left_copy.png" alt="../../assets/images/left_copy.png">
+            </a>
+        </div>
+        <div class="layui-col-md4" style="text-align: center;padding-top: 30px">
+            <p class="title-style">PPAP生产件批准单</p>
+        </div>
+        <div class="layui-col-md4" style="text-align: right;padding-top: 30px">
+            <p>表单编号：<span id="taskordernumber"></span></p>
+            <p style="position: relative;top: 5px;">状态：<span style="color:#FF8C85">供应商文件待提交</span></p>
+        </div>
+    </div>
+    <!--基础信息-->
+    <div class="layui-col-md12  z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote" style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">基础信息</blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px"onclick="shouqi(this)"><img src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px"onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <!--输入框-->
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px">
+                <div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">SQE:</label>
+                        <div class="layui-input-block">
+                            <input type="text"    id="jc_sqe" disabled autocomplete="off" class="layui-input noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">SQE业务科室:</label>
+                        <div class="layui-input-block">
+                            <input type="text"  id="jc_sqyewukeshi"  disabled  autocomplete="off" class="layui-input noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">创建日期:</label>
+                        <div class="layui-input-block">
+                            <input type="text"  id="jc_createDate" disabled  autocomplete="off" class="layui-input noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">PE:</label>
+                        <div class="layui-input-block">
+                            <input type="text"  id="jc_pe" disabled autocomplete="off" class="layui-input noInput">
+                        </div>
+                    </div>
+                    <!--by ma 2019/03/09 注释掉tdc-->
+                    <!--<div class="layui-form-item layui-inline">-->
+                        <!--<label class="layui-form-label">TDC业务科室:</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<input type="text" id="jc_tdc" disabled  autocomplete="off" class="layui-input noInput">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <!--表格-->
+                <div>
+                    <table class="layui-table" style="text-align: center">
+                        <colgroup>
+
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">项目单编号</th>
+                            <th style="text-align: center">车型/机型</th>
+                            <th style="text-align: center;width: 120px;">借用车型/机型</th>
+                            <th style="text-align: center">供应商代码</th>
+                            <th style="text-align: center;width: 200px">供应商名称</th>
+                            <th style="text-align: center">PPAP文件提交等级</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="jc_xiangmubiao">xxxxx</td>
+                            <td id="jc_xiangmuchexing">xxxxx</td>
+                            <td id="jc_jieyongchexing" width="120px">xxxxx</td>
+                            <td id="jc_gysCode">xxxxx</td>
+                            <td id="jc_gysName">xxxxx</td>
+                            <td id="jc_ppaptijiaodengji">xxxxx</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label" style="width: 100px"><span class="title-red">*</span>PPAP提交原因:</label>
+                        <div class="layui-input-block" style="margin-left: 130px">
+                            <input type="text" style="width: 250px" id="jc_ppaptijiaoyuanyin" disabled autocomplete="off" class="layui-input noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label" style="width: 100px">说明:</label>
+                        <div class="layui-input-block" style="margin-left: 130px">
+                            <input type="text" style="width: 250px" id="jc_shuoming" disabled autocomplete="off" class="layui-input noInput">
+                        </div>
+                    </div>
+                </div>
+                <div class="jichufrom">
+                    <form class="layui-form">
+
+
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>供应商地址:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" id="gysAddress" placeholder="请输入供应商地址" autocomplete="off" class="noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>工厂名:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" id="gcName" placeholder="请输入工厂名" autocomplete="off" class="noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>工厂地址:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="title" id="gcAddress" placeholder="请输入工厂地址" autocomplete="off" class="noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>提交日期:</label>
+                        <div class="layui-input-block">
+                            <input type="text"  id="tijiaoDate" placeholder="请输入提交日期" readonly autocomplete="off" class="noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>供应商代表姓名:</label>
+                        <div class="layui-input-block">
+                            <input type="text"  id="sqrName" placeholder="请输入供应商姓名" autocomplete="off" class="noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>供应商代表职务:</label>
+                        <div class="layui-input-block" >
+                            <select id="sqrJob" >
+                                <option value="">请选择</option>
+                                <option value="总经理">总经理</option>
+                                <option value="质量副总">质量副总</option>
+                                <option value="技术副总">技术副总</option>
+                                <option value="采购副总">采购副总</option>
+                                <option value="项目经理">项目经理</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label"><span class="title-red">*</span>邮箱:</label>
+                        <div class="layui-input-block">
+                            <input type="text"  id="email" placeholder="请输入邮箱" autocomplete="off" class="noInput">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">说明:</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="description" placeholder="请输入说明" autocomplete="off" class="noInput">
+                        </div>
+                    </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--零件批准状态-->
+    <div class="layui-col-md12 z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote" style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">零件批准状态</blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px"onclick="shouqi(this)"><img src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px"onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px;padding-bottom: 10px">
+                <!--表格-->
+                <div>
+                    <table class="layui-table" style="text-align: center">
+                        <colgroup>
+                            <col width="70">
+                            <col width="100">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">序号</th>
+                            <th style="text-align: center">来源</th>
+                            <th style="text-align: center">最新零件号</th>
+                            <th style="text-align: center">零件名称</th>
+                            <th style="text-align: center">旧零件号</th>
+                            <th style="text-align: center">最新EWO</th>
+                            <th style="text-align: center;width: 150px"><span class="title-red">*</span>图纸版本</th>
+                            <th style="text-align: center"><span class="title-red">*</span>图纸批准日期</th>
+                            <th style="text-align: center">备注</th>
+                        </tr>
+                        </thead>
+                        <tbody id="partsStatusTbody">
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--PPAP文件要求提交列表-->
+    <div class="layui-col-md12 z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote" style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">PPAP文件要求提交列表</blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px"onclick="shouqi(this)"><img src="../../assets/images/arrowup.png" alt="UP"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px"onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png" alt="DOWN"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px;padding-bottom: 10px">
+                <!--表格-->
+                <div id="fileDiv">
+                    <table class="layui-table" id="ppapFile" lay-filter="ppapFile"></table>
+                    <!-- 李乾野 2020-07-21 增加红色标注 -->
+                    <div class="layui-inline" style="position: relative;left:calc(100% - 565px)">
+                        <span style="color: #FF0000;font-size: small">最新版PPAP提交文件及供应商质量保证承诺文档模板下载处</span>
+                    </div>
+                    <!--杨琴琴 2019-04-29 去掉注内容-->
+                    <!--<p>S和R必须提交文件，*可不必提交</p>-->
+                    <div class="layui-inline" style="position: relative;left:calc(100% - 550px)">
+                        <button  onclick="doDownZip()"    class="layui-btn layui-btn-sm layui-btn-normal"  lay-filter="btn_reset"
+                                 lay-submit>下载文件提交模板</button>
+                    </div>
+                    <!--杨琴琴 2019-04-30 新增新建按钮-->
+                    <div class="layui-inline" style="position: relative; float:right;">
+                        <button  onclick="ppapAdd()"  class="layui-btn layui-btn-sm layui-btn-normal"  lay-filter="btn_ppapAdd"
+                                 lay-submit>新建</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--供应商质量保证承诺 李乾野 Start-->
+    <div class="layui-col-md12 z-main">
+        <div style="background-color: white">
+            <div style="height: 49px">
+                <blockquote class="layui-elem-quote" style="background-color: white;border-left:5px solid  #86CCFF;margin-bottom: 0px;padding-top: 9px;padding-bottom: 9px;position:relative;top: 5px;font-weight:600;font-size: 16px">供应商质量保证承诺</blockquote>
+                <div style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px"onclick="shouqi(this)"><img src="../../assets/images/arrowup.png" alt="UP"></a>
+                </div>
+                <div class="layui-hide" style="position: absolute;top: 22px;right: 20px">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px"onclick="zhankai(this)"><img src="../../assets/images/arrowdown.png" alt="DOWN"></a>
+                </div>
+            </div>
+            <hr style="margin-top: 0px">
+            <div class="zhankai" style="margin-right: 10px;margin-left: 10px;padding-bottom: 10px">
+
+                <table class="layui-table" id="promiseTab">
+                    <colgroup>
+                        <col width="80">
+                        <col width="300">
+                        <col width="800">
+                        <col width="150">
+                        <col width="150">
+                    </colgroup>
+                    <thead>
+                    <tr style="height: 40px">
+                        <th style="text-align: center;color: #449BEA">
+                            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-numbers">序号</div>
+                        </th>
+                        <th style="text-align: center;color: #449BEA">文件名</th>
+                        <th style="color: #449BEA">&emsp;附件</th>
+                        <th style="text-align: center;color: #449BEA">文件确认</th>
+                        <th style="text-align: center;color: #449BEA">说明</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="height: 50px" id="promise_tr">
+                        <td align="center">1</td>
+                        <td style="text-align: center">供货质量保证承诺</td>
+                        <td>
+                            <div class="layui-table-cell" id="promise">
+                            </div>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="text-align: center" id="promiseFileCheckResult"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="text-align: center" id="promiseFileCheckRemark"></span>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px" id="checkplan_tr">
+                        <td align="center">2</td>
+                        <td style="text-align: center">产品出厂检验、年度试验（检验）计划</td>
+                        <td>
+                            <div class="layui-table-cell" id="checkplan">
+                            </div>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="text-align: center" id="checkplanFileCheckResult"></span>
+                        </td>
+                        <td style="text-align: center">
+                            <span style="text-align: center" id="checkplanFileCheckRemark"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--供应商质量保证承诺 李乾野 End-->
+
+    <div class="layui-col-md12">
+        <div class="layui-col-md4">
+            &nbsp;
+        </div>
+        <div class="layui-col-md4" style="text-align: center">
+            <div class="layui-inline">
+                <button  class="layui-btn layui-btn-sm" style="width:81px;height:27px;background:rgba(255,255,255,1);border-radius:2px;border:1px solid rgba(202,202,202,1);color:rgba(148,148,148,1);" lay-filter="btn_Reset"
+                         lay-submit>重置</button>
+            </div>
+            <div class="layui-inline">
+                <button  class="layui-btn layui-btn-sm btn-save" lay-filter="btn_Save"
+                         lay-submit>保存</button>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-sm btn-submit" lay-filter="btn_Sumbit"
+                        lay-submit>提交</button>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            &nbsp;
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 表单辅助方法，用于启动表单时的权限控制和数据获取与提交 -->
+<script src="../../assets/js/ADCFormDesignHelper.js"></script>
+
+<script>
+    var _param = window.location.hash;//路径参数---declared by qitian 20181216
+    if (_param.indexOf('?') === -1) {
+        window.history.go(-1);
+    }
+    _param = _param.split('?')[1];
+    var param = _param.split('&')[0];
+    var processId = _param.split('&')[1];
+
+    var NODE_ROLE='';
+    //by ma 2019/03/09
+    //设置全局变量 上传文件后刷新表格定位到上传行
+    var fileHeightFlag = '';
+
+
+    // 初始化 layui
+    var table,form,config,laydate,admin,upload;
+    layui.use(['table','laydate','upload','element'], function () {
+         table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            laydate = layui.laydate,
+            element = layui.element; 
+             upload = layui.upload;
+             element.render();
+        ppapQuery();
+
+        //ppap查询
+        function ppapQuery() {
+            $.ajax({
+                url: admin.formatUrl('/api-edu/ppap/taskorder/supplierCommitFileSelect'),
+                method: "POST",
+                dataType: 'json',
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify({taskorderkey: param}),
+                success: function (data) {
+                    if (data.respCode != -1 && data.data) {
+                        data = admin.redefinedForObject(data)
+                        data = data.data;
+                        if (data==null || data ==''){
+                            return;
+                        }
+                        console.log(data)
+                        //基础信息
+                        $('#taskordernumber').html(data.taskorderPPAPBasicInfo.taskordernumber)
+                        $('#jc_sqe').val(data.taskorderPPAPBasicInfo.partslibraryEO.sqe);
+
+                        switch (parseInt(data.taskorderEO.currentstatus)) {
+                            case 1:
+                                NODE_ROLE = 'SQE工程师1';
+                                break;
+                            case 2:
+                                NODE_ROLE = '供应商';
+                                break;
+                            case 3:
+                                NODE_ROLE = 'SQE工程师2';
+                                break;
+                            case 4:
+                                NODE_ROLE = 'SQE主管';
+                                break;
+                            case 5:
+                                NODE_ROLE = 'SQE经理';
+                                break;
+                            case 6:
+                                NODE_ROLE = 'SQE总监';
+                                break;
+                        }
+                        selectSQEName(data.taskorderPPAPBasicInfo.partslibraryEO.sqe);
+
+                        $('#jc_sqyewukeshi').val(data.taskorderPPAPBasicInfo.sqoffice);
+
+                        if(data.taskorderPPAPBasicInfo.submitdate != null && data.taskorderPPAPBasicInfo.submitdate!=''){
+                            $('#jc_createDate').val(new Date(data.taskorderPPAPBasicInfo.submitdate).Format('yyyy-MM-dd'));
+                        }
+
+                        $('#jc_pe').val(data.taskorderPPAPBasicInfo.partslibraryEO.responsiblepe);
+                        selectPEName(data.taskorderPPAPBasicInfo.partslibraryEO.responsiblepe);
+//                         by ma 2019/0309 注释掉tdc
+//                        $('#jc_tdc').val(data.taskorderPPAPBasicInfo.tdcchiefengineer);
+                        $('#jc_xiangmubiao').text(data.taskorderPPAPBasicInfo.partslibraryEO.itemtrackingnum);
+                        $('#jc_xiangmuchexing').text(data.taskorderPPAPBasicInfo.partslibraryEO.projectmodel);
+                        $('#jc_jieyongchexing').text(data.taskorderPPAPBasicInfo.partslibraryEO.borrow);
+                        $('#jc_gysCode').text(data.taskorderPPAPBasicInfo.partslibraryEO.suppliernum);
+                        $('#jc_gysName').text(data.taskorderPPAPBasicInfo.partslibraryEO.suppliername);
+                        $('#jc_isPPAP').val(data.taskorderPPAPBasicInfo.partslibraryEO.isopentrialproductionaudit);
+                        $('#jc_jihuaDate').text(data.taskorderPPAPBasicInfo.partslibraryEO.pilotproductionplan);
+                        $('#jc_ppaptijiaodengji').text("等级"+data.taskorderPPAPBasicInfo.partslibraryEO.filesubmissionleveltime);
+                        $('#jc_ppaptijiaoyuanyin').val(data.taskorderEO.ppapsubmitreason);
+                        $('#jc_shuoming').val(data.taskorderEO.description);
+                        //hr
+                        $('#gysAddress').val(data.taskorderEO.supplieraddress);
+                        $('#gcName').val(data.taskorderEO.factoryname);
+                        $('#gcAddress').val(data.taskorderEO.factoryaddress);
+
+
+                        if(data.taskorderEO.submitdate != null && data.taskorderEO.submitdate != ''){
+                            $('#tijiaoDate').val(new Date(data.taskorderEO.submitdate).Format("yyyy-MM-dd"));
+                        }
+                        $('#sqrName').val(data.taskorderEO.supplierrepresentname);
+                        $('#sqrJob').val(data.taskorderEO.supplierrepresentposition);
+                        $('#email').val(data.taskorderEO.email);
+                        $('#description').val(data.taskorderEO.supplierdescription);
+                        form.render('select');
+                        //
+                        //
+                        // $('#pz_sqe').val(data.taskorderPPAPBasicInfo.partslibraryEO.sqe);
+                        // for(var i=0; i<data.approvaltaskEOS.length;i++){
+                        //     if(data.approvaltaskEOS[i].otherrequirement!=''&& data.approvaltaskEOS[i].otherrequirement !=null){
+                        //         $('#pz_tijiaoDate').val(data.approvaltaskEOS[i].approvaltime);
+                        //     }
+                        //
+                        // }
+
+
+                        //零件批准状态
+                        var strHtml = '';
+                        $('#partsStatusTbody').empty();
+                        for (var i = 0; i < data.taskpartsEOS.length; i++) {
+                            var drawingapprovaldate = ''
+                            if(data.taskpartsEOS[i].drawingapprovaldate != null && data.taskpartsEOS[i].drawingapprovaldate !='' ){
+                                drawingapprovaldate = new Date(data.taskpartsEOS[i].drawingapprovaldate).Format("yyyy-MM-dd");
+                            }
+
+                            strHtml += '<tr>\n' +
+                                '                            <td>' + (i + 1) + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].source + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].latestpartnum + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].partsname + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].initialpartnum + '</td>\n' +
+                                '                            <td>' + data.taskpartsEOS[i].latestewo + '</td>\n' +
+                                '                            <td><input  type="text" value="'+data.taskpartsEOS[i].drawingversion+'" maxlength="50" name="drawingversion" onchange="partsUpdate('+data.taskpartsEOS[i].taskpartskey+',this)" class="input-style banbeng"></td>\n' +
+                                '                            <td style="width: 159px"><input value="'+drawingapprovaldate+'" name="drawingapprovaldate" id="partspzDate" pid="'+data.taskpartsEOS[i].taskpartskey+'"  readonly type="text" class="input-style datetime"></td>\n' +
+                                '                            <td class="partsKey" id="parts_'+data.taskpartsEOS[i].taskpartskey+'">'+ data.taskpartsEOS[i].remark + '</td>\n' +
+                                '                        </tr>'
+
+                        }
+                        $('#partsStatusTbody').append(strHtml);
+
+
+                        //PPAP文件要求提交列表
+                        queryFileTable();
+
+                        // 李乾野 渲染供应商上传的承诺文件表格 Start
+                        loadPromiseFile();
+                        // 李乾野 渲染供应商上传的承诺文件表格 Start
+
+                        //reloadTable();
+                        $(".datetime").each(function (index, item) {
+                            // laydate.render({
+                            //     elem: this
+                            // }
+                            var key = $(this).attr('pid');
+                            //修改零件添加日期
+                            laydate.render({
+                                elem: this
+                                ,done: function(value, date, endDate){
+
+                                    var dataAll = {
+                                        drawingapprovaldate:value,
+                                        taskpartskey:key
+                                    };
+                                    admin.req('/api-edu/ppap/taskparts/updateParts', dataAll, function (data) {
+
+                                    }, {
+                                        method: 'POST'
+                                    });
+
+                                }
+                            })
+                        })
+                        $(".layui-input-date").each(function (index, item) {
+                            laydate.render({
+                                elem: this
+                            });
+
+                        })
+
+
+                    }
+
+
+
+                }
+
+
+            });
+        }
+
+
+
+
+        //根据SQE主键查SQE名称
+        function selectSQEName(sqeName) {
+            var data = {
+                userId : sqeName
+            }
+            $.ajax({
+                type: 'GET',
+                url: admin.formatUrl('/api-edu/sys/hpm05user'),
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    //获取userId
+                    if (data.respCode != -1) {
+                        $('#jc_sqe').val(data.data[0].userName);
+                    }
+                }
+            });
+        }
+        //根据PE主键查PE名称
+        function selectPEName(peName) {
+            if (peName == null || peName == '' || peName == 'undefined') {
+                $('#jc_pe').val('');
+            } else {
+                var data = {
+                    userId : peName
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: admin.formatUrl('/api-edu/sys/hpm05user'),
+                    data: data,
+                    dataType: "json",
+                    success: function (data1) {
+                        //获取userId
+                        if (data1.respCode != -1) {
+                            $('#jc_pe').val(data1.data[0].userName);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        /**
+         *
+         *保存
+         */
+        form.on('submit(btn_Save)', function () {
+            var supplieraddress =$("#gysAddress").val();
+            var factoryname =$("#gcName").val();
+            var factoryaddress =$("#gcAddress").val();
+            var submitdate =$("#tijiaoDate").val();
+            var supplierrepresentname =$("#sqrName").val();
+            var supplierrepresentposition =$("#sqrJob").val();
+            var email =$("#email").val();
+            var description =$("#description").val();
+
+
+            var dataAll = {
+                "supplieraddress":supplieraddress,
+                "factoryname":factoryname,
+                "factoryaddress":factoryaddress,
+                "submitdate":submitdate,
+                "supplierrepresentname":supplierrepresentname,
+                "supplierrepresentposition":supplierrepresentposition,
+                "email":email,
+                "supplierdescription":description,
+                "taskorderkey":param,
+                "userId":config.getAccount().userId,
+
+            }
+            admin.req('/api-edu/ppap/taskorder/supplierCommitFileSave', dataAll, function (data) {
+                if(data.message == "保存成功"){
+                    tes.alert('' + data.message, {icon:1
+                    });
+                }else {
+                    tes.alert('' + data.message, {icon:5
+                    });
+                }
+
+            }, {
+                method: 'POST'
+            });
+
+        });
+
+        /**
+         * 重置
+         */
+        form.on('submit(btn_Reset)', function () {
+            var  dataAll={
+                "integer": param,
+                "userId":config.getAccount().userId
+
+            }
+
+            admin.req('/api-edu/ppap/taskorder/supplierCommitFileReset', dataAll, function (data) {
+                // ppapQuery();
+                // location.reload();
+                // tes.alert('' + data.message, {
+                // });
+                if (data.respCode != -1) {
+                    location.reload();
+                }
+            }, {
+                method: 'POST'
+            });
+
+        });
+
+        /**
+         * 提交
+         */
+        form.on('submit(btn_Sumbit)', function () {
+            //提交验证
+
+            var gysAddress = $('#gysAddress').val();
+            var gcName = $('#gcName').val();
+            var gcAddress = $('#gcAddress').val();
+            var tijiaoDate = $('#tijiaoDate').val();
+            var sqrName = $('#sqrName').val();
+            var sqrJob = $('#sqrJob').val();
+            var email = $('#email').val();
+            var description = $('#description').val();
+            if(gysAddress == ''){
+                tes.alert('供应商地址不能为空',{icon:5})
+                return;
+            }
+            if(gysAddress.length>100){
+                tes.alert('供应商地址不能大于100个字节',{icon:5})
+                return;
+
+            }
+            if(gcName == ''){
+                tes.alert('工厂名不能为空',{icon:5})
+                return;
+            }
+            if(gcName.length > 300){
+                tes.alert('工厂名不能大于50个字节',{icon:5})
+                return;
+
+            }
+            if(gcAddress == ''){
+                tes.alert('工厂地址不能为空',{icon:5})
+                return;
+            }
+            if(gcAddress.length > 100){
+                tes.alert('工厂地址不能大于100个字节',{icon:5})
+                return;
+            }
+            // if(tijiaoDate == ''){
+            //     tes.alert('提交日期不能为空')
+            //     return;
+            // }
+            if(sqrName == ''){
+                tes.alert('供应商代表姓名为空',{icon:5})
+                return;
+            }
+            if(sqrName.length > 50){
+                tes.alert('供应商姓名不能大于50个字节',{icon:5})
+                return;
+
+            }
+            if(sqrJob == ''){
+                tes.alert('供应商职务不能为空',{icon:5})
+                return;
+            }
+            if(sqrJob.length >20){
+                tes.alert('供应商职务不能大于20个做字节',{icon:5})
+                return;
+            }
+            if(email == ''){
+                tes.alert('邮箱不能为空',{icon:5})
+                return;
+            }
+
+            var myreg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-_.])+[A-Za-z\d]{2,4}$/;
+            if(!myreg.test(email)) {
+                tes.alert('请输入正确的邮箱', {
+                    icon: 5
+                });
+                return false;
+            }
+            var result = true;
+            $("input[name='drawingversion']").each(function (index, item) {
+
+                if($(this).val()==''){
+                    tes.alert('请输入图纸版本', {
+                        icon: 5
+                    });
+                    result = false;
+                    return false;
+                }
+            })
+            if (!result)
+                return;
+            var results = true;
+            $("input[name='drawingapprovaldate']").each(function (index, item) {
+                if($(this).val()==''){
+                    tes.alert('请输入图纸批准日期', {
+                        icon: 5
+                    });
+                    results = false;
+                    return false
+                }
+
+            })
+            if (!results)
+                return;
+
+            //验证，文件提交列表
+            var fileTable= layui.table.cache.ppapFile;
+            for(var i=0;i<fileTable.length;i++){
+                 if(fileTable[i].fileidentifier == 'S' || fileTable[i].fileidentifier == 'R'){
+                     if(fileTable[i].submitfileEOList.length == 0){
+                         tes.alert("文件要求提交列表，第"+(i+1)+"行未上传文件，请完善数据",{icon:5})
+                         return;
+                     }
+                 }
+            }
+
+            // 验证供应商质量保证承诺表格是否上传了文件 By 李乾野 2020/07/02 Start
+            var tablePromiseObj=document.getElementById('promise');
+            var promiseElementCount = tablePromiseObj.childElementCount;
+            if (promiseElementCount < 4){
+                tes.alert("供应商质量保证承诺，第1行未上传文件，请完善数据",{icon:5})
+                return;
+            }
+            var tablecheckplanObj=document.getElementById('checkplan');
+            var checkplanElementCount = tablecheckplanObj.childElementCount;
+            if (checkplanElementCount < 4){
+                tes.alert("供应商质量保证承诺，第2行未上传文件，请完善数据",{icon:5})
+                return;
+            }
+            // 验证供应商质量保证承诺表格是否上传了文件 By 李乾野 2020/07/02 End
+
+            var supplieraddress =$("#gysAddress").val();
+            var factoryname =$("#gcName").val();
+            var factoryaddress =$("#gcAddress").val();
+            var submitdate =$("#tijiaoDate").val();
+            var supplierrepresentname =$("#sqrName").val();
+            var supplierrepresentposition =$("#sqrJob").val();
+            var email =$("#email").val();
+            var description =$("#description").val();
+            var dataAll = {
+                "supplieraddress":supplieraddress,
+                "factoryname":factoryname,
+                "factoryaddress":factoryaddress,
+                "submitdate":submitdate,
+                "supplierrepresentname":supplierrepresentname,
+                "supplierrepresentposition":supplierrepresentposition,
+                "email":email,
+                "supplierdescription":description,
+                "taskorderkey":param,
+                "userId":config.getAccount().userId,
+            }
+            //updated by qitian 2019-01-10 6:42 先调用业务数据保存接口，成功后再调用流程接口
+            admin.req('/api-edu/ppap/taskorder/supplierCommitFileCommit', dataAll, function (data) {
+                if (data.respCode != -1) {
+                    var processReqData = {
+                        "comment":"",
+                        "taskId": processId,
+                        "variables":{
+                            "approve":"agree"
+                        },
+                        "assignee":config.getAccount().userId,
+                        "type":1
+                    };
+                    admin.req('/api-edu/activiti-task/complete-include-candidate', processReqData, function (res) {
+                        if (res.respCode != -1) {
+                            location.replace('./index.html#!suppliersubmission?'+config.getAccount().userId);
+                        } else {
+                            tes.alert('提交失败', {icon: 5});
+                        }
+                    }, {
+                        method: 'POST',
+                        error: function () {
+                            //流程接口失败，需要将业务数据中的当前节点重置
+                        }
+                    });
+                } else {
+                    tes.alert(data.message, {icon: 5});
+                }
+            }, {
+                method: 'POST'
+            });
+            
+
+        });
+
+    });
+
+
+    /**
+     *
+     * 刷新文件table
+     */
+    function queryFileTable() {
+
+        admin.req('/api-edu/ppap/taskorder/supplierCommitFileSelect',{taskorderkey: param}, function (data) {
+            var heightMax = data.data.submitfiletemplateVOS.length * 82+100
+            var tableIns = table.render({
+                elem: '#ppapFile'
+                ,height: heightMax
+                ,data: data.data.submitfiletemplateVOS
+                ,limit:data.data.submitfiletemplateVOS.length
+                ,page: false //开启分页
+                ,cols: [[ //表头
+                    {type:'numbers', title: '序号', width:80}
+                    /*杨琴琴 2019-04-29 去掉文件标识*/
+                    /*,{field: 'fileidentifier', title: '文件标识', width:120,align:'center',templet:function (d) {
+                        if(d.fileidentifier == "*"){
+                            return '<div style="background-color: #c2c2c2">*</div>'
+                        }else if(d.fileidentifier == "S"){
+                            return '<div style="background-color:#F0F8FF">S</div>'
+                        }else {
+                            return '<div>R</div>'
+                        }
+
+                        }}*/
+                    ,{field: 'filename', title: '文件名',width:300}
+                    ,{title: '附件',templet:function (d) {
+                            var str ='';
+                            /*杨琴琴  2019-04-30 不通过文件标红*/
+                        for (var i=0;i<d.submitfileEOList.length;i++){
+                        	var fileName = d.submitfileEOList[i].uploadfilename;
+                        	if(fileName.indexOf(".xls")!=-1||fileName.indexOf(".xlsx")!=-1||fileName.indexOf(".doc")!=-1||fileName.indexOf(".docx")!=-1||fileName.indexOf(".ppt")!=-1||fileName.indexOf(".pptx")!=-1){
+                        		str +='<div class="layui-inline" style="position: relative;height: 42px;width: 60px;margin-bottom: 23px;">\n' +
+                                '        <div class="fileimg">\n' +
+                                '            <a href="'+admin.formatUrl('/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(d.submitfileEOList[i].filepath)+'')+'"  download="" title="'+d.submitfileEOList[i].uploadfilename+'"><i class="layui-icon" style="font-size: 30px">&#xe655;</i></a>\n' +
+                                '            <a style="position: absolute;left: 30px;top: 7px;cursor:pointer;title:"预览";"  target="_blank" title=\'' +d.submitfileEOList[i].uploadfilename + '\' href="https://view.officeapps.live.com/op/view.aspx?src='+admin.formatUrl('https://sq.sgmw.com.cn/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(d.submitfileEOList[i].filepath)+'')+'"  download="">' +
+                                '                                       预览\n' +
+                                '            </a>\n' +
+                                '            <a style="position: absolute;left: 7px;top: 25px;cursor:pointer;title:"删除";" onclick="deleteFile('+d.submitfileEOList[i].submitfilekey+')"><i class="layui-icon" style="font-size: 14px;color: black;">&#x1006;</i></a>\n' +
+                                '        </div>\n' +
+                                '    </div>'
+
+                            }else{
+                           		str +='<div class="layui-inline" style="position: relative;height: 42px;width: 35px;margin-bottom: 23px;">\n' +
+                                   '        <div class="fileimg">\n' +
+                                   '            <a href="'+admin.formatUrl('/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(d.submitfileEOList[i].filepath)+'')+'"  download="" title="'+d.submitfileEOList[i].uploadfilename+'"><i class="layui-icon" style="font-size: 30px">&#xe655;</i></a>\n' +
+                                   '            <a style="position: absolute;left: 7px;top: 25px;cursor:pointer;title:"删除";" onclick="deleteFile('+d.submitfileEOList[i].submitfilekey+')"><i class="layui-icon" style="font-size: 14px;color: black;">&#x1006;</i></a>\n' +
+                                   '        </div>\n' +
+                                   '    </div>'
+							}
+                            
+
+                        }
+                          /*  return str + '<div class="layui-inline">' +
+                                '  <form id="uploadForm" enctype="multipart/form-data">\n' +
+                                '        <input type="file" id="file_'+d.filekey+'" name="img" multiple="multiple"/>\n' +
+                                '        <input type="button" value="上传" onclick="doUpload('+d.filekey+')">\n' +
+                                '    </form></div>\n'*/
+                          //by ma 2019-03-13
+                            return str +'<button type="button" class="layui-btn layui-btn-normal upfile" style="float: right;margin-top: 10px;margin-bottom: 10px;"  id="test_'+d.filekey+'">\n' +
+                                '  <i class="layui-icon">&#xe67c;</i>上传文件\n' +
+                                '</button><br /><label class="file-tip" title="文件支持：doc、docx、xls、xlsx、ppt、pptx、png、gif、pdf、jpg、bmp、tif、rar、zip;单个文件大小不超过200M">文件支持：doc、docx、xls、xlsx、ppt、pptx、png、gif、pdf、jpg、bmp、tif、rar、zip、wps;单个文件大小不超过200M</label>'
+
+                        }
+                    }
+                    /*杨琴琴 2019-04-29 新增文件确认列 显示文件是否通过   说明回显SQE提交内容  不可编辑*/
+                    ,{field: 'singlefilestatus',  title: '文件确认', width:120,align:'center', templet:function (d) {
+                        if(d.singlefilestatus == null || d.singlefilestatus == '') {
+                            return '';
+                        }else if(d.singlefilestatus == 2) {
+                            return '不通过';
+                        } else {
+                            return '通过';
+                        }
+                    }}
+                    ,{field: 'note',width:120, title: '说明',align:'center'}
+                    /*,{field: 'note',width:120, title: '说明(非必需)',templet:function (d) {
+                        if(d.note == null || d.none == 'null'){
+                            return '<input type="text" value="" onchange="fileUpdate('+d.filekey+',this)" class="input-style-s">'
+                        }else {
+                            return '<input type="text" value="'+d.note+'" onchange="fileUpdate('+d.filekey+',this)" class="input-style-s">'
+                        }
+
+                        }
+                    }*/
+                ]]
+                ,done: function(res, curr, count){
+//                     $(".upfile").each(function (index, item) {
+//                         var id = item.id.split('_')[1];
+//                         upload.render({
+//                             elem: this//绑定元素
+//                             ,url: admin.formatUrl('/api-edu/ppap/taskorder/supplierCommitFileUpload') //上传接口
+//                             ,accept: 'file' //普通文件
+//                             //by ma 2019-03-13
+//                             ,exts: 'doc|docx|xls|xlsx|ppt|pptx|png|gif|pdf|jpg|JPG|bmp|tif|rar|zip|wps'
+//                             ,size: '200000'
+//                             ,multiple: false
+//                             ,number: 1
+//                             ,data: {filekey: id}
+//                             ,done: function(res, index, upload){
+//                                 //by ma 2019/03/09 上传文件记录上传按钮id，为了刷新表格定位到上传行
+//                                 fileHeightFlag  = this.item.attr("id");
+//                                 //udated by qitian 2019-01-15
+//                                 if (res.respCode != -1) {
+//                                     queryFileTable();
+//                                 } else {
+//                                    tes.alert('上传失败，请稍后重试',{icon: 5});
+//                                 }
+//                             }
+//                             ,error: function(){
+//                                 //请求异常回调
+//                             }
+//                         })
+//                     })
+                    
+                     $(".upfile").each(function (index, item) {
+                        var id = item.id.split('_')[1];
+                		var state = 'pending'; // 上传文件初始化
+                		$("#"+item.id).on('click', function() {
+                    		window.fileParrentId = id;
+               				admin.open({
+               	                type: 1,
+               	                title: '文件上传列表',
+               	                path: 'components/parts/add_files.html',
+               	                offset: 'auto',
+               	                area: ['700px', '500px'],
+               					end:function () {
+               						queryFileTable();
+               	                }
+               	            });
+                		});
+                    })
+                    //修改bug如果文件确认为不通过，需要把当前行背景色标红
+                    for(var i=0;i<res.data.length;i++){
+                        if(res.data[i].singlefilestatus == 2){
+                            $("tr[data-index = " + i + "]").css("background-color","#efacac")
+                        }
+                    }
+
+
+                    //by ma 2019/03/09 上传文件刷新表格定位到上传行
+                    setTimeout(function () {
+                        if(fileHeightFlag!="") {
+                            $('#'+fileHeightFlag+'')[0].scrollIntoView();
+                            fileHeightFlag = "";
+                        }
+                    },1);
+
+                }
+            });
+
+        }, {
+            method: 'POST'
+        });
+
+    }
+
+    /**
+     * @Desc 点击上传文件按钮
+     * @Param id
+     * @Date 2020-07-02
+     * @Author 李乾野
+     */
+        function jumpToAddfile(id) {
+            // debugger;
+            window.fileParrentId = id;
+            window.taskno = document.getElementById("taskordernumber").innerText;
+            admin.open({
+                type: 1,
+                title: '文件上传列表',
+                path: 'components/parts/add_promise_files.html',
+                offset: 'auto',
+                area: ['700px', '500px'],
+                success:function(){
+                },
+                end:function () {
+                    loadPromiseFile()
+                }
+            });
+        }
+
+    /**
+     * @Desc 加载已经上传的文件信息
+     * @Param data: 表格数据数组
+     * @Date 2020-07-02
+     * @Author 李乾野
+     */
+        function loadPromiseFile() {
+        var taskOrderNumber = {
+            taskordernumber: document.getElementById("taskordernumber").innerText,
+        }
+            $.ajax({
+                type: 'POST',
+                url: admin.formatUrl('/api-edu/ppap/taskorder/supplierCommitPromiseFileSelect'),
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(taskOrderNumber),
+                dataType: "json",
+                success: function (result) {
+                    var promiseFiles = result.data.supplierpromisefileVOS;
+                    // debugger;
+                    var elempromise = '';
+                    var elemcheck = '';
+                    var testdivpromise = document.getElementById("promise");
+                    var checkplan = document.getElementById("checkplan");
+                    for (var i=0;i<promiseFiles.length;i++) {
+                        // alert(promiseFiles[0].uploadfilename);
+                        if (promiseFiles[i].filetype == 1){
+                        	//修改bug如果文件确认为不通过，需要把当前行背景色标红
+                        	if(promiseFiles[i].singlefilestatus == 2){
+                                $("#promise_tr").css("background-color","#efacac")
+                            }
+                            if (promiseFiles[i].uploadfilename.indexOf(".xls")!=-1||promiseFiles[i].uploadfilename.indexOf(".xlsx")!=-1||promiseFiles[i].uploadfilename.indexOf(".doc")!=-1||promiseFiles[i].uploadfilename.indexOf(".docx")!=-1||promiseFiles[i].uploadfilename.indexOf(".ppt")!=-1||promiseFiles[i].uploadfilename.indexOf(".pptx")!=-1){
+                                elempromise += '<div class="layui-inline" style="position: relative;height: 42px;width: 60px;margin-bottom: 23px;">\n' +
+                                '        <div class="fileimg">\n' +
+                                '            <a href="'+admin.formatUrl('/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(promiseFiles[i].filepath)+'')+'"  download="" title="'+promiseFiles[i].uploadfilename+'"><i class="layui-icon" style="font-size: 30px">&#xe655;</i></a>\n' +
+                                '            <a style="position: absolute;left: 30px;top: 7px;cursor:pointer;title:"预览";"  target="_blank" title=\'' +promiseFiles[i].uploadfilename + '\' href="https://view.officeapps.live.com/op/view.aspx?src='+admin.formatUrl('https://sq.sgmw.com.cn/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(promiseFiles[i].filepath)+'')+'"  download="">' +
+                                '                                       预览\n' +
+                                '            </a>\n' +
+                                '            <a style="position: absolute;left: 7px;top: 25px;cursor:pointer;title:"删除";" onclick="deletePromiseFile('+promiseFiles[i].id+')"><i class="layui-icon" style="font-size: 14px;color: black;">&#x1006;</i></a>\n' +
+                                '        </div>\n' +
+                                '    </div>'
+                            }else{
+                                elempromise += '<div class="layui-inline" style="position: relative;height: 42px;width: 35px;margin-bottom: 23px;">\n' +
+                                    '        <div class="fileimg">\n' +
+                                    '            <a href="'+admin.formatUrl('/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(promiseFiles[i].filepath)+'')+'"  download="" title="'+promiseFiles[i].uploadfilename+'"><i class="layui-icon" style="font-size: 30px">&#xe655;</i></a>\n' +
+                                    '            <a style="position: absolute;left: 7px;top: 25px;cursor:pointer;title:"删除";" onclick="deletePromiseFile('+promiseFiles[i].id+')"><i class="layui-icon" style="font-size: 14px;color: black;">&#x1006;</i></a>\n' +
+                                    '        </div>\n' +
+                                    '    </div>'
+                            }
+
+                            // 李乾野 2020-07-22 重新载入文件确认信息 Start\
+                            if ($("#promiseFileCheckResult").html() == null || $("#promiseFileCheckResult").html() == ''){
+                                document.getElementById("promiseFileCheckResult").innerText = promiseFiles[i].checkresult;
+                            }
+                            if ($("#promiseFileCheckRemark").html() == null || $("#promiseFileCheckRemark").html() == ''){
+                                document.getElementById("promiseFileCheckRemark").innerText = promiseFiles[i].note;
+                            }
+                            // 李乾野 2020-07-22 重新载入文件确认信息 End
+
+                        }else{
+                        	//修改bug如果文件确认为不通过，需要把当前行背景色标红
+                        	if(promiseFiles[i].singlefilestatus == 2){
+                                $("#checkplan_tr").css("background-color","#efacac")
+                            }
+                            if (promiseFiles[i].uploadfilename.indexOf(".xls")!=-1||promiseFiles[i].uploadfilename.indexOf(".xlsx")!=-1||promiseFiles[i].uploadfilename.indexOf(".doc")!=-1||promiseFiles[i].uploadfilename.indexOf(".docx")!=-1||promiseFiles[i].uploadfilename.indexOf(".ppt")!=-1||promiseFiles[i].uploadfilename.indexOf(".pptx")!=-1){
+                                elemcheck += '<div class="layui-inline" style="position: relative;height: 42px;width: 60px;margin-bottom: 23px;">\n' +
+                                    '        <div class="fileimg">\n' +
+                                    '            <a href="'+admin.formatUrl('/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(promiseFiles[i].filepath)+'')+'"  download="" title="'+promiseFiles[i].uploadfilename+'"><i class="layui-icon" style="font-size: 30px">&#xe655;</i></a>\n' +
+                                    '            <a style="position: absolute;left: 30px;top: 7px;cursor:pointer;title:"预览";"  target="_blank" title=\'' +promiseFiles[i].uploadfilename + '\' href="https://view.officeapps.live.com/op/view.aspx?src='+admin.formatUrl('https://sq.sgmw.com.cn/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(promiseFiles[i].filepath)+'')+'"  download="">' +
+                                    '                                       预览\n' +
+                                    '            </a>\n' +
+                                    '            <a style="position: absolute;left: 7px;top: 25px;cursor:pointer;title:"删除";" onclick="deletePromiseFile('+promiseFiles[i].id+')"><i class="layui-icon" style="font-size: 14px;color: black;">&#x1006;</i></a>\n' +
+                                    '        </div>\n' +
+                                    '    </div>'
+                            }else{
+                                elemcheck += '<div class="layui-inline" style="position: relative;height: 42px;width: 35px;margin-bottom: 23px;">\n' +
+                                    '        <div class="fileimg">\n' +
+                                    '            <a href="'+admin.formatUrl('/api-edu/ppap/taskorder/downloadFile?filepath='+encodeURIComponent(promiseFiles[i].filepath)+'')+'"  download="" title="'+promiseFiles[i].uploadfilename+'"><i class="layui-icon" style="font-size: 30px">&#xe655;</i></a>\n' +
+                                    '            <a style="position: absolute;left: 7px;top: 25px;cursor:pointer;title:"删除";" onclick="deletePromiseFile('+promiseFiles[i].id+')"><i class="layui-icon" style="font-size: 14px;color: black;">&#x1006;</i></a>\n' +
+                                    '        </div>\n' +
+                                    '    </div>'
+                            }
+
+                            // 李乾野 2020-07-22 重新载入文件确认信息 Start\
+                            if ($("#checkplanFileCheckResult").html() == null || $("#checkplanFileCheckResult").html() == ''){
+                                document.getElementById("checkplanFileCheckResult").innerText = promiseFiles[i].checkresult;
+                            }
+                            if ($("#checkplanFileCheckRemark").html() == null || $("#checkplanFileCheckRemark").html() == ''){
+                                document.getElementById("checkplanFileCheckRemark").innerText = promiseFiles[i].note;
+                            }
+                            // 李乾野 2020-07-22 重新载入文件确认信息 End
+
+                        }
+                    }
+                     testdivpromise.innerHTML = elempromise + '<button type="button" class="layui-btn layui-btn-normal upfile" style="float: right;margin-top: 10px;margin-bottom: 10px;"  onclick="jumpToAddfile(\'1\')" >\n' +
+                         '  <i class="layui-icon">&#xe67c;</i>上传文件\n' +
+                         '</button><br /><label class="file-tip" title="文件支持：pdf、png、gif、jpg、bmp、tif;单个文件大小不超过200M">文件支持：pdf、png、gif、jpg、bmp、tif;单个文件大小不超过200M</label>';
+                     checkplan.innerHTML = elemcheck + '<button type="button" class="layui-btn layui-btn-normal upfile" style="float: right;margin-top: 10px;margin-bottom: 10px;"  onclick="jumpToAddfile(\'2\')" >\n' +
+                         '  <i class="layui-icon">&#xe67c;</i>上传文件\n' +
+                         '</button><br /><label class="file-tip" title="文件支持：xls、xlsx、et、ett;单个文件大小不超过200M">文件支持：xls、xlsx、et、ett;单个文件大小不超过200M</label>';
+                }
+            })
+        }
+
+
+    /**
+     * @Desc 删除承诺文件
+     * @Param id
+     * @Date 2020-07-02
+     * @Author 李乾野
+     */
+    function deletePromiseFile(id) {
+        var arr = [];
+        arr.push(id);
+        var dataAll={
+            integerList:arr
+        }
+        admin.req('/api-edu/ppap/taskorder/promiseFileDelete', dataAll, function (data) {
+            loadPromiseFile();
+
+        }, {
+            method: 'POST'
+        });
+
+    }
+
+    /**
+     * 删除文件
+     */
+    function deleteFile(id) {
+        var arr = [];
+        arr.push(id);
+        var dataAll={
+            integerList:arr
+        }
+        admin.req('/api-edu/ppap/taskorder/fileDelete', dataAll, function (data) {
+            queryFileTable();
+
+        }, {
+            method: 'POST'
+        });
+
+    }
+
+    /**
+     * 批量上传文件
+     */
+
+    function doUpload(id){
+        layui.use(['table','laydate'], function () {
+            var table = layui.table,
+                form = layui.form,
+                config = layui.config,
+                admin = layui.adc,
+                laydate = layui.laydate;
+            var formData = new FormData();
+            formData.append('files', $('#file_'+id+'')[0].files[0]);
+            formData.append('filekey', id);
+            $.ajax({
+                url: admin.formatUrl('/api-edu/ppap/taskorder/supplierCommitFileUpload'),
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.respCode != -1) {
+                        // 刷新table
+                        queryFileTable()
+                        tes.alert(data.message, {
+                            icon: 1
+                        })
+                    }
+                },
+                error: function (data) {
+                    tes.alert('上传失败', {
+                        icon: 5
+                    })
+                }
+            });
+        })
+    }
+
+
+    /**
+     *
+     * layui上传文件
+     */
+    function layUpload(id) {
+        upload.render({
+            elem: '#test1' //绑定元素
+            ,url: admin.formatUrl('/api-edu/ppap/taskorder/supplierCommitFileUpload') //上传接口
+            ,data: {id: id}
+            ,done: function(res){
+                //上传完毕回调
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        })
+
+    }
+
+
+
+
+    /**
+     * 零件零件实时保存
+     * @param th
+     */
+    function partsUpdate(id,th) {
+        layui.use(['table','laydate'], function () {
+            var table = layui.table,
+                form = layui.form,
+                config = layui.config,
+                admin = layui.adc,
+                laydate = layui.laydate;
+            var dataAll = {};
+            var key = $(th).attr('name');
+            //验证图纸版本必须为整形
+            if(key=='drawingversion'){
+                //updated by qitian 2019-01-08 21:21
+                if(!!$(th).val()){
+                	if (!/^[0-9]+$/.test($(th).val())) {
+                    	tes.alert("图纸版本只能输入正整数",{icon:5});
+                    }
+                }
+                
+                if($(th).val().length>50){
+                    tes.alert("保存失败，图纸版本长度不能超过50个字符",{icon:5});
+                    return;
+                }
+            }
+            dataAll[key] = $(th).val();
+            dataAll.taskpartskey=id;
+            console.log(dataAll)
+            admin.req('/api-edu/ppap/taskparts/updateParts', dataAll, function (data) {
+                // tes.alert('' + data.message, {
+                // });
+            }, {
+                method: 'POST'
+            });
+        })
+
+    }
+
+    function fileUpdate(id,th) {
+        layui.use(['table','laydate'], function () {
+            var table = layui.table,
+                form = layui.form,
+                config = layui.config,
+                admin = layui.adc,
+                laydate = layui.laydate;
+            var note = $(th).val();
+            var dataAll={
+                "filekey": id,
+                "note": note,
+                "taskorderkey": param
+            }
+
+
+            admin.req('/api-edu/ppap/submitfiletemplate/modifySubmitfiletemplate', dataAll, function (data) {
+                // tes.alert('' + data.message, {
+                // });
+            }, {
+                method: 'POST'
+            });
+        })
+
+    }
+
+    function doDownZip(){
+        window.location.href = admin.formatUrl('/api-edu/ppap/taskorder/downloadZip');
+    }
+
+    /**
+     * 撤回
+     *
+     * */
+    function callbackCurrentStatus () {
+        var admin = layui.adc;
+        var config = layui.config;
+        admin.req('/api-edu/ppap/taskorder/resetTaskStatus', {taskorderkey: param, rolename: NODE_ROLE, taskordertype: 2}, function (data) {
+            layer.alert('提交失败', {
+                icon: 5
+                ,btn:['关闭']
+            });
+        }, {
+            method: 'POST'
+        });
+    }
+
+    //面板收起
+    function shouqi(th) {
+        $(th).parents('.z-main').find('.zhankai').addClass('layui-hide');
+        $(th).parent().addClass('layui-hide');
+        $(th).parent().siblings('div').removeClass('layui-hide');
+    }
+    //面板展开
+    function zhankai(th) {
+        $(th).parents('.z-main').find('.zhankai').removeClass('layui-hide');
+        $(th).parent().addClass('layui-hide');
+        $(th).parent().siblings('div').removeClass('layui-hide');
+    }
+
+    /**
+     * alert关闭按钮
+     * @type {{alert: tes.alert}}
+     */
+    var  tes = {
+        alert:function (m,d) {
+            layer.alert(m,{
+                btn:['关闭'],
+                icon:''+d.icon+''
+            })
+        }
+    }
+
+
+    /**
+     *
+     * input文字超出tip
+     */
+    $("#ppap_gystjwj").on('mouseover','input[type=text]',function (){
+        var textWidths = textWidth($(this).val());
+        var inputWidth = $(this).width();
+        if($(this).val() != ""){
+            if(textWidths > inputWidth){
+                // layer.tips($(this).val(),$(this),{ tips: [1, '#3595CC'],
+                //     time: 3000});
+                layer.tips($(this).val(),$(this));
+            }
+        }
+    });
+    function textWidth (text){
+        var sensor = $('<pre>'+ text +'</pre>').css({display: 'none'});
+        $('body').append(sensor);
+        var width = sensor.width();
+        sensor.remove();
+        return width;
+    }
+
+    /*杨琴琴 2019-04-30*/
+    // ppap文件要求提交添加
+    function ppapAdd() {
+        admin.popupCenter({
+            title: '新增文件列表',
+            path: 'components/tpl/ppap_gys_create_file.html',
+            success: function () {
+                $('.btn2').remove();
+            }
+        });
+    }
+
+</script>

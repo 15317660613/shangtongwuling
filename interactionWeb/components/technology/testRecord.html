@@ -1,0 +1,1146 @@
+<link rel="stylesheet" href="assets/css/technology.css">
+<style>
+    .layui-table-edit {
+        width: 100% !important;
+    }
+    
+    @media screen and (min-width: 1920px) {
+        .layui-table-main {
+            max-height: 310px;
+        }
+    }
+    
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+        .layui-table-main {
+            max-height: 310px;
+        }
+    }
+    
+    @media screen and (min-width: 1360px) and (max-width: 1439px) {
+        .layui-table-main {
+            max-height: 310px;
+        }
+    }
+    
+    .layui-card-header a {
+        float: right;
+        font-size: 14px;
+        color: #949494;
+        font-weight: 500;
+        margin-left: 24px;
+    }
+</style>
+<div class="layui-row content-margin">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+
+            <!-- 卡片容器 -->
+            <div class="layui-card-body bottom-border-line">
+                <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+                    <!--<div class=""><label id="flex2">展开</label><i class="layui-icon layui-icon-down"></i><i class="layui-icon layui-icon-up hide"></i>&lt;!&ndash;<img src="../../assets/images/arrowdown.png" /><img class="hide" src="../../assets/images/arrowup.png" />&ndash;&gt;</div>-->
+                    <div class="line">查询条件</div>
+                    <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+				  src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+                </div>
+                <!-- 数据表格顶部控制栏 -->
+                <div id='search-form' class="layui-form" style="display: none">
+                    <div class="layui-form-item table-top-bar">
+                        <div class=" layui-row ">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">零件号</span>
+                                <div class="layui-inline">
+                                    <i class="layui-icon icon-search"></i>
+
+                                    <select name="partsCodeList" id='partsCodeList' xm-select="partsCodeList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">零件名称</span>
+                                <div class="layui-inline">
+                                    <select name="partsNameList" id='partsNameList' xm-select="partsNameList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">车型/机型</span>
+                                <div class="layui-inline">
+                                    <select name="carTypeList" id="carTypeList" placeholder="请选择" xm-select="carTypeList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class=" layui-row " style="margin-top: 15px">
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">特性名称</span>
+                                <div class="layui-inline">
+                                    <select name="characterNameList" id="characterNameList" placeholder="请选择" xm-select="characterNameList" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <span class="layui-form-label">控制图类型</span>
+                                <div class="layui-inline">
+                                    <select name="charType" id="charType" placeholder="请选择" xm-select="charType" xm-select-skin="normal" xm-select-direction="down" xm-select-search>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 search-item1">
+                                <div class="pull-right btn-form">
+                                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_ability" id="search_ability"><span>查询</span></button>
+                                    <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="reset_ability"><span>重置</span></button>
+                                    <button style="width: auto" class="layui-btn layui-btn-primary layui-btn-sm manage " id="btn-export-total"><i class="layui-icon layui-icon-release"></i>总清单导出</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card-body bottom-border-line">
+                <div class="layui-card-header">
+                    <div class="line">特性一览</div>
+                </div>
+                <div style="padding: 10px">
+                    <table id="tableContent-ability" lay-filter="tableContent-ability"></table>
+                </div>
+
+            </div>
+            <div class="layui-card-body" style="padding: 10px">
+                <div class="layui-card-header">
+                    <div class="line pull-left">检测记录</div>
+                </div>
+                <div class="btn-area" style="margin-top: 10px">
+                    <div>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage" id="btn-add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-edit"><i class="layui-icon layui-icon-edit"></i>编辑</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-delete"><i class="layui-icon layui-icon-delete"></i>删除</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-upload"><i class="layui-icon layui-icon-upload-circle"></i>导入</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-export"><i class="layui-icon layui-icon-download-circle"></i>导出</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-download"><i class="layui-icon layui-icon-download-circle"></i>下载导入模板</button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary manage " id="btn-refresh"><i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                    </div>
+
+                </div>
+                <table id="tableContent-charadetection" lay-filter="tableContent-charadetection"></table>
+                <!-- <div class="search-item1" id="save-area" style="display: none;">
+                    <div class=" pull-right">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="btn-save" id="btn-save"><span>保存</span></button>
+                        <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit id="btn-cancel"><span>取消</span></button>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 初始化 layui
+    layui.use(['laydate', 'table', 'formSelects', 'upload'], function() {
+        var table = layui.table,
+            form = layui.form,
+            formSelects = layui.formSelects,
+            laydate = layui.laydate,
+            config = layui.config,
+            upload = layui.upload,
+            recordTable = '',
+            processId = '', //表格选中的id
+            chartType = '', //图类型
+            sampleSize = 0, //表格选中的最大样本数
+            sampleDataCount = 0, //真正样本数
+            currentState = 0, //0：无 1：新增 2：编辑
+            admin = layui.admin;
+
+        laydate.render({
+            elem: '#inspectDate',
+            range: true,
+            type: 'date',
+        });
+        //查询车型、机型
+        setSelectData('abilitysetting/cartype', 'carTypeList');
+        //控制图类型
+        setSelectData('abilitysetting/chart', 'charType');
+        //特性名称
+        setSelectData('abilitysetting/character', 'characterNameList');
+        admin.req('/api-edu/interaction/abilitysetting/parts', {}, function(res) {
+
+            var nameArray = [];
+            var codeArray = [];
+            for (var i = 0; i < res.data.length; i++) {
+                nameArray.push({
+                    name: res.data[i].partsName,
+                    remark: res.data[i].partsCode,
+                    carType: res.data[i].carType,
+                    value: res.data[i].partsName
+                });
+                codeArray.push({
+                    name: res.data[i].partsCode,
+                    value: res.data[i].partsCode,
+                    carType: res.data[i].carType,
+                    remark: res.data[i].partsName
+                });
+            }
+            formSelects.data('partsNameList', 'local', {
+                arr: nameArray
+            });
+            formSelects.data('partsCodeList', 'local', {
+                arr: codeArray
+            });
+            // formSelects.on 位置很重要，不能放在外面 否则切换tab会出现 formSelects.on 不生效情况
+            formSelects.on('partsNameList', function(id, vals, val, isAdd) {
+                //必须延时
+                serCartypeValue('partsNameList', 'partsCodeList');
+
+            });
+            formSelects.on('partsCodeList', function(id, vals, val, isAdd) {
+                serCartypeValue('partsCodeList', 'partsNameList');
+            });
+        }, {
+            method: 'get'
+        });
+
+
+
+        //上传
+        var uploadInst = upload.render({
+            elem: '#btn-upload' //绑定元素
+                ,
+            url: '/api-edu/interaction/charadetection/excel/upload/' //上传接口
+                ,
+            accept: 'file',
+            done: function(res) {
+                //上传完毕回调
+                if (res.respCode == 0) {
+                    admin.req('/api-edu/interaction/charadetection/excel/import/' + res.data.fileId, {}, function(res) {
+                        layer.closeAll();
+                        if (res.respCode == 0) {
+                            layer.msg('导入成功！', {
+                                icon: 1
+                            });
+                            table.reload("tableContent-charadetection");
+                        } else {
+                            return layer.msg('导入失败：' + res.message, {
+                                icon: 5
+                            });
+
+                        }
+
+                    }, {
+                        method: 'post'
+                    });
+                } else {
+                    return layer.msg('导入失败：' + res.message, {
+                        icon: 5
+                    });
+
+                }
+            },
+            error: function() {
+                //请求异常回调
+            }
+        });
+
+        //导总清单导出
+        $('#btn-export-total').on('click', function() {
+            admin.downloadByAlink('/api-edu/interaction/charadetection/excel/export/total', '总清单导出')
+        });
+        //模板下载
+
+        $('#btn-download').on('click', function() {
+            debugger
+            if (processId!= null && processId != "") {
+                admin.downloadByAlink('/api-edu/interaction/charadetection/template/export/' + processId, '模板下载')
+            } else {
+                admin.downloadByAlink('/api-edu/interaction/charadetection/template/exportNew', '模板下载')
+            }
+        });
+
+        //全部刷新
+        $('#btn-refresh-total').on('click', function() {
+            $('#search_ability').click();
+        });
+
+        //导出
+        $('#btn-export').on('click', function() {
+            admin.downloadByAlink('/api-edu/interaction/charadetection/excel/export/sample/' + processId, '检测记录导出')
+        });
+
+        $('#btn-delete').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-charadetection');
+
+            if (checkStatus.data.length != 1) {
+                return layer.msg('请选择1个要删除的数据', {
+                    icon: 0
+                });
+            }
+            if (checkStatus.data[0].id) {
+                layer.confirm('确定删除该数据吗？', {
+                    icon: 3,
+                    title: '提示'
+                }, function() {
+                    admin.req('/api-edu/interaction/charadetection/sample/' + checkStatus.data[0].id, {}, function(data) {
+                        if (data.ok) {
+                            layer.msg('删除成功！', {
+                                icon: 1
+                            });
+                            renderTablecharadetection({
+                                processId: processId
+                            }, false);
+                        } else {
+                            return layer.msg('删除检测记录失败：' + data.message, {
+                                icon: 5
+                            });
+                        }
+                    }, {
+                        method: 'delete'
+                    });
+                });
+
+            } else {
+                var data = table.cache['tableContent-charadetection'];
+                var index = checkStatus.data[0].addIndex;
+                data.splice(index, 1);
+                renderAddRecordTable(data);
+            }
+
+
+        });
+        $('#btn-refresh').on('click', function() {
+
+                renderTablecharadetection({
+                    processId: processId
+                }, false);
+            })
+            //编辑检测记录
+
+        $('#btn-edit').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-charadetection');
+            if (checkStatus.data.length == 0) {
+                return layer.msg('请至少选择1项检测记录', {
+                    icon: 0
+                });
+            } else if (checkStatus.data.length > 1) {
+                return layer.msg('请至多选择1项检测记录', {
+                    icon: 0
+                });
+            }
+            popMenu("edit", checkStatus.data[0])
+                // currentState = 2;
+                // renderTablecharadetection({
+                //     processId: processId
+                // }, true);
+                // $('#save-area').show();
+                // $('#btn-upload').hide();
+                // $('#btn-export').hide();
+                // $('#btn-download').hide();
+                // $('#btn-refresh').hide();
+
+        });
+        //取消
+
+        $('#btn-cancel').on('click', function() {
+
+            $('#save-area').hide();
+            $('#btn-upload').show();
+            $('#btn-export').show();
+            $('#btn-refresh').show();
+            $('#btn-download').show();
+            currentState = 0;
+            renderTablecharadetection({
+                processId: processId
+            }, false);
+
+        });
+        //新增
+        $('#btn-add').on('click', function() {
+            var checkStatus = table.checkStatus('tableContent-ability');
+            if (checkStatus.data.length != 1) {
+                return layer.msg('请选择1个需要新增的实物质量检测计划', {
+                    icon: 0
+                });
+            }
+            // $('#btn-upload').hide();
+            // $('#btn-export').hide();
+            // $('#btn-refresh').hide();
+            // $('#btn-download').hide();
+            // $('#save-area').show();
+            // var data = table.cache['tableContent-charadetection'];
+            // var newData = {
+            //     inspectDate: "",
+            //     inspectTime: "",
+            //     productDate: "",
+            //     productLineName: "",
+            //     sample1: "",
+            //     sample2: "",
+            //     sample3: "",
+            //     sample4: "",
+            //     sample5: "",
+            //     sample6: "",
+            //     sample7: "",
+            //     sample8: "",
+            //     sample9: ""
+            // };
+            // debugger
+            // var tableData = [];
+            // if (data.length > 0) {
+            //     //表明是第一次点击新增
+            //     if (data[0].id) {
+            //         newData.addIndex = 0;
+            //         tableData.push(newData);
+
+            //     } else {
+            //         tableData = data;
+            //         newData.addIndex = tableData.length;
+            //         tableData.push(newData);
+            //     }
+            // } else {
+            //     newData.addIndex = 0;
+            //     tableData.push(newData);
+
+            // }
+            // currentState = 1;
+            // renderAddRecordTable(tableData);
+            popMenu('add')
+        });
+
+        // 弹出层
+        function popMenu(handleType, data) {
+            var params = {};
+            var title = "新增检测记录";
+            if (handleType === 'edit') {
+                title = '编辑检测记录';
+                params = data;
+            }
+            // } else {
+            //     params.planVersion = 1;
+            //     params.sampleSize = 1;
+            // }
+            params.handleType = handleType;
+            admin.popupCenter({
+                title: title,
+                area: ['450px', '70%'],
+                align: 'center',
+                path: 'components/tpl/testRecord_add_tpl.html',
+                finish: function() {
+                    // table.reload('tableContent-ability')
+                    renderTable(null, processId);
+
+                },
+                success: function() {
+                    admin.req('/api-edu/interaction/stopLineAnalysis/PLineName', {}, function(res) {
+                        var elem = $("#productLineName");
+                        elem.empty();
+                        elem.append('<option value=""></option>');
+                        for (var i = 0; i < res.data.length; i++) {
+                            elem.append('<option value="' + res.data[i]['plineCode'] + '">' + res.data[i]['plineName'] + '</option>')
+                        }
+                        form.render('select');
+                        form.val("testRecord", {
+                            "productLineCode": params.productLineCode // "name": "value"
+                        })
+
+                    }, {
+                        method: 'get'
+                    });
+                    $("#processId").val(processId);
+                    $("#chartType").val(chartType);
+                    var html = "";
+                    if (handleType === 'edit') {
+                        for (var i = 1; i <= sampleDataCount; i++) {
+                            html += "<div class=\"layui-form-item sample\">" +
+                                "<label class=\"layui-form-label\">" + (chartType == 'XmR控制图' ? i == 1 ? "<span style=\"color: red;\">*</span>" : "" : "<span style=\"color: red;\">*</span>") + "样本值" + i + "</label>" +
+                                "<div class=\"layui-input-block\">" +
+                                "<input name=\"sample" + i + "\" placeholder=\"请输入\" class=\"layui-input\" autocomplete=\"off\" " + (chartType == 'XmR控制图' ? i == 1 ? "lay-verify=\"required|validNumber\">" : "lay-verify=\"validNumber\">" : "lay-verify=\"required|validNumber\">") +
+                                "</div>" +
+                                "</div>";
+                            // $("#sample" + i).show();
+                            // $('.layui-tpl-container input[name="sample' + j + '"]').attr("lay-verify", "required validNumber");
+                        }
+                    } else {
+                        for (var i = 1; i <= sampleSize; i++) {
+                            html += "<div class=\"layui-form-item sample\">" +
+                                "<label class=\"layui-form-label\"><span style=\"color: red;\">*</span>样本值" + i + "</label>" +
+                                "<div class=\"layui-input-block\">" +
+                                "<input name=\"sample" + i + "\" placeholder=\"请输入\" class=\"layui-input\" lay-verify=\"required|validNumber\" autocomplete=\"off\">" +
+                                "</div>" +
+                                "</div>";
+                            // $("#sample" + i).show();
+                            // $('.layui-tpl-container input[name="sample' + j + '"]').attr("lay-verify", "required validNumber");
+                        }
+                    }
+                    if (chartType == "XmR控制图") {
+                        html += "<div class=\"layui-form-item\" id=\"addSample\">" +
+                            "<label class=\"layui-form-label\"><i class=\"layui-icon layui-icon-add-circle\" style=\"cursor:pointer\"></i></label>" +
+                            "</div>";
+                        $("#smallDelete").show();
+                    } else {
+                        $("#smallDelete").hide();
+                    }
+                    $("#formItemDiv").append(html);
+
+
+                    // for (var j = sampleSize + 1; j <= 9; j++) {
+                    //     $('.layui-tpl-container input[name="sample' + j + '"]').attr("lay-verify", "");
+                    // }
+
+                    setFormValue(params);
+                    // console.log(params);
+                }
+            });
+        };
+
+        function setFormValue(obj) {
+            var formNames = ['id', 'processId', 'inspectDate', 'productDate', 'inspectTime', 'sample1',
+                'sample2', 'sample3', 'sample4', 'sample5', 'sample6', 'handleType', 'sample7', 'sample8', 'sample9'
+            ];
+            for (var i = 0; i < formNames.length; i++) {
+                if (obj[formNames[i]]) {
+                    $('.layui-tpl-container input[name="' + formNames[i] + '"]').val(obj[formNames[i]]);
+                } else {
+                    $('.layui-tpl-container input[name="' + formNames[i] + '"]').val('');
+                }
+            }
+        }
+        //保存检测记录
+        // $('#btn-save').on('click', function() {
+        //     var data = [];
+        //     //添加的时候添加表格中的全部数据
+        //     if (currentState == 1) {
+        //         data = table.cache['tableContent-charadetection'];
+        //     }
+        //     //编辑时候只保存修改的表格的行
+        //     else if (currentState == 2) {
+        //         data = table.checkStatus('tableContent-charadetection').data;
+
+        //     }
+        //     if (data.length == 0) {
+        //         return layer.msg('请至少添加一条或编辑一条数据', {
+        //             icon: 0
+        //         });
+        //     }
+        //     layer.confirm('确定保存数据吗？', {
+        //         icon: 3,
+        //         title: '提示'
+        //     }, function() {
+        //         var params = {
+        //             processId: processId,
+        //             proCharaSampleVOList: data
+        //         };
+        //         console.log(JSON.stringify(params))
+        //         admin.req('/api-edu/interaction/charadetection/sample', params, function(data) {
+        //             if (data.ok) {
+        //                 layer.msg('保存成功！', {
+        //                     icon: 1
+        //                 });
+        //                 $('#save-area').hide();
+        //                 $('#btn-upload').show();
+        //                 $('#btn-export').show();
+        //                 $('#btn-refresh').show();
+        //                 renderTablecharadetection({
+        //                     processId: processId
+        //                 }, false);
+        //                 currentState = 0;
+        //                 renderTable({}, processId);
+        //             } else {
+        //                 return layer.msg('保存失败：' + data.message, {
+        //                     icon: 5
+        //                 });
+        //             }
+        //         }, {
+        //             method: 'post'
+        //         });
+        //     });
+
+        // })
+
+
+
+
+        function serCartypeValue(elem1, elem2) {
+            setTimeout(function() {
+                var vals = layui.formSelects.value(elem1);
+                var selected = [],
+                    selectCartype = [];
+                for (var i = 0; i < vals.length; i++) {
+                    selected.push(vals[i].remark);
+                    var carType = vals[i].carType.replace(/&/g, "/");
+                    var carTypes = carType.split('/');
+                    selectCartype = selectCartype.concat(carTypes);
+                }
+                formSelects.value(elem2, selected);
+                formSelects.value('carTypeList', selectCartype);
+
+            }, 100)
+
+        }
+        $('#toggle').on('click', function() {
+            $('#search-form').toggle(200);
+            if ($('#toggle').hasClass('tea_arrowUp')) {
+                $('#toggle').removeClass('tea_arrowUp').addClass('tea_arrowDown');
+                $('#toggle').parent().css('border-bottom', '1px solid #f6f6f6');
+
+            } else {
+                $('#toggle').removeClass('tea_arrowDown').addClass('tea_arrowUp');
+                $('#toggle').parent().css('border-bottom', 'none');
+            };
+
+        })
+        $('#toggle').click();
+        /* formSelect 动态加载
+         *  defaultValue：[1,2]
+         * */
+        function setSelectData(url, id, name, value, defaultValue) {
+            admin.req('/api-edu/interaction/' + url, {}, function(res) {
+                var elem = $('#' + id);
+                elem.empty();
+                elem.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    if (name) {
+                        elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                    } else {
+                        elem.append('<option value="' + res.data[i] + '">' + res.data[i] + '</option>')
+                    }
+                }
+                formSelects.render(id);
+                if (defaultValue) {
+                    formSelects.value(id, defaultValue);
+                    form.render();
+                }
+            }, {
+                method: 'get'
+            });
+        };
+
+
+
+
+
+        function renderDate(id, type, value) {
+            laydate.render({
+                elem: '#' + id,
+                type: type ? type : 'date',
+                value: value ? value : '',
+                done: function(value) {
+
+                    var checkbox = $('#' + id).parent().parent().parent().find('input:checkbox')[0];
+                    $(checkbox).attr('checked', 'checked');
+                    form.render();
+                    $('#' + id).val(value);
+                    $('#' + id).change();
+
+                }
+            });
+
+        }
+
+
+
+        // 渲染左侧表格
+        var renderTable = function(search, checkId) {
+            if (!search) {
+                search = {};
+            }
+            // 渲染表格
+            table.render({
+                elem: '#tableContent-ability',
+                id: 'tableContent-ability',
+                url: admin.formatUrl('/api-edu/interaction/charadetection'),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    if (res.ok) {
+                        if (res.data.list.length > 0) {
+                            if (checkId) {
+                                processId = checkId;
+                            } else {
+                                processId = res.data.list[0].id
+                            }
+                            for (var item of res.data.list) {
+                                if (item.id == processId) {
+                                    item.LAY_CHECKED = true;
+                                    sampleSize = item.sampleSize;
+                                    chartType = item.chartType;
+                                    sampleDataCount = item.sampleDataCount;
+                                } else {
+                                    item.LAY_CHECKED = false
+                                }
+
+                            }
+
+                            renderTablecharadetection({
+                                processId: processId
+                            });
+                        }
+
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.data.count, //解析数据长度
+                            "data": res.data.list //解析数据列表
+                        };
+
+                    }
+
+
+                },
+                cols: [
+                    [{
+                            type: 'radio',
+                            rowspan: '2',
+                            title: '选择'
+                        }, {
+                            field: 'partsCode',
+                            rowspan: '2',
+                            align: 'center',
+                            width: 80,
+                            templet: function(d) {
+                                var value = d.partsCode ? d.partsCode : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件号'
+                        }, {
+                            field: 'partsName',
+                            rowspan: '2',
+                            align: 'center',
+                            templet: function(d) {
+                                var value = d.partsName ? d.partsName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '零件名称'
+                        }, {
+                            field: 'carType',
+                            rowspan: '2',
+                            align: 'center',
+                            templet: function(d) {
+                                var value = d.carType ? d.carType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+                            },
+                            title: '车型/机型'
+                        }, {
+                            field: 'characterName',
+                            rowspan: '2',
+                            align: 'center',
+                            templet: function(d) {
+                                var value = d.characterName ? d.characterName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+                            },
+                            title: '特性名称'
+                        }, {
+                            field: 'toleranceType',
+                            rowspan: '2',
+                            align: 'center',
+                            templet: function(d) {
+                                var value = d.toleranceType ? d.toleranceType : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+                            },
+                            title: '公差类型'
+                         },{
+                            title: '技术要求',
+                            align: 'center',
+                            colspan: '3',
+                        }, {
+                            field: 'lastInspectDate',
+                            align: 'center',
+                            rowspan: '2',
+                            title: '最后更新日期',
+                            templet: function(d) {
+                                var value = d.lastInspectDate ? d.lastInspectDate : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+
+                        }, {
+                            field: 'remark',
+                            rowspan: '2',
+                            title: '备注',
+                            align: 'center',
+                            templet: function(d) {
+                                var value = d.remark ? d.remark : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+
+                        },
+
+                    ],
+                    [{
+                            field: 'thresholdMax',
+                            align: 'center',
+                            title: '上限值',
+
+                        }, {
+                            field: 'thresholdStandard',
+                            align: 'center',
+                            title: '标准值',
+                        }, {
+                            field: 'thresholdMin',
+                            align: 'center',
+                            title: '下限值',
+
+                        }
+
+                    ]
+                ],
+                cellMinWidth: 90,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'page',
+                    limitName: 'pageSize'
+                },
+                where: search
+            });
+        }
+
+
+
+
+        var renderTablecharadetection = function(search, isEdit) {
+                if (!search) {
+                    search = {};
+                }
+
+                var obj = {
+                    elem: '#tableContent-charadetection',
+                    id: 'tableContent-charadetection',
+                    url: admin.formatUrl('/api-edu/interaction/charadetection/sample'),
+                    // 格式化后台返回的数据
+                    parseData: function(res) { //res 即为原始返回的数据
+                        // 返回结果，进行渲染表格
+                        if (!res.ok) {
+                            return layer.msg('查询失败：' + res.message, {
+                                icon: 5
+                            });
+                        } else {
+                            for (var i = 0; i < res.data.list.length; i++) {
+                                res.data.list[i].LAY_CHECKED = false;
+
+                            }
+                            //res.data.list.push([{id:"addtr"}]);
+                            return {
+                                "code": res.respCode, //解析接口状态
+                                "msg": res.message, //解析提示文本
+                                "count": res.data.count, //解析数据长度
+                                "data": res.data.list //解析数据列表
+                            };
+                        }
+                    },
+                    cellMinWidth: 90,
+                    page: {
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                    },
+                    request: {
+                        pageName: 'page',
+                        limitName: 'pageSize'
+                    },
+                    done: function() {
+                        // recordTableDone();
+
+                    },
+                    where: search
+                };
+                obj.cols = getRecordCols(isEdit, sampleDataCount);
+                // 渲染表格
+                recordTable = table.render(obj)
+
+            }
+            //根据不同类型获得检测记录表格
+
+        function getRecordCols(isEdit, sampleLength) {
+            var recordsCols = [
+                [{
+                        type: 'checkbox',
+                        align: 'center',
+                        title: '选择'
+                    }, {
+                        field: 'inspectDate',
+                        align: 'center',
+                        title: '检测日期',
+                        templet: function(d) {
+                            if (d.id) {
+                                var id = d.id;
+                            } else {
+                                var id = d.addIndex;
+                            }
+
+                            var inspectDate = d.inspectDate ? d.inspectDate : '';
+                            if (isEdit) {
+                                var input = '<input autocomplete="off"  class="layui-input edit-date" type="text" name="inspectDate" id="inspectDate_' + id + '"  class="layui-input" value="' + inspectDate + '">'
+                                return input;
+
+                            } else {
+                                return '<div title="' + inspectDate + '"><span>' + inspectDate + '</span></div>'
+                            }
+
+                        }
+                    }, {
+                        field: 'productDate',
+                        align: 'center',
+                        title: '生产日期',
+                        templet: function(d) {
+                            if (d.id) {
+                                var id = d.id;
+                            } else {
+                                var id = d.addIndex;
+                            }
+                            var productDate = d.productDate ? d.productDate : '';
+                            if (isEdit) {
+                                var input = '<input autocomplete="off"   class="layui-input edit-date" type="text" name="productDate" id="productDate' + id + '"  class="layui-input" value="' + productDate + '">'
+                                return input;
+
+                            } else {
+                                return '<div title="' + productDate + '"><span>' + productDate + '</span></div>'
+                            }
+                        }
+                    }, {
+                        field: 'productLineName',
+                        align: 'center',
+                        edit: isEdit ? 'number' : false,
+                        title: '生产线名称'
+                    }, {
+                        field: 'inspectTime',
+                        align: 'center',
+                        title: '检测时间',
+                        templet: function(d) {
+                            if (d.id) {
+                                var id = d.id;
+                            } else {
+                                var id = d.addIndex;
+                            }
+                            var inspectTime = d.inspectTime ? d.inspectTime : '';
+                            if (isEdit) {
+                                var input = '<input autocomplete="off"  class="layui-input edit-date" type="text" name="inspectTime" id="inspectTime_' + id + '"  class="layui-input" value="' + inspectTime + '">'
+                                return input;
+                            } else {
+                                return '<div title="' + inspectTime + '"><span>' + inspectTime + '</span></div>'
+                            }
+                        }
+                    },
+
+                ],
+
+            ];
+            for (var i = 1; i <= sampleLength; i++) {
+                var sample = {
+                    field: 'sample',
+                    align: 'center',
+                    title: '样本值'
+                }
+                sample.title = sample.title + i;
+                sample.field = sample.field + i;
+                if (isEdit) {
+                    sample.edit = 'number';
+                }
+                recordsCols[0].push(sample);
+
+            }
+            return recordsCols;
+
+
+        }
+        /*
+         *
+         * 生成新建记录的表格
+         * */
+        // var renderAddRecordTable = function(data) {
+        //     var obj = {
+        //         elem: '#tableContent-charadetection',
+        //         id: 'tableContent-charadetection',
+        //         cellMinWidth: 90,
+        //         cellMinWidth: 90,
+        //         data: data,
+        //         done: function(res) {
+        //             recordTableDone(res);
+        //         },
+
+        //     }
+        //     obj.cols = getRecordCols(true, sampleSize);
+        //     table.render(obj);
+
+        // }
+
+        //检测记录渲染后
+
+        // function recordTableDone(res) {
+
+        //     var elemArray = $('input[name="inspectDate"]');
+        //     var elemArray_productDate = $('input[name="productDate"]');
+        //     var elemArray_inspectTime = $('input[name="inspectTime"]');
+        //     $.each(elemArray, function(index, elem) {
+        //         var id = $(elem).attr('id');
+        //         renderDate(id);
+        //     })
+
+        //     $.each(elemArray_productDate, function(index, elem) {
+        //         var id = $(elem).attr('id');
+        //         renderDate(id);
+        //     })
+        //     $.each(elemArray_inspectTime, function(index, elem) {
+        //             var id = $(elem).attr('id');
+        //             renderDate(id, 'time');
+        //         })
+        //         //表格中 layDate input 值发生变化 去修改表格缓存数据,否则获取选中表格数据值没有变化
+        //     $('.edit-date').change(function() {
+        //         var othis = $(this),
+        //             value = this.value,
+        //             field = othis.parent().parent().data('field'),
+        //             index = othis.parents('tr').eq(0).data('index'),
+        //             data = table.cache['tableContent-charadetection'][index];
+        //         data[field] = value; //更新缓存中的值
+        //         data.LAY_CHECKED = true;
+        //         othis.parent().parent().data('content', value);
+        //         $(this).parent().parent().attr('data-content', value);
+        //         form.render();
+        //     });
+        // }
+
+        //监听单元格编辑
+        // table.on('edit(tableContent-charadetection)', function(obj) {
+        //     /*
+        //         检验样本合法性（1：数字 ，小数点最多十位，小数点后最多八位 ）
+
+        //      */
+        //     var value = obj.value;
+        //     if (obj.field.indexOf('sample') != -1 & value != '') {
+        //         if (isNaN(value)) {
+        //             handletableEditError('请输入合法数字', obj);
+        //             return;
+        //         }
+        //         if ((value - 0) > 100000000) {
+        //             handletableEditError('最大值不能超过100000000', obj)
+        //             return;
+        //         }
+        //         //如果有小数点
+        //         if (value.indexOf(".") != -1 && value.substring(value.indexOf(".") + 1, value.length).length > 10) {
+        //             handletableEditError('样本值小数点不能超过十位', obj)
+        //             return;
+        //         }
+        //     }
+        //     //检验合法
+        //     obj.update({
+        //         LAY_CHECKED: true
+        //     });
+        //     var tr = obj.tr;
+        //     var checkBox = $(tr).find('input[name="layTableCheckbox"]')[0];
+        //     $(checkBox).prop('checked', true);
+        //     form.render();
+
+        // });
+        /*
+         *  处理表格编辑不符合规范还原数据
+         * */
+
+        // function handletableEditError(error, obj) {
+        //     layer.msg(error, {
+        //         icon: 5
+        //     });
+        //     var field = obj.field;
+        //     var td = $(obj.tr).find('td[data-field="' + field + '"]');
+        //     var tdDiv = $(td).find('.layui-table-cell')[0];
+        //     var editInput = $(td).find('.layui-table-edit')[0];
+        //     //先获得修改前的值
+        //     var tdContent = $(tdDiv).html();
+        //     //将input 的值还原 ，避免使用延时赋值，同时也解决了在此编辑的input的初始值还是不合法值得bug
+        //     $(editInput).val(tdContent);
+        //     // //延时操作等待 因为layui table 会先给赋不合法的值
+        //     // setTimeout(function () {
+        //     // var index = $(obj.tr).data('index')
+        //     //     tableData = table.cache['tableContent-charadetection']
+        //     //     tableData[index][field]=tdContent;
+        //     //     $(tdDiv).html(tdContent);
+        //     // },50)
+        // }
+        // 初始化，执行一次渲染表格
+        renderTable();
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        // layui.admin.addTableCache('tableContent-ability');
+
+        // 表单提交，查询与重置
+        form.on('submit(search_ability)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+            if (d.inspectDate) {
+                d.startInspectDate = d.inspectDate.split(' - ')[0] + ' 00:00:00';
+                d.endInspectDate = d.inspectDate.split(' - ')[1] + ' 23:59:59';
+            }
+            renderTable(d);
+        });
+
+        $('.table-top-bar input').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $('#search_ability').click();
+            }
+        });
+
+
+        form.on('submit(reset_ability)', function(data) {
+            reset();
+        });
+
+
+        //监听行单击事件
+        table.on('row(tableContent-ability)', function(obj) {
+            var tableData = table.cache['tableContent-ability'];
+            obj.tr.find('input[lay-type="layTableRadio"]').prop("checked", true);
+            var index = obj.tr.data('index')
+                //重置数据单选属性
+            layui.each(tableData, function(i, item) {
+                if (index === i) {
+                    item.LAY_CHECKED = true;
+                } else {
+                    delete item.LAY_CHECKED;
+                }
+            });
+            form.render('radio');
+            processId = obj.data.id;
+            sampleSize = obj.data.sampleSize;
+            chartType = obj.data.chartType;
+            sampleDataCount = obj.data.sampleDataCount;
+            renderTablecharadetection({
+                processId: processId
+            });
+        });
+
+        // table.on('radio(tableContent-ability)', function(obj){
+        //
+        // });
+
+        // 重置查询表单
+        function reset() {
+            $('.table-top-bar input').val('');
+            $('.table-top-bar select').val('');
+            formSelects.value('partsCodeList', []);
+            formSelects.value('partsNameList', []);
+            formSelects.value('carTypeList', []);
+            formSelects.value('characterNameList', []);
+            formSelects.value('charType', []);
+            renderTable();
+        }
+
+    });
+
+    function slideDiv(obj) {
+        //如果查询条件隐藏 则展开查询条件 将展开文字变成收起
+        if ($($(obj).parent().next()[0]).css("display") == 'none') {
+            $($(obj).parent().next()[0]).slideDown();
+            $(obj).find(".slide").text("收起 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slidedown.png");
+        } else { //否则收起查询条件 将收起变成展开
+            $($(obj).parent().next()[0]).slideUp();
+            $(obj).find(".slide").text("展开 ");
+            $(obj).find(".img").attr("src", "../../assets/images/icon-slideup.png");
+        }
+    }
+</script>

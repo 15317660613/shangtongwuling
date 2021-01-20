@@ -1,0 +1,170 @@
+.layui-card-header {
+    height: 40px;
+    line-height: 40px;
+    padding: 0px;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    color: #333333;
+    border-bottom: 1px solid #eee;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.layui-card-body {
+    height: auto;
+    padding: 0px;
+    border-radius: 10px;
+}
+
+.layui-table-header .layui-table {
+    color: #448EE0;
+    background: #E9F9FF;
+}
+
+.layui-table-cell {
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+.layui-table-box {
+    margin-bottom: 0px;
+}
+
+.btn-form button {
+    width: 70px;
+}
+
+.line {
+    height: 16px;
+    border-left: 4px solid #1980CE;
+    line-height: 16px;
+    padding-left: 10px;
+    flex-grow: 1;
+    color: #333333;
+    font-size: 16px;
+}
+
+.vertical-line {
+    width: 1px;
+    height: 230px;
+    margin-top: 55px;
+    background: #e1e1e1;
+}
+
+.right-border-line {
+    border-right: 7px solid #eee;
+    padding: 10px;
+}
+
+.left-border-line {
+    border-left: 7px solid #eee;
+    padding: 10px;
+}
+
+.bottom-border-line {
+    border-bottom: 7px solid #eee;
+}
+
+.tea_arrowDown {
+    transition: 0.8s;
+    transform-origin: center center;
+    transform: rotateZ(0deg);
+}
+
+.layui-table-body {
+    height: 310px;
+}
+
+.layui-table-body .layui-none {
+    padding: 0px;
+    line-height: 279px;
+}
+
+.tea_arrowUp {
+    transition: 0.8s;
+    transform-origin: center center;
+    transform: rotateZ(180deg);
+}
+
+.table-top-bar .layui-form-label {
+    width: 80px;
+}
+
+#lay-date input {
+    font-size: 12px !important;
+}
+
+@media screen and (min-width: 1360px) and (max-width: 1439px) {
+    .layui-input,
+    .layui-select {
+        width: 210px;
+    }
+    .btn-form {
+        padding-right: 15px;
+    }
+    .line-chart {
+        height: 340px;
+        background: #fff;
+    }
+    .layui-form-label {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1920px) {
+    .layui-input,
+    .layui-select {
+        width: 230px;
+    }
+    .btn-form {
+        padding-right: 23px;
+    }
+    .line-chart {
+        height: 340px;
+        background: #fff;
+    }
+    .layui-form-label {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .layui-input,
+    .layui-select {
+        width: 300px;
+    }
+    .btn-form {
+        padding-right: 54px;
+    }
+    .table-top-bar .layui-form-label {
+        width: 90px;
+    }
+    .line-chart {
+        width: 100%;
+        height: 540px;
+    }
+    .layui-form-label {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 1360px) {
+    .layui-input,
+    .layui-select {
+        width: 130px;
+    }
+    .btn-form {
+        padding-right: 56px;
+    }
+    .line-chart {
+        width: 100%;
+        height: 300px;
+    }
+    .layui-form-label {
+        font-size: 12px;
+    }
+}

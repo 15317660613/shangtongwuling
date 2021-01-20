@@ -1,0 +1,280 @@
+<link rel="stylesheet" href="assets/css/dashboard.css">
+<link rel="stylesheet" href="../assets/css/pending_tasks.css">
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header">任务信息
+                <div class="layui-card-header-right-btn tasks-info-refresh">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-refresh-1"></i>&nbsp;刷新</a>
+                </div>
+            </div>
+            <div class="layui-card-body">
+                <div class="layui-row tasks-info-container">
+                    <div class="layui-col-xs6 layui-col-md3">
+                        <a href="#!ADC_process_mine_pending_tasks_html">
+                            <div class="tasks-info">
+                                <img src="../assets/images/icon/dashboard-icon-upcoming.png" alt="待办事项">
+                                <strong style="color: #55B7FF;">-</strong>
+                                <span>待办事项</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-md3">
+                        <a href="#!ADC_process_mine_finish_tasks_html">
+                            <div class="tasks-info">
+                                <img src="../assets/images/icon/dashboard-icon-done.png" alt="已办事项">
+                                <strong style="color: #7ED321;">-</strong>
+                                <span>已办事项</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-md3">
+                        <a href="javascript:;">
+                            <div class="tasks-info">
+                                <img src="../assets/images/icon/dashboard-icon-commission.png" alt="委托事项">
+                                <strong style="color: #9013FE;">-</strong>
+                                <span>委托事项</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-md3">
+                        <a href="javascript:;">
+                            <div class="tasks-info">
+                                <img src="../assets/images/icon/dashboard-icon-timeout.png" alt="超时事项">
+                                <strong style="color: #F5A623;">-</strong>
+                                <span>超时事项</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header">跟踪任务
+                <div class="layui-card-header-right-btn">
+                    <a href="#!ADC_process_mine_my_tasks_html">更多&nbsp;<i class="layui-icon layui-icon-right"></i></a>
+                </div>
+            </div>
+            <div class="layui-card-body tasks-track-container">
+                <!-- <div class="tasks-track">
+                    <p>单据审批处理</p>
+                    <a href="javascript:;">协同</a>
+                    <span>蔡建军</span>
+                    <span>2018/09/03</span>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header">待办任务
+                <div class="layui-card-header-right-btn">
+                    <a href="#!ADC_process_mine_pending_tasks_html">更多&nbsp;<i class="layui-icon layui-icon-right"></i></a>
+                </div>
+            </div>
+            <div class="layui-card-body tableTodolist">
+                <table id="tableTodolist" lay-filter="tableTodolist"></table>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-header">日程事件
+                <div class="layui-card-header-right-btn">
+                    更多&nbsp;<i class="layui-icon layui-icon-right"></i>
+                </div>
+            </div>
+            <div class="layui-card-body dateViewer">
+                <div id="dateViewer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['index', 'laydate'], function () {
+        var table = layui.table,
+            laydate = layui.laydate,
+            admin = layui.admin,
+            config = layui.config,
+            account = config.getAccount();
+
+        // 待办任务数据表格
+        var tableTodolist = table.render({
+            elem: '#tableTodolist',
+            id: 'tableTodolist',
+            url: admin.formatUrl('/api/activiti-task/runtime'),
+            height: 337,
+            // 格式化后台返回的数据
+            parseData: function (res) { //res 即为原始返回的数据
+                // 返回结果，进行渲染表格
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.count, //解析数据长度
+                    "data": res.data.list //解析数据列表
+                };
+            },
+            cols: [
+                [{
+                    field: 'name',
+                    title: '任务名称',
+                    align: 'center',
+                    minWidth: 180,
+                    event: 'handle',
+                    style: 'cursor: pointer;'
+                }, {
+                    field: 'createTimeStr',
+                    title: '创建时间',
+                    align: 'center',
+                    minWidth: 120
+                }, {
+                    field: 'assigneeName',
+                    title: '执行人',
+                    align: 'center',
+                    minWidth: 80,
+                    event: 'view',
+                    style: 'cursor: pointer;'
+                }]
+            ],
+            limit: 5,
+            page: {
+                layout: ['prev', 'page', 'next', 'skip']
+            },
+            request: {
+                pageName: 'pageNo',
+                limitName: 'pageSize'
+            },
+            where: {
+                assignee: account.usid
+            },
+            text: {
+                none: '当前无待办任务'
+            }
+        });
+
+        //监听单元格单击事件
+        table.on('tool(tableTodolist)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'handle') {
+                // 处理待办任务
+                admin.popupCenter({
+                    title: '处理任务：' + data.name,
+                    path: 'components/tpl/process_pending_tpl_handle.html',
+                    area: ['90%', '90%'],
+                    resize: false,
+                    finish: function () {
+                        table.reload('tableTodolist');
+                    },
+                    success: function () {
+                        process_pending_tpl_handle(data);
+                    }
+                });
+            } else if (layEvent === 'view') {
+                // 查看人员信息
+                var w = window.innerWidth < 700 ? '80%' : '700px';
+                var h = window.innerHeight < 500 ? '80%' : '500px';
+                admin.popupCenter({
+                    title: '人员信息：' + data.assigneeName,
+                    path: 'components/tpl/system_user_info_tpl.html',
+                    area: [w, h],
+                    resize: false,
+                    finish: function () {},
+                    success: function () {
+                        system_user_info_tpl(data);
+                    }
+                });
+            }
+        });
+
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.admin.addTableCache('tableTodolist');
+
+        // 日程事件
+        laydate.render({
+            elem: '#dateViewer',
+            position: 'static',
+            // 不显示底部栏
+            showBottom: false,
+            theme: 'grid',
+            // 事件
+            mark: {
+                '2018-9-3': ''
+            },
+            done: function (value, date, endDate) {
+                // console.log(value); //得到日期生成的值，如：2017-08-18
+                // console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                // console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+                // 通过检测当前日期是否有事件来进行下一步处理
+            }
+        });
+
+        // 获取任务信息
+        var taskInfoInit = function () {
+            admin.req('/api/activiti-task/task/listsize', {
+                assignee: account.usid
+            }, function (res) {
+                var elem = $('.tasks-info-container strong'),
+                    arr = [];
+                arr.push(res.data.toDoListSize);
+                arr.push(res.data.doedListSize);
+                arr.push(res.data.delegateListSize);
+                arr.push(res.data.outTimeListSize);
+                for (var i = 0; i < elem.length; i++) {
+                    elem[i].innerText = arr[i];
+                }
+            });
+        };
+        taskInfoInit();
+        $('.tasks-info-refresh').on('click', function () {
+            taskInfoInit();
+        });
+
+        // 获取跟踪任务
+        var taskTrackInit = function () {
+            admin.req('/api/activiti/repository/processInstances/track-list', {
+                pageNo: 1,
+                pageSize: 4,
+                initiatorId: account.usid
+            }, function (res) {
+                if (res.ok) {
+                    var tmp = res.data.list,
+                        tmpHtml = '';
+                    for (var i = 0; i < tmp.length; i++) {
+                        var tmpData = tmp[i],
+                            tmpDataName = tmpData.name ? tmpData.name : '暂无任务名称',
+                            tmpDataCurrentUsers = tmpData.currentUsers ? tmpData.currentUsers :
+                            '当前无处理人',
+                            tmpDataStartTimeStr = tmpData.startTimeStr ? tmpData.startTimeStr.split(
+                                ' ')[
+                                0].split('-').join('/') : '无时间';
+                        tmpHtml +=
+                            '<div class="tasks-track"><p>' + tmpDataName +
+                            '</p><span title="' + tmpDataCurrentUsers + '">' + tmpDataCurrentUsers +
+                            '</span><span>' + tmpDataStartTimeStr + '</span></div>';
+                    }
+                    if (tmpHtml === '') tmpHtml =
+                        '<div style="text-align: center;color: #999;">当前无跟踪任务</div>';
+                    $('.tasks-track-container').html(tmpHtml);
+                } else {
+                    layer.msg('获取跟踪任务失败：' + res.message, {
+                        icon: 5
+                    });
+                }
+            });
+        };
+        taskTrackInit();
+
+
+    });
+</script>

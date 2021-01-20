@@ -1,0 +1,157 @@
+.layui-card-body {
+    height: auto;
+}
+
+.layui-body a {
+    color: #333;
+    opacity: 0.6;
+}
+
+.notice-title {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    padding: 10px 0
+}
+
+.notice-body {
+    text-indent: 2em;
+    color: #EB423A;
+}
+
+.sort {
+    width: 50%;
+    line-height: 30px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.layui-icon-search {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    cursor: pointer;
+}
+
+a.active {
+    color: #188FFF;
+}
+
+.course {
+    border: 1px solid #3AACFE;
+    border-radius: 2px;
+}
+
+.course:hover {
+    box-shadow: 0px 0px 18px 0px rgba(21, 46, 101, 0.13);
+}
+
+.courseTitle {
+    line-height: 34px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border-left: 2px solid #3AACFE;
+}
+
+.courseContent {
+    /* line-height: 110px; */
+    padding: 2%;
+    display: flex;
+    position: relative;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.img {
+    width: 33%;
+    text-align: center;
+}
+
+@media screen and (max-width:1366px) {
+    .img {
+        min-height: 125px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .img img {
+        max-height: 125px;
+    }
+}
+
+@media screen and (min-width:1367px) and (max-width:1920px) {
+    .img {
+        min-height: 175px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .img img {
+        max-height: 175px;
+    }
+}
+
+.img img {
+    width: 100%;
+}
+
+.courseContent-center {
+    width: 56%;
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    left: 35%;
+    padding: 2% 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.courseContent-right {
+    width: 20%;
+    position: absolute;
+    left: 78%;
+    height: 100%;
+    padding: 2% 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress {
+    position: absolute;
+}
+
+.layui-table td,
+.layui-table th,
+.layui-table-col-set,
+.layui-table-fixed-r,
+.layui-table-grid-down,
+.layui-table-header,
+.layui-table-page,
+.layui-table-tips-main,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-view,
+.layui-table[lay-skin=line],
+.layui-table[lay-skin=row] {
+    border: none;
+}
+
+.layui-table-box {
+    border: none;
+}
+
+@media screen and (min-width: 1920px) {
+    input {
+        width: 260px!important;
+    }
+    .courseListWrap {
+        min-height: 615px;
+    }
+}
+
+@media screen and (min-width: 1366px) and (max-width: 1900px) {
+    .courseListWrap {
+        min-height: 303px;
+    }
+}

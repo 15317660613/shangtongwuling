@@ -1,0 +1,674 @@
+<!--
+File   : org.html
+Created: Wednesday August 29th 2018 3:11:32 pm
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Wednesday Nov 22th 2018 15:35:31
+Modified By  : wm at
+-----
+Description: 系统管理 - 部门
+-----
+HISTORY:
+-->
+
+<style>
+    .layui-tpl-container .p-form,
+    .layui-layout-body .layui-layer-page .layui-layer-content {
+        overflow: visible !important;
+    }
+</style>
+
+<div class="layui-row layui-col-space15">
+    <!-- 左侧 -->
+    <div class="layui-col-md12 autoScrollLeft">
+        <div class="layui-card p-main">
+            <div class="layui-card-header">部门列表</div>
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <!-- 左侧 -->
+                        <div class="layui-inline">
+                            <div class="layui-inline search-item">
+                                <i class="layui-icon layui-icon-search"></i>
+                                <input type="text" name="departName" placeholder="输入部门名称" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-filter="btn_search_org" lay-submit>查询</button>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_reset_org" lay-submit>重置</button>
+                            </div>
+                        </div>
+                        <!-- 右侧 -->
+                        <div class="layui-inline layui-pull-right">
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_add_org" lay-submit>
+                                    <i class="layui-icon layui-icon-add-1"></i>新增部门
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 下部表格容器 -->
+                <table id="tableContent-org" lay-filter="tableContent-org"></table>
+            </div>
+        </div>
+    </div>
+    <!-- 右侧角色对用用户列表 -->
+    <div class="layui-col-md5 layui-hide autoScrollRight-user">
+        <div class="layui-card p-form">
+            <div class="layui-card-header">用户</div>
+            <!-- 卡片右上角关闭按钮 -->
+            <i class="layui-icon layui-icon-close layui-card-close"></i>
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <input type="text" name="orgid" id="orgid" class="layui-hide">
+                <input type="text" name="orgname" id="orgname" class="layui-hide">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <!-- 右侧 -->
+                        <div class="layui-inline layui-pull-right">
+                            <div class="layui-inline">
+                                <button id="btn_add_org_user" class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_add_org_user" lay-submit>
+                                    <i class="layui-icon layui-icon-add-1"></i>新增用户
+                                </button>
+                                <button id="btn_del_org_user" class="layui-btn layui-btn-sm layui-btn-danger" lay-filter="btn_del_org_user" lay-submit>
+                                    <i class="layui-icon layui-icon-delete"></i>批量移除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 表格容器 -->
+                <table id="tableContent-user" lay-filter="tableContent-user"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="control-1">
+    <a class="table-control-btn" lay-event="userinfo">用户</a>
+    <a class="table-control-btn" lay-event="edit">编辑</a>
+    <a class="table-control-btn table-control-btn-danger" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="control-2">
+    <a class="table-control-btn table-control-btn-danger" lay-event="del">移除</a>
+</script>
+
+<script>
+    // 初始化 layui
+    layui.use(['treetable', 'treeSelect'], function() {
+        var table = layui.table,
+            treetable = layui.treetable,
+            treeSelect = layui.treeSelect,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            departCode = '';
+
+        // 渲染左侧表格树
+        var renderTable = function(where) {
+            treetable.render({
+                // treetable 新增的参数
+                treeColIndex: 1, // treetable新增参数
+                treeSpid: '0', // treetable新增参数
+                treeIdName: 'id', // treetable新增参数
+                treePidName: 'pid', // treetable新增参数
+                treeDefaultClose: false, // treetable新增参数
+                treeLinkage: false, // treetable新增参数
+                // table 原有的一些参数
+                elem: '#tableContent-org',
+                id: 'tableContent-org',
+                url: admin.formatUrl('/api/sys/hpm03department'),
+                height: 472,
+                cols: [
+                    [{
+                        type: 'numbers'
+                    }, {
+                        field: 'departName',
+                        title: '部门名称',
+                        width: 260
+                    }, {
+                        field: 'createDate',
+                        title: '创建时间'
+                    }, {
+                        field: 'isLeaf',
+                        title: '是否叶子节点'
+                    }, {
+                        field: 'isOffice',
+                        title: '机构类型'
+                    }, {
+                        templet: '#control-1',
+                        title: '操作',
+                        align: 'center',
+                        width: 160,
+                        unresize: true
+                    }]
+                ],
+                where: where,
+                // 列宽最少 120，防止在小屏幕上显示不全列标题
+                cellMinWidth: 120
+            });
+        }
+
+        // 初始化，执行一次渲染表格树
+        renderTable();
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.adc.addTableCache('tableContent-org');
+
+        // 搜索
+        form.on('submit(btn_search_org)', function(data) {
+            var searchValue = data.field;
+            if (searchValue.departName) {
+                searchValue.departName = '%' + searchValue.departName + '%';
+            } else {
+                searchValue.departName = '';
+            }
+            searchValue.departNameOperator = 'like';
+            renderTable(searchValue);
+        });
+        // 重置
+        form.on('submit(btn_reset_org)', function() {
+            $('input[name="departName"]').val('');
+            renderTable({
+                orgName: ''
+            });
+        });
+
+        // 新增
+        form.on('submit(btn_add_org)', function() {
+            popMenu('add');
+        });
+        // 新增角色用户
+        form.on('submit(btn_add_org_user)', function() {
+            popMenuAddChooseUser();
+        });
+        // 批量删除
+        form.on('submit(btn_del_org_user)', function() {
+            var checkStatus = table.checkStatus('tableContent-user');
+            if (checkStatus.data.length === 0) {
+                return layer.msg('请选择要移除的用户', {
+                    icon: 0
+                });
+            }
+            var delArr = [];
+            for (var i = 0; i < checkStatus.data.length; i++) {
+                var obj = {};
+                obj.userId = checkStatus.data[i].userId;
+                obj.departCode = '';
+                delArr.push(obj);
+            }
+
+            layer.confirm('确定移除选中的部门内的 ' + checkStatus.data.length + ' 个用户吗？', {
+                icon: 3,
+                title: '提示'
+            }, function() {
+                admin.req('/api/sys/hpm05user/updateall', delArr,
+                    function(data) {
+                        if (data.ok) {
+                            layer.msg('批量移除用户成功！', {
+                                icon: 1
+                            });
+                            table.reload('tableContent-user', {
+                                where: {
+                                    reload: new Date().getTime()
+                                }
+                            });
+                        } else {
+                            return layer.msg('批量移除用户失败：' + data.message, {
+                                icon: 5
+                            });
+                        }
+                    }, {
+                        method: 'put'
+                    });
+            });
+        });
+
+        // 监听表格工具条事件
+        table.on('tool(tableContent-org)', function(obj) {
+            // 获取点击列的数据
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            // 判断操作类型
+            if (layEvent === 'del') {
+                // 删除
+                layer.confirm('确定删除部门：' + data.departName + ' 吗？', {
+                    icon: 3,
+                    title: '提示'
+                }, function() {
+                    admin.req('/api/sys/hpm03department/' + data.id, {}, function(data) {
+                        if (data.ok) {
+                            layer.msg('删除部门成功！', {
+                                icon: 1
+                            });
+                            renderTable();
+                        } else {
+                            return layer.msg('删除部门失败：' + data.message, {
+                                icon: 5
+                            });
+                        }
+                    }, {
+                        method: 'delete'
+                    });
+                });
+            } else if (layEvent === 'edit') {
+                // 编辑
+                popMenu('edit', data);
+            } else if (layEvent === 'userinfo') {
+                // 查看角色对应用户
+                showRightMenu('user', data);
+            }
+        });
+
+        // 弹出框
+        function popMenu(type, data) {
+            // 判断操作事件
+            if (type === 'add') {
+                var title = '新增部门机构';
+                data = {};
+            } else if (type === 'edit') {
+                var title = '编辑部门机构：' + data.departName;
+            }
+            data.type = type;
+            admin.popupCenter({
+                title: title,
+                path: 'components/tpl/system_org_tpl_add_edit.html',
+                finish: function() {
+                    renderTable();
+                },
+                success: function() {
+                    setFormValue(data);
+                    form.render();
+                    // 初始化
+                    // 机构类型 下拉菜单信息
+                    /* admin.req('/api/sys/dictype/page?dicId=S3G79EH2ME', {}, function (d) {
+                         var datas = d.data.list;
+                         $('select[name="orgType"]').append(
+                             '<option value="">请选择机构类型</option>');
+                         for (var i = 0; i < datas.length; i++) {
+                             var select = '';
+                             if (data.orgType && data.orgType === datas[i].dicTypeName) {
+                                 select = 'selected';
+                             }
+                             var html = '<option value="' + datas[i].id + '" ' +
+                                 select + '>' + datas[i].dicTypeName + '</option>';
+                             $('select[name="orgType"]').append(html);
+                         }
+                         form.render('select');
+                     });*/
+                    // 获取树形下拉栏内的数据
+                    admin.req('/api/sys/hpm03department', {}, function(d) {
+                        var menus = d.data;
+                        treeSelect.render({
+                            elem: '#selectFDs',
+                            data: menus,
+                            dataFilter: function(data) {
+                                var menus = [];
+                                for (var i = 0; i <
+                                    data.length; i++) {
+                                    var valueNow = data[
+                                        i];
+                                    // 写入数据
+                                    menus.push({
+                                        id: valueNow['id'],
+                                        pid: valueNow['pid'],
+                                        name: valueNow['departName']
+                                    });
+                                }
+                                return menus;
+                            },
+                            // 节点点击回调函数
+                            click: function(d) {
+                                $('input[name="pid"]').val(d.id);
+                            }
+                        });
+                        if (type === 'edit') {
+                            treeSelect.checkNode('selectFDs', data.pid);
+                        }
+                    });
+                }
+            });
+        }
+
+        // 设置表单内容
+        function setFormValue(obj) {
+            var inputs = $('.p-form').find('input'),
+                title = $('.p-form .layui-card-header'),
+                formNames = ['id', 'departName', 'isLeaf', 'isOffice', 'pid', 'type'];
+
+            obj.title && title.text(obj.title);
+            for (var i = 0; i < formNames.length; i++) {
+                if (obj[formNames[i]]) {
+                    $('.p-form  input[name="' + formNames[i] + '"]').val(obj[formNames[i]]);
+                } else {
+                    $('.p-form  input[name="' + formNames[i] + '"]').val('');
+                }
+            }
+        }
+
+        // 保存新增/编辑的信息
+        form.on('submit(menuSave-org)', function(data) {
+            var field = data.field;
+            if (field.departName === '' || field.isLeaf === '' || field.isOffice === '') {
+                return layer.msg('请填写必填项', {
+                    icon: 5
+                });
+            }
+            var method = field.type === 'add' ? 'POST' : 'PUT';
+            submitDicData(field, method, function() {
+                admin.finishPopupCenter();
+            });
+        });
+        // 弹出框取消按钮
+        form.on('submit(popmenuCancle)', function() {
+            admin.closePopupCenter();
+        });
+
+        // 新增和修改请求的封装
+        function submitDicData(d, ajaxType, success, error) {
+            console.log(arguments);
+            var ajaxName = ajaxType.toUpperCase() === 'POST' ? '新增' : '修改';
+            // 发送请求
+            delete d.selectFDs;
+            delete d.type;
+            admin.req('/api/sys/hpm03department', d, function(data) {
+                if (data.ok) {
+                    layer.msg(ajaxName + '部门信息成功！', {
+                        icon: 1
+                    });
+                    success(data);
+                } else {
+                    layer.msg(ajaxName + '部门信息失败：' + data.message, {
+                        icon: 5
+                    });
+                    error && error(data);
+                }
+            }, {
+                method: ajaxType
+            });
+        }
+
+        // 展示右侧表单菜单
+        function showRightMenu(type, data) {
+            // 判断操作类型
+            if (type === 'user') {
+                setFormValue({
+                    title: data.name + ' 中的用户'
+                });
+                departCode = data.id; //记录当前查看的部门id
+                // 显示右侧菜单
+                $('.autoScrollLeft').removeClass('layui-col-md12');
+                $('.autoScrollLeft').addClass('layui-col-md7');
+                setTimeout(function() {
+                    $('.autoScrollRight-user').removeClass('layui-hide');
+                    admin.resize();
+                    $('#orgid').val(data.id);
+                    $('#orgname').val(data.name);
+                    table.render({
+                        elem: '#tableContent-user',
+                        id: 'tableContent-user',
+                        url: admin.formatUrl('/api/sys/hpm05user/page?orderBy=userId'),
+                        // 格式化后台返回的数据
+                        parseData: function(res) { //res 即为原始返回的数据
+                            // 返回结果，进行渲染表格
+                            return {
+                                "code": res.respCode, //解析接口状态
+                                "msg": res.message, //解析提示文本
+                                "count": res.data.count, //解析数据长度
+                                "data": res.data.list //解析数据列表
+                            };
+                        },
+                        height: 472,
+                        cols: [
+                            [{
+                                type: 'checkbox'
+                            }, {
+                                type: 'numbers'
+                            }, {
+                                field: 'userName',
+                                title: '用户名'
+                            }, {
+                                field: 'userId',
+                                title: '账号'
+                            }, {
+                                templet: '#control-2',
+                                title: '操作',
+                                align: 'center',
+                                width: 60,
+                                unresize: true
+                            }]
+                        ],
+                        cellMinWidth: 90,
+                        page: {
+                            layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                        },
+                        where: {
+                            departCode: departCode,
+                        },
+                        request: {
+                            pageName: 'pageNo',
+                            limitName: 'pageSize'
+                        }
+                    });
+
+                    // 监听工具条事件
+                    // 主要是编辑、删除和配置角色菜单
+                    table.on('tool(tableContent-user)', function(obj) {
+                        // 获取点击列的数据
+                        var data = obj.data;
+                        var layEvent = obj.event;
+                        // 判断操作类型
+                        if (layEvent === 'del') {
+                            // 移除
+                            layer.confirm('确定移除部门内用户：' + data.userName + ' 吗？', {
+                                icon: 3,
+                                title: '提示'
+                            }, function() {
+                                admin.req('/api/sys/hpm05user/updateall', [{
+                                        userId: data.userId,
+                                        departCode: ''
+                                    }],
+                                    function(data) {
+                                        if (data.ok) {
+                                            layer.msg('移除用户成功！', {
+                                                icon: 1
+                                            });
+                                            table.reload('tableContent-user', {
+                                                where: {
+                                                    reload: new Date().getTime()
+                                                }
+                                            });
+                                        } else {
+                                            return layer.msg('移除用户失败：' + data.message, {
+                                                icon: 5
+                                            });
+                                        }
+                                    }, {
+                                        method: 'put'
+                                    });
+                            });
+                        }
+                    });
+                }, 300);
+            }
+        }
+        // 隐藏右侧表单菜单
+        function hideRightMenu(reRender) {
+            // 将表单内的数据清空
+            setFormValue({
+                title: '用户'
+            });
+            // 隐藏右侧菜单
+            $('.autoScrollRight-user').addClass('layui-hide');
+            $('.autoScrollLeft').removeClass('layui-col-md7');
+            $('.autoScrollLeft').addClass('layui-col-md12');
+            if (reRender) {
+                setTimeout(function() {
+                    admin.resize();
+                }, 300);
+            }
+        }
+
+        // 关闭右侧菜单 点击事件
+        $('.layui-card-close').on('click', function() {
+            hideRightMenu(true);
+        });
+
+        function popMenuAddChooseUser() {
+            var _orgid = $('#orgid').val(),
+                _orgname = $('#orgname').val();
+            admin.req('/api/sys/hpm05user/page?orderBy=userId', {
+                pageNo: 1,
+                pageSize: 10000
+            }, function(res) {
+                var raw_user = res.data.list;
+                admin.req('/api/sys/hpm05user/page?orderBy=userId', {
+                    pageNo: 1,
+                    pageSize: 10000,
+                    // departCode: departCode
+                }, function(res1) {
+                    var org_user = res1.data.list;
+                    // 弹出框
+                    admin.popupCenter({
+                        title: '新增用户',
+                        path: 'components/tpl/system_role_tpl_add_user.html',
+                        finish: function() {
+                            table.reload('tableContent-user', {
+                                where: {
+                                    reload: new Date().getTime()
+                                }
+                            });
+                        },
+                        success: function() {
+                            table.render({
+                                elem: '#tableContent-adduser',
+                                id: 'tableContent-adduser',
+                                data: org_user,
+                                height: 277,
+                                cols: [
+                                    [{
+                                        type: 'checkbox'
+                                    }, {
+                                        type: 'numbers'
+                                    }, {
+                                        field: 'userName',
+                                        title: '用户名'
+                                    }, {
+                                        field: 'userId',
+                                        title: '账号'
+                                    }]
+                                ],
+                                cellMinWidth: 90,
+                                page: {
+                                    layout: ['limit', 'count', 'prev',
+                                        'page', 'next'
+                                    ]
+                                }
+                            });
+                        }
+                    });
+
+                });
+            });
+        }
+        // 保存
+        form.on('submit(menuSave_users)', function(data) {
+            var checkStatus = table.checkStatus('tableContent-adduser');
+            if (checkStatus.data.length === 0) {
+                return layer.msg('请选择要添加的用户', {
+                    icon: 0
+                });
+            }
+
+            var addArr = [];
+            for (var i = 0; i < checkStatus.data.length; i++) {
+                var obj = {};
+                obj.userId = checkStatus.data[i].userId;
+                obj.departCode = departCode;
+                addArr.push(obj);
+            }
+
+            admin.req('/api/sys/hpm05user/updateall', addArr,
+                function(data) {
+                    if (data.ok) {
+                        layer.msg('新增用户成功！', {
+                            icon: 1
+                        });
+                        admin.finishPopupCenter();
+                    } else {
+                        layer.msg('新增用户失败：' + data.message, {
+                            icon: 5
+                        });
+                    }
+                }, {
+                    method: 'put'
+                });
+        });
+
+        // 搜索
+        form.on('submit(btn_search_adduser)', function(data) {
+            var searchValue = data.field;
+            var _orgid = $('#orgid').val(),
+                _orgname = $('#orgname').val();
+            admin.req('/api/sys/user', {
+                pageNo: 1,
+                pageSize: 10000,
+                usName: searchValue.usName
+            }, function(res) {
+                var raw_user = res.data.list;
+                admin.req('/api/sys/user', {
+                    pageNo: 1,
+                    pageSize: 10000,
+                    orgId: _orgid
+                }, function(res1) {
+                    var org_user = res1.data.list,
+                        org_user_ids = {},
+                        new_user = [];
+                    // 从所有用户中除去角色已有用户
+                    for (var i = 0; i < org_user.length; i++) {
+                        org_user_ids[org_user[i].usid] = org_user[i].usid;
+                    }
+                    for (var i = 0; i < raw_user.length; i++) {
+                        if (raw_user[i].usid in org_user_ids) {
+                            continue;
+                        }
+                        new_user.push(raw_user[i]);
+                    }
+
+                    table.reload('tableContent-adduser', {
+                        data: new_user
+                    });
+
+                });
+            });
+        });
+    });
+</script>

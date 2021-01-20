@@ -1,0 +1,58 @@
+<div class="layui-tab layui-tab-brief" lay-filter="index-tab" id="product">
+    <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="OEE">OEE综合设备效率分析</li>
+        <li lay-id="completionRate">计划完成率分析</li>
+        <li lay-id="qualificationRate">一次交检合格率分析</li>
+        <li lay-id="stopLine">停线分析</li>
+    </ul>
+</div>
+<div id="main-area"></div>
+<script>
+    layui.use(['element'], function() {
+        var element = layui.element,
+            menuPath = {
+                OEE: "components/product/OEE.html",
+                completionRate: 'components/product/completionRate.html',
+                qualificationRate: 'components/product/qualificationRate.html',
+                'stopLine': 'components/product/stopLine.html'
+            }
+
+        //先判断是否从外界跳转,获得最后一个值
+        var path = getLastPath();
+        if (menuPath[path]) {
+            $('#product .layui-tab-title .layui-this').removeClass('layui-this');
+            $('li[lay-id="' + path + '"]').addClass('layui-this');
+        } else {
+            path = $('#product .layui-tab-title .layui-this').attr('lay-id');
+            location.hash = '!' + Q.lash + '/' + path;
+        }
+        $('#main-area').load(menuPath[path]);
+        //监听切换事件
+
+         element.on('tab(index-tab)', function(data) {
+             //替换最后一位 然后跳转
+             var layId=this.getAttribute('lay-id');
+             var url= window.location.href
+             path = url.substring(url.lastIndexOf('/') + 1);//本页切换时应该移除替他页面传递后？后的参数
+             var url=location.hash.replace(path,layId)
+             location.hash=url;
+        });
+        /*
+           获得链接中的最后一个值
+        * */
+
+        function getLastPath() {
+            var url = window.location.href
+            var path = '';
+            if (url.lastIndexOf('?') != -1) {
+                path = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('?'));
+            } else {
+                path = url.substring(url.lastIndexOf('/') + 1);
+            }
+            return path;
+        }
+
+
+
+    })
+</script>

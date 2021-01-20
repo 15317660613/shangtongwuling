@@ -1,0 +1,291 @@
+<!--
+File   : system_user_tpl_add_edit.html
+Created: Tuesday September 18th 2018 11:22:10 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Tuesday September 25th 2018 3:51:12 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 
+-----
+HISTORY:
+-->
+
+<div class="layui-tpl-container layui-form" style="padding-bottom: 10px;" lay-filter="riskWanning">
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">预警编号：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="riskSn" placeholder="" class="layui-input" id="wanningRsEdit">
+                    <input type="hidden" name="riskId">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">预警日期：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="riskDate" id="wanningRdEdit" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商代码：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="supplierCode" id="wanningScEdit" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商名称：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="supplierName" id="wanningSnEdit" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">风险类型：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="riskType" id="wanningRtEdit" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">影响车型/机型：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="affectcarType" id="wanningActEdit" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">影响产品：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="affectParts" id="wanningApEdit" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">风险程度：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="riskLevelName" id="wanningRlnEdit" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item">
+                <label class="layui-form-label">预警描述：</label>
+                <div class="layui-input-block">
+                    <textarea name="warninRemark" id="wanningRmEdit" class="layui-textarea" placeholder="请输入预警描述"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item">
+                <label class="layui-form-label">原因分析：</label>
+                <div class="layui-input-block">
+                    <textarea name="reason" id="wanningReason" placeholder="请输入原因分析" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item">
+                <label class="layui-form-label">应对措施：</label>
+                <div class="layui-input-block">
+                    <textarea name="response" id="wanningResponse" placeholder="请输入应对措施" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="layui-form-item">
+                <label class="layui-form-label">上传改进报告：</label>
+                <div class="layui-input-block">
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" id="chooseFile">选择文件</button>
+                        <button type="button" class="layui-btn" id="uploadFile">开始上传</button>
+                        <button type="button" class="layui-btn layui-btn-normal" id="deleteFile">删除</button>
+                        <button type="button" class="layui-btn layui-btn-normal" id="downloadFile">下载</button>
+                        <input type="hidden" name="fileId" id="fileId">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">计划关闭时间：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="planTime" placeholder="请选择" class="layui-input" id="wanningPtEdit" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">实际关闭时间：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="overTime" placeholder="请选择" class="layui-input" id="wanningOtEdit">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md2">
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="state" class="layui-input" id="wanningStateEdit" readonly="readonly" style="border:none;width: 30px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">SQ负责人：</label>
+                <div class="layui-input-block">
+                    <select name="sqName" placeholder="请选择" id="wanningSqEdit" lay-search></select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商负责人：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="supName" placeholder="请输入供应商负责人" class="layui-input" id="wanningSupNameEdit">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;margin-bottom: 10px;margin-top: 10px;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="warningSave">保存</button>
+            <button class="layui-btn layui-btn-primary" id="popmenuCancle" lay-filter="popmenuCancle">取消</button>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['upload', 'laydate', 'form'], function() {
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+        var form = layui.form;
+        /*初始化日期框*/
+        laydate.render({
+            elem: '#wanningPtEdit',
+            trigger: 'click'
+        });
+        laydate.render({
+            elem: '#wanningOtEdit',
+            done: function(value, date, endDate) {
+                if (value) {
+                    $("#wanningReason").attr("lay-verify", "required");
+                    $("#wanningResponse").attr("lay-verify", "required");
+                    $("#wanningSqEdit").attr("lay-verify", "required");
+                    $("#wanningSupNameEdit").attr("lay-verify", "required");
+                } else {
+                    $("#wanningReason").attr("lay-verify", "");
+                    $("#wanningResponse").attr("lay-verify", "");
+                    $("#wanningSqEdit").attr("lay-verify", "");
+                    $("#wanningSupNameEdit").attr("lay-verify", "");
+                }
+            }
+        });
+        // 上传改进报告
+        var files;
+        var uploadIns = upload.render({
+            elem: '#chooseFile',
+            url: '/api-edu/risk/manager/report/upload',
+            auto: false,
+            bindAction: '#uploadFile',
+            accept: "file",
+            // exts: 'ppt|pptx',
+            choose: function(obj) {
+                files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                obj.preview(function(index, file, result) {
+                    $("#uploadFile").before('<span class="layui-inline layui-upload-choose">' + file.name + '</span>');
+                });
+            },
+            done: function(res, index, upload) {
+                if (res.ok) {
+                    layer.msg("上传成功！");
+                    $("[name='fileId']").val(res.data.fileId);
+                    $("#uploadFile").before('<span class="layui-inline layui-upload-choose">' + res.data.fprefix + "." + res.data.ficon + '</span>');
+                    delete this.files[index];
+                }
+            }
+        });
+        // 限制文本域字数
+        $("#wanningReason").on("input propertychange", function() {
+            var $this = $(this),
+                _val = $this.val(),
+                count = "";
+            if (_val.length > 100) {
+                $this.val(_val.substring(0, 100));
+            }
+        });
+        $("#wanningResponse").on("input propertychange", function() {
+            var $this = $(this),
+                _val = $this.val(),
+                count = "";
+            if (_val.length > 100) {
+                $this.val(_val.substring(0, 100));
+            }
+        });
+        // 删除
+        $("#deleteFile").click(function() {
+            $(".layui-upload-choose").remove();
+            $("#fileId").val("");
+        });
+        // 下载
+        $("#downloadFile").click(function() {
+            if ($("#fileId").val()) {
+                admin.showLoading("body");
+                window.location.href = admin.formatUrl("/api-edu/risk/manager/report/download?fileId=" + $("#fileId").val());
+                admin.removeLoading("body");
+            } else {
+                layer.msg("当前没有可下载的文件！");
+            }
+        });
+        // 取消按钮
+        $("#popmenuCancle").click(function() {
+            admin.closePopupCenter();
+        })
+    })
+</script>

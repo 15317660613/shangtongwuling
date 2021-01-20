@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任务单待办</title>
+    <link rel="stylesheet" href="../../assets/css/task_sheet_agent.css">
+    <style>
+        .layui-table-box {
+            overflow-x: auto;
+        }
+
+        .layui-table-header {
+            overflow: initial;
+        }
+        /*将供应商代码供应商名称隐藏 2019-03-09（马文勇） 开始*/
+        .hideLayuiModular{
+            display: none
+        }
+        /*结束*/
+       div[xm-select-skin=default] dl dd:not(.xm-dis-disabled) i {border-color: #1E9FFF}         .xm-select-parent .xm-form-select dl {             max-height: 230px;!important;         }
+        div[xm-select-skin=default] dl dd.xm-select-this:not(.xm-dis-disabled) i {color: #1E9FFF}
+        .search-form .layui-input, .layui-select{
+            height: 36px !important;
+
+        }
+    </style>
+</head>
+<body>
+<div class="layui-row layui-col-space15" id="task_sheet_agent1">
+
+    <!--by ma 2019-04-12-->
+    <div class="layui-col-md12 autoScrollLeft" style="padding-top: 0px">
+        <div class="layui-card">
+            <!--by ma 2019-04-12-->
+            <div class="search" style="margin-top: 6px">
+                <form class="layui-form search-form" lay-filter="search-form-content">
+                    <div class="search-title" onclick="openPanel(this)">
+                        <div class="search-l title-l"><label>数据查找</label></div>
+                        <div class="search-r "><label id="flex2">展开</label><img
+                                src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img class="hide"
+                                                                              src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item hide">
+                        <!-- 数据表格顶部控制栏 -->
+                        <div class="layui-form" style="padding: 0 0 1% 0;">
+                            <div class="layui-row">
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">任务单编号:</label>
+                                        <div class="layui-input-block">
+                                            <select name="taskordernumber" id="taskordernumber" lay-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">时间范围:</label>
+                                        <div id="timeFrame" class="layui-input-block">
+                                            <input name="createtime" type="text" class="layui-input" id="createtime"
+                                                   placeholder="请选择">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">车型/机型:</label>
+                                        <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title ">
+                                                <input type="text" placeholder="请选择" value="" name="projectmodel"
+                                                       readonly=""
+                                                       class="layui-input layui-unselect params-item project"
+                                                       id="search-input-projectmodel">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="projectmodel">
+
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3 hideLayuiModular">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商代码:</label>
+                                        <div class="layui-input-block">
+                                            <!--<select name="suppliernum" id="suppliernum" lay-search="">-->
+                                            <!--</select>-->
+                                            <select  id="gysdm" lay-filter="gysdm" name="suppliernum" xm-select="suppliernum" xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">风险检查结果:</label>
+                                        <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                            <div class="layui-select-title self-select-title ">
+                                                <input type="text" placeholder="请选择" value=""
+                                                       name="riskinspectionresults" readonly=""
+                                                       class="layui-input layui-unselect params-item"
+                                                       id="search-input-riskinspectionresults">
+                                            </div>
+                                            <dl class="layui-anim layui-anim-upbit" style="" id="riskinspectionresults">
+
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-md3 hideLayuiModular">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称:</label>
+                                        <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">-->
+                                            <!--<div class="layui-select-title self-select-title ">-->
+                                                <!--<input type="text" placeholder="请选择" value="" name="suppliername"-->
+                                                       <!--readonly="" class="layui-input layui-unselect params-item"-->
+                                                       <!--id="search-input-suppliername">-->
+                                            <!--</div>-->
+                                            <!--<dl class="layui-anim layui-anim-upbit" style="" id="suppliername">-->
+
+                                            <!--</dl>-->
+                                        <!--</div>-->
+                                        <div class="layui-input-block">
+                                            <select id="gysmc" lay-filter="gysmc" name="suppliername" xm-select="suppliername" 	xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">SQE:</label>
+                                        <div class="layui-input-block">
+                                            <select name="sqe" id="sqe" lay-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">PE:</label>
+                                        <div class="layui-input-block">
+                                            <select name="responsiblepe" id="responsiblepe" lay-search="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">批准类型:</label>
+                                        <div class="layui-input-block">
+                                            <select name="taskordertype" id="taskordertype" lay-filter="taskordertype">
+                                                <option value="">请选择</option>
+                                                <option value="1">OPAP</option>
+                                                <option value="2">PPAP</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+
+                                        <label class="layui-form-label" id="xianshiyincang" onclick="jiedianxingshi()">当前节点：</label>
+                                        <div class="layui-input-block">
+                                            <!--马 2019-03-10 bug修复 任务单已办-查询-当前节点/批准型式-重置-查询条件不清空 【15639】-->
+                                            <!--<select name="currentnode" class="params-item" lay-filter="currentnode"-->
+                                                    <!--lay-search="">-->
+                                            <select name="currentnode" class="params-item" lay-filter="currentnode"
+                                                    lay-search="" id="currentnode">
+                                            <!--马 2019-03-10 bug修复 结束-->
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+
+                                        <label class="layui-form-label" >批准形式：</label>
+                                        <div class="layui-input-block">
+                                            <!--马 2019-03-10 bug修复 任务单已办-查询-当前节点/批准型式-重置-查询条件不清空 【15639】-->
+                                            <!--<select name="approvalstatus" class="params-item" lay-filter="approvalstatus"-->
+                                                    <!--lay-search="">-->
+                                            <select name="approvalstatus" class="params-item" lay-filter="approvalstatus"
+                                                    lay-search="" id="approvalstatus">
+                                            <!--马 2019-03-10 bug修复 结束-->
+                                                <option value="">请选择</option>
+                                                <option value="4">OPAP临时批准</option>
+                                                <option value="5">OPAP不批准</option>
+                                                <option value="2">PPAP临时批准</option>
+                                                <option value="1">PPAP批准</option>
+                                                <option value="3">PPAP不批准</option>
+                                                <option value="6">正在进行中</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">批准日期:</label>
+                                        <div class="layui-input-block">
+                                            <input name="approvaldate" type="text" class="layui-input" id="approvaldate"
+                                                   placeholder="请选择">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+
+                                <div class="layui-col-md3 layui-col-md-offset9">
+                                    <div class="layui-form-item">
+                                        <div style="float: right;padding-right: 2%">
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-sm layui-btn-normal"
+                                                        type="button"
+                                                        lay-filter="search-task"
+                                                        id="search-btn"
+                                                        lay-submit>查询
+                                                </button>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-sm layui-btn-primary"
+                                                        type="button"
+                                                        lay-filter="reset-task"
+                                                        lay-submit>重置
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="clear: both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="tableList">
+                <!--<div class="tableList-title">
+                        <button onclick="return false;">项目单列表</button>
+                </div>-->
+                <div class="layui-form">
+                    <div class="tableList-title" onclick="openPanel(this)">
+                        <div class="table-l title-l"><label>任务单列表</label></div>
+                    </div>
+                    <div style="padding-top: 1%">
+                        <div class="layui-form layui-row">
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item ">
+                                    <label id="pfollowcode_label" class="layui-form-label">项目单编号:</label>
+                                    <div class="layui-input-block">
+                                        <input id="linkage-itemtrackingnum" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;"
+                                               disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">车型/机型</label>
+                                    <div class="layui-input-block">
+                                        <input id="linkage-projectmodel" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;"
+                                               disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="ots1_label" class="layui-form-label">BETA/OTS1:</label>
+                                    <div class="layui-input-block">
+                                        <input id="OTS1" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;"
+                                               disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="ots2_label" class="layui-form-label">GAMMA/OTS2:</label>
+                                    <div class="layui-input-block">
+                                        <input id="OTS2" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;"
+                                               disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form layui-row">
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="ns_label" class="layui-form-label">3C Pilot/NS:</label>
+                                    <div class="layui-input-block">
+                                        <input id="NS" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;"
+                                               disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="stime_label" class="layui-form-label">Pilot/S:</label>
+                                    <div class="layui-input-block">
+                                        <input id="S" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;"
+                                               disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3 ">
+                                <div class="layui-form-item">
+                                    <label id="soptime_label" class="layui-form-label">SOP:</label>
+                                    <div class="layui-input-block">
+                                        <input id="SOP" type="text"
+                                               class="layui-input"
+                                               style="background-color: #0d96ff2b;border-radius: 5px;"
+                                               disabled="disabled"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: right; padding-right: 1%">
+                            	<div class="layui-inline" style="display: none">
+                                    <button onclick="sumFile()" class="layui-btn layui-btn-sm layui-btn-normal">归档
+                                    </button>
+                                </div>
+                                <div class="layui-inline" style="">
+                                    <button onclick="jumpxiangqing()" class="layui-btn layui-btn-sm layui-btn-normal">详情
+                                    </button>
+                                </div>
+                                <div class="layui-inline">
+                                    <!-- 马 2019年3月10日 12点37分 32338 【客户提出问题】PPAP流程-提交/审核页面，标题有误且未增加CT分组【第三方来实现】 【15712】 -->
+                                    <!--<button onclick="allListExport()" class="layui-btn layui-btn-sm layui-btn-primary">-->
+                                        <!--总清单导出-->
+                                    <!--</button>-->
+                                    <button onclick="allListExportByWangXinyu()" class="layui-btn layui-btn-sm layui-btn-primary">
+                                        总清单导出
+                                    </button>
+                                    <!-- 马 2019年3月10日 12点37分 bug 修复结束 -->
+                                </div>
+                                <div class="layui-inline">
+                                    <button onclick="singleFormExport()"
+                                            class="layui-btn layui-btn-sm layui-btn-primary">单一表单导出
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-round">
+                        <div id="table_div">
+                            <table id="table-task" class="table-form" lay-filter="table-task"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //验证是否为多选项
+    // var multipleItems = ['alert', 'source', 'projectmodel', 'suppliername', 'riskinspectionresults'];
+    var multipleItems = ['alert', 'source','riskinspectionresults','projectmodel'];
+    var formSelectItems = ['suppliernum','suppliername']
+    var formDataField;
+    //layui主方法
+    layui.use(['table', 'laydate', 'form', 'layer','formSelects', 'adc'], function () {
+        //定义全局变量
+        var table, admin, form, layer, laydate, config,formSelects, table_cols, where;
+        table = layui.table,
+            admin = layui.adc,
+            form = layui.form,
+            layer = layui.layer,
+            config = layui.config,
+            laydate = layui.laydate,
+        formSelects = layui.formSelects;
+        formSelects.render();
+
+        //多选框监听事件
+        admin.listenMultipleSelect(linkageByProjectItem);
+
+        //加载下拉选择框数据
+        loadSearch();
+
+        // 供应商代码选择回调 供应商代码查询供应商名称
+        formSelects.on('suppliernum', function(id, vals, val, isAdd, isDisabled) {
+            //id:           点击select的id
+            //vals:         当前select已选中的值
+            //val:          当前select点击的值
+            //isAdd:        当前操作选中or取消
+            //isDisabled:   当前选项是否是disabled
+            //如果return false, 那么将取消本次操作
+            admin.req("api/ppap/partslibrary/selectSuppliernameBySuppliernumber?supplierNumber=" + val.value, {}, function(res) {
+                data = res.data;
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('suppliername', [data], true);
+                } else {
+                    layui.formSelects.value('suppliername', [data], false);
+                }
+                // form.render('select', 'form1');
+            }, {
+                method: 'GET'
+            });
+        }, true);
+
+        // 供应商名称选择回调 (供应商名称查询供应商代码)
+        formSelects.on('suppliername', function(id, vals, val, isAdd, isDisabled) {
+            //id:           点击select的id
+            //vals:         当前select已选中的值
+            //val:          当前select点击的值
+            //isAdd:        当前操作选中or取消
+            //isDisabled:   当前选项是否是disabled
+            //如果return false, 那么将取消本次操作
+            admin.req("api/ppap/partslibrary/selectSuppliernumberBySuppliername?supplierName=" + val.value, {}, function(res) {
+                data = res.data;
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('suppliernum', [data], true);
+                } else {
+                    layui.formSelects.value('suppliernum', [data], false);
+                }
+                // form.render('select', 'form1');
+            });
+        });
+
+        //渲染时间控件
+        laydate.render({
+            elem: '#createtime'
+            , range: true
+        });
+        laydate.render({
+            elem: '#approvaldate'
+            , range: true
+        });
+        if (config.getAccount().roleName.indexOf('工程师') != -1 && !(config.getAccount().roleName.indexOf('管理员') != -1 || config.getAccount().roleName.indexOf('动力总程科') != -1 || config.getAccount().roleName.indexOf('项目投产科') != -1)) {
+            where = {
+                userId: config.getAccount().userId
+            };
+            table_cols = [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+
+                , {field: 'taskordernumber', title: '任务单编号', minWidth: 201, align: 'center'}
+                , {field: 'createtime', title: '创建时间', minWidth: 164, align: 'center',templet:function (d) {
+                        return d.createtime != '' ? new Date(d.createtime.replace(/-/g, "/").substring(0,19)).Format("yyyy-MM-dd hh:mm:ss") : ''
+                    }}
+                , {field: 'projectmodel', title: '车型/机型', minWidth: 120, align: 'center'}
+                , {field: 'suppliernum', title: '供应商代码', minWidth: 100, align: 'center'}
+                , {field: 'suppliername', title: '供应商名称', minWidth: 100, align: 'center'}
+                , {field: 'riskinspectionresults', title: '风险检查结果', minWidth: 80, align: 'center'}
+                // , {field: 'sqe', title: 'SQE', minWidth: 100, align: 'center'}
+                , {field: 'responsiblepe', title: 'PE', minWidth: 100, align: 'center'}
+                , {
+                    field: 'currentnode', title: '当前节点', minWidth: 120, align: 'center'
+                    , templet: function (d) {
+                        if (d.taskordernumber.indexOf('PPAP') != -1) {
+                            // 马 2019-03-12 PPAP临批后再次创建单子状态显示问题，临批的单子审批完成后状态不受新单子影响
+                            if(d.currentstatus === '7'){
+                                return '<div>审批完成</div>';
+                            }
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>供应商文件待提交</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>SQE主管待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '7') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>PE待审批</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>TDC平台总工待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        }
+
+                    }
+                }
+                , {
+                    field: 'approvalstatus', title: '批准形式', width: 120, align: 'center', templet: function (d) {
+                        if (d.approvalstatus === '4') {
+                            return '<div>OPAP临时批准</div>'
+                        } else if (d.approvalstatus === '5') {
+                            return '<div>OPAP不批准</div>'
+                        } else if (d.approvalstatus === '2') {
+                            return '<div>PPAP临时批准</div>'
+                        } else if (d.approvalstatus === '1') {
+                            return '<div>PPAP批准</div>'
+                        } else if (d.approvalstatus === '3') {
+                            return '<div>PPAP不批准</div>'
+                        } else if (d.approvalstatus === '6') {
+                            return '<div>正在进行中</div>'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {
+                    field: 'approvaldate',
+                    width: 120,
+                    title: '批准日期',
+                    align: 'center',
+                    templet: function (d) {
+                        return '<div>' + (d.approvaldate ? new Date(d.approvaldate).Format('yyyy-MM-dd') : '') + '</div>';
+                    }
+                }
+                , {
+                    field: 'provisionalapprovalvalidity', title: '临批有效期至', width: 130, align: 'center', templet: function (d) {
+                        return '<div>' + (d.provisionalapprovalvalidity ? new Date(d.provisionalapprovalvalidity).Format('yyyy-MM-dd') : '') + '</div>'
+                    }
+                }
+
+            ]]
+        } else if (config.getAccount().roleName.indexOf('PE') != -1) {
+            where = {
+                userId: config.getAccount().userId
+            };
+            table_cols = [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'taskordernumber', title: '任务单编号', minWidth: 100, align: 'center'}
+                , {field: 'createtime', title: '创建时间', minWidth: 100, align: 'center',templet:function (d) {
+                        return d.createtime != '' ? new Date(d.createtime.replace(/-/g, "/").substring(0,19)).Format("yyyy-MM-dd hh:mm:ss") : ''
+                    }}
+                , {field: 'projectmodel', title: '车型/机型', minWidth: 120, align: 'center'}
+                , {field: 'suppliernum', title: '供应商代码', minWidth: 100, align: 'center'}
+                , {field: 'suppliername', title: '供应商名称', minWidth: 100, align: 'center'}
+                , {field: 'riskinspectionresults', title: '风险检查结果', minWidth: 120, align: 'center'}
+                , {field: 'sqe', title: 'SQE', minWidth: 100, align: 'center'}
+                // , {field: 'responsiblepe', title: 'PE', minWidth: 100, align: 'center'}
+                , {
+                    field: 'currentnode', title: '当前节点', width: 120, align: 'center'
+                    , templet: function (d) {
+                        if (d.taskordernumber.indexOf('PPAP') != -1) {
+                            // 马 2019-03-12 PPAP临批后再次创建单子状态显示问题，临批的单子审批完成后状态不受新单子影响
+                            if(d.currentstatus === '7'){
+                                return '<div>审批完成</div>';
+                            }
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>供应商文件待提交</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>SQE主管待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '7') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>PE待审批</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>TDC平台总工待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        }
+
+                    }
+                }
+                , {
+                    field: 'approvalstatus', title: '批准形式', width: 120, align: 'center', templet: function (d) {
+                        if (d.approvalstatus === '4') {
+                            return '<div>OPAP临时批准</div>'
+                        } else if (d.approvalstatus === '5') {
+                            return '<div>OPAP不批准</div>'
+                        } else if (d.approvalstatus === '2') {
+                            return '<div>PPAP临时批准</div>'
+                        } else if (d.approvalstatus === '1') {
+                            return '<div>PPAP批准</div>'
+                        } else if (d.approvalstatus === '3') {
+                            return '<div>PPAP不批准</div>'
+                        } else if (d.approvalstatus === '6') {
+                            return '<div>正在进行中</div>'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {
+                    field: 'approvaldate',
+                    width: 120,
+                    title: '批准日期',
+                    align: 'center',
+                    templet: function (d) {
+                        return '<div>' + (d.approvaldate ? new Date(d.approvaldate).Format('yyyy-MM-dd') : '') + '</div>';
+                    }
+                }
+                , {
+                    field: 'provisionalapprovalvalidity', title: '临批有效期至', width: 130, align: 'center', templet: function (d) {
+                        return '<div>' + (d.provisionalapprovalvalidity ? new Date(d.provisionalapprovalvalidity).Format('yyyy-MM-dd') : '') + '</div>'
+                    }
+                }
+
+            ]]
+        } else if (config.getAccount().roleName.indexOf('供应商') != -1) {
+            where = {
+                userId: config.getAccount().userId
+            }
+            table_cols = [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'taskordernumber', title: '任务单编号', minWidth: 100, align: 'center'}
+                , {field: 'createtime', title: '创建时间', minWidth: 100, align: 'center',templet:function (d) {
+                        return d.createtime != '' ? new Date(d.createtime.replace(/-/g, "/").substring(0,19)).Format("yyyy-MM-dd hh:mm:ss") : ''
+                    }}
+                , {field: 'projectmodel', title: '车型/机型', minWidth: 120, align: 'center'}
+                // , {field: 'suppliernum', title: '供应商代码', minWidth: 100, align: 'center'}
+                // , {field: 'suppliername', title: '供应商名称', minWidth: 100, align: 'center'}
+                , {field: 'riskinspectionresults', title: '风险检查结果', minWidth: 120, align: 'center'}
+                , {field: 'sqe', title: 'SQE', minWidth: 100, align: 'center'}
+                , {field: 'responsiblepe', title: 'PE', minWidth: 100, align: 'center'}
+                , {
+                    field: 'currentnode', title: '当前节点', width: 120, align: 'center'
+                    , templet: function (d) {
+                        if (d.taskordernumber.indexOf('PPAP') != -1) {
+                            // 马 2019-03-12 PPAP临批后再次创建单子状态显示问题，临批的单子审批完成后状态不受新单子影响
+                            if(d.currentstatus === '7'){
+                                return '<div>审批完成</div>';
+                            }
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>供应商文件待提交</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>SQE主管待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '7') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>PE待审批</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>TDC平台总工待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        }
+
+                    }
+                }
+                , {
+                    field: 'approvalstatus', title: '批准形式', width: 120, align: 'center', templet: function (d) {
+                        if (d.approvalstatus === '4') {
+                            return '<div>OPAP临时批准</div>'
+                        } else if (d.approvalstatus === '5') {
+                            return '<div>OPAP不批准</div>'
+                        } else if (d.approvalstatus === '2') {
+                            return '<div>PPAP临时批准</div>'
+                        } else if (d.approvalstatus === '1') {
+                            return '<div>PPAP批准</div>'
+                        } else if (d.approvalstatus === '3') {
+                            return '<div>PPAP不批准</div>'
+                        } else if (d.approvalstatus === '6') {
+                            return '<div>正在进行中</div>'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {
+                    field: 'approvaldate',
+                    width: 120,
+                    title: '批准日期',
+                    align: 'center',
+                    templet: function (d) {
+                        return '<div>' + (d.approvaldate ? new Date(d.approvaldate).Format('yyyy-MM-dd') : '') + '</div>';
+                    }
+                }
+                , {
+                    field: 'provisionalapprovalvalidity', title: '临批有效期至', width: 130, align: 'center', templet: function (d) {
+                        return '<div>' + (d.provisionalapprovalvalidity ? new Date(d.provisionalapprovalvalidity).Format('yyyy-MM-dd') : '') + '</div>'
+                    }
+                }
+            ]]
+        } else {
+            where = {
+                userId: config.getAccount().userId
+            }
+            table_cols = [[
+                {type: 'checkbox', fixed: 'left'}
+                , {type: 'numbers', title: '序号', fixed: 'left'}
+                , {field: 'taskordernumber', title: '任务单编号', minWidth: 100, align: 'center'}
+                , {field: 'createtime', title: '创建时间', minWidth: 100, align: 'center',templet:function (d) {
+                        return d.createtime != '' ? new Date(d.createtime.replace(/-/g, "/").substring(0,19)).Format("yyyy-MM-dd hh:mm:ss") : ''
+                    }}
+                , {field: 'projectmodel', title: '车型/机型', minWidth: 120, align: 'center'}
+                , {field: 'suppliernum', title: '供应商代码', minWidth: 100, align: 'center'}
+                , {field: 'suppliername', title: '供应商名称', minWidth: 100, align: 'center'}
+                , {field: 'riskinspectionresults', title: '风险检查结果', minWidth: 120, align: 'center'}
+                , {field: 'sqe', title: 'SQE', minWidth: 100, align: 'center'}
+                , {field: 'responsiblepe', title: 'PE', minWidth: 100, align: 'center'}
+                , {
+                    field: 'currentnode', title: '当前节点', width: 120, align: 'center'
+                    , templet: function (d) {
+                        if (d.taskordernumber.indexOf('PPAP') != -1) {
+                            // 马 2019-03-12 PPAP临批后再次创建单子状态显示问题，临批的单子审批完成后状态不受新单子影响
+                            if(d.currentstatus === '7'){
+                                return '<div>审批完成</div>';
+                            }
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>供应商文件待提交</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>SQE主管待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '7') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            if (d.currentstatus === '1') {
+                                return '<div>待发布</div>';
+                            } else if (d.currentstatus === '2') {
+                                return '<div>PE待审批</div>';
+                            } else if (d.currentstatus === '3') {
+                                return '<div>SQE经理待审批</div>';
+                            } else if (d.currentstatus === '4') {
+                                return '<div>TDC平台总工待审批</div>';
+                            } else if (d.currentstatus === '5') {
+                                return '<div>SQE总监待审批</div>';
+                            } else if (d.currentstatus === '6') {
+                                return '<div>审批完成</div>';
+                            } else {
+                                return '';
+                            }
+                        }
+
+                    }
+                }
+                , {
+                    field: 'approvalstatus', title: '批准形式', width: 120, align: 'center', templet: function (d) {
+                        if (d.approvalstatus === '4') {
+                            return '<div>OPAP临时批准</div>'
+                        } else if (d.approvalstatus === '5') {
+                            return '<div>OPAP不批准</div>'
+                        } else if (d.approvalstatus === '2') {
+                            return '<div>PPAP临时批准</div>'
+                        } else if (d.approvalstatus === '1') {
+                            return '<div>PPAP批准</div>'
+                        } else if (d.approvalstatus === '3') {
+                            return '<div>PPAP不批准</div>'
+                        } else if (d.approvalstatus === '6') {
+                            return '<div>正在进行中</div>'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {
+                    field: 'approvaldate',
+                    width: 120,
+                    title: '批准日期',
+                    align: 'center',
+                    templet: function (d) {
+                        return '<div>' + (d.approvaldate ? new Date(d.approvaldate).Format('yyyy-MM-dd') : '') + '</div>';
+                    }
+                }
+                , {
+                    field: 'provisionalapprovalvalidity', title: '临批有效期至', width: 130, align: 'center', templet: function (d) {
+                        return '<div>' + (d.provisionalapprovalvalidity ? new Date(d.provisionalapprovalvalidity).Format('yyyy-MM-dd') : '') + '</div>'
+                    }
+                }
+            ]]
+        }
+        //供应商代码和供应商名称联动
+        var tableIns = table.render({
+            elem: '#table-task'
+            , id: 'table-task'
+            , url: admin.formatUrl('/api/ppap/taskorder/searchTaskorderHave')
+            , method: 'POST'
+            // 格式化后台返回的数据
+            , parseData: function (res) { //res 即为原始返回的数据
+                if (res.respCode == 1) {
+                    return {
+                        "msg": res.message, //解析提示文本
+                    };
+                }
+                // 返回结果，进行渲染表格
+                // console.log(res)
+                if (res.respCode == 200) {
+                    res.respCode = 0;
+                }
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.count, //解析数据长度
+                    "data": admin.redefinedForObject(res.data.page) //解析数据列表
+                };
+            }
+            , height: 'full-370'
+            , cols: table_cols,
+            done: function (res, curr, count) {
+                if (res.data != undefined && res.data.length > 0) {
+                    setTimeout(function () {
+                        $('.layui-table-box').css('overflow-x', 'hidden');
+                        $('.layui-table-header').css('overflow', 'hidden');
+                        $(window).resize();
+                    }, 1);
+                }
+
+            },
+            cellMinWidth: 110,
+            page: {
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+            },
+            limits: [10, 50, 100],
+            request: {
+                pageName: 'page',
+                limitName: 'pageSize'
+            },
+            where: where,
+        });
+        //监听提交
+        form.on('submit(search-task)', function (data) {
+            var startOrendtime = data.field.createtime
+            var approvaldate = data.field.approvaldate
+            var _data = data.field;
+            if (startOrendtime != '') {
+                var createtimestart = startOrendtime.split(' - ')[0]
+                var createtimeend = startOrendtime.split(' - ')[1]
+                _data.createtimestart = createtimestart
+                _data.createtimeend = createtimeend
+            // 马 2019-03-13 修复时间未重置bug
+            } else {
+                _data.createtimestart = ''
+                _data.createtimeend = ''
+            }
+            // 马 2019-03-13 修复时间未重置bug 结束
+            if (approvaldate != '') {
+                var approvaldatestart = approvaldate.split(' - ')[0]
+                var approvaldateend = approvaldate.split(' - ')[1]
+                _data.approvaldatestart = approvaldatestart
+                _data.approvaldateend = approvaldateend
+            }
+            _data.projectmodel = $('.project').val()
+            // console.log(data.field)
+            formDataField = data.field;
+            //表格重载
+            table.reload('table-task', {
+                where: _data
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                done: function (res, curr, count) {
+                    if (res.data != undefined && res.data.length > 0) {
+                        setTimeout(function () {
+                            $('.layui-table-box').css('overflow-x', 'hidden');
+                            $('.layui-table-header').css('overflow', 'hidden');
+                            $(window).resize();
+                        }, 1);
+                    }
+
+                },
+            });
+        });
+
+        //ly taskordertype 监听 监听是否批准类型 默认opap 必须选择，当前节点 发生改变 1是OPAP 2是PPAP
+
+        form.on('select(taskordertype)', function(data){
+
+            switch (data.value) {
+                case "":
+                    $("#currentnode").html("<option value=>请选择</option>");
+                    break;
+                case "1":
+                    $("#currentnode").html("<option value=>请选择</option>"+
+                        "<option value=\"1\">待发布</option>\n" +
+                        "                <option value=\"2\">PE待审批</option>\n" +
+                        "                <option value=\"3\">SQE主管待审批</option>\n" +
+                        "                <option value=\"4\">TDC平台总监待审批</option>\n" +
+                        "                <option value=\"5\">SQE经理待审批</option>\n" +
+                        "                <option value=\"6\">已完成</option>");
+                    break;
+                case "2":
+                    console.info(data.value,"Dasdasdasd2");
+
+                    $("#currentnode").html("<option value=>请选择</option>"+
+                        "<option value=\"1\">待发布</option>\n" +
+                        "                <option value=\"2\">供应商待提交文件</option>\n" +
+                        "                <option value=\"3\">SQE待审批</option>\n" +
+                        "                <option value=\"4\">SQE主管待审批</option>\n" +
+                        "                <option value=\"6\">SQE总监待审批</option>) " +
+                        "                <option value=\"5\">SQE经理待审批</option>) " +
+                        "                <option value=\"7\">已完成</option>");
+                    break;
+            }
+
+            form.render('select');
+
+
+        });
+        //监听重置
+        form.on('submit(reset-task)', function (data) {
+            var resetItems = [
+                'search-input-alert',
+                'taskordertype',
+                'taskordernumber',
+                'createtime',
+                'itemtrackingnum',
+                'search-input-projectmodel',
+                'suppliernum',
+                'search-input-suppliername',
+                'search-input-riskinspectionresults',
+                'sqe',
+                'linkage-itemtrackingnum',
+                'linkage-projectmodel',
+                'OTS1',
+                'OTS2',
+                'NS',
+                'S',
+                'SOP',
+                'approvaldate',
+                'currentnode',
+                'approvalstatus'
+            ];
+            resetForm(resetItems);
+            loadSearch();
+            /* 马 2019-3-10 14:49 bug修复点击重置清空表格 【15690】 */
+            where.userId = config.getAccount().userId
+            tableIns.reload({
+                where: where,
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                done: function (res, curr, count) {
+                    if (res.data != undefined && res.data.length > 0) {
+                        setTimeout(function () {
+                            $('.layui-table-box').css('overflow-x', 'hidden');
+                            $('.layui-table-header').css('overflow', 'hidden');
+                            $(window).resize();
+                        }, 1);
+                    }
+
+                },
+            });
+          /* 马 2019-3-10 18:37 bug修复结束 */
+            form.render();
+        });
+    });
+
+    /**
+     * 重置表单内容
+     */
+    function resetForm(resetItems) {
+        for (var i = 0; i < resetItems.length; i++) {
+            var item = $("#" + resetItems[i]);
+            switch (item.prop("tagName")) {
+                case "INPUT":
+                case "SELECT":
+                    item.val("");
+                    break;
+                case "DL":
+                    item.empty();
+                    break;
+            }
+        }
+        $(".layui-anim.layui-anim-upbit input:checkbox").prop("checked", false);
+    }
+
+function jumpxiangqing() {
+        var table = layui.table,
+            layer = layui.layer
+            , config = layui.config;
+        //获取选中行的id
+        var checkStatus = table.checkStatus('table-task');
+        var rows = checkStatus.data;
+        if (rows.length == 0 || rows.length > 1) {
+            layer.alert('请选择一条数据', {
+                icon: 5
+                , btn: ['关闭']
+            });
+            return;
+        }
+        if (rows[0].taskordernumber.indexOf('OPAP') != -1) {
+            window.open('./index.html#!OPAP2?' + rows[0].taskorderkey + '&' + rows[0].processId + '&' + rows[0].nodeid);
+        } else {
+            var nodeName = "";
+            if(rows[0].nodeName ==''){
+                nodeName = "null"
+            }else {
+                nodeName = rows[0].nodeName;
+            }
+            window.open('./index.html#!task-view-ppap?' + rows[0].taskorderkey + '&' + rows[0].processId + '&' + rows[0].nodeid + '&'+escape(nodeName));
+        }
+    }
+
+    function singleFormExport() {
+        var table = layui.table,
+            layer = layui.layer,
+            config = layui.config;
+        $('#search-btn').click();
+        //单一表单导出
+        //需要传参   userId     上方搜索的请选择条件
+        var userId = config.getAccount().userId;
+        console.log(formDataField)
+        formDataField.userId = config.getAccount().userId
+        console.log(formDataField)
+        /*杨琴琴 2019-05-08 单一表单导出只导出选中的表*/
+        var checkStatus = table.checkStatus('table-task');
+        var rows = checkStatus.data;
+        if (rows.length == 0 || rows.length > 1) {
+            layer.alert('请选择一条数据导出', {
+                icon: 5
+                , btn: ['关闭']
+            });
+            return;
+        }
+        formDataField.taskordernumber = rows[0].taskordernumber;
+        formDataField.taskorderkey = rows[0].taskorderkey;
+        var formData = formDataField;
+        console.dir(formData)
+        //此时 userId 用户id   formData上方的查询条件  都得到了
+        //进行下载
+        $.ajax({
+            type: 'POST',
+            url: "/api/ppap/taskorder/searchTaskorderHave", // 生成文件，保存在服务器
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.data != null && data.data.page.length > 0) {
+                    var formData = formDataField;
+                    var urlTitle = "";
+                    if (undefined != formData.createtimestart) {
+                        urlTitle += "&createtimestart=";
+                        urlTitle += formData.createtimestart;
+                    }
+                    if (undefined != formData.createtimeend) {
+                        urlTitle += "&createtimeend=";
+                        urlTitle += formData.createtimeend;
+                    }
+                    if (undefined != formData.createtimestart) {
+                        urlTitle += "&approvaldatestart=";
+                        urlTitle += formData.approvaldatestart;
+                    }
+                    if (undefined != formData.createtimeend) {
+                        urlTitle += "&approvaldateend=";
+                        urlTitle += formData.approvaldateend;
+                    }
+                    window.location.href = "/api/ppap/ppapPdf/ppapFistPdf?" +
+                        "taskorderkey=" + formData.taskorderkey + "&rolename=" + config.getAccount().roleName
+                } else {
+                    layer.alert('无可导出数据', {
+                        icon: 5
+                        , btn: ['关闭']
+                    });
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, e) {
+                console.log(e);
+            }
+        });
+
+    }
+
+
+    function sumFile() {
+    	  var admin = layui.adc
+    	  var dataparam={};
+    	  dataparam.taskorderkey=null;
+    	  dataparam.taskordernumber=null;
+        $.ajax({
+            type: 'POST',
+            url: admin.formatUrl('/api/ppap/submitfile/summitfilesum'),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(dataparam),
+            dataType: 'json',
+            success: function (data) {
+            	debugger;
+            },
+            error: function (XMLHttpRequest, textStatus, e) {
+                console.log(e);
+            }
+        });
+
+    }
+    function allListExport() {
+        //debugger
+        var config = layui.config;
+        $('#search-btn').click();
+        //单一表单导出
+        //需要传参   userId     上方搜索的请选择条件
+        var userId = config.getAccount().userId;
+        console.log(formDataField);
+        formDataField.userId = userId;
+        console.log(formDataField);
+        var formData = formDataField;
+        console.dir(formData);
+        var urlTitle = "";
+        if (undefined != formData.createtimestart) {
+            urlTitle += "&createtimestart=";
+            urlTitle += formData.createtimestart;
+        }
+        if (undefined != formData.createtimeend) {
+            urlTitle += "&createtimeend=";
+            urlTitle += formData.createtimeend;
+        }
+        if (undefined != formData.createtimestart) {
+            urlTitle += "&approvaldatestart=";
+            urlTitle += formData.approvaldatestart;
+        }
+        if (undefined != formData.createtimeend) {
+            urlTitle += "&approvaldateend=";
+            urlTitle += formData.approvaldateend;
+        }
+
+        if (config.getAccount().roleName.indexOf('管理员') != -1 || config.getAccount().roleName.indexOf('动力总程科') != -1 || config.getAccount().roleName.indexOf('项目投产科') != -1) {
+            window.location.href = "/api/ppap/taskorder/taskOrderExcelOutPut?" +
+                "rolename=" + config.getAccount().roleName + '&' +  // 马 2019-03-10 修复任务单已办-总清单导出，formData.rolename 获取到undefined【15638】
+                "taskordernumber=" + formData.taskordernumber + '&' +
+                "projectmodel=" + formData.projectmodel + '&' +
+                "responsiblepe=" + formData.responsiblepe + '&' +
+                "riskinspectionresults=" + formData.riskinspectionresults + '&' +
+                "sqe=" + formData.sqe + '&' +
+                "suppliername=" + formData.suppliername + '&' +
+                "suppliernum=" + formData.suppliernum + '&' +
+                "currentnode=" + formData.currentnode + '&' +
+                "approvalstatus=" + formData.approvalstatus + '&' +
+                "userId="+config.getAccount().userId // 马 2019-03-09 增加供应商限制 "userId="+config.getAccount().userId
+        } else {
+            window.location.href = "/api/ppap/taskorder/taskOrderExcelOutPut?" +
+                // "userId=" + formData.userId + '&' + // 马 2019-03-10 修复任务单已办-总清单导出 bug，删除重复添加的供应商限制【15638】
+                "taskordernumber=" + formData.taskordernumber + '&' +
+                "projectmodel=" + formData.projectmodel + '&' +
+                "responsiblepe=" + formData.responsiblepe + '&' +
+                "riskinspectionresults=" + formData.riskinspectionresults + '&' +
+                "sqe=" + formData.sqe + '&' +
+                "suppliername=" + formData.suppliername + '&' +
+                "suppliernum=" + formData.suppliernum + '&' +
+                "currentnode=" + formData.currentnode + '&' +
+                "approvalstatus=" + formData.approvalstatus
+                // "userId="+config.getAccount().userId // 马 2019-03-09 增加供应商限制 "userId="+config.getAccount().userId
+        }
+
+    }
+
+    /* 马 2019年3月10日 12点37分 32338 【客户提出问题】PPAP流程-提交/审核页面，标题有误且未增加CT分组【第三方来实现】 【15712】  */
+    /**
+    * @author: WangXinYu
+    * @describe: 总清单导出by 王昕宇
+    * @create: 2019/3/10 13:15
+    **/
+    function allListExportByWangXinyu() {
+      var config = layui.config;
+      $('#search-btn').click();
+      //单一表单导出
+      //需要传参   userId     上方搜索的请选择条件
+      //debugger
+      var userId = config.getAccount().userId;
+      console.log(formDataField);
+      formDataField.userId = userId;
+      console.log(formDataField);
+      var formData = formDataField;
+      console.dir(formData);
+      var urlTitle = "";
+      if (undefined != formData.createtimestart) {
+        urlTitle += "&createtimestart=";
+        urlTitle += formData.createtimestart;
+      }
+      if (undefined != formData.createtimeend) {
+        urlTitle += "&createtimeend=";
+        urlTitle += formData.createtimeend;
+      }
+      if (undefined != formData.createtimestart) {
+        urlTitle += "&approvaldatestart=";
+        urlTitle += formData.approvaldatestart;
+      }
+      if (undefined != formData.createtimeend) {
+        urlTitle += "&approvaldateend=";
+        urlTitle += formData.approvaldateend;
+      }
+    if (config.getAccount().roleName.indexOf('管理员') != -1 || config.getAccount().roleName.indexOf('动力总程科') != -1 || config.getAccount().roleName.indexOf('项目投产科') != -1) {
+            window.location.href = "/api/ppap/taskorder/taskOrderExcelOutPut?" +
+                 //by ma 2019-03-19
+                "rolename=" + config.getAccount().roleName + '&' +
+                "taskordernumber=" + formData.taskordernumber + '&' +
+                "projectmodel=" + formData.projectmodel + '&' +
+                "responsiblepe=" + formData.responsiblepe + '&' +
+                "riskinspectionresults=" + formData.riskinspectionresults + '&' +
+                "sqe=" + formData.sqe + '&' +
+                "suppliername=" + formData.suppliername + '&' +
+                "suppliernum=" + formData.suppliernum + '&' +
+                "currentnode=" + formData.currentnode + '&' +
+                "approvalstatus=" + formData.approvalstatus + '&' +
+                "userId="+config.getAccount().userId // 马 2019-03-09 增加供应商限制 "userId="+config.getAccount().userId
+        } else {
+            window.location.href = "/api/ppap/taskorder/taskOrderExcelOutPut?" +
+                "userId=" + formData.userId + '&' +
+                "taskordernumber=" + formData.taskordernumber + '&' +
+                "projectmodel=" + formData.projectmodel + '&' +
+                "responsiblepe=" + formData.responsiblepe + '&' +
+                "riskinspectionresults=" + formData.riskinspectionresults + '&' +
+                "sqe=" + formData.sqe + '&' +
+                "suppliername=" + formData.suppliername + '&' +
+                "suppliernum=" + formData.suppliernum + '&' +
+                "currentnode=" + formData.currentnode + '&' +
+                "approvalstatus=" + formData.approvalstatus
+            // "userId="+config.getAccount().userId // 马 2019-03-09 增加供应商限制 "userId="+config.getAccount().userId
+        }
+
+
+    }
+
+    /* 马 2019年3月10日 12点37分 bug 修复结束 */
+    /**
+     * @Desc 根据项目单编号联动
+     * @Date 2018-12-21 20:55:34
+     * @Author qitian
+     */
+    function linkageByProjectItem() {
+        var admin = layui.adc,
+            form = layui.form,
+            config = layui.config;
+        //获取项目单编号
+        var itemtrackingnum = $('#itemtrackingnum').val();
+
+        //获取任务单编号
+        form.on('select(linkageByProjectItem)', function (obj) {
+            itemtrackingnum = obj.value;
+        });
+        var projectmodel = $('#search-input-projectmodel').val();
+
+        //请求接口
+        var data = {
+            itemtrackingnum: itemtrackingnum,
+            projectmodel: projectmodel
+        }
+        admin.req('/api/ppap/partslibrary/linkageByProjectItem', data, (res) => {
+            if (res.respCode == 200 && res.data && res.data.length === 1) {
+                //赋值
+                if (res.data[0].projecttype == '1') {
+                    $('#OTS1').parent().prev().html('OTS1：');
+                    $('#OTS2').parent().prev().html('OTS2：');
+                    $('#NS').parent().prev().html('NS：');
+                    $('#S').parent().prev().html('S：');
+                } else if (res.data[0].projecttype == '2') {
+                    $('#OTS1').parent().prev().html('BETA：');
+                    $('#OTS2').parent().prev().html('GAMMA：');
+                    $('#NS').parent().prev().html('3C Pilot：');
+                    $('#S').parent().prev().html('Pilot：');
+                }
+                $('#linkage-itemtrackingnum').val(res.data[0].pfollowcode);
+                $('#linkage-projectmodel').val(res.data[0].pcartype);
+                if (res.data[0].ots1 != null) {
+                    $('#OTS1').val(new Date(res.data[0].ots1).Format("yyyy-MM-dd"));
+                }
+                if (res.data[0].ots2 != null) {
+                    $('#OTS2').val(new Date(res.data[0].ots2).Format("yyyy-MM-dd"));
+                }
+                if (res.data[0].ns != null) {
+                    $('#NS').val(new Date(res.data[0].ns).Format("yyyy-MM-dd"));
+                }
+                if (res.data[0].stime != null) {
+                    $('#S').val(new Date(res.data[0].stime).Format("yyyy-MM-dd"));
+                }
+                if (res.data[0].soptime != null) {
+                    $('#SOP').val(new Date(res.data[0].soptime).Format("yyyy-MM-dd"));
+                }
+            } else {
+                $('#linkage-itemtrackingnum').val('');
+                $('#linkage-projectmodel').val('');
+                $('#OTS1').val('');
+                $('#OTS2').val('');
+                $('#NS').val('');
+                $('#S').val('');
+                $('#SOP').val('');
+            }
+        }, {
+            method: 'POST'
+        })
+
+    }
+
+    /**
+     * @Desc 搜索下拉面板数据获取
+     * @Date 2018-12-21 17:13:08
+     * @Author qitian
+     */
+    function loadSearch() {
+        var admin = layui.adc,
+            form = layui.form,
+            config = layui.config,
+        formSelects = layui.formSelects;
+
+        var where = {
+            userId: config.getAccount().userId
+        }
+        admin.req('/api/ppap/taskorder/taskItems', where, function (res) {
+            if (res.respCode == 200 && res.data) {
+                for (var selName in res.data) {
+                    $('#' + selName).empty();
+                    //多选项
+                    if (multipleItems.includes(selName)) {
+                        admin.initMultipleSelect(selName, res.data[selName]
+                        );
+                    } else if(formSelectItems.includes(selName)){
+                        //formSelects 多选  [suppliername、itemtrackingnum、projectmodel]
+                        var selectData = [];
+                        for(var i=0;i<res.data[selName].length;i++){
+                            var value = res.data[selName];
+                            var selectObj = {};
+                            selectObj.name = value[i];
+                            selectObj.value = value[i];
+                            selectData.push(selectObj);
+                        }
+                        //formSelect-v4下拉树插件渲染
+                        formSelects.data(''+selName+'', 'local', {
+                            arr: selectData
+                        });
+                        formSelects.btns(''+selName+'', []);
+
+                    }else {//单选项
+                        if (res.data[selName].length > 0) {
+                            $('#' + selName).append('<option value="">请选择</option>');
+                            // for (let item of res.data[selName]) {
+                            for (var i = 0, len = res.data[selName].length; i < len; i++) {
+                                var item = res.data[selName][i];
+                                if (item) {
+                                    if (history && history[selName] == item) {
+                                        $('#' + selName).append('<option value="' + item + '" selected>' + item + '</option>');
+                                    } else {
+                                        $('#' + selName).append('<option value="' + item + '">' + item + '</option>');
+                                    }
+                                }
+                            }
+                        } else {
+                            $('#' + selName).append('<option value="">请选择</option>');
+                        }
+                        form.render('select');
+                        $('#itemtrackingnum').next().find('dd').on('click', function (e) {
+                            linkageByProjectItem();
+                        })
+                    }
+                }
+            }
+        }, {
+            method: 'POST'
+        });
+    };
+
+    /**
+     * 面板 显示
+     * @param _this  当前元素this
+     */
+    function openPanel(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('收起');
+                $('#flex1').next().next().removeClass('hide');
+                $('#flex1').next().addClass('hide');
+            } else {
+                $('#flex2').html('收起')
+                $('#flex2').next().next().removeClass('hide');
+                $('#flex2').next().addClass('hide');
+            }
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('展开');
+                $('#flex1').next().next().addClass('hide');
+                $('#flex1').next().removeClass('hide');
+            } else {
+                $('#flex2').html('展开')
+                $('#flex2').next().next().addClass('hide');
+                $('#flex2').next().removeClass('hide');
+            }
+        }
+    }
+    //by ma 2019/03/10 selectFrom 添加鼠标悬停显示全部
+    $("#task_sheet_agent1").on('mouseover','.xm-form-checkbox',function (){
+        var text = $(this).find("span").text()
+        $(this).attr('title',text)
+    });
+</script>
+</body>
+</html>

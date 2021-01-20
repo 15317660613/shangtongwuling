@@ -1,0 +1,45 @@
+<div class="layui-tpl-container">
+    <div class="layui-form p-form">
+        <div class="layui-form-item" id="fileidentifierDiv">
+            <label class="layui-form-label"><span style="color: red;">*</span>文件标识</label>
+            <div class="layui-input-block">
+                <select id="fileidentifier" lay-ignore="" class="layui-input" name="fileidentifier">
+                    <option value="">请选择</option>
+                    <option value="R">R</option>
+                    <option value="S">S</option>
+                </select>
+                <!--<input type="text" id="fileidentifier" name="fileidentifier" placeholder="请输入文件标识" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span>文件名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="filename" name="filename" lay-verify="required"  placeholder="请输入文件名称" class="layui-input">
+            </div>
+        </div>
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn layui-btn-normal btn1" lay-submit lay-filter="fileSave">保存</button>
+            <button class="layui-btn layui-btn-normal btn2" lay-submit lay-filter="fileUpdate">保存</button>
+            <button class="layui-btn layui-btn-primary"  id="btn-fileCancle">取消</button>
+        </div>
+        <input type="hidden" id="filekey">
+    </div>
+</div>
+<script>
+
+    layui.use(['table','laydate'], function () {
+        var table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            laydate = layui.laydate
+            form.render('select');
+        $('#btn-fileCancle').click(function () {
+            admin.closePopupCenter();
+
+        })
+    })
+
+</script>

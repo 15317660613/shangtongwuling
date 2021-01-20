@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="../../assets/css/course.css">
+<style>
+    .layui-card-body {
+        width: 55%;
+        margin: 0 auto;
+    }
+    
+    .courseContent-right {
+        align-items: baseline;
+    }
+    
+    .studyProgress {
+        float: right;
+    }
+    
+    .chapter {
+        line-height: 40px;
+        background-color: #ccc;
+        padding-left: 10px
+    }
+    
+    .chapterListItem {
+        display: flex;
+        justify-content: space-between;
+        line-height: 40px;
+    }
+    
+    .courseContent {
+        margin-bottom: 10px;
+    }
+    
+    .courseContent-center {
+        border-left: 1px solid #eee;
+        padding-left: 10px;
+    }
+    
+    .chapterList {
+        padding: 10px;
+    }
+    
+    .courseDetailTitle {
+        margin-right: 20px;
+    }
+    
+    input {
+        width: 40px!important;
+    }
+</style>
+<div class="course_detail layui-card">
+    <div class="layui-card-body">
+        <div class="course-header courseContent">
+            <div class="img"><img src="../../assets/images/head.png" alt=""></div>
+            <div class="courseContent-center">
+
+            </div>
+            <div class="courseContent-right"><button class="layui-btn layui-btn-xs layui-btn-normal" id="back">返回</button></div>
+        </div>
+        <table id="chapterList"></table>
+    </div>
+</div>
+
+<script id="course" type="text/html">
+    <div><span class="courseDetailTitle">{{d.courseName}}</span><button class="layui-btn layui-btn-xs layui-btn-danger">学习中</button></div>
+    <div>主讲：<span class="teacher">{{d.teacher}}</span></div>
+    <div>时长：<span id="courseTime">{{d.last}}</span>小时（共<span id="chapterNum">{{d.sectionNum}}</span>讲）<span class="studyProgress">学习进度： <span id="progressNum">{{d.studyPercent}}</span>%</span>
+    </div>
+    <div>课程简介：<span>{{d.courseAbstract}}</span></div>
+</script>
+
+<script>
+    var admin;
+    layui.use(['admin', 'layer'], function() {
+        admin = layui.admin;
+        var layer = layui.layer;
+        var search = admin.GetRequest();
+        // 返回
+        $('#back').on('click', function() {
+            //history.back();
+            location.href = search.pageLink + '#!ADC_academy_course';
+        });
+
+    });
+    var playSecond=localStorage.getItem('playSecond');
+    var playEnd=localStorage.getItem('playEnd');
+    var end=localStorage.getItem('playSecond');
+    // 向后台传递参数
+    function postProgress(progress) {
+        admin.req('/api-edu/training/course/book/page?planId=' + localStorage.getItem('planId') + '&courseId=' + localStorage.getItem('courseId') + '&textbookId=' + localStorage.getItem('textbookId') + '&progress=' + progress, {}, function(res) {
+        }, {
+            method: 'PUT'
+        })
+    }
+    function postEndProgress(progress) {
+        admin.req('/api-edu/training/course/book/over?planId=' + localStorage.getItem('planId') + '&courseId=' + localStorage.getItem('courseId') + '&textbookId=' + localStorage.getItem('textbookId') + '&progress=' + progress, {}, function(res) {
+        }, {
+            method: 'PUT'
+        })
+    }
+    if(playSecond&&!playEnd){
+        postProgress(playSecond);
+    }
+    if(playEnd){
+        postEndProgress(playSecond);
+    }
+            
+    // 打开新窗口学习教材
+    function openWin(url, textbookId, progress, last, obj) {
+        var suffix = url.substring(url.lastIndexOf('.') + 1);
+        var progressNum = parseInt(progress);
+        var courseName = $('.courseDetailTitle').text();
+        var bookName = $(obj).text().substring(0, $(obj).text().indexOf('('));
+        
+        if (progress == '0' || progress == last) {
+            progressNum = 1;
+        }
+        if (progress == '0') {
+            admin.req('/api-edu/training/course/book/start?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId, {}, function(res) {
+                if (res.ok) {
+                    if (suffix === 'pdf') {
+                        window.open('/components/academy/office.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0]);
+                    }else{
+                        window.open('/components/academy/vedio.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0]);
+                    }
+                } else {
+                    layer.msg(res.message);
+                }
+            }, {
+                method: 'PUT'
+            })
+        } else {
+            if (suffix === 'pdf') {
+                window.open('/components/academy/office.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0]);
+            }else{
+                window.open('/components/academy/vedio.html?planId=' + admin.GetRequest().planId + '&courseId=' + admin.GetRequest().courseId + '&textbookId=' + textbookId + '&progress=' + progressNum + '&courseName=' + courseName + '&bookName=' + bookName + '&pageLink=' + location.href.split("#")[0]);
+            }
+        }
+    };
+</script>

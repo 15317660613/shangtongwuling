@@ -1,0 +1,1057 @@
+<style>
+    /*.layui-card-header {*/
+    /*height: 40px;*/
+    /*line-height: 40px;*/
+    /*padding: 0px;*/
+    /*display: -webkit-flex;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*margin-top: 5px;*/
+    /*color: #333333;*/
+    /*border-bottom: 4px solid #eee;*/
+    /*padding-left: 15px;*/
+    /*padding-right: 15px;*/
+    /*}*/
+    /*.layui-card-body {*/
+    /*height: auto;*/
+    /*padding: 0px;*/
+    /*}*/
+    /*.layui-table-header .layui-table {*/
+    /*color: #448EE0;*/
+    /*background: #E9F9FF;*/
+    /*}*/
+    /*.layui-table-cell {*/
+    /*height: 20px;*/
+    /*line-height: 20px;*/
+    /*font-size: 12px;*/
+    /*}*/
+    /*.layui-table-body {*/
+    /*max-height: 300px;*/
+    /*}*/
+    /*.btn-form button{*/
+    /*width: 70px;*/
+    /*}*/
+    /*.line {*/
+    /*height: 16px;*/
+    /*border-left: 4px solid #448EE0;*/
+    /*line-height: 16px;*/
+    /*padding-left: 10px;*/
+    /*flex-grow: 1;*/
+    /*color: #333333;*/
+    /*font-size: 16px;*/
+    /*}*/
+    /*.vertical-line{*/
+    /*width: 1px;*/
+    /*height: 230px;*/
+    /*margin-top: 55px;*/
+    /*background: #e1e1e1;*/
+    /*}*/
+    /*.tea_arrowDown {*/
+    /*transition: 0.8s;*/
+    /*transform-origin: center center;*/
+    /*transform: rotateZ(0deg);*/
+    /*}*/
+    /*.layui-table-body .layui-none{*/
+    /*padding: 0px;*/
+    /*line-height: 279px;*/
+    /*}*/
+    /*.tea_arrowUp {*/
+    /*transition: 0.8s;*/
+    /*transform-origin: center center;*/
+    /*transform: rotateZ(180deg);*/
+    /*}*/
+    /*.table-top-bar .layui-form-label {*/
+    /*width: 80px;*/
+    /*}*/
+    /*@media screen and (min-width: 1360px) and (max-width: 1920px) {*/
+    /*.layui-input,*/
+    /*.layui-select {*/
+    /*width: 180px;*/
+    /*}*/
+    /*.btn-form{*/
+    /*padding-right: 45px;*/
+    /*}*/
+    /*.line-chart {*/
+    /*height: 340px;*/
+    /*background: #fff;*/
+    /*}*/
+    /*.layui-form-label {*/
+    /*font-size: 14px;*/
+    /*}*/
+    /*}*/
+    /*@media screen and (min-width: 1920px) {*/
+    /*.layui-input,*/
+    /*.layui-select {*/
+    /*width: 260px;*/
+    /*}*/
+    /*.btn-form{*/
+    /*padding-right: 123px;*/
+    /*}*/
+    /*.table-top-bar .layui-form-label {*/
+    /*width: 90px;*/
+    /*}*/
+    /*.line-chart {*/
+    /*width: 100%;*/
+    /*height: 540px;*/
+    /*}*/
+    /*.layui-form-label {*/
+    /*font-size: 14px;*/
+    /*}*/
+    /*}*/
+    /*@media screen and (max-width: 1360px) {*/
+    /*.layui-input,*/
+    /*.layui-select {*/
+    /*width: 130px;*/
+    /*}*/
+    /*.btn-form{*/
+    /*padding-right: 56px;*/
+    /*}*/
+    /*.line-chart {*/
+    /*width: 100%;*/
+    /*height: 300px;*/
+    /*}*/
+    /*.layui-form-label {*/
+    /*font-size: 12px;*/
+    /*}*/
+    /*}*/
+	.layui-card-header a{
+		float: right;
+	    font-size: 14px;
+	    color: #949494;
+	    font-weight: 500;
+	    margin-left: 24px;
+	}
+</style>
+<link rel="stylesheet" href="assets/css/analysis.css">
+
+<div class="layui-row content-margin">
+    <!-- 单列普通表格 -->
+
+    <!-- 卡片容器 -->
+    <div class="bottom-border-line">
+        <div class="layui-card-header" style="border-top: none;padding-top: 0px">
+            <!--<div class=""><label id="flex2">展开</label><i class="layui-icon layui-icon-down"></i><i class="layui-icon layui-icon-up hide"></i>&lt;!&ndash;<img src="../../assets/images/arrowdown.png" /><img class="hide" src="../../assets/images/arrowup.png" />&ndash;&gt;</div>-->
+            <div class="line">查询条件</div>
+            <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                  src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+        </div>
+        <!-- 数据表格顶部控制栏 -->
+        <div class="layui-form bottom-border-line" style="display: none">
+            <div class="layui-form-item table-top-bar" id='search-form'>
+                <div class=" layui-row ">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                        <span class="layui-form-label "> 起止日期</span>
+                        <div class="layui-inline" id="lay-date">
+                            <input readonly autocomplete="off" type="text" id="inspectDate2" placeholder="请选择起止日期" class="layui-input">
+                            <input style="width: 0px;height: 0px;border-color: #ffffff !important" autocomplete="off" type="text" name="inspectDate" id="inspectDate" placeholder="请选择起止日期" class="layui-input">
+                        </div>
+                    </div>
+
+
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                        <span class="layui-form-label "> 生产区域</span>
+                        <div class="layui-inline">
+                            <select name="productionAreaId" id="productionAreaId" placeholder="选择生产区域" lay-filter="productionAreaId" lay-search>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                        <span class="layui-form-label "> 停线类型</span>
+                        <div class="layui-inline">
+                            <select name="stopLineTypeId" id="stopLineTypeId" placeholder="选择停线类型" lay-filter="stopLineTypeId" lay-search>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1" id="top-right-from">
+                        <span class="layui-form-label "> 工艺类型</span>
+                        <div class="layui-inline">
+                            <select name="processTypeId" id="processTypeId" placeholder="选择工艺类型" lay-filter="processTypeId" lay-search>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class=" layui-row " style="margin-top: 15px">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                        <span class="layui-form-label "> 生产线名称</span>
+                        <div class="layui-inline">
+                            <select name="plineCode" id="plineCode" placeholder="选择生产线" lay-filter="plineCode" lay-search>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                        <span class="layui-form-label "> 班组名称</span>
+                        <div class="layui-inline">
+                            <select name="teamNameId" id="teamNameId" placeholder="请选择班组" lay-filter="teamNameId" lay-search>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                        <span class="layui-form-label "> 班次</span>
+                        <div class="layui-inline">
+                            <input type="text" name="classes" placeholder="请输入班次" class="layui-input">
+
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md3  search-item1">
+                        <div class="btn-form pull-right">
+                            <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="search_btn" id="search_btn"><span>查询</span></button>
+                            <button class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="reset"><span>重置</span></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-card-body bottom-border-line">
+        <div class="layui-card-header">
+            <div class="line">停线统计</div>
+            <div class="layui-btn-group " id="type-group-btn">
+                <button class="layui-btn layui-btn-sm layui-btn-normal" type="day">日</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary" type="week">周</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary" type="month">月</button>
+            </div>
+
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md8" style="border-right: 7px solid #eeeeee;padding-top: 10px;padding-bottom: 10px">
+                <div id="line-chart" class="line-chart" style="flex-grow: 1"></div>
+
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" style="padding:10px">
+                <div id="pie-chart" class="line-chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-card-body">
+        <div class="layui-card-header">
+            <div class="line" >前位问题分析
+                <span id="spanTopProblemDate" style="color:#5583ff;font-size:13px"></span>
+            </div>
+            <div class="layui-btn-group " id="top10-button-group">
+                <button class="layui-btn layui-btn-sm layui-btn-normal">生产线</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary">设备</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary">工装</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary">质量</button>
+                <button class="layui-btn layui-btn-sm layui-btn-primary">缺料</button>
+            </div>
+
+        </div>
+        <div class="layui-row">
+
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4 right-border-line">
+                <table id="tableContent" lay-filter="tableContent"></table>
+                <!--<div class="vertical-line" >-->
+                <!--</div>-->
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md8" style="padding: 10px">
+                <div id="top10-chart" style="height: 340px;width: 100%;margin-top: 10px"></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    // 初始化 layui
+    layui.use(['laydate', 'element', 'table'], function() {
+        var table = layui.table,
+            form = layui.form,
+            laydate = layui.laydate,
+            config = layui.config,
+            searchParams = {},
+            dateValue = '', //用来缓存曾经选中的日期 为了日周月切换
+            lineChart = '',
+            admin = layui.admin;
+        laydate.render({
+            elem: '#inspectDate',
+            range: true,
+            type: 'date',
+            done: function(value, date, endDate) {
+                formoat(value);
+            }
+
+        });
+
+        $('#inspectDate2').on('click', function() {
+            setTimeout(function() {
+                $('#inspectDate').focus();
+            }, 100)
+
+        });
+
+        if (admin.GetRequest().timeS && admin.GetRequest().timeE) {
+            $('#inspectDate').val(admin.GetRequest().timeS + ' - ' + admin.GetRequest().timeE);
+            $('#inspectDate2').val(admin.GetRequest().timeS + ' - ' + admin.GetRequest().timeE);
+        }
+        /*
+            laydate 类型切换 date month，需要删除实例后重新
+           todo 找到新的办法
+        */
+
+        function changeDateType(dateType) {
+            var type = dateType === 'month' ? 'month' : 'date';
+            //如果切换到月 把先前的日期先保存
+            var value = '';
+            if ($('#inspectDate').val().length == 23) {
+                dateValue = $('#inspectDate').val();
+                //如果是月类型 ，将日格式转为月格式
+                if (type === 'month') {
+                    var startDate = dateValue.split(' - ')[0];
+                    var endDate = dateValue.split(' - ')[1];
+                    value = new Date(startDate).toLocaleMonth() + ' - ' + new Date(endDate).toLocaleMonth();
+                    $('#inspectDate2').val(value);
+                } else {
+                    value = dateValue
+                }
+
+            } else if (dateValue != '') {
+                value = dateValue;
+
+            }
+
+            $('#inspectDate').remove();
+            $('#lay-date').append('                                    <input  style="width: 0px;height: 0px;border-color: #ffffff !important"  autocomplete="off"  type="text" name="inspectDate" id="inspectDate" placeholder="请选择起止日期" class="layui-input" >');
+            laydate.render({
+                elem: '#inspectDate',
+                range: true,
+                type: type,
+                value: value,
+                done: function(value, date, endDate) {
+                    formoat(value);
+                }
+
+            });
+        }
+        /*
+            显示处理 如果是周 显示为 2019-1-1/2019-2-2 (某年某月某周)
+        */
+        function formoat(date) {
+            var value = date ? date : $('#inspectDate').val();
+            var type = $("#type-group-btn .layui-btn-normal").attr('type');
+            if (value == '') {
+                $('#inspectDate2').val(value);
+                return;
+
+            }
+            if (type == 'week') {
+                var startDate = value.split(' - ')[0];
+                var endDate = value.split(' - ')[1];
+                var d1 = window.$calendar[startDate];
+                var d2 = window.$calendar[endDate]
+                var dS = '';
+                var dE = '';
+                if (d1) {
+                    var arr1 = d1.split('-');
+                    dS = arr1[0] + '年' + arr1[1] + '月第' + arr1[2] + '周';
+
+                }
+                if (d2) {
+                    var arr2 = d2.split('-');
+                    dE = arr2[0] + '年' + arr2[1] + '月第' + arr2[2] + '周';
+                }
+                $('#inspectDate2').val(dS + "-" + dE);
+
+            } else {
+                $('#inspectDate2').val(value);
+            }
+        }
+
+        //生产区域
+        setSelectData('productionArea', '#productionAreaId', 'typeName', 'typeId');
+        //停线类型
+        setSelectData('stopLineType', '#stopLineTypeId', 'typeName', 'typeId');
+        //班组名称
+        setSelectData('teamName', '#teamNameId', 'typeName', 'typeId');
+        //工艺类型
+        setSelectData('processType', '#processTypeId', 'typeName', 'typeId');
+        //生产线名称
+        setSelectData('PLineName', '#plineCode', 'plineName', 'plineCode');
+        /*
+           下拉表单赋值方法
+        */
+
+        $('#toggle').on('click', function() {
+                $('#search-form').toggle(200);
+                if ($('#toggle').hasClass('tea_arrowUp')) {
+                    $('#toggle').removeClass('tea_arrowUp').addClass('tea_arrowDown');
+                    $('#toggle').parent().css('border-bottom', '1px solid #e1e1e1');
+
+                } else {
+                    $('#toggle').removeClass('tea_arrowDown').addClass('tea_arrowUp');
+                    $('#toggle').parent().css('border-bottom', 'none');
+                };
+
+            })
+            /*
+               封装统一下拉列表赋值
+            */
+		$('#toggle').click();
+        function setSelectData(url, id, name, value) {
+            admin.req('/api-edu/interaction/stopLineAnalysis/' + url, {}, function(res) {
+
+                var elem = $(id);
+                elem.empty();
+                elem.append('<option value=""></option>');
+                for (var i = 0; i < res.data.length; i++) {
+                    elem.append('<option value="' + res.data[i][value] + '">' + res.data[i][name] + '</option>')
+                }
+                form.render('select');
+
+            }, {
+                method: 'get'
+            });
+        };
+        //渲染完毕后触发查询按钮
+        setTimeout(function() {
+
+                $('#search_btn').click();
+
+            }, 100)
+            /*
+              日周月按钮切换 =》 laydate 会切换显示形式
+            */
+
+        $("#type-group-btn").on("click", "button", function() { //只需要找到你点击的是哪个ul里面的就行
+            var type = $(this).attr('type');
+            $("#type-group-btn .layui-btn-normal").addClass('layui-btn-primary').removeClass('layui-btn-normal');
+            $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal');
+            changeDateType(type);
+            formoat();
+            $('#search_btn').click();
+
+        });
+        /*
+           底部不同分类按钮切换
+        */
+
+        $("#top10-button-group").on("click", "button", function() { //只需要找到你点击的是哪个ul里面的就行
+
+            $("#top10-button-group .layui-btn-normal").addClass('layui-btn-primary').removeClass('layui-btn-normal');
+            $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal');
+            renderTable(searchParams)
+
+        });
+
+
+        function renderTable(search) {
+            var name = '生产线名称';
+            var codeName = '生产线编码';
+
+            if (search) {
+                search.typeName = $("#top10-button-group .layui-btn-normal").html();
+                if (search.typeName == '生产线') {
+                    name = '生产线名称';
+                    codeName = '生产线编码';
+                } else if (search.typeName == '设备') {
+                    name = '设备名称';
+                    codeName = '设备编码';
+                } else if (search.typeName == '工装') {
+                    name = '工装名称';
+                    codeName = '工装编码';
+                } else if (search.typeName == '质量') {
+                    name = '设备名称';
+                    codeName = '设备编码';
+                } else if (search.typeName == '缺料') {
+                    name = '物料名称';
+                    codeName = '物料编码';
+                }
+
+            }
+            // 渲染表格
+            table.render({
+                elem: '#tableContent',
+                id: 'tableContent',
+                url: admin.formatUrl('/api-edu/interaction/stopLineAnalysis/top10'),
+                // 格式化后台返回的数据
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    var xData = [],
+                        yData = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        yData.push({
+                            value: res.data[i].stopTime,
+                            name: res.data[i].plineName
+                        }); //放在判断的前面
+                        if (res.data[i].plineName && res.data[i].plineName.length > 5) {
+                            res.data[i].lineName = res.data[i].plineName.substring(0, 5) + '...';
+                        } else {
+                            res.data[i].lineName = res.data[i].plineName;
+                        }
+                        xData.push(res.data[i].lineName);
+
+                    }
+
+                    // 前位问题分析- 追加显示日期
+                    $('#spanTopProblemDate').text(res.message);
+
+                    setTop1Option(xData, yData, 'top10-chart', res.message)
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "data": res.data //解析数据列表
+                    };
+                },
+
+                cols: [
+                    [{
+                        type: 'numbers',
+                        title: '序号',
+                        width: 40,
+                    }, {
+                        field: 'plineCode',
+                        title: codeName,
+                        align: 'center',
+                        templet: function(d) {
+                            var text = d.plineCode ? d.plineCode : "";
+                            return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        }
+                    }, {
+                        field: 'plineName',
+                        title: name,
+                        align: 'center',
+                        templet: function(d) {
+                            var text = d.plineName ? d.plineName : "";
+                            return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        }
+                    }, {
+                        field: 'stopTime',
+                        title: '停线时间(min)',
+                        align: 'center',
+                        templet: function(d) {
+                            var text = d.stopTime ? d.stopTime : "";
+                            return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        }
+                    }, {
+                        field: 'stopReason',
+                        title: '停线原因',
+                        align: 'center',
+                        templet: function(d) {
+                            var text = d.stopReason ? d.stopReason : "";
+                            if(text.length > 0 && text.startsWith(",")) {
+                                text = text.substring(1);
+                            }
+
+                            return '<div title="' + text + '"><span>' + text + '</span></div>'
+                        }
+                    }]
+                ],
+                cellMinWidth: 90,
+                where: search,
+                done: function() {
+                    admin.tableAdaptionHeight('tableContent')
+                }
+
+            });
+        }
+        /*
+           查询页面数据
+        */
+
+        function searchData(data) {
+            var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+            var params = data ? data : {};
+            params.dateType = dateType;
+            searchParams = params;
+            /*
+               柱形图
+             */
+            admin.req('/api-edu/interaction/stopLineAnalysis/barGraph', params,
+                function(res) {
+
+                    var xData = [];
+                    var equipmentFailureCounts = [];
+                    var missingMaterialCounts = [];
+                    var otherCounts = [];
+                    var qualityCounts = [];
+                    var toolingFailureCounts = [];
+                    var rates = [];
+
+                    for (var i = 0; i < res.data.length; i++) {
+                        var item = res.data[i];
+                        var date = ''; //柱状图   Y轴显示
+                        var time = ''; //连动时传参 YYYY-MM-DD
+                        var timeShow = ''; //连动时饼状图显示
+                        if (dateType == 'day') {
+                            time = item.dateTime;
+                            date = item.dateTime.substring(item.dateTime.length - 4, item.dateTime.length - 2) + '-' + item.dateTime.substring(item.dateTime.length - 2);
+                            timeShow = item.dateTime.substring(0, item.dateTime.length - 4) + '-' + date;
+                        } else if (dateType == 'week') {
+                            time = item.dateTimeForWeek;
+                            timeShow = item.dateTime;
+                            date = item.dateTime.split('年')[1];
+                        } else if (dateType == 'month') {
+                            time = item.dateTime;
+                            date = item.dateTime.substring(0, item.dateTime.length - 2) + '-' + item.dateTime.substring(item.dateTime.length - 2);
+                            timeShow = date;
+                            time = date + "-01";
+                        }
+
+                        xData.push(date);
+                        equipmentFailureCounts.push({
+                            value: item.equipmentFailureCount,
+                            time: time,
+                            timeShow: timeShow
+                        }); //设备
+                        toolingFailureCounts.push({
+                            value: item.toolingFailureCount,
+                            time: time,
+                            timeShow: timeShow
+                        }); //工装
+                        missingMaterialCounts.push({
+                            value: item.missingMaterialCount,
+                            time: time,
+                            timeShow: timeShow
+                        }); //缺料
+                        qualityCounts.push({
+                            value: item.qualityCount,
+                            time: time,
+                            timeShow: timeShow
+                        }); //质量
+                        otherCounts.push({
+                            value: item.otherCount,
+                            time: time,
+                            timeShow: timeShow
+                        }); //其他
+                        if (item.produceTime > 0) {
+                            var rate = (item.equipmentFailureCount + item.toolingFailureCount + item.missingMaterialCount + item.qualityCount + item.otherCount) / (item.produceTime);
+                            var rate = (rate * 100).toFixed(2);
+                            rates.push(rate);
+
+                        } else {
+                            rates.push(0);
+                        }
+
+                    }
+                    stoplineBar(xData, equipmentFailureCounts, toolingFailureCounts, missingMaterialCounts, qualityCounts, otherCounts, rates)
+
+                }, {
+                    method: 'get'
+                });
+
+            getPieData(params)
+            renderTable(params)
+
+        }
+
+        function getPieData(params, title) {
+            /*
+           饼图
+         */
+            admin.req('/api-edu/interaction/stopLineAnalysis/pieChart', params, function(res) {
+                // var colorArray=['RGB(51,185,253)','RGB(255,155,51)','RGB(129,183,125)','RGB(176,161,199)','RGB(255,241,51)','',''];
+                var colorArray = ['#E79647', '#ed6b4b', '#e2d061', '#4e93dc', '#5bb4c0', '#4e93dc'];
+                var flag=false;
+				for (var i = 0; i < res.data.length; i++) {
+                    res.data[i].itemStyle = {
+                        color: colorArray[i]
+                    };
+					if(res.data[i].value!=0){
+						flag=true;
+					}
+                }
+                if (!title) {
+                    title = res.message;
+                }
+				if(flag){
+					stopLinePie(res.data, title);
+				}
+            }, {
+                method: 'get'
+            });
+
+        }
+
+        function stoplineBar(xData, equipmentFailureCounts, toolingFailureCounts, missingMaterialCounts, qualityCounts, otherCounts, rates) {
+            var subtext = equipmentFailureCounts[0].timeShow + '/' + equipmentFailureCounts[equipmentFailureCounts.length - 1].timeShow;
+            var option = {
+                title: {
+                    text: '停线状态',
+                    subtext: subtext,
+                    x: 'center',
+                    textStyle: {
+                        fontSize: 16
+                    },
+
+                },
+                tooltip: {
+                    trigger: 'axis',
+
+                    formatter: function(params, ticket, callback) {
+                        var content = params[0].name + '</br>';
+                        for (var item of params) {
+                            content += (item.marker + item.seriesName + ": " + item.value) + (item.componentSubType == 'line' ? '%' : '') + '</br>'
+
+                        }
+                        return content;
+                    },
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                grid: {
+                    x: 60,
+                    x2: 40,
+
+                },
+
+                legend: {
+                    data: [{
+                        name: '设备故障停线',
+                        icon: "roundRect"
+                    }, {
+                        name: '工装故障停线',
+                        icon: "roundRect"
+                    }, {
+                        name: '缺料停线',
+                        icon: "roundRect"
+                    }, {
+                        name: '质量停线',
+                        icon: "roundRect"
+                    }, {
+                        name: '其他停线',
+                        icon: "roundRect"
+                    }, {
+                        name: '停线率',
+
+                    }],
+                    left: 'center',
+                    bottom: 'bottom',
+                    padding: [7, 0, 0, 0],
+                    itemWidth: 10,
+                    itemHeight: 10,
+
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: xData,
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        rotate: 45,
+
+                    },
+
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '停线时间（min）',
+                    min: 0,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                }, {
+                    type: 'value',
+                    name: '停线率(%)',
+                    min: 0,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+
+                }],
+                series: [
+                    // var colorArray=['#E79647','#ed6b4b','#4e93dc','#e2d061','#5bb4c0','#4e93dc'];
+                    {
+                        name: '停线率',
+                        type: 'line',
+                        stack: '故障',
+                        color: '#4e93dc',
+                        barMaxWidth: 40,
+                        yAxisIndex: 1,
+                        data: rates
+                    },
+
+                    {
+                        name: '设备故障停线',
+                        type: 'bar',
+                        stack: '故障',
+                        data: equipmentFailureCounts,
+                        barWidth: '50%',
+                        color: '#E79647',
+                        barMaxWidth: 40,
+                    }, {
+                        name: '工装故障停线',
+                        type: 'bar',
+                        stack: '故障',
+                        color: '#ed6b4b',
+                        barWidth: '50%',
+                        barMaxWidth: 40,
+                        data: toolingFailureCounts
+                    }, {
+                        name: '缺料停线',
+                        type: 'bar',
+                        stack: '故障',
+                        color: '#e2d061',
+                        barWidth: '50%',
+                        barMaxWidth: 40,
+                        data: missingMaterialCounts
+                    },
+
+                    {
+                        name: '质量停线',
+                        type: 'bar',
+                        stack: '故障',
+                        color: '#4e93dc',
+                        barWidth: '50%',
+                        barMaxWidth: 40,
+                        data: qualityCounts
+                    }, {
+                        name: '其他停线',
+                        type: 'bar',
+                        stack: '故障',
+                        color: '#5bb4c0',
+                        barWidth: '50%',
+                        barMaxWidth: 40,
+                        data: otherCounts
+                    },
+
+
+                ]
+            };
+            echarts.init(document.getElementById('line-chart')).dispose();
+            lineChart = echarts.init(document.getElementById('line-chart'));
+            lineChart.setOption(option);
+            lineChart.on('click', function(params) {
+
+                var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+                if (dateType != 'day') {
+                    var data = params.data;
+                    searchParams.startDate = data.time;
+                    searchParams.endDate = data.time;
+                    getPieData(searchParams, data.timeShow);
+                    renderTable(searchParams)
+                }
+
+            });
+
+        }
+
+        function stopLinePie(data, title) {
+            var subtext = title ? title : $('#inspectDate2').val();
+            var option = {
+                title: {
+                    text: '停线类型分析',
+                    subtext: subtext,
+                    x: 'center',
+                    textStyle: {
+                        fontSize: 16
+                    },
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{b} : {c} ({d}%)"
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'vertical',
+                    //data:['设备故障停线','工装故障停线','缺料停线','质量停线','其他停线','停线率'],
+                    orient: 'vertical', // 'vertical'
+                    x: 'right', // 'center' | 'left' | {number},
+                    y: 'center', // 'center' | 'bottom' | {number}
+                    icon: "roundRect",
+                    itemWidth: 10,
+                    itemHeight: 10
+                },
+                series: [{
+                    name: '停线类型',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['40%', '55%'],
+                    data: data,
+                    label: {
+                        // normal: {
+                        //     show: true,
+                        //     formatter: '{b}:\n{c}({d}%)' //自定义显示格式(b:name, c:value, d:百分比)
+                        // }
+                        show: false
+                    },
+                    labelLine: {
+                        // length: 10,
+                        // length2: 10
+                        show: false
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+
+            drawCharts('pie-chart', option);
+
+        }
+
+        function setTop1Option(xData, yData, id, subtext) {
+            var title = '按' + $("#top10-button-group .layui-btn-normal").html() + 'TOP10分析';
+
+            var option = {
+                color: ['#71B7EE'],
+                title: {
+                    text: title,
+                    subtext: subtext,
+                    x: 'center',
+                    textStyle: {
+                        fontSize: 16
+                    },
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLabel: {
+                        rotate: 45,
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    name: '停线时间（min）',
+                    type: 'value',
+                    min: 0,
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#949494',
+                        }
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }],
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params, ticket, callback) {
+
+                        return params[0].name + ':</br>' + params[0].value + 'min';
+                    },
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                series: [{
+                    name: '停线时间（min）',
+                    type: 'bar',
+                    barWidth: '40%',
+                    barMaxWidth: 40,
+                    data: yData
+                }]
+            };
+            drawCharts(id, option);
+
+        }
+
+
+
+        // 表单提交，查询与重置
+        form.on('submit(search_btn)', function(data) {
+            // 获取表单数据
+            var d = data.field;
+
+            if (d.inspectDate) {
+                d.startDate = d.inspectDate.split(' - ')[0];
+                d.endDate = d.inspectDate.split(' - ')[1];
+                var dateType = $("#type-group-btn .layui-btn-normal").attr('type');
+                //注意后台接口无论dateType 类型如何 都要传 日期  yyyy-mm-dd
+                if (dateType == 'month') {
+                    d.startDate = d.startDate + '-01';
+                    d.endDate = d.endDate + '-01';
+                }
+            }
+
+            searchData(d)
+        });
+
+        $('.table-top-bar input').keyup(function(event) {
+            if (event.keyCode === 13) {
+                $('#search_btn').click();
+            }
+        });
+        // drawCharts('r-chart',option);
+
+        function drawCharts(elem, option) {
+            var myChart = echarts.init(document.getElementById(elem));
+            myChart.setOption(option);
+        }
+
+        form.on('submit(reset)', function(data) {
+            reset();
+        });
+
+        // 重置查询表单
+        function reset() {
+            $('.table-top-bar input').val('');
+            $('.table-top-bar select').val('');
+            form.render();
+            $('#search_btn').click();
+        }
+
+
+
+
+    });
+	function slideDiv(obj) {
+	    //如果查询条件隐藏 则展开查询条件 将展开文字变成收起
+	    if ($($(obj).parent().next()[0]).css("display") == 'none') {
+	        $($(obj).parent().next()[0]).slideDown();
+	        $(obj).find(".slide").text("收起 ");
+	        $(obj).find(".img").attr("src", "../../assets/images/icon-slidedown.png");
+	    } else { //否则收起查询条件 将收起变成展开
+	        $($(obj).parent().next()[0]).slideUp();
+	        $(obj).find(".slide").text("展开 ");
+	        $(obj).find(".img").attr("src", "../../assets/images/icon-slideup.png");
+	    }
+	}
+</script>

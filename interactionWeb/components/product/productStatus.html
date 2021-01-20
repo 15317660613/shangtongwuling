@@ -1,0 +1,1549 @@
+<style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    ol,
+    li,
+    input,
+    select,
+    button,
+    p {
+        margin: 0;
+        padding: 0;
+    }
+    
+    html,
+    body {
+        height: 100%;
+        color: #FFFFFF;
+        font-family: "微软雅黑";
+    }
+    
+    ul {
+        list-style: none;
+    }
+    
+    ul li {
+        float: left;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    /* a:hover {
+        color: #FFFFFF;
+    } */
+    
+    .header-right {
+        width: 30%;
+    }
+    
+    .header-right-list {
+        float: right;
+    }
+    
+    .header-right li {
+        height: 56px;
+        line-height: 56px;
+        margin-right: 17px;
+        padding-left: 24px;
+    }
+    
+    .header-right li:first-child {
+        background: url("../../assets/images/datashow/help.png") no-repeat left center;
+    }
+    
+    .header-right li:nth-child(2) {
+        background: url("../../assets/images/datashow/book.png") no-repeat left center;
+    }
+    
+    .header-right li:last-child {
+        padding: 0;
+    }
+    
+    ul li a {
+        color: #FFFFFF
+    }
+    
+    .loginOut {
+        border-left: 1px solid #FFFFFF;
+        padding-left: 10px;
+    }
+    
+    .header {
+        height: 56px;
+        background-color: rgba(52, 165, 251, 1);
+    }
+    
+    .header .header-left {
+        float: left;
+    }
+    
+    .header .header-right {
+        float: right;
+    }
+    
+    .header .header-left .logo {
+        width: 220px;
+        height: 56px;
+        line-height: 56px;
+        margin-left: 5%;
+        background: url("../../assets/images/datashow/header.png") no-repeat 10px 5px;
+        padding-left: 70px;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    
+    .content {
+        width: 100%;
+        position: absolute;
+        top: 95px;
+        bottom: 0;
+        /*background: url("../../assets/images/datashow/bg-jiaohu.png") no-repeat;
+        background-size: 100%;*/
+    }
+    
+    .content-header {
+        height: 44px;
+        background: url("../../assets/images/datashow/content-header-bg.png");
+        background-size: 100% 100%;
+        font-size: 16px;
+    }
+    
+    .content-header-tab {
+        overflow: hidden;
+        width: 45%;
+        height: 44px;
+        line-height: 36px;
+        margin: 0 auto;
+        font-weight: bold;
+    }
+    
+    ul.content-header-tab li {
+        width: 25%;
+        text-align: center;
+        cursor: pointer;
+        color: #FFFFFF;
+        font-size: 18px;
+    }
+    
+    ul.content-header-tab li:hover {
+        color: #FFFFFF
+    }
+    
+    .content-body {
+        position: absolute;
+        top: 36px;
+        bottom: 0;
+        width: 100%;
+    }
+    
+    .content-body-left {
+        float: left;
+    }
+    
+    .content-body-right {
+        float: right;
+    }
+    
+    .content-body-center {
+        height: 100%;
+    }
+    
+    .search,
+    .export {
+        height: 10%;
+        display: flex;
+        /*justify-content: center;*/
+        align-items: center;
+        padding-left: 5%;
+    }
+    
+    .pie-left,
+    .pie-right {
+        margin-top: 3%;
+    }
+    
+    .layui-layout-admin .layui-body {
+        bottom: 0!important;
+    }
+    
+    @media screen and (min-width: 1366px) and (max-width: 1920px) {
+        .bar-title,
+        .pie-title {
+            font-size: 18px
+        }
+    }
+    
+    @media screen and (min-width: 1920px) {
+        .bar-title,
+        .pie-title {
+            font-size: 16px
+        }
+    }
+    
+    @media screen and (max-width: 1440px) {
+        #bar-left-chart {
+            width: 100%;
+            height: 66%;
+            margin: 0 auto;
+        }
+        #pie-left-chart {
+            width: 100%;
+            height: 66%;
+            margin: 0 auto;
+        }
+        .content-body-left {
+            height: 99%;
+            width: 30.3%;
+        }
+        .content-body-right {
+            height: 99%;
+            width: 69%;
+        }
+    }
+    
+    @media screen and (max-width: 1920px) and (min-width: 1440px) {
+        #bar-left-chart {
+            width: 100%;
+            height: 70%;
+            margin: 0 auto;
+        }
+        #pie-left-chart {
+            width: 100%;
+            height: 70%;
+            margin: 0 auto;
+        }
+        .content-body-left {
+            height: 100%;
+            width: 30.3%;
+        }
+        .content-body-right {
+            height: 100%;
+            width: 69%;
+        }
+    }
+    
+    #bar-right-chart {
+        width: 100%;
+        height: 70%;
+        margin: 0 auto;
+    }
+    
+    #pie-right-chart {
+        width: 98%;
+        height: 80%;
+        margin: 0 auto;
+        padding: 1%;
+    }
+    
+    #main {
+        width: 50%;
+        height: 70%;
+        margin: 0 auto;
+        top: 8%;
+        left: 25%;
+        background: url(../../assets/images/bigQ.png) no-repeat;
+        background-position-x: center;
+        background-size: 59% 90%;
+    }
+    
+    .export {
+        padding-right: 5%;
+        justify-content: flex-end;
+        padding-left: 0;
+        position: relative;
+    }
+    
+    .span-support {
+        position: absolute;
+        bottom: 10%;
+    }
+    
+    .bar-right,
+    .pie-right {
+        margin-right: 2%;
+        margin-left: 0;
+    }
+    
+    .map-title {
+        width: 23%;
+        height: 6%;
+        left: 39%;
+        top: 7%;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        color: #40EFFF;
+        font-size: 18px;
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0 0;
+    }
+    
+    .map-title-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .contruy,
+    .province,
+    .city {
+        cursor: pointer;
+    }
+    /* .layui-table-view .layui-table {
+        width: 100%;
+    } */
+    
+    .layui-laydate-main {
+        /* width: 205px !important;
+        height: 230px; */
+    }
+    
+    .laydate-month-list>li {
+        margin: 8px 0 !important;
+    }
+    
+    input::-webkit-input-placeholder {
+        /* WebKit browsers */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    input:-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    input::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    input:-ms-input-placeholder {
+        /* Internet Explorer 10+ */
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .table-control-btn {
+        color: #2487DA;
+        font-size: 12px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    
+    .table-control-btn:hover {
+        color: #2487DA;
+    }
+    /* 加skin皮肤样式 */
+    
+    .whiteStyle .layui-layer-title {
+        background: #FFF;
+        color: #000;
+        font-size: 16px;
+        border: none;
+    }
+    
+    .layui-title-text {
+        font-weight: 600;
+    }
+    /* 日期选择控件中的确定按钮样式 */
+    
+    .layui-laydate .laydate-btns-confirm {
+        background-color: #1890FF;
+        color: white;
+    }
+    
+    .layui-laydate .laydate-btns-confirm:hover {
+        opacity: 0.7;
+        color: white;
+    }
+    
+    .layui-table-view .layui-table td,
+    .layui-table-view .layui-table th {
+        padding: 2px 0;
+    }
+    /* 风险信息详情表格主体的最高高度 */
+    
+    .layui-table-body {
+        max-height: 330px;
+        /*overflow-y: auto;*/
+    }
+    /* 无数据显示图片 */
+    
+    .nodatastyle {
+        background: url("../../assets/images/nodatatransparent.png") no-repeat center 44px;
+        background-size: 23%;
+    }
+    
+    .layui-table,
+    .layui-table-view {
+        margin: 0 0;
+    }
+    
+    .layui-card-body {
+        padding: 10px 10px;
+    }
+    
+    #tableContent2+div .layui-table-body {
+        height: 330px;
+        max-height: 330px;
+    }
+    /*****************************公共部分样式*********************************/
+    /************************重写layui部分样式*********************************/
+    
+    .layui-layout-admin .layui-body {
+        top: 0;
+        padding: 0;
+        overflow-y: auto;
+    }
+    /*****************************查询样式************************************/
+    
+    .search-input {
+        width: 28%;
+        height: 40%;
+        background: rgba(73, 220, 255, 0.17);
+        border: 1px solid #00FFFF;
+        color: #FFFFFF;
+        padding-left: 5px;
+        margin: 0 5px;
+    }
+    
+    .search-button,
+    #export {
+        height: 48%;
+        margin: 0 1%;
+        width: 10%;
+        background: url("../../assets/images/datashow/50_40.png") no-repeat;
+        background-size: 100% 100%;
+        border: none;
+        color: #9BE3F9;
+        cursor: pointer;
+    }
+    
+    .select-button {
+        border: none;
+        background: none;
+        color: #FFF;
+        cursor: pointer;
+        width: 48px;
+        opacity: 0.6;
+    }
+    
+    .search>label {
+        width: 45px;
+    }
+    
+    .search {
+        height: 10%;
+        margin-right: -2%;
+    }
+    /*****************************图表样式************************************/
+    
+    .bar-title,
+    .pie-title {
+        text-align: center;
+        height: 16%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 186, 254, 0.3);
+        border-radius: 4px 4px 0px 0px;
+        color: #49DCFF;
+    }
+    
+    .bar-title-2nd,
+    .pie-title-2nd {
+        font-size: 14px;
+        padding: 2% 4%;
+        text-align: right;
+    }
+    
+    .title-span {
+        /*float: right;*/
+        /*margin-right: 2%;*/
+        font-size: 12px;
+        color: #949494;
+        /*margin-top: 2px;*/
+    }
+    
+    .bar-left,
+    .pie-left,
+    .bar-right,
+    .pie-right {
+        margin-left: 5%;
+        height: 43%;
+        box-sizing: border-box;
+        background: rgba(11, 73, 159, 0.4);
+        border-radius: 4px;
+        color: #FFFFFF;
+    }
+    
+    #bar-rightt-chart {
+        width: 100%;
+        height: 83%;
+        margin: 0 auto;
+    }
+    
+    .layui-layer-content {
+        color: #000;
+    }
+    /*****************************区块样式************************************/
+    
+    .inBlockDiv {
+        background: rgba(124, 201, 255, 0.11);
+        border: 1px solid rgba(41, 128, 193, 1);
+        width: 31%;
+        height: 40%;
+        display: inline-block;
+        margin: 0.4%;
+        vertical-align: top;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 0.6%;
+    }
+    
+    .inBlockDiv>p {
+        margin-top: 5px;
+    }
+    
+    .inBlockDiv>span {
+        color: #7CC9FF;
+        font-size: 12px;
+    }
+    /*for temporary use*/
+    
+    .layui-body {
+        background: url(../../assets/images/datashow/bg-jiaohu.png) no-repeat;
+        background-size: 100%;
+    }
+    
+    .layui-layer-msg .layui-layer-content {
+        color: #fff;
+    }
+</style>
+<div style="width: 100%;height: 42px;color: #FFF;position: absolute;top: 56px;font-size: 18px;font-weight: 600;background-color: rgba(58,146,255,0.3)">
+    <ul style="display: flex;justify-content: space-around;align-items: center;height: 100%;" id="mainHeader">
+        <li style="color: #49DCFF">工厂总览</li>
+        <li><a href="/edu/fx/projectMgt">项目管理</a></li>
+        <li><a href="/html-edu/index.html#!product_index">生产管理</a></li>
+        <li><a href="/html-edu/index.html#!quality_unqualified">质量管理</a></li>
+        <li><a href="/edu/llManage/indexIn">交付管理</a></li>
+        <li><a href="/edu/fx/modifiView">变更管理</a></li>
+        <li><a href="/html-edu/index.html#!riskManage_riskIndex">风险管理</a></li>
+        <li><a href="/edu/classfield">基础档案</a></li>
+    </ul>
+</div>
+
+<div class="content">
+
+    <div class="content-header">
+        <!-- tab -->
+        <ul class="content-header-tab" id="subHeader">
+            <li><a href="./indexChart.html#!factoryPandect">工厂运行总览</a></li>
+            <li id="analysis"><a href="./indexChart.html#!productStatus" style="color: #49DCFF;">生产运行状态</a></li>
+            <li id="monitor"><a href="./indexChart.html#!qualityStatus">质量运行状态</a></li>
+            <li id="warning"><a href="./indexChart.html#!deliveryStatus">交付完成状态</a></li>
+        </ul>
+    </div>
+    <!-- tab内容 -->
+    <div class="content-body">
+        <div class="content-body-left">
+            <div class="search">
+                <label>时间段</label>
+                <input type="text" class="search-input" id="startDate" placeholder="请选择日期" autocomplete="off" name="startDate">
+                <span>-</span>
+                <input type="text" class="search-input" id="endDate" placeholder="请选择日期" autocomplete="off" name="endDate">
+                <button class="search-button" id="search-btn">查询</button>
+            </div>
+            <!-- 图表 -->
+            <div class="bar-left">
+                <div class="bar-title">生产计划完成率</div>
+                <div class="bar-title-2nd">
+                    <span class="title-span" id="prdrate-target">目标值：xx</span>
+                </div>
+                <div id="bar-left-chart"></div>
+            </div>
+            <!-- 图表 -->
+            <div class="pie-left">
+                <div class="bar-title">设备综合效率OEE</div>
+                <div class="pie-title-2nd">
+                    <span class="title-span" id="eq-target">目标值：xx</span>
+                </div>
+                <div id="pie-left-chart"></div>
+            </div>
+        </div>
+        <div class="content-body-right">
+            <!-- 导出 -->
+            <div class="export">
+                <div class="span-support">
+                    <span id="last-update">2018年05月05日</span>
+                    <span style="font-size: 12px;">（最近更新日期）</span>
+                </div>
+            </div>
+            <!-- 图表 -->
+            <div class="bar-right" style="margin: 0;width: 57%;float: left">
+                <div class="bar-title">停线状态分析</div>
+                <div class="bar-title-2nd" style="padding: 1% 2%;">
+                    <span class="title-span" id="stop-line-target">目标值：</span>
+                </div>
+                <div id="bar-right-chart"></div>
+            </div>
+            <!--图表-->
+            <div class="bar-right" style="margin-left: 1%;width: 40%;float: right;">
+                <div class="bar-title">停线类型分析</div>
+                <div id="bar-rightt-chart"></div>
+            </div>
+            <div style="clear: both"></div>
+            <!-- 图表 -->
+            <div class="pie-right" style="margin-left: 0;margin-top: 1.3%">
+                <div class="bar-title">工厂变化点</div>
+                <div id="pie-right-chart">
+                    <!--<div class="inBlockDiv"><p>人：</p></div>-->
+                    <!--<div class="inBlockDiv"><p>机：</p></div>-->
+                    <!--<div class="inBlockDiv"><p>环：</p></div>-->
+                    <!--<div class="inBlockDiv"><p>料：</p></div>-->
+                    <!--<div class="inBlockDiv"><p>法：</p></div>-->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+    }
+    //layui初始化
+    layui.use(['element', 'table', 'jquery', 'layer', 'laydate', 'admin'], function() {
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        var admin = layui.admin;
+        var config = layui.config;
+        var table = layui.table;
+        var $ = layui.jquery;
+        var latestDate = '';
+        var basePath = '/html-edu';
+        //var curDate1 = getPreMonth(new Date(), 1);
+
+        /* laydate.render({
+             elem: '#startDate',
+             type: 'date',
+         });
+         laydate.render({
+             elem: '#endDate',
+             type: 'date',
+         }); */
+        $("#mainHeader").on("click", "li", function() {
+            var menus = config.getAccount().captions;
+            var menu = $(this).find("a").html();
+            if (menus.indexOf(menu) == -1) {
+                location.href = '/edu/Comm/Public/Error?msgCode=E00003&module=Fx';
+                return false;
+            }
+        });
+
+        $("#subHeader").on("click", "li", function() {
+            var menus = config.getAccount().captions;
+            var menu = $(this).find("a").html();
+            if (menus.indexOf(menu) == -1) {
+                location.href = '/edu/Comm/Public/Error?msgCode=E00003&module=Fx';
+                return false;
+            }
+        });
+        //表示是本地测试
+        if (config.base_server == '') {
+            basePath = '/';
+        }
+
+        var type = 0;
+        admin.req('/api-edu/interaction/industryruntime/getLastTime', {}, function(res) {
+            if (!res.ok) {
+                return;
+
+            }
+            var newDate = admin.GetRequest().timeS ? admin.GetRequest().timeS : res.data.latestDate;
+            if (newDate === 'null' || newDate === null){
+                newDate = getNowFormatDate();
+            }
+            var startTime = laydate.render({
+                elem: '#startDate',
+                type: 'date',
+                value: newDate,
+                max: newDate,
+                done: function(value, date) {
+                    //    		console.log(value); //得到日期生成的值，如：2017-08-18
+                    //    	    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    endTime.config.min = {
+                        year: date.year,
+                        month: date.month - 1, //关键
+                        date: date.date,
+                        hours: date.hours,
+                        minutes: date.minutes,
+                        seconds: date.seconds
+                    };
+
+                }
+            });
+            var endTime = laydate.render({
+                elem: '#endDate',
+                type: 'date',
+                value: newDate,
+                min: newDate,
+                done: function(value, date) {
+                    //    		console.log(value); //得到日期生成的值，如：2017-08-18
+                    //    	    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}    	   
+                    startTime.config.max = {
+                        year: date.year,
+                        month: date.month - 1, //关键
+                        date: date.date,
+                        hours: date.hours,
+                        minutes: date.minutes,
+                        seconds: date.seconds
+                    }
+
+                }
+            });
+
+            if (res.data.latestDate) {
+                latestDate = res.data.latestDate;
+                var arr = latestDate.split('-');
+                var date = arr[0] + '年' + arr[1] + '月' + arr[2] + '日';
+                $('#last-update').html(date)
+                var type = 0;
+                searchData(type);
+            }
+
+
+        }, {
+            method: 'get'
+        });
+
+
+
+        $('#search-btn').on('click', function() {
+            var type = 1;
+            searchData(type);
+
+        })
+
+        function searchData(type) {
+            var endDate = '';
+            var startDate = '';
+            if (type == 0) {
+                endDate = latestDate;
+            } else if (type == 1) {
+                startDate = $('#startDate').val();
+                endDate = $('#endDate').val();
+            }
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val() ? $('#endDate').val() : latestDate;
+            var params = {
+                startDate: startDate,
+                endDate: endDate
+            };
+            // //设备综合效率目标值
+            // searchTargetData('equipment-efficiency/target',params,'eq-target');
+            // //生产完成率目标值
+            // searchTargetData('prd-rate/target',params,'prdrate-target');
+            // // //一次检验合格率
+            // // searchTargetData('pass-rate/target',params,'passrate-target');
+
+            /*
+               生产计划完成率
+             */
+            admin.req('/api-edu/interaction/workruntime/bar/prd-rate', params, function(res) {
+                var xData = [],
+                    yData = [];
+                var target = res.data.target - 0;
+                var content = target != -1 ? (target * 100).toFixed(2) + "%" : '--';
+                if (content !== '--') {
+                    var arr = content.split(".");
+                    if (arr[1] == "00%") {
+                        content = arr[0];
+                    }
+                }
+                $('#prdrate-target').html('目标值： ' + content + '%');
+                for (var i = 0; i < res.data.runtimeBarVOList.length; i++) {
+                    xData.push(res.data.runtimeBarVOList[i].name);
+                    if (res.data.runtimeBarVOList[i].value < target) {
+                        yData.push({
+                            value: (res.data.runtimeBarVOList[i].value * 100).toFixed(2),
+                            code: res.data.runtimeBarVOList[i].code,
+                            itemStyle: {
+                                color: '#D1060B'
+                            }
+                        });
+                    } else {
+                        yData.push({
+                            value: (res.data.runtimeBarVOList[i].value * 100).toFixed(2),
+                            code: res.data.runtimeBarVOList[i].code
+                        });
+
+
+                    }
+                }
+                setBarOption(xData, yData, 'bar-left-chart')
+
+            }, {
+                method: 'get'
+            });
+
+            /*
+              停线状态分析
+            */
+            admin.req('/api-edu/interaction/workruntime/stopbyprocesstype', params, function(res) {
+                var xData = [];
+                var yData1 = [];
+                var yData2 = [];
+                var target = '-1';
+
+                for (var i = 0; i < res.data.length; i++) {
+                    xData.push(res.data[i].name);
+                    yData2.push((res.data[i].rate).toFixed(2));
+                    target = res.data[i].target;
+                    if (res.data[i].rate < target || target == -1) {
+                        yData1.push((res.data[i].stopTime).toFixed(2));
+                    } else {
+                        yData1.push({
+                            value: (res.data[i].stopTime).toFixed(2),
+                            itemStyle: {
+                                color: '#D1060B'
+                            }
+                        });
+
+                    }
+                }
+                var content = target != -1 ? target.toFixed(2) + "%" : '--';
+                if (content !== '--') {
+                    var arr = content.split(".");
+                    if (arr[1] == "00%") {
+                        content = arr[0];
+                    }
+                }
+                $('#stop-line-target').html('目标值： ' + content);
+                stoplineStateOption(xData, yData1, yData2);
+
+            }, {
+                method: 'get'
+            });
+
+            /*
+               停线类型名称
+            */
+
+            admin.req('/api-edu/interaction/stopLineAnalysis/stopLineType', params, function(res) {
+                var xData = [];
+                var yData = [];
+                var typeIds = {};
+                var stopTypes = {};
+                //console.log(res)
+                if (res.data.length > 0) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        xData.push(res.data[i].typeName);
+                        //console.log(res.data[i].typeId)
+                        stopTypes[res.data[i].typeName] = res.data[i].typeId
+                        typeIds[res.data[i].typeId] = res.data[i].typeName;
+                    }
+
+                }
+                //console.log(stopTypes)
+
+                /*i
+                 停线类型分析
+                */
+                admin.req('/api-edu/interaction/workruntime/stopbystoptype', params, function(res) {
+                    //console.log(res)
+                    var colorArray = ['#0061AA', '#0A9AFE', '#0A9AFE', '#4CB9FF', '#8ED1FF', '#2A80C1'];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (typeIds[res.data[i].name]) {
+
+                            res.data[i].name = typeIds[res.data[i].name];
+                            res.data[i].stopType = stopTypes[res.data[i].name.substring(0, res.data[i].name.length - 1)];
+                            res.data[i].itemStyle = {
+                                color: colorArray[i]
+                            };
+                        }
+                    }
+                    stopLinePie(res.data);
+
+
+                }, {
+                    method: 'get'
+                });
+
+            }, {
+                method: 'get'
+            });
+
+
+
+            /*
+              设备综合效率
+            */
+            admin.req('/api-edu/interaction/workruntime/bar/equipment-efficiency', params, function(res) {
+                var xData = [],
+                    yData = [];
+                var target = res.data.target - 0;
+                var content = target != -1 ? (target * 100).toFixed(2) + "%" : '--';
+                if (content !== '--') {
+                    var arr = content.split(".");
+                    if (arr[1] == "00%") {
+                        content = arr[0];
+                    }
+                }
+                $('#eq-target').html('目标值： ' + content + '%');
+                for (var i = 0; i < res.data.runtimeBarVOList.length; i++) {
+                    xData.push(res.data.runtimeBarVOList[i].name);
+                    if (res.data.runtimeBarVOList[i].value < target) {
+
+                        yData.push({
+                            value: (res.data.runtimeBarVOList[i].value * 100).toFixed(2),
+                            itemStyle: {
+                                color: '#D1060B'
+                            }
+                        });
+                    } else {
+                        yData.push((res.data.runtimeBarVOList[i].value * 100).toFixed(2));
+
+                    }
+                }
+                setBarOptionRate(xData, yData, 'pie-left-chart')
+
+
+            }, {
+                method: 'get'
+            });
+
+            /*
+         工厂变化点
+       */
+            admin.req('/api-edu/interaction/workruntime/factoryChangePoint', params, function(res) {
+                var contentHtml = '';
+                var array = ['人', '料', '机', '法', '环']
+                    //console.log(res.data)
+                for (var i = 0; i < array.length; i++) {
+                    if (res.data[array[i]]) {
+                        var item = '<div class="inBlockDiv"><p>' + array[i] + '：</p>';
+                        var content = '';
+                        var contentTitle = '';
+                        for (var j = 0; j < res.data[array[i]].length; j++) {
+                            var one = res.data[array[i]][j];
+                            //console.log(content)
+                            content += one.plineName + '  ' + one.info + '<br>'
+                            contentTitle += one.plineName + '  ' + one.info + '&#10'
+
+                        }
+                        item += '<span title="' + contentTitle + '">' + content + '</span>'
+                        item += '</div>';
+                        contentHtml += item;
+                    }
+
+
+
+                }
+                $('#pie-right-chart').empty().append(contentHtml)
+                if (res.data['人'].length != 0 || res.data['料'].length != 0 || res.data['机'].length != 0 || res.data['法'].length != 0 || res.data['环'].length != 0) {
+                    $('#pie-right-chart').on('click', '.inBlockDiv', function() {
+                        //layer.msg(array[$(this).index()])
+                        window.open('/edu/changePoint/index' + '?&timeS=' + $('#startDate').val() + "&timeE=" + $('#endDate').val() + '?&planType=' + array[$(this).index()]);
+                    })
+                }
+
+
+            }, {
+                method: 'get'
+            });
+
+        }
+
+
+        function setBarOption(xData, yData, id) {
+            var option = {
+                color: ['#71B7EE'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function(params, ticket, callback) {
+                        return params[0].seriesName + '<br>' + params[0].marker + params[0].name + ':' + params[0].data.value + "%";
+                    },
+
+                },
+                grid: {
+                    top: '4%',
+                    left: '12%',
+                    bottom: '14%',
+                    right: '5%'
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 0
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%'
+                    },
+                    /* min: function(value) {
+                         return value.min;
+                     },
+                     max: function(value) {
+                         return value.max;
+                     }, */
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#FFF',
+                            opacity: 0.2
+                        }
+                    }
+                }],
+                series: [{
+                    name: '完成率',
+                    type: 'bar',
+                    barWidth: '40%',
+                    barMaxWidth: 35,
+                    data: yData
+                }]
+            };
+            drawCharts(id, option);
+
+        }
+
+        function setBarOptionRate(xData, yData, id) {
+            var option = {
+                color: ['#71B7EE'],
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function(params, ticket, callback) {
+                        console.log(params)
+                        return params[0].seriesName + '<br>' + params[0].marker + params[0].name + ':' + params[0].value + "%";
+                    },
+
+                },
+                grid: {
+                    top: '4%',
+                    left: '12%',
+                    bottom: '14%',
+                    right: '5%'
+                },
+                // xAxis: [{
+                //     type: 'category',
+                //     axisLine: {
+                //         //show:false,
+                //         lineStyle: {
+                //             color: 'rgba(255,255,255,0.6)'
+                //         }
+                //     },
+                //     axisLabel: {
+                //         interval: 0
+                //     },
+                //     axisTick: {
+                //         show: true
+                //     },
+                //     data: xData,
+                // }],
+                // yAxis: [{
+                //     type: 'value',
+                //     axisLabel: {
+                //         formatter: '{value}%'
+                //     },
+                //     min: function (value) {
+                //         return value.min;
+                //     },
+                //     max: function (value) {
+                //         return value.max;
+                //     },
+                //     axisLine: {
+                //         show: true,
+                //         lineStyle: {
+                //             color: 'rgba(255,255,255,0.6)'
+                //         }
+                //     },
+                //     axisTick: {
+                //         show: false
+                //     },
+                //     splitLine: {
+                //         show: false,
+                //         lineStyle: {
+                //             color: '#FFF',
+                //             opacity: 0.2
+                //         }
+                //     }
+                // }],
+                xAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 0
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%'
+                    },
+                    /* min: function(value) {
+                         return value.min;
+                     },
+                     max: function(value) {
+                         return value.max;
+                     }, */
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#FFF',
+                            opacity: 0.2
+                        }
+                    }
+                }],
+                series: [{
+                    name: '设备综合效率',
+                    type: 'bar',
+                    barWidth: '40%',
+                    barMaxWidth: 35,
+                    data: yData
+                }]
+            };
+            drawCharts(id, option);
+
+        }
+
+
+        var option = {
+            color: ['#71B7EE'],
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                },
+                formatter: function(params, ticket, callback) {
+                    console.log(params)
+                    return params[0].seriesName + '<br>' + params[0].marker + params[0].name + ':' + params[0].data.value + "%";
+                },
+
+            },
+            grid: {
+                top: '4%',
+                left: '12%',
+                bottom: '14%',
+                right: '5%'
+            },
+            xAxis: [{
+                type: 'category',
+                axisLine: {
+                    //show:false,
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.6)'
+                    }
+                },
+                axisLabel: {
+                    interval: 0
+                },
+                axisTick: {
+                    show: true
+                },
+                // data: ['冲压', '焊接', '装配', '电镀', '弯管', '机加'],
+            }],
+            yAxis: [{
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}%'
+                },
+                min: 0,
+                max: 100,
+                axisLine: {
+                    show: false,
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.6)'
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                splitLine: {
+                    show: false,
+                    lineStyle: {
+                        color: '#FFF',
+                        opacity: 0.2
+                    }
+                }
+            }],
+            series: [{
+                name: '完成率',
+                type: 'bar',
+                barWidth: '40%',
+                barMaxWidth: 35,
+                // data: [36, 75, 75, 39, 75, {
+                //     value: 52,
+                //     itemStyle: {
+                //         color: '#D1060B'
+                //     }
+                // }]
+            }]
+        };
+
+        function stoplineStateOption(xData, yData1, yData2) {
+            var max = 1;
+            if (yData1.length > 1) {
+                max = Math.max.apply(null, yData1) + 1;
+
+            }
+
+            // console.log(max)
+            var option3 = {
+                color: ['#71B7EE'],
+
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function(data, ticket, callback) {
+                        var params = data[0]
+                        var arr = params.value.split(".");
+                        var content = '';
+                        if (arr[1] == "00") {
+                            content = arr[0];
+                        }
+
+                        return data[0].seriesName + '<br>' + data[0].marker + data[0].name + ':' + content +
+                            "<br>" + data[1].seriesName + '<br>' + data[1].marker + data[1].name + ':' + data[1].value + "%"
+                    }
+                },
+                toolbox: {},
+                legend: {
+                    data: ['实际停线率', '停线时间'],
+                    textStyle: {
+                        color: 'rgba(255,255,255,0.3)'
+                    },
+                    bottom: '5%',
+                    itemHeight: 8,
+                    itemWidth: 20,
+                    selectedMode: false
+                },
+                grid: {
+                    top: '5%',
+                    left: '10%',
+                    bottom: '35%',
+                    right: '10%'
+                },
+                xAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 0
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    data: xData,
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '',
+                    axisLabel: {
+                        formatter: '{value}%'
+                    },
+
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    }
+                }, {
+                    type: 'value',
+                    name: '',
+                    min: 0,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(255,255,255,0.6)'
+                        }
+                    }
+                }],
+                series: [{
+                    name: '停线时间',
+                    type: 'bar',
+                    barMaxWidth: 50,
+                    yAxisIndex: 1,
+                    data: yData1 ? yData1 : [2.0, 4.9, 7.0, 23.2, 25.6, 76.7]
+                }, {
+                    name: '实际停线率',
+                    type: 'line',
+                    barWidth: '32%',
+                    itemStyle: {
+                        color: '#00ECC6'
+                    },
+                    data: yData2 ? yData2 : [2.6, 5.9, 9.0, 26.4, 28.7, 70.7]
+                }]
+            };
+            drawCharts('bar-right-chart', option3);
+        }
+
+
+
+        function stopLinePie(data) {
+            var option4 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
+                    formatter: function(params, ticket, callback) {
+                        console.log(params)
+                        return params[0].seriesName + '<br>' + params[0].marker + params[0].name + ':' + params[0].data.value + "%";
+                    },
+
+                },
+                legend: {
+                    show: 0
+                },
+                series: [{
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: ['35%', '65%'],
+                    label: {
+                        normal: {
+                            formatter: '{d|{d}%}\n{b|{b}}',
+                            rich: {
+                                d: {
+                                    color: '#FFF',
+                                    lineHeight: 22,
+                                    fontSize: 14
+                                },
+                                b: {
+                                    color: '#7CC9FF',
+                                    fontSize: 12
+
+                                }
+                            }
+                        }
+                    },
+                    data: data ? data : [{
+                        value: 735,
+                        name: '其他故障率',
+                        itemStyle: {
+                            color: '#2A80C1'
+                        }
+                    }, {
+                        value: 1048,
+                        name: '工装故障率',
+                        itemStyle: {
+                            color: '#0061AA'
+                        }
+                    }, {
+                        value: 451,
+                        name: '缺料停线率',
+                        itemStyle: {
+                            color: '#0A9AFE'
+                        }
+                    }, {
+                        value: 647,
+                        name: '设备故障率',
+                        itemStyle: {
+                            color: '#4CB9FF'
+                        }
+                    }, {
+                        value: 502,
+                        name: '质量停线率',
+                        itemStyle: {
+                            color: '#8ED1FF'
+                        }
+                    }]
+                }]
+            };
+
+            drawCharts('bar-rightt-chart', option4);
+
+        }
+
+
+
+        /**
+         * @Desc  绘制柱状图
+         * @Param elem :HTML元素ID;option:图形配置项
+         * @Date 2019-1-22 10:34:52
+         * @Author Sucdaze
+         */
+        function drawCharts(elem, option) {
+            echarts.init(document.getElementById(elem)).dispose();
+            var myChart = echarts.init(document.getElementById(elem));
+            myChart.setOption(option, true);
+            myChart.on('click', function(params) {
+                handleEchartClick(elem, params)
+            })
+        }
+
+        function handleEchartClick(elem, params) {
+            var dateRang = [$('#startDate').val(), $('#endDate').val()];
+            params.dateRang = dateRang;
+            var stopType = params.data.stopType ? params.data.stopType : "";
+            var code = params.data.code ? params.data.code : "";
+            switch (elem) {
+                case 'bar-left-chart':
+                    //toOpenBarPath(params, '/#!product_index/completionRate', 1);
+                    window.open(basePath + '#!product_index/completionRate' + '?&timeS=' + $('#startDate').val() + "&timeE=" + $('#endDate').val() + "&code=" + code);
+                    break
+                case 'pie-left-chart':
+                    toOpenBarPath(params, '#!product_index/OEE', 0);
+                    break
+                case 'bar-right-chart':
+                    toOpenBarPath(params, '#!product_stopLine', 0);
+                    break
+                case 'bar-rightt-chart':
+                    window.open('/edu/stop/stopTheLine' + '?&timeS=' + $('#startDate').val() + "&timeE=" + $('#endDate').val() + "&stopType=" + stopType);
+                    //toOpenBarPath(params, '/edu/stop/stopTheLine', 1);
+                    break;
+                default:
+                    break
+
+            }
+
+        }
+
+        function toOpenBarPath(params, url, type) {
+            var time = params.dateRang;
+            //console.log(params)
+            if (time) {
+                var startDate = time[0];
+                var endDate = time[1];
+                // var year = time.substring(0, 4);
+                // var month = time.substring(4, 6);
+                // var lastDate = laydate.getEndDate(month, year);
+                // var startDate = year + '-' + month + '-01';
+                // var endDate = year + '-' + month + '-' + lastDate;
+                if (type == 0) {
+                    window.open(basePath + url + '?&timeS=' + startDate + "&timeE=" + endDate);
+                } else {
+                    location.href = basePath + url + '?&timeS=' + startDate + "&timeE=" + endDate;
+                }
+            }
+        }
+        // function drawCharts(elem, option) {
+        //     var myChart = echarts.init(document.getElementById(elem));
+        //     myChart.setOption(option);
+        // }
+
+        drawCharts('bar-left-chart', option);
+
+        var progressOption = {
+            value: 0.6,
+            startAngle: -(1 + 0.1) * Math.PI,
+            size: 80,
+            thickness: 10,
+            fill: {
+                color: "#66ccff"
+            },
+            lineCap: "round",
+            emptyFill: "rgba(20, 23, 24, .1)"
+        };
+
+        /**
+         * @Desc  绘制进度条
+         * @Param elem :HTML元素ID;option:进度条配置项
+         * @Date 2019-1-24 13:44:37
+         * @Author Sucdaze
+         */
+        function drawProgressBar(elem, option) {
+            $('#' + elem).circleProgress(option);
+        }
+
+        for (var i = 1; i < 8; i++) {
+            drawProgressBar('circle' + i, progressOption);
+        }
+
+
+    });
+</script>

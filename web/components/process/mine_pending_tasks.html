@@ -1,0 +1,191 @@
+<!--
+File   : mine_pending_tasks.html
+Created: Monday September 3rd 2018 8:30:51 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Friday November 2nd 2018 9:22:13 am
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 我的流程 - 待办任务
+-----
+HISTORY:
+-->
+<link rel="stylesheet" href="../../assets/css/pending_tasks.css">
+
+<div class="layui-row layui-col-space15">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+            <div class="layui-card-header">待办事项（等待自己处理的任务）</div>
+            <!-- 卡片容器 -->
+            <div class="layui-card-body">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <!-- 左侧 -->
+                        <div class="layui-inline">
+                            <div class="layui-inline search-item">
+                                <i class="layui-icon layui-icon-search"></i>
+                                <input type="text" name="taskName" id="taskName" placeholder="输入任务名称" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-filter="btn_search_todo"
+                                    lay-submit>查询</button>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" lay-filter="btn_reset_todo"
+                                    lay-submit>重置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 下部表格容器 -->
+                <table id="tableContent-pendingTask" lay-filter="tableContent-pendingTask"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="controlTplPending">
+    <a class="table-control-btn" lay-event="handle">处理任务</a>
+</script>
+
+<script>
+    // 初始化 layui
+    layui.use(['table', 'form'], function () {
+        var table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            userInfo = config.getAccount();
+        // 渲染表格
+        var renderTable = function () {
+            // 渲染表格
+            table.render({
+                elem: '#tableContent-pendingTask',
+                id: 'tableContent-pendingTask',
+                url: admin.formatUrl('/api/activiti-task/runtime'),
+                // 格式化后台返回的数据
+                parseData: function (res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.count, //解析数据长度
+                        "data": res.data.list //解析数据列表
+                    };
+                },
+                height: 472,
+                cols: [
+                    [{
+                        type: 'numbers'
+                    }, {
+                        field: 'name',
+                        title: '任务名称'
+                    }, {
+                        field: 'assigneeName',
+                        title: '受理人'
+                    }, {
+                        field: 'createTimeStr',
+                        title: '任务创建时间',
+                        width: 180,
+                    }, {
+                        field: 'id',
+                        align: 'center',
+                        title: '操作',
+                        width: 90,
+                        templet: '#controlTplPending',
+                        unresize: true
+                    }]
+                ],
+                cellMinWidth: 120,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                request: {
+                    pageName: 'pageNo',
+                    limitName: 'pageSize'
+                },
+                where: {
+                    assignee: userInfo.usid
+                },
+                text: {
+                    none: '当前无待办事项'
+                }
+            });
+        }
+        // 初始化，执行一次渲染表格
+        renderTable();
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.adc.addTableCache('tableContent-pendingTask');
+
+        // 搜索
+        form.on('submit(btn_search_todo)', function (data) {
+            var searchValue = data.field.taskName;
+            table.reload('tableContent-pendingTask', {
+                where: {
+                    taskName: searchValue,
+                    reload: new Date().getTime()
+                }
+            });
+        });
+        // 重置
+        form.on('submit(btn_reset_todo)', function () {
+            $('#taskName').val('');
+            table.reload('tableContent-pendingTask', {
+                where: {
+                    taskName: '',
+                    reload: new Date().getTime()
+                }
+            });
+        });
+
+        // 监听工具条事件
+        // 编辑、发布、启动、删除功能
+        table.on('tool(tableContent-pendingTask)', function (obj) {
+            // 获取点击列的数据
+            var data = obj.data;
+            var layEvent = obj.event;
+            // 判断操作类型
+            if (layEvent === 'handle') {
+                admin.popupCenter({
+                    title: '处理任务：' + data.name,
+                    path: 'components/tpl/process_pending_tpl_handle.html',
+                    area: ['90%', '90%'],
+                    resize: false,
+                    finish: function () {
+                        table.reload('tableContent-pendingTask');
+                    },
+                    success: function () {
+                        process_pending_tpl_handle(data);
+                    }
+                });
+
+            }
+        });
+
+    });
+</script>

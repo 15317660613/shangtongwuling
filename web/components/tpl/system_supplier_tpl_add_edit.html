@@ -1,0 +1,154 @@
+<!--
+File   : system_user_tpl_add_edit.html
+Created: Tuesday September 18th 2018 11:22:10 am
+Author : yuchunyu97
+License: MIT License
+
+Copyright (c) 2018 yuchunyu97
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-----
+Last Modified: Tuesday September 25th 2018 3:51:12 pm
+Modified By  : yuchunyu97 at <yuchunyu97@gmail.com>
+-----
+Description: 
+-----
+HISTORY:
+-->
+
+<div class="layui-tpl-container">
+    <div class="layui-form p-form" style="height: 500px;">
+        <input type="text" name="type" id="type" style="display: none;">
+        <input type="text" name="rid" disabled="disabled" style="display: none;">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 供应商代码</label>
+            <div class="layui-input-block">
+                <input type="text" name="supplierCode" placeholder="请输入供应商代码" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 供应商名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="supplierName" placeholder="请输入供应商名称" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 供应商简称</label>
+            <div class="layui-input-block">
+                <input type="text" name="supplierJc" placeholder="请输入供应商简称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 业务模块</label>
+            <div class="layui-input-block">
+                <input type="text" name="rname" placeholder="请输入角色名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 供应商属性</label>
+            <div class="layui-input-block">
+                <input type="text" name="supplierNature" placeholder="请输入供应商属性" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 区域</label>
+            <div class="layui-input-block">
+                <select name="section" lay-filter="supplier-section" lay-verify="required"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 省</label>
+            <div class="layui-input-block">
+                <select name="province" lay-filter="supplier-province" lay-verify="required"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 市</label>
+            <div class="layui-input-block">
+                <select name="city" lay-filter="supplier-city" lay-verify="required"></select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 集团</label>
+            <div class="layui-input-block">
+                <input type="text" name="rname" placeholder="请输入集团名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 年度供货量</label>
+            <div class="layui-input-block">
+                <input type="text" name="annualSupply" placeholder="请输入年度供货量" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">厂家地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="manufactureAddr" placeholder="请输入厂家地址" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 总经理姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="gmName" placeholder="请输入总经理姓名" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 总经理邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="gmEmail" placeholder="请输入总经理邮箱" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 总经理电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="gmTel" placeholder="请输入总经理电话" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 质量部长姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="qullminName" placeholder="请输入质量部长姓名" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 质量部长邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="qullminEmail" placeholder="请输入质量部长邮箱" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span style="color: red;">*</span> 质量部长电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="qullminTel" placeholder="请输入质量部长电话" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 备注</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" placeholder="请输入备注" class="layui-input">
+            </div>
+        </div>
+        <!-- 提交按钮 -->
+        <!-- 取消按钮 -->
+        <div class="layui-form-item" style="text-align: center;">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="menuSave-role">保存</button>
+            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="popmenuCancle">取消</button>
+        </div>
+    </div>
+</div>

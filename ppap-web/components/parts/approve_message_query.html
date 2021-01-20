@@ -1,0 +1,1131 @@
+<!--
+File   : approve_message_query.html
+Created: 2018-1-7 14:20
+Author : Zhao Pengxiang
+Description: 任务通知查询页面
+-----
+Last Modified: 2018-1-8 14:00
+Modified By  : Qitian
+Description: 通知函详情模态框
+-----
+-->
+<style>
+    .select-inline {
+        width: 150px;
+    }
+
+    .input-title {
+        position: absolute;
+        top: -4px;
+        right: 0;
+        /*margin-right: 26px;*/
+    }
+
+    .layui-form-label {
+        width: 130px !important;
+    }
+
+    .layui-input-block {
+        margin-left: 170px !important;
+        height: 50px;
+        /*white-space:normal;*/
+    }
+
+    th .layui-table-cell {
+      /*height: 33px;*/ /*原样式*/
+        height: 36px; /*马 2019-3-10 14:28 bug修复 任务单列表表格中部分字母显示不全 【15647】*/
+    }
+
+    .layui-card-body {
+        height: auto;
+    }
+    .layui-layout-admin .layui-body {
+        overflow-y: auto;
+    }
+    .title-bar {
+        line-height: 14px;
+        background-color: white;
+        border-left: 3px solid  #00a0e9;
+        margin-bottom: 0px;
+        padding-top: 9px;
+        padding-bottom: 9px;
+        position: relative;
+        top: 5px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    .title-bar-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;  /* 马 2019-3-10 14:28 bug修复 点击按钮实现点开收起 【15647】 添加鼠标指示*/
+    }
+    .layui-table-box {
+        overflow-x: auto;
+    }
+
+    .layui-table-header {
+        overflow: initial;
+    }
+    .xm-select-parent .xm-form-select dl {
+        max-height: 230px;!important;
+    }
+    div[xm-select-skin=default] dl dd:not(.xm-dis-disabled) i {
+        border-color: #1E9FFF
+    }
+
+    div[xm-select-skin=default] dl dd.xm-select-this:not(.xm-dis-disabled) i {
+        color: #1E9FFF
+    }
+    .xm-select-parent .xm-form-select dl {
+        max-height: 230px;!important;
+    }
+</style>
+<div class="layui-row layui-col-space15" id="approve_message_query">
+    <!-- 单列普通表格 -->
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+            <div style="height: 42px">
+                <blockquote class="layui-elem-quote title-bar" onclick="toggleDisplay(this)">
+                    数据查找
+                </blockquote>
+              <!--原代码-->
+              <!--<div class="layui-hide title-bar-icon">-->
+                <!--<span style="color: #949494">收起</span>-->
+                <!--<a style="margin-left: 10px"><img src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"></a>-->
+              <!--</div>-->
+              <!--<div class="title-bar-icon" >-->
+                <!--<span style="color: #949494">展开</span>-->
+                <!--<a style="margin-left: 10px"><img src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"></a>-->
+              <!--</div>-->
+              <!--原代码结束-->
+              <!--马 2019-3-10 bug修复 点击按钮实现点开收起 【15647】-->
+                <div class="layui-hide title-bar-icon" onclick="toggleStop(this)">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px"><img src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="title-bar-icon" onclick="toggleOpen(this)">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px"><img src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"></a>
+                </div>
+              <!--马 2019-3-10 bug修复 结束-->
+            </div>
+            <!--by ma 2019-04-12-->
+            <hr style="margin-top: 0px;margin-bottom: 0px">
+            <!-- 数据表格顶部控制栏 -->
+            <div class="layui-card display-area layui-hide" style="margin-right: 10px">
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <div class="layui-col-md12" style="margin-top: 20px">
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--日期范围：-->
+                                        <div class="input-title">
+                                            <p>日期范围：</p>
+                                            <!--<p>Data Range</p>-->
+                                        </div>
+
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="riqifanwei" placeholder="请选择日期" autocomplete="off"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--任务单单号：-->
+                                        <div class="input-title">
+                                            <p>任务单单号：</p>
+                                           <!-- <p>Task Number</p>-->
+                                        </div>
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <select name="taskordernumber" id="taskordernumber" lay-search="">
+                                        </select></div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--项目单编号：-->
+                                        <div class="input-title">
+                                            <p>项目单编号：</p>
+                                            <!--<p>Project Tracking Number</p>-->
+                                        </div>
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <!--<select name="itemtrackingnum" id="itemtrackingnum"-->
+                                                <!--lay-filter="itemtrackingnum" lay-search="">-->
+                                        <!--</select>-->
+                                        <select  id="itemtrackingnum" lay-filter="itemtrackingnum" xm-select="itemtrackingnum" xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--项目车型机型：-->
+                                        <div class="input-title">
+                                            <p>项目车型/机型：</p>
+                                           <!-- <p>Project Vehicle/Engine</p>-->
+                                        </div>
+                                    </label>
+                                    <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">-->
+                                        <!--<div class="layui-select-title self-select-title ">-->
+                                            <!--<input type="text" placeholder="请选择" value="" name="projectmodel"-->
+                                                   <!--readonly="" class="layui-input layui-unselect params-item"-->
+                                                   <!--id="search-input-projectmodel">-->
+                                        <!--</div>-->
+                                        <!--<dl class="layui-anim layui-anim-upbit" style="" id="projectmodel">-->
+
+                                        <!--</dl>-->
+                                    <!--</div>-->
+                                    <div class="layui-input-block">
+                                        <select  id="projectmodel" lay-filter="projectmodel" xm-select="projectmodel" xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--供应商代码：-->
+                                        <div class="input-title">
+                                            <p>供应商代码：</p>
+                                           <!-- <p>Supplier Code</p>-->
+                                        </div>
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <!--<select name="suppliernum" id="suppliernum" lay-search="">-->
+                                        <!--</select>-->
+                                        <select  id="suppliernum" lay-filter="gysdm" xm-select="suppliernum" xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--供应商名称：-->
+                                        <div class="input-title">
+                                            <p>供应商名称：</p>
+                                           <!-- <p>Supplier Name</p>-->
+                                        </div>
+                                    </label>
+                                    <!--<div class="layui-input-block layui-unselect layui-form-select downpanel">-->
+                                        <!--<div class="layui-select-title self-select-title ">-->
+                                            <!--<input type="text" placeholder="请选择" value="" name="suppliername"-->
+                                                   <!--readonly="" class="layui-input layui-unselect params-item"-->
+                                                   <!--id="search-input-suppliername">-->
+                                        <!--</div>-->
+                                        <!--<dl class="layui-anim layui-anim-upbit" style="" id="suppliername">-->
+
+                                        <!--</dl>-->
+                                    <!--</div>-->
+                                    <div class="layui-input-block">
+                                        <select id="suppliername" lay-filter="gysmc" xm-select="suppliername" 	xm-select-skin="default" xm-select-show-count="1" xm-select-search="">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--风险检查结果：-->
+                                        <div class="input-title">
+                                            <p>风险检查结果：</p>
+                                            <!--<p>Risk Check Result</p>-->
+                                        </div>
+                                    </label>
+                                    <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                        <div class="layui-select-title self-select-title ">
+                                            <input type="text" placeholder="请选择" value=""
+                                                   name="riskinspectionresults" readonly=""
+                                                   class="layui-input layui-unselect params-item"
+                                                   id="search-input-riskinspectionresults">
+                                        </div>
+                                        <dl class="layui-anim layui-anim-upbit" style="" id="riskinspectionresults">
+
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--负责PE：-->
+                                        <div class="input-title">
+                                            <p>负责PE：</p>
+                                          <!--  <p>PE in Charge</p>-->
+                                        </div>
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <select name="responsiblepe" id="responsiblepe" lay-search="">
+                                        </select></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        SQE：
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <select name="sqe" id="sqe" lay-search="">
+                                        </select></div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">
+                                        <!--批准形式：-->
+                                        <div class="input-title">
+                                            <p>批准形式：</p>
+                                           <!-- <p>Approve</p>-->
+                                        </div>
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <select name="taskordertype" id="taskordertype" lay-search="">
+                                            <option value="">请选择</option>
+                                            <option value="1">OPAP</option>
+                                            <option value="2">PPAP</option>
+                                        </select></div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md6">
+                                <div class="layui-inline layui-pull-right">
+                                    <div class="layui-inline">
+                                        <div class="layui-inline">
+                                            <button id="btn_search" class="layui-btn layui-btn-sm layui-btn-normal"
+                                                    lay-filter="btn_search"
+                                                    lay-submit>查询
+                                            </button>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <button id="btn_reset" class="layui-btn layui-btn-sm layui-btn-primary"
+                                                    lay-filter="btn_reset"
+                                                    lay-submit>重置
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md12">
+        <div class="layui-card p-main">
+            <div style="height: 42px">
+                <blockquote class="layui-elem-quote title-bar">
+                    任务单列表
+                </blockquote>
+               <!-- <blockquote class="layui-elem-quote title-bar" onclick="toggleDisplay(this)">
+                    任务单列表
+                </blockquote>-->
+                <!--<div class="title-bar-icon">
+                    <span style="color: #949494">收起</span>
+                    <a style="margin-left: 10px"><img src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"></a>
+                </div>
+                <div class="layui-hide title-bar-icon">
+                    <span style="color: #949494">展开</span>
+                    <a style="margin-left: 10px"><img src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"></a>
+                </div>-->
+            </div>
+            <hr style="margin-top: 0px">
+            <!-- 卡片容器 -->
+            <div class="layui-card-body display-area" id="taskBody">
+                <!-- 数据表格顶部控制栏 -->
+                <div class="layui-form">
+                    <div class="layui-form-item table-top-bar">
+                        <div class="layui-col-md12">
+
+                            <div class="layui-inline layui-pull-right">
+                                <div class="layui-inline">
+                                    <div class="layui-inline">
+                                        <button type="button" onclick="viewNotice()"
+                                                class="layui-btn layui-btn-sm layui-btn-normal">
+                                            查看
+                                        </button>
+                                    </div>
+                                    <div class="layui-inline">
+                                       <!-- <a href=""
+                                           class="layui-btn layui-btn-sm layui-btn-normal" id="listingExport">
+                                            总清单导出
+                                        </a>-->
+                                        <button type="button"
+                                                class="layui-btn layui-btn-sm layui-btn-normal"
+                                                onclick="exportLetterList()">
+                                            总清单导出
+                                        </button>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <button type="button"
+                                                class="layui-btn layui-btn-sm layui-btn-normal"
+                                                onclick="exportLetterForm()">
+                                            单一表单导出
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 下部表格容器 -->
+                <!--updated by qitian 20190108 因为与其他页面中的table id一样，在导航收缩时，会导致数据刷新出错。-->
+                <table id="query-table-notice" lay-filter="query-table-notice"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="testq" style="display: none">
+    <div style="background-color: #0e0e0e;">
+        <div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- 表单辅助方法，用于启动表单时的权限控制和数据获取与提交 -->
+<script src="../../assets/js/ADCFormDesignHelper.js"></script>
+
+<script>
+    //验证是否为多选项
+    // var multipleItems = ['alert', 'source', 'projectmodel', 'suppliername', 'riskinspectionresults'];
+    var multipleItems = ['alert', 'source','riskinspectionresults'];
+    var formSelectItems = ['suppliernum','suppliername','itemtrackingnum','projectmodel'];
+    var tableIns;
+    var formDataField;
+    var table, form, config, admin, laydate,formSelects;
+    sessionStorage.removeItem('requestApproveMessageObj');
+    /**
+     * ma 2019/03/09
+     * 设置全局变量，单选框数据
+     * */
+    var danxuanId = {};
+    // 初始化 layui
+    layui.use(['table', 'laydate','formSelects'], function () {
+        table = layui.table,
+            form = layui.form,
+            config = layui.config,
+            admin = layui.adc,
+            laydate = layui.laydate,
+            formSelects = layui.formSelects;
+        formSelects.render();
+
+
+        table.on('checkbox(query-table-notice)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            //by ma 2019/03/09 把复选框修改为单选，通过修改class
+            $("th[data-field='0']").find("i").remove();
+            $("th[data-field='0']").find("input").remove();
+            $(".layui-form-checkbox").removeClass("layui-form-checked");
+            $(this).next().addClass("layui-form-checked");
+//            console.log(obj.value); //得到修改后的值
+//            console.log(obj.field); //当前编辑的字段名
+//            console.log(obj.data); //所在行的所有相关数据
+            danxuanId = obj.data;
+        });
+        //日期范围
+        laydate.render({
+            elem: '#riqifanwei'
+            , range: '~'
+        });
+        //多选框监听事件
+        admin.listenMultipleSelect();
+        loadSearch();
+        // 供应商代码选择回调 供应商代码查询供应商名称
+        formSelects.on('suppliernum', function(id, vals, val, isAdd, isDisabled) {
+            //id:           点击select的id
+            //vals:         当前select已选中的值
+            //val:          当前select点击的值
+            //isAdd:        当前操作选中or取消
+            //isDisabled:   当前选项是否是disabled
+            //如果return false, 那么将取消本次操作
+            admin.req("/api-edu/ppap/partslibrary/selectSuppliernameBySuppliernumber?supplierNumber=" + val.value, {}, function(res) {
+                data = res.data;
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('suppliername', [data], true);
+                } else {
+                    layui.formSelects.value('suppliername', [data], false);
+                }
+                // form.render('select', 'form1');
+            }, {
+                method: 'GET'
+            });
+        }, true);
+
+        // 供应商名称选择回调 (供应商名称查询供应商代码)
+        formSelects.on('suppliername', function(id, vals, val, isAdd, isDisabled) {
+            //id:           点击select的id
+            //vals:         当前select已选中的值
+            //val:          当前select点击的值
+            //isAdd:        当前操作选中or取消
+            //isDisabled:   当前选项是否是disabled
+            //如果return false, 那么将取消本次操作
+            admin.req("/api-edu/ppap/partslibrary/selectSuppliernumberBySuppliername?supplierName=" + val.value, {}, function(res) {
+                data = res.data;
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('suppliernum', [data], true);
+                } else {
+                    layui.formSelects.value('suppliernum', [data], false);
+                }
+                // form.render('select', 'form1');
+            });
+        });
+
+        // 项目单编号查项目车型机型
+        formSelects.on('itemtrackingnum', function(id, vals, val, isAdd, isDisabled) {
+            //id:           点击select的id
+            //vals:         当前select已选中的值
+            //val:          当前select点击的值
+            //isAdd:        当前操作选中or取消
+            //isDisabled:   当前选项是否是disabled
+            //如果return false, 那么将取消本次操作
+            admin.req("/api-edu/ppap/partslibrary/queryProjectmodelByItemtrackingnum?queryItemtrackingnums=" + val.value, {}, function(res) {
+                data = res.data;
+
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('projectmodel', data, true);
+                } else {
+                    layui.formSelects.value('projectmodel', data, false);
+                }
+                form.render('select', 'form1');
+            }, {
+                method: 'GET'
+            });
+        });
+
+        //项目车型/机型查询项目单编号
+        formSelects.on('projectmodel', function(id, vals, val, isAdd, isDisabled) {
+            //id:           点击select的id
+            //vals:         当前select已选中的值
+            //val:          当前select点击的值
+            //isAdd:        当前操作选中or取消
+            //isDisabled:   当前选项是否是disabled
+            //如果return false, 那么将取消本次操作
+            admin.req("/api-edu/ppap/partslibrary/queryItemtrackingnumByProjectmodel?projectmodels=" + val.value, {}, function(res) {
+                data = res.data;
+                // $("#gysmc2").val(data.suppliername);
+                if (isAdd) {
+                    layui.formSelects.value('itemtrackingnum', data, true);
+                } else {
+                    layui.formSelects.value('itemtrackingnum', data, false);
+                }
+                // form.render('select', 'form1');
+            }, {
+                method: 'GET'
+            });
+        });
+
+        //$('#listingExport').attr("href", "" + admin.formatUrl('/api-edu/ppap/sendemaillog/querySendemailLogExcel') + "");
+
+        // 渲染表格
+        var renderTable = function (search) {
+            if (!search) {
+                search = {};
+            }
+            // 渲染表格
+            tableIns = table.render({
+                elem: '#query-table-notice',
+                method: 'get',
+                id: 'query-table-notice',
+                where: {userId: config.getAccount().userId, roleName: config.getAccount().roleName},
+                url: admin.formatUrl('/api-edu/ppap/sendemaillog/querySendemailLog'),
+                // 格式化后台返回的数据
+                parseData: function (res) { //res 即为原始返回的数据
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data && res.data.count ? res.data.count : 0, //解析数据长度
+                        "data": res.data && res.data.page ? admin.redefinedForObject(res.data.page) : []//解析数据列表
+                    };
+                },
+                height: 'full-320',
+                cols: [
+                    [{fixed: 'left', type: 'checkbox'}
+                        , {fixed: 'left', title: '<div style="height: 13px">序号</div><!--<div>No.</div>-->', type: 'numbers'}
+                        , {
+                        fixed: 'left',
+                        field: 'sendlogtime',
+                        title: '<div style="height: 13px;">分发日期</div><!--<div>Distribution Date</div>-->',
+                        align: 'center',
+                        width: 150
+                    }
+                        , {
+                        fixed: 'left',
+                        field: 'taskordernumber',
+                        title: '<div style="height: 13px">任务单编号</div><!--<div>Task Number</div>-->',
+                        align: 'center',
+                        width: 250
+                    }
+                        , {
+                        fixed: 'left',
+                        field: 'itemtrackingnum',
+                        title: '<div style="height: 13px">项目单编号</div><!--<div>Project Tracking Number </div>-->',
+                        align: 'center',
+                        width: 230
+                    }
+                        , {
+                        field: 'projectmodel',
+                        title: '<div style="height: 13px">项目车型/机型</div><!--<div>Project Vehicle/Engine</div>-->',
+                        align: 'center',
+                        width: 200,
+                    }
+                        , {
+                        field: 'suppliernum',
+                        title: '<div style="height: 13px">供应商代码</div><!--<div>Supplier Code</div>-->',
+                        align: 'center',
+                        width: 120
+                    }
+                        , {
+                        field: 'suppliername',
+                        title: '<div style="height: 13px">供应商名称</div><!--<div>Supplier Name</div>-->',
+                        align: 'center',
+                        width: 120
+                    }
+                        , {
+                        field: 'riskinspectionresults',
+                        title: '<div style="height: 13px">风险检查结果</div><!--<div>Risk Check Result</div>-->',
+                        width: 150,
+                        align: 'center'
+                    }
+                        , {
+                        field: 'responsiblepe',
+                        title: '<div style="height: 13px">负责PE</div><!--<div>PE in Charge</div>-->',
+                        align: 'center',
+                        width: 150
+                    }
+                        , {field: 'sqe', title: 'SQE', align: 'center', width: 150}
+                        , {
+                        field: 'taskordertype',
+                        title: '<div style="height: 13px">批准形式</div><!--<div>Approval Type</div>-->',
+                        align: 'center',
+                        width: 150,
+                        templet: function (d) {
+                            if (d.taskordertype == '1') {
+                                if ( d.approvalStatus == 2 ){
+                                    return '<span>OPAP临时批准</span>';
+                                } else {
+                                    return '<span>OPAP不批准</span>';
+                                }
+                            } else {
+                                if ( d.approvalStatus == 1 ){
+                                    return '<span>PPAP批准</span>'
+                                } else if ( d.approvalStatus == 2 ){
+                                    return '<span>PPAP临时批准</span>'
+                                } else {
+                                    return '<span>PPAP不批准</span>'
+                                }
+                            }
+                        }
+                    }
+                    ]
+                ],
+                cellMinWidth: 90,
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                limits: [10, 50, 100],
+                request: {
+                    //自定义分页参数名
+                    pageName: 'page'
+                    , limitName: 'pageSize'
+                },
+                done: function (res, curr, count) {
+                    if(res.data != undefined &&res.data.length > 0){setTimeout(function () {
+                        $('.layui-table-box').css('overflow-x', 'hidden');
+                        $('.layui-table-header').css('overflow', 'hidden');
+                        $(window).resize();
+                    },1);}
+                    //by ma 2019/01/12
+                    $("th[data-field='0']").find("i").remove();
+                    $("th[data-field='0']").find("input").remove();
+                }
+            });
+        }
+
+        // 初始化，执行一次渲染表格
+        renderTable();
+        // DONE: 侧边栏变化时刷新数据表格
+        // 将 table ID 存入数组
+        layui.adc.addTableCache('query-table-notice');
+
+
+        form.on('submit(btn_search)', function () {
+            var sendlogtime1="";
+            var sendlogtime2="";
+            var riqifanwei = $('#riqifanwei').val();
+            if (riqifanwei != '') {
+                sendlogtime1 = riqifanwei.split('~')[0];
+                sendlogtime2 = riqifanwei.split('~')[1];
+            }
+            var taskordernumber = $('#taskordernumber').val();
+            var itemtrackingnum = formSelects.value('itemtrackingnum', 'valStr');
+            var projectmodel = formSelects.value('projectmodel', 'valStr');
+            var suppliernum = formSelects.value('suppliernum', 'valStr');
+            var suppliername = formSelects.value('suppliername', 'valStr');
+            var riskinspectionresults = $('#riskinspectionresults').val();
+            var responsiblepe = $('#responsiblepe').val();
+            var sqe = $('#sqe').val();
+            var taskordertype = $('#taskordertype').val();
+            var data = {
+                sendlogtime1: sendlogtime1,
+                sendlogtime2: sendlogtime2,
+                taskordernumber: taskordernumber,
+                itemtrackingnum: itemtrackingnum,
+                projectmodel: projectmodel,
+                suppliernum: suppliernum,
+                suppliername: suppliername,
+                riskinspectionresults: riskinspectionresults,
+                responsiblepe: responsiblepe,
+                sqe: sqe,
+                taskordertype: taskordertype,
+                userId: config.getAccount().userId,
+                roleName: config.getAccount().roleName
+
+            }
+
+            selectReload(data);
+        });
+        form.on('submit(btn_reset)', function () {
+            //debugger
+            $('select').val("");
+            sessionStorage.removeItem('requestApproveMessageObj');
+            tableIns.reload({
+                where: {
+                    userId: config.getAccount().userId, roleName: config.getAccount().roleName
+                }
+                , page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                done: function (res, curr, count) {
+                    if(res.data != undefined &&res.data.length > 0){setTimeout(function () {
+                        $('.layui-table-box').css('overflow-x', 'hidden');
+                        $('.layui-table-header').css('overflow', 'hidden');
+                        $(window).resize();
+                    },1);}
+                },
+            });
+            admin.resetMultipleSelect(".layui-card");
+            form.render();
+
+        });
+    });
+
+
+    /**
+     * 重新渲染表格
+     */
+
+    function selectReload(data) {
+        tableIns.reload({
+            where: data
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            done: function (res, curr, count) {
+                sessionStorage.setItem('requestApproveMessageObj',JSON.stringify(data));
+                if(res.data != undefined &&res.data.length > 0){setTimeout(function () {
+                    $('.layui-table-box').css('overflow-x', 'hidden');
+                    $('.layui-table-header').css('overflow', 'hidden');
+                    $(window).resize();
+                },1);}
+            },
+        });
+    }
+
+    /**
+     * @Desc 总清单导出
+     * @Date 2019-012-22 14:50:18
+     * @Author qitian
+     */
+    function exportLetterList () {
+        window.location.href = '/api-edu/ppap/sendemaillog/querySendemailLogExcel' + getExportParamStr();
+    }
+
+    /**
+     * @Desc 单一清单导出
+     * @Date 2019-01-17 14:50:18
+     * @Author qitian
+     */
+    function exportLetterForm() {
+        window.location.href = '/api-edu/ppap/sendemaillog/exportSingle' + getExportParamStr();
+    }
+
+    function getExportParamStr () {
+        if($.isEmptyObject(danxuanId)){
+            layer.alert('请先勾选一条数据', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        }
+        var exportUrl = '';
+        var _session = JSON.parse(sessionStorage.getItem('requestApproveMessageObj'));
+        if (_session) {
+            for(var key in _session) {
+                if (!(_session[key] === '' || _session[key] === undefined)) {//判断为空就不传
+                    if (exportUrl === '') {
+                        exportUrl = exportUrl + "?" + key + "=" + _session[key];
+                    } else {
+                        exportUrl = exportUrl + "&" + key + "=" + _session[key];
+                    }
+                }
+            }
+        } else {
+            var userId = config.getAccount().userId;
+            if ("" != userId) {
+                exportUrl += (exportUrl === '' ? '?' : '&') + "userId=";
+                exportUrl += userId
+            }
+            var roleName = config.getAccount().roleName;
+            if ("" != roleName) {
+                exportUrl += (exportUrl === '' ? '?' : '&') + "roleName=";
+                exportUrl += roleName
+            }
+        }
+        exportUrl += (exportUrl === '' ? '?' : '&') + "taskorderkey=";
+        exportUrl += danxuanId.taskorderkey;
+        return exportUrl;
+    }
+
+    // 展开收起切换
+    function toggleDisplay(bar) {
+        var item = $(bar).parents('.p-main');
+        item.find('.display-area').toggleClass('layui-hide');
+        item.find('.title-bar-icon').toggleClass('layui-hide');
+    }
+    /** 马 2019-3-10 14:28 bug修复 点击按钮实现点开收起 【15647】**/
+    // 按钮展开收起切换
+    function toggleOpen (bar) {
+      var item = $(bar).parents('.p-main');
+      item.find('.title-bar-icon').toggleClass('layui-hide');
+      item.find('.display-area').toggleClass('layui-hide');
+    }
+    function toggleStop (bar) {
+      var item = $(bar).parents('.p-main');
+      item.find('.display-area').toggleClass('layui-hide');
+      item.find('.title-bar-icon').toggleClass('layui-hide');
+    }
+    /** 马 2019-3-10 14:28 bug修复结束**/
+
+    /**
+     * @Desc 查看按钮点击事件
+     * @Date 2019-01-08 14:46:41
+     * @Author qitian
+     */
+    function viewNotice() {
+        let admin = layui.adc
+            , form = layui.form
+            , table = layui.table;
+        //by ma 2019/03/09 修改单选获取数据
+        //判断danxuanId对象是否为null
+        if($.isEmptyObject(danxuanId)){
+            layer.alert('请先勾选一条数据', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        }
+        var data=[danxuanId]
+        var checkStatus ={data:data}
+        if (checkStatus.data && checkStatus.data.length !== 1) {
+            layer.alert('请先勾选一条数据', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        } else {
+            if (checkStatus.data[0].taskordertype == 2) {
+                $.ajax({
+                    url: admin.formatUrl('/api-edu/ppap/taskorder/queryTaskOrderPPAP'),
+                    method: "POST",
+                    dataType: 'json',
+                    data: {taskorderkey: checkStatus.data[0].taskorderkey},
+                    success: function (res) {
+                        if (res.respCode != -1 && res.data) {
+                            var data = admin.redefinedForObject(res.data);
+                            admin.popupCenter({
+                                path: 'components/tpl/approve_message_query_ppap.html',
+                                success: function () {
+                                    $('#taskordernumber-span').html(checkStatus.data[0].taskordernumber);
+                                    $('#taskordernumber-span').attr('title', checkStatus.data[0].taskordernumber);
+                                    $('.notice-center .projectmodel').text(checkStatus.data[0].projectmodel);
+                                    if (data.approvaltaskEOS && data.approvaltaskEOS.length) {
+                                        for (var i = 0,len = data.approvaltaskEOS.length;i < len;i ++) {
+                                            if (data.approvaltaskEOS[i].approvalstatus) {
+                                                data.approvaltaskEOS[i].approvalstatus = data.approvaltaskEOS[i].approvalstatus == 2 ? '临时批准' : (data.approvaltaskEOS[i].approvalstatus == 3?'不批准':'批准');
+                                                $('.notice-center .approvalstatus').text(data.approvaltaskEOS[i].approvalstatus);
+                                                if (data.approvaltaskEOS[i].approvalstatus == '临时批准') {
+                                                    $('.lsyxq-div').css('display','initial');
+                                                    $('.p-1').show();
+                                                    $('.p-3').show();
+                                                    $('.p-4').show();
+                                                    $('.lsyxq').html(data.approvaltaskEOS[i].provisionalapprovalvalidity ? new Date(data.approvaltaskEOS[i].provisionalapprovalvalidity).Format('yyyy-MM-dd') : '');
+                                                } else {
+                                                    $('.p-1').hide();
+                                                    $('.lsyxq-div').css('display','none');
+                                                    if (data.approvaltaskEOS[i].approvalstatus == '不批准') {
+                                                        $('.p-3').hide();
+                                                        $('.p-4').hide();
+                                                    } else {
+                                                        $('.p-3').show();
+                                                        $('.p-4').show();
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    $('.num-round:visible').each(function (index, item) {
+                                        $(this).find('.num').html(index + 1);
+                                    });
+                                    if (data.taskorderPPAPBasicInfo && data.taskorderPPAPBasicInfo.partslibraryEO) {
+                                        $('.notice-center #companyname').val(data.taskorderPPAPBasicInfo.partslibraryEO.suppliername);
+                                    }
+                                    if (data.taskorderEO) {
+                                        $('.notice-center #supplierrepresentname').val(data.taskorderEO.supplierrepresentname);
+                                        $('.notice-center #supplierrepresentposition').val(data.taskorderEO.supplierrepresentposition);
+                                        $('.notice-center #factoryname').val(data.taskorderEO.factoryname);
+                                        $('.notice-center #factoryaddress').val(data.taskorderEO.factoryaddress);
+                                        $('.notice-center #companyaddress').val(data.taskorderEO.supplieraddress);
+
+                                        $('.notice-center .ppapsubmitreason').text(data.taskorderEO.ppapsubmitreason);
+                                        $('.notice-center .stemNumber').text(data.taskorderEO.stemNumber);
+                                        $('.notice-center .dateTo').text(data.taskorderEO.dateTo ? new Date(data.taskorderEO.dateTo).Format('yyyy-MM-dd') : '');
+                                    }
+                                    if (data.partslibraryEOS) {
+                                        data.partslibraryEOS.forEach(function (item, index) {
+                                            item.id = index;
+                                            item.drawingapprovaldate = item.drawingapprovaldate ? new Date(item.drawingapprovaldate).Format('yyyy-MM-dd') : '';
+                                        });
+                                        table.render({
+                                            elem: '#notice-parts',
+                                            id: 'notice-parts',
+                                            cols: [
+                                                [{
+                                                    field: 'num',
+                                                    title: '序号',
+                                                    type: 'numbers',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'source',
+                                                    title: '来源',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'latestpartnum',
+                                                    title: '最新零件号',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'partsname',
+                                                    title: '零件名称',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'initialpartnum',
+                                                    title: '旧零件号',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'latestewo',
+                                                    title: '最新EWO',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'drawingversion',
+                                                    title: '图纸版本',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'drawingapprovaldate',
+                                                    title: '图纸批准日期',
+                                                    align: 'center'
+                                                }, {
+                                                    field: 'note',
+                                                    title: '备注',
+                                                    align: 'center'
+                                                }]
+                                            ],
+                                            page: false,
+                                            data: data.partslibraryEOS,
+                                            cellMinWidth: 80,
+                                            done: function (res) {
+                                                if(res.data != undefined && res.data.length > 0){setTimeout(function () {
+                                                    $('#ppap-notice-round .layui-table-box').css('overflow-x', 'hidden');
+                                                    $('#ppap-notice-round .layui-table-header').css('overflow', 'hidden');
+                                                    $(window).resize();
+                                                },1);}
+                                            }
+                                        })
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            } else {
+                admin.req('/api-edu/ppap/taskorder/queryTaskOrderOPAPApproval', {
+                    taskorderkey: checkStatus.data[0].taskorderkey,
+                    userId: config.getAccount().userId
+                }, function (res) {
+                    if (res.respCode != -1 && res.data) {
+                        var data = admin.redefinedForObject(res.data);
+                        admin.popupCenter({
+                            path: 'components/tpl/approve_message_query_opap.html',
+                            success: function () {
+                                $('#taskordernumber-span').html(checkStatus.data[0].taskordernumber);
+                                $('#taskordernumber-span').attr('title', checkStatus.data[0].taskordernumber);
+                                $('.notice-center .projectmodel').text(checkStatus.data[0].projectmodel);
+                                var statusStr = '';
+                                if (data.approvaltaskEOS && data.approvaltaskEOS.length) {
+                                    for (var i = 0, len = data.approvaltaskEOS.length; i < len; i++) {
+                                        if (data.approvaltaskEOS[i].approvalstatus) {
+                                            data.approvaltaskEOS[i].approvalstatus = data.approvaltaskEOS[i].approvalstatus == 2 ? '临时批准' : '不批准';
+                                            statusStr = data.approvaltaskEOS[i].approvalstatus;
+                                            $('.notice-center #approvalstatus').text(data.approvaltaskEOS[i].approvalstatus);
+                                            var str = '';
+                                            str = data.approvaltaskEOS[i].approvalstatus == '临时批准' ? 'Provisional Approval' : 'No approval';
+                                            $('.notice-center .approvalstatus').text(str);
+                                            if (data.approvaltaskEOS[i].approvalstatus == '临时批准') {
+                                                $('.notice-center input[name="approvalstatus"]').eq(0).attr('type', 'hidden');
+                                                $('#disagree').hide();
+                                                //by ma 2019/03/09 修改单选模态框弹出重新渲染checkbox
+                                                form.render('checkbox','approve_opap');
+                                                $('.notice-center .provisionalapprovalvalidity').text(data.approvaltaskEOS[i].provisionalapprovalvalidity ? new Date(data.approvaltaskEOS[i].provisionalapprovalvalidity).Format('yyyy-MM-dd') : '');
+
+                                            } else {
+                                                $('.notice-center input[name="approvalstatus"]').eq(1).attr('type', 'hidden');
+                                                $('#agree').hide();
+                                                //by ma 2019/03/27 修改单选模态框弹出重新渲染checkbox
+                                                form.render('checkbox','approve_opap');
+                                            }
+                                           break;
+                                        }
+                                    }
+                                }
+
+                                if (data.taskorderPPAPBasicInfo && data.taskorderPPAPBasicInfo.partslibraryEO) {
+                                    console.log(data)
+                                    $('.notice-center .companyname').html(data.taskorderPPAPBasicInfo.partslibraryEO.suppliername);
+                                }
+                                if (data.partslibraryEOS) {
+                                    var str1 = '';
+                                    var str2 = '';
+                                    data.partslibraryEOS.forEach(function (item, index) {
+                                        str1 += item.partsname;
+                                        str2 += item.partsname;
+                                        if (index != data.partslibraryEOS.length - 1) {
+                                            str1 += '、';
+                                            str2 += '\\';
+                                        }
+                                    });
+                                    $('.notice-center .parts').eq(0).text(str1);
+                                    $('.notice-center .parts').eq(1).text(str2);
+                                    if (statusStr == '不批准') {
+                                        $('.notice-center .parts').eq(2).text(str1);
+                                        $('.notice-center .parts').eq(3).text(str2);
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                }, {method: 'POST'});
+
+            }
+        }
+    }
+
+    /**
+     * @Desc 搜索下拉面板数据获取
+     * @Date 2018-12-21 17:13:08
+     * @Author qitian
+     */
+    function loadSearch() {
+        var admin = layui.adc,
+            form = layui.form,
+            config = layui.config;
+        admin.req('/api-edu/ppap/sendemaillog/sendLogItems', {userId: config.getAccount().userId,roleName:config.getAccount().roleName}, function (res) {
+            if (res.respCode == 200 && res.data) {
+                for (var selName in res.data) {
+                    $('#' + selName).empty();
+                    //多选项
+                    if (multipleItems.includes(selName)) {
+                        admin.initMultipleSelect(selName, res.data[selName]
+                        );
+                    }else if(formSelectItems.includes(selName)){
+                        //formSelects 多选  [suppliername、itemtrackingnum、projectmodel]
+                        var selectData = [];
+                        for(var i=0;i<res.data[selName].length;i++){
+                            var value = res.data[selName];
+                            var selectObj = {};
+                            selectObj.name = value[i];
+                            selectObj.value = value[i];
+                            selectData.push(selectObj);
+                        }
+                        //formSelect-v4下拉树插件渲染
+                        formSelects.data(''+selName+'', 'local', {
+                            arr: selectData
+                        });
+                        formSelects.btns(''+selName+'', []);
+
+                    } else {//单选项
+                        if (res.data[selName].length > 0) {
+                            $('#' + selName).append('<option value="">请选择</option>');
+                            // for (let item of res.data[selName]) {
+                            for (var i = 0, len = res.data[selName].length; i < len; i++) {
+                                var item = res.data[selName][i];
+                                if (item) {
+                                    if (history && history[selName] == item) {
+                                        if(selName == 'sqe'){
+                                            $('#' + selName).append('<option value="' + item + '" selected>' + res.data.sqeName[i] + '</option>');
+                                        }else if(selName == 'responsiblepe'){
+                                            $('#' + selName).append('<option value="' + item + '" selected>' + res.data.responsiblepeName[i] + '</option>');
+                                        }else {
+                                            $('#' + selName).append('<option value="' + item + '" selected>' + item + '</option>');
+                                        }
+                                    } else {
+                                        if (selName == 'sqe') {
+                                            $('#' + selName).append('<option value="' + item + '">' + res.data.sqeName[i] + '</option>');
+                                        } else if (selName == 'responsiblepe') {
+                                            $('#' + selName).append('<option value="' + item + '">' + res.data.responsiblepeName[i] + '</option>');
+                                        } else {
+                                            $('#' + selName).append('<option value="' + item + '">' + item + '</option>');
+                                        }
+
+                                    }
+                                }
+                            }
+                        } else {
+                            $('#' + selName).append('<option value="">没有选项</option>');
+                        }
+                        form.render('select');
+                        // $('#itemtrackingnum').next().find('dd').on('click', function (e) {
+                        //     linkageByProjectItem();
+                        // })
+                    }
+
+                }
+            }
+        }, {
+            method: 'get'
+        });
+    };
+    //by ma 2019/03/10 selectFrom 添加鼠标悬停显示全部
+    $("#approve_message_query").on('mouseover','.xm-form-checkbox',function (){
+        var text = $(this).find("span").text()
+        $(this).attr('title',text)
+    });
+</script>

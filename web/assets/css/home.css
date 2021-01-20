@@ -1,0 +1,134 @@
+/*@media screen and (width: 1366px) { !*当屏幕尺寸小于600px时，应用下面的CSS样式*!*/
+    /*.main_s {*/
+        /*padding: 0 13% 0 14%;*/
+    /*}*/
+/*}*/
+/*@media screen and (width: 1440px) { !*当屏幕尺寸小于600px时，应用下面的CSS样式*!*/
+    /*.main_s {*/
+        /*padding: 0 5% 0 6%;*/
+    /*}*/
+/*}*/
+/*@media screen and (width: 1920px) { !*当屏幕尺寸小于600px时，应用下面的CSS样式*!*/
+    /*.main_s {*/
+        /*padding: 0 13% 0 14%;*/
+    /*}*/
+/*}*/
+
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
+    background: url("../../assets/images/home/homebg.png") no-repeat ;
+    font-family: "Microsoft YaHei";
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    min-width: 900px;
+    min-height: 760px;
+}
+h2 h3 span{
+    font-family: 微软雅黑;
+}
+/*.main_s {*/
+/*padding: 0 0 0 14%;*/
+/*}*/
+.logo_img{
+    float: left;
+    margin-top: 2.1%;
+}
+.ch_name{
+    float: left;
+    margin-top: 2.7%;
+    margin-left: 1.3%;
+}
+.ch_name h3 {
+    color: #ffffff;
+    font-size: 20px;
+}
+.ch_name h2 {
+    color: rgba(255,255,255,0.5);
+    font-size: 16px;
+}
+.en_name{
+    margin-top: 1.9%;
+}
+.card_slot{
+    padding-top: 6%;
+}
+.card_div{
+    text-align: center;
+    margin:1px;
+    border: 1px transparent dashed;
+    min-height: 110px;
+    min-width: 110px;
+    width: 17vh;
+    height: 17vh;
+    float: left;
+}
+.card_div1{
+    background-color: rgba(0,0,0,0.55);
+}
+.card_div2{
+    background-color: rgba(1,170,237,0.18);
+}
+.card_div3{
+    background-color: rgba(1,170,237,0.18);
+}
+.card_div4{
+    background-color: rgba(1,170,237,0.27);
+}
+.card_div:hover{
+    cursor:pointer;
+    background-color: #01aaed;
+
+}
+.div_card{
+    border: 1px transparent dashed;
+    margin:1px;
+    min-height: 110px;
+    min-width: 110px;
+    width: 17vh;
+    height: 17vh;
+    float: left;
+}
+.card_img {
+    width: 32%;
+    height: 32%;
+    padding-top: 22%;
+    padding-bottom: 10%;
+}
+.card_img1 {
+    width: 32%;
+    height: 10%;
+    padding-top: 33%;
+    padding-bottom: 10%;
+
+}
+.card_p{
+    position: relative;
+    font-size:16px;
+    font-family:微软雅黑;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+    line-height:12px;
+}
+.footer_div{
+    padding-top: 5%;
+    padding-left: 7%;
+}
+.footer_div span{
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+}
+.footer_span1{
+    padding-left: 1%;
+    font-size:13px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    opacity:0.7;
+}

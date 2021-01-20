@@ -1,0 +1,159 @@
+/*
+File   : pictureNavigation.css
+Created: 2018-12-10 14:20
+Author : Qitian
+Description: 图片导航页面样式表
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+*/
+/**** 页面layout布局 ****/
+html, body, .navigation-wrapper {
+    width: 100%;
+    min-height: 754px;
+    height: 100%;
+    min-width: 1360px;
+}
+
+.navigation-wrapper {
+    background: url("../images/navigation/background.png") no-repeat;
+    background-size: 100% 100%;
+}
+/**** 顶部 LOGO 及网站标题样式**/
+.navigation-header {
+    height: 113px;
+    padding-left: 15%;
+}
+
+.navigation-header > img {
+    height: 77px;
+    width: 92px;
+    float: left;
+    margin: 36px 15px 0 0;
+}
+
+.navigation-wrapper .navigation-header > div {
+    float: left;
+    margin-top: 44px;
+}
+
+.navigation-wrapper .navigation-header > div label:nth-child(1) {
+    /*width: 537px;*/
+    line-height:35px;
+    color: rgb(227, 227, 227);
+    font-size: 24px;
+    font-family: PingFang-SC-Bold;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.navigation-wrapper .navigation-header > div label:nth-child(3) {
+    /*width: 647px;*/
+    line-height: 22px;
+    font-size: 16px;
+    color: rgb(227, 227, 227);
+    font-family: PingFang-SC-Bold;
+     font-weight: bold;
+    opacity: 0.6;
+}
+
+/**** 导航主体样式**/
+.navigation-body {
+    /*min-height: 595px;*/
+    min-height: 500px;
+    padding-top: 10px;
+}
+
+.body-row, .body-note {
+    width: 100%;
+    text-align: center;
+
+}
+
+.body-row {
+    height: 170px;
+    margin-top: 130px;
+}
+
+.body-note div{
+    width: 170px;
+    float: left;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    margin-right: 35px;
+    color:rgba(255,255,255,1);
+}
+
+.body-note > div p:nth-child(1) {
+    font-size:20px;
+    font-family:PingFang-SC-Bold;
+    font-weight:bold;
+    margin-bottom: 5px;
+}
+
+.body-note > div p:nth-child(2) {
+    font-size:14px;
+    font-family:PingFang-SC-Bold;
+    /*font-weight:bold;*/
+
+    opacity:0.6;
+}
+
+.body-row > div {
+    /*border: 1px #999 dashed;*/
+    width: 170px;
+    float: left;
+    height: 170px;
+    margin-right: 35px;
+}
+
+.body-row > div img {
+    width: 100%;
+}
+
+.body-row div:nth-child(1),.body-note div:nth-child(1) {
+    margin-left: calc(50% - 610px);
+}
+/**** 底部样式**/
+.navigation-footer {
+    height: 120px;
+    text-align: center;
+    clear: both;
+}
+
+.footer-left label:nth-child(1),.footer-center label:nth-child(1),.footer-right label:nth-child(1) {
+    height:19px;
+    font-size:12px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+}
+
+.footer-left label:nth-child(3),.footer-center label:nth-child(3),.footer-right label:nth-child(3) {
+    height:22px;
+    font-size:12px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    opacity:0.4;
+}
+
+.footer-center {
+    float: left;
+    margin-top: 20px;
+    margin-left: calc(40% - 385px);
+}
+
+.footer-left {
+    float: left;
+    margin-top: 20px;
+    margin-left: 10%;
+}
+
+.footer-right {
+    float: right;
+    margin-top: 20px;
+    margin-right: 10%;
+}

@@ -1,0 +1,123 @@
+<!-- 查询条件设置 -->
+<div class="layui-row" style="margin-top: 4px;">
+    <div class="layui-col-xs12 ayui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">查询条件设置
+                <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img
+                        src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+            </div>
+            <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 10px;display: none" lay-filter="form3">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">日期：</label>
+                            <div class="layui-input-block">
+                                <i class="layui-icon layui-icon-date"></i>
+                                <input name="riskTime" id="date-4" class="layui-input" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">业务模块：</label>
+                            <div class="layui-input-block">
+                                <select name="functionCodeList" id="ywmk4" xm-select="functionSelect"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">供应商代码：</label>
+                            <div class="layui-input-block" style="margin-left: 100px;">
+                                <select name="supplierCode" id="gysdm4" lay-filter="gysdm4" lay-search></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">供应商名称：</label>
+                            <div class="layui-input-block">
+                                <select name="supplierName" id="gysmc4" lay-filter="gysmc4" lay-search></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item" style="margin-bottom: 0;">
+                            <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search3" id="searchAll">查询
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset3">重置
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" id="exportForecast" style="padding: 0 30px;">导出
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" id="executeForecastTask" style="padding: 0 30px;">执行风险预测任务
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" id="executeAlgorithmTask" style="padding: 0 30px;">执行风险实际算法任务
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 统计表格 + 图表 -->
+<div class="layui-row layui-col-space15" style="margin-top: 2.5px;">
+    <!-- 统计表格 -->
+    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6" style="padding-right:5px;">
+        <div class="layui-card">
+            <div class="layui-card-header">风险供应商清单</div>
+            <div class="layui-card-body" style="padding-top:0;padding-bottom: 0;">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" style="padding-bottom: 6px;">
+                        <table id="demo-table3"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 空白图表 -->
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md6" style="padding-left:5px;">
+        <div class="layui-card">
+            <div class="layui-card-header">风险排名与指标预测对比分析</div>
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                        <div id="chart-pie7" style="width: 96%;height: 210px;margin: 0 auto;"></div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                        <div id="chart-pie8" style="width: 96%;height: 210px;margin: 0 auto;"></div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                        <div id="chart-pie9" style="width: 96%;height: 210px;margin: 0 auto;"></div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                        <div id="chart-pie10" style="width: 96%;height: 210px;margin: 0 auto;"></div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                        <div id="chart-pie11" style="width: 96%;height: 210px;margin: 0 auto;"></div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
+                        <div id="chart-pie12" style="width: 96%;height: 210px;margin: 0 auto;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .layui-table-box {
+        margin-bottom: 0px;
+    }
+    
+    .layui-table-body {
+        height: 350px;
+        max-height: 350px;
+    }
+</style>
+<script src="../../assets/js/riskForecast.js"></script>

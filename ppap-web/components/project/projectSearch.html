@@ -1,0 +1,1539 @@
+<!--
+File   : projectManage.html
+Created: 2018-12-10 14:20
+Author : Qitian
+Description: 项目管理-项目信息维护页面
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<link rel="stylesheet" href="../../assets/css/project_manage.css"/>
+<style>
+    div[xm-select-skin=default] dl dd:not(.xm-dis-disabled) i {
+        border-color: #1E9FFF
+    }
+
+    div[xm-select-skin=default] dl dd.xm-select-this:not(.xm-dis-disabled) i {
+        color: #1E9FFF
+    }
+
+    .xm-input xm-select {
+        height: 30px !important;
+    }
+
+    .xm-select {
+        height: 30px !important;
+
+    }
+
+    .xm-select-parent .xm-select {
+        min-height: 30px !important;
+    }
+
+    .xm-select-parent .xm-input {
+        height: 30px;
+        padding-top: 0px;
+    !important;
+    }
+</style>
+<div class="layui-row layui-col-space15" id="project_search">
+    <!-- 页面内容 -->
+    <div class="layui-col-md12 card-show-list">
+        <div class="layui-card">
+            <!--搜索面板-->
+            <div class="search">
+                <form class="layui-form search-form" lay-filter="search-form-content">
+                    <!--搜索面板title-->
+                    <!--updated by qitian 20190112 所有搜索下拉框可输入，对下拉框的内容进行检索-->
+                    <div class="search-title" onclick="openPanel(this)">
+                        <div class="search-l title-l"><label>数据查找</label></div>
+                        <div class="search-r "><label id="flex2">展开</label><img
+                                src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img class="hide"
+                                                                              src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item hide search-script" id="slot-searcher-tpl">
+                        <!--检索项-->
+                        <div class="search-content">
+                            <!--每一个搜索项中必须设定name值和class:params-item，用来执行搜索功能时取参数用-->
+                            <!--每一个搜索项需要放动态下拉菜单的一级父元素必须绑定id值，用来请求数据成功后，append动态数据-->
+                            <div class="layui-col-md12">
+                                <div class="layui-col-md3">
+                                    <!--  <div class="search-item">-->
+                                    <label class="layui-form-label">项目类型：</label>
+                                    <div class="layui-input-block">
+                                        <select id="projecttype" lay-search="" placeholder="请选择" name="projecttype"
+                                                lay-filter="projecttype" class="params-item">
+                                            <option value="">请选择</option>
+                                            <option value="1">整车</option>
+                                            <option value="2">发动机</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">项目年份：</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="projectyear" placeholder="请选择" readonly
+                                               autocomplete="off" id="search-input-projectyear"
+                                               class="layui-input params-item"/>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3 pcartype">
+                                    <label class="layui-form-label">项目车型/机型：</label>
+                                    <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                        <!--<div class="layui-select-title pcartype-title">-->
+                                        <!--<input type="text" placeholder="请选择" value="" readonly="" id="search-input-pcartype" class="layui-input layui-unselect params-item" name="pcartype">-->
+                                        <!--</div>-->
+                                        <!--<dl class="layui-anim layui-anim-upbit" style="" id="pcartype">-->
+                                        <!--</dl>-->
+                                        <select name="pcartype" id="pcartype" xm-select="pcartype"
+                                                xm-select-show-count="1" xm-select-skin="default"
+                                                xm-select-height="36px" xm-select-search=""></select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">项目单编号：</label>
+                                    <div class="layui-input-block layui-unselect layui-form-select downpanel">
+                                        <!--<div class="layui-select-title pcartype-title">-->
+                                        <!--<input type="text" placeholder="请选择" value="" readonly="" id="search-input-pfollowcode" class="layui-input layui-unselect params-item" name="pfollowcode">-->
+                                        <!--</div>-->
+                                        <!--<dl class="layui-anim layui-anim-upbit" style="" id="pfollowcode">-->
+                                        <!--</dl>-->
+                                        <select name="pfollowcode" id="pfollowcode" xm-select="pfollowcode"
+                                                xm-select-height="36px" xm-select-skin="default" style="top: 1000px"
+                                                xm-select-show-count="1" xm-select-search=""></select>
+                                    </div>
+                                    <!--<div class="layui-input-block">-->
+                                    <!--<select id="pfollowcode" lay-search="" placeholder="请选择" name="pfollowcode" lay-verify="" lay-filter="pfollowcode"-->
+                                    <!--class="params-item"></select>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                            <div class="layui-col-md12">
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">动力：</label>
+                                    <div class="layui-input-block">
+                                        <select id="power" lay-search="" placeholder="请选择" name="power"
+                                                lay-filter="power"
+                                                class="params-item"></select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">配置：</label>
+                                    <div class="layui-input-block">
+                                        <select id="config" lay-search="" placeholder="请选择" name="config"
+                                                lay-filter="config"
+                                                class="params-item"></select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">BETA/OTS1：</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" readonly id="search-input-ots1"
+                                               placeholder="请选择">
+                                        <input type="hidden" name="ots1start" class="params-item"/>
+                                        <input type="hidden" name="ots1end" class="params-item"/>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">GAMMA/OTS2：</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" readonly id="search-input-ots2"
+                                               placeholder="请选择">
+                                        <input type="hidden" name="ots2start" class="params-item"/>
+                                        <input type="hidden" name="ots2end" class="params-item"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md12">
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">3C Pilot/NS：</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" readonly id="search-input-ns"
+                                               placeholder="请选择">
+                                        <input type="hidden" name="nsstart" class="params-item"/>
+                                        <input type="hidden" name="nsend" class="params-item"/>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">Pilot/S：</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" readonly id="search-input-stime"
+                                               placeholder="请选择">
+                                        <input type="hidden" name="stimestart" class="params-item"/>
+                                        <input type="hidden" name="stimeend" class="params-item"/>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">SOP：</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" readonly id="search-input-soptime"
+                                               placeholder="请选择">
+                                        <input type="hidden" name="soptimestart" class="params-item"/>
+                                        <input type="hidden" name="soptimeend" class="params-item"/>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">项目管理员：</label>
+                                    <div class="layui-input-block">
+                                        <select id="padmin" lay-search="" placeholder="请选择" name="padmin"
+                                                lay-filter="padmin"
+                                                class="params-item"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md12">
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">项目状态：</label>
+                                    <div class="layui-input-block">
+                                        <select id="pstatus" lay-search="" placeholder="请选择" name="pstatus"
+                                                lay-filter="pstatus" class="params-item">
+                                            <option value="">请选择</option>
+                                            <option value="开发中">开发中</option>
+                                            <option value="已投产">已投产</option>
+                                            <option value="取消">取消</option>
+                                            <option value="暂停">暂停</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">状态：</label>
+                                    <div class="layui-input-block">
+                                        <select id="status" lay-search="" placeholder="请选择" name="status"
+                                                lay-filter="status" class="params-item">
+                                            <option value="">请选择</option>
+                                            <option value="未发布">未发布</option>
+                                            <option value="已发布">已发布</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--搜索面板按钮-->
+                                <div class="search-btn">
+                                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="searchByCondition"
+                                            type="button">
+                                        查询
+                                    </button>
+                                    <button type="button" class=" layui-btn layui-btn-primary" lay-submit
+                                            lay-filter="resetSearcher">
+                                        重置
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--项目墙数据面板-->
+            <div class="tableList">
+                <!--<div class="tableList-title">
+                        <button onclick="return false;">项目单列表</button>
+                </div>-->
+                <div class="layui-form">
+                    <div class="tableList-title" onclick="openPanel(this)">
+                        <div class="table-l title-l"><label>项目单列表</label></div>
+                    </div>
+
+                    <div class="btns-right">
+                        <button id="dianxuan2" class="nostyle-btn" onclick="viewItemInfo()" type="button"><img
+                                src="../../assets/images/detail.png" alt="../../assets/images/detail.png"/>项目单详情
+                        </button>
+                        <button id="dianxuan" class="nostyle-btn" onclick="exportItemInfo()" type="button"><img
+                                src="../../assets/images/export.png" alt="../../assets/images/export.png"/>导出项目单
+                        </button>
+                        <button class="nostyle-btn" onclick="exportItemList()" type="button"><img
+                                src="../../assets/images/export.png" alt="../../assets/images/export.png"/>导出项目墙
+                        </button>
+                    </div>
+                    <div class="table-round">
+                        <table id="project-table" class="table-form" lay-data="{id: 'project-table'}"
+                               lay-filter="project-table"></table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="tip-input">
+    <input maxlength="6" name="sqe" class="tip-input"/>
+</script>
+<!--表格中项目类型下拉框-->
+<script type="text/html" id="projecttype-tpl">
+    <form class="layui-form">
+        <select name="projecttype" id="projecttype_selected_{{d.LAY_TABLE_INDEX}}" data='{{ JSON.stringify(d)}}'
+                style="width: 100%;height: 27px;" onchange="tplSelected('projecttype',{{d.LAY_TABLE_INDEX}})"
+                lay-ignore="">
+            <option value="" {{!d.projecttype ?
+            'selected' : ''}} disabled>-- 请选择 --</option>
+            <option value="1" {{d.projecttype==
+            '1' ? 'selected' : ''}}>整车</option>
+            <option value="2" {{d.projecttype==
+            '2' ? 'selected' : ''}}>发动机</option>
+        </select>
+    </form>
+</script>
+<!--表格中项目状态下拉框-->
+<script type="text/html" id="pstatus-tpl">
+    <form class="layui-form">
+        <select name="pstatus" id="pstatus_selected_{{d.LAY_TABLE_INDEX}}" data='{{ JSON.stringify(d)}}'
+                style="width: 100%;height: 27px;" onchange="tplSelected('pstatus',{{d.LAY_TABLE_INDEX}})" lay-ignore="">
+            <option value="" {{!d.pstatus ?
+            'selected' : ''}} disabled>-- 请选择 --</option>
+            <option value="开发中" {{d.pstatus==
+            '开发中' ? 'selected' : ''}}>开发中</option>
+            <option value="已投产" {{d.pstatus==
+            '已投产' ? 'selected' : ''}}>已投产</option>
+            <option value="取消" {{d.pstatus==
+            '取消' ? 'selected' : ''}}>取消</option>
+            <option value="暂停" {{d.pstatus==
+            '暂停' ? 'selected' : ''}}>暂停</option>
+        </select>
+    </form>
+
+</script>
+<!--表格中日期控件-->
+<script type="text/html" id="ots1">
+    <input type="text" style="width: 100%;" data='{{ JSON.stringify(d)}}' class="for-lay-date" name="ots1"
+           id="ots1_input_{{d.LAY_TABLE_INDEX}}" value="{{d.ots1}}" readonly placeholder="请选择"/>
+</script>
+<!--表格中日期控件-->
+<script type="text/html" id="ots2">
+    <input type="text" style="width: 100%;" data='{{ JSON.stringify(d)}}' class="for-lay-date" name="ots2"
+           id="ots2_input_{{d.LAY_TABLE_INDEX}}" value="{{d.ots2}}" readonly placeholder="请选择"/>
+</script>
+<!--表格中日期控件-->
+<script type="text/html" id="ns">
+    <input type="text" style="width: 100%;" data='{{ JSON.stringify(d)}}' class="for-lay-date" name="ns"
+           id="ns_input_{{d.LAY_TABLE_INDEX}}" value="{{d.ns}}" readonly placeholder="请选择"/>
+</script>
+<!--表格中日期控件-->
+<script type="text/html" id="stime">
+    <input type="text" style="width: 100%;" data='{{ JSON.stringify(d)}}' class="for-lay-date" name="stime"
+           id="stime_input_{{d.LAY_TABLE_INDEX}}" value="{{d.stime}}" readonly placeholder="请选择"/>
+</script>
+<!--表格中日期控件-->
+<script type="text/html" id="soptime">
+    <input type="text" style="width: 100%;" data='{{ JSON.stringify(d)}}' class="for-lay-date" name="soptime"
+           id="soptime_input_{{d.LAY_TABLE_INDEX}}" value="{{d.soptime}}" readonly placeholder="请选择"/>
+</script>
+
+<!--页面逻辑控制部分-->
+<script>
+    $('.manage').addClass('hide');
+    var loadDatas;//数据加载方法地址
+    var loadSearch;//搜索面板中的下拉面板数据绑定事件地址
+    var USER = {};//全局变量---登录人信息
+    sessionStorage.removeItem('requestObj');//清除检索记录
+    localStorage.removeItem('EDIT_LICENSE');
+    /**
+     * ma 2019/03/13
+     * 设置全局变量，单选框数据
+     */
+    var danxuanId = {};
+    layui.use(['table', 'form', 'upload', 'laydate', 'laytpl', 'element', 'formSelects', 'util'], function () {
+            var table = layui.table,
+                form = layui.form,
+                config = layui.config,
+                admin = layui.adc,
+                element = layui.element,
+                util = layui.util,
+                layer = layui.layer,
+                laydate = layui.laydate,
+                laytpl = layui.laytpl,
+                upload = layui.upload;
+            USER = config.getAccount();
+            //查询参数对象的声明
+            var requestObj = {};
+
+            //提醒模块中的 “提交” 功能
+            form.on('submit(change-tip-submit)', function (data) {
+                var allDatas = layui.table.cache['tip-form'];
+                var changeList = [];
+                for (var i = 0, len = allDatas.length; i < len; i++) {
+                    //当项目类型/项目单编号/项目车型机型未填写时，不可以添加新行，暂时这么写，需要核实
+                    var val = $('.tip-input')[i].value;
+                    changeList.push({partskey: allDatas[i].partskey, sqe: val});
+                }
+                admin.req('/api-edu/ppap/projectwall/updateSQE', {list: changeList}, function (result) {
+                    if (result.respCode == 200) {
+                        layer.alert(result.message, {
+                            icon: 1
+                            , btn: ['关闭']
+                        });
+                        tipTable();
+                    } else {
+                        layer.alert(result.message, {
+                            icon: 5
+                            , btn: ['关闭']
+                        });
+                    }
+                }, {
+                    method: 'POST'
+                })
+            })
+
+            //初始化检索项目中的日期控件
+            laydate.render({
+                elem: '#search-input-projectyear'
+                , type: 'year'
+                , max: '' + new Date().getFullYear() + ''
+            });
+            laydate.render({
+                elem: '#search-input-ots1'
+                , range: true
+                , done: function (value, date) {
+                    if (value) {
+                        $('input[name="ots1start"]').val(value.split(' - ')[0]);
+                        $('input[name="ots1end"]').val(value.split(' - ')[1]);
+                    } else {
+                        $('input[name="ots1start"]').val('');
+                        $('input[name="ots1end"]').val('');
+                    }
+                }
+            });
+            laydate.render({
+                elem: '#search-input-ots2'
+                , range: true
+                , done: function (value, date) {
+                    if (value) {
+                        $('input[name="ots2start"]').val(value.split(' - ')[0]);
+                        $('input[name="ots2end"]').val(value.split(' - ')[1]);
+                    } else {
+                        $('input[name="ots2start"]').val('');
+                        $('input[name="ots2end"]').val('');
+                    }
+                }
+            });
+            laydate.render({
+                elem: '#search-input-ns'
+                , range: true
+                , done: function (value, date) {
+                    if (value) {
+                        $('input[name="nsstart"]').val(value.split(' - ')[0]);
+                        $('input[name="nsend"]').val(value.split(' - ')[1]);
+                    } else {
+                        $('input[name="nsstart"]').val('');
+                        $('input[name="nsend"]').val('');
+                    }
+                }
+            });
+            laydate.render({
+                elem: '#search-input-stime'
+                , range: true
+                , done: function (value, date) {
+                    if (value) {
+                        $('input[name="stimestart"]').val(value.split(' - ')[0]);
+                        $('input[name="stimeend"]').val(value.split(' - ')[1]);
+                    } else {
+                        $('input[name="stimestart"]').val('');
+                        $('input[name="stimeend"]').val('');
+                    }
+                }
+            });
+            laydate.render({
+                elem: '#search-input-soptime'
+                , range: true
+                , done: function (value, date) {
+                    if (value) {
+                        $('input[name="soptimestart"]').val(value.split(' - ')[0]);
+                        $('input[name="soptimeend"]').val(value.split(' - ')[1]);
+                    } else {
+                        $('input[name="soptimestart"]').val('');
+                        $('input[name="soptimeend"]').val('');
+                    }
+                }
+            });
+
+            /**
+             * @Desc 搜索功能中 下拉框 内容加载
+             * @Date 2018-12-12 13:37:42
+             * @Author qitian
+             */
+            loadSearch = function () {
+                //模糊查询，字段名必须确定，字段名对应的值可以任意，但不能为空
+                admin.req('/api-edu/ppap/projectwall/getQueryItems', {}, function (res) {
+                    if (res.respCode == 200 && res.data) {
+                        var history = sessionStorage.getItem('requestObj') ? JSON.parse(sessionStorage.getItem('requestObj')) : {};
+                        for (var selName in res.data) {
+                            $('#' + selName).empty();
+                            //多选项
+                            if (selName == 'pcartype') {
+                                // if (res.data[selName].length > 0) {
+                                //     var checkList = [];
+                                //     // $('#'+selName).append('<dd><input type="checkbox" name="'+selName+'" class="check-all" title="全部" lay-filter="chooseAllPeroson" value="" lay-skin="primary" ></dd>');
+                                //     /*for (var item of res.data[selName]) {*/
+                                //     for (var i = 0, len = res.data[selName].length; i < len; i++) {
+                                //         var item = res.data[selName][i];
+                                //         if (item) {
+                                //             if (history && history[selName] && history[selName].split(',').includes(item)) {
+                                //                 $('#' + selName).append('<dd><input checked type="checkbox" name="' + selName + '" title="' + item + '" value="' + item + '" lay-skin="primary" ></dd>');
+                                //                 checkList.push(item);
+                                //             } else {
+                                //                 $('#' + selName).append('<dd><input type="checkbox" name="' + selName + '" title="' + item + '" value="' + item + '" lay-skin="primary" ></dd>');
+                                //             }
+                                //         }
+                                //     }
+                                //     //文本框赋值
+                                //     var str = '';
+                                //     checkList.forEach(function (item, index) {
+                                //         if (index < checkList.length - 1) {
+                                //             str += item + ',';
+                                //         } else {
+                                //             str += item;
+                                //         }
+                                //     });
+                                //     $('#search-input-pcartype').val(str);
+                                //     //防止文本框内内容过长遮挡问题
+                                //     $('#search-input-pcartype').attr('title', str);
+                                //     form.render('checkbox');
+                                // } else {
+                                //     $('#' + selName).append('<dd>没有选项</dd>');
+                                // }
+                            } else {//单选项
+                                if (res.data[selName].length > 0) {
+                                    $('#' + selName).append('<option value="">请选择</option>');
+                                    /*for (var item of res.data[selName]) {*/
+                                    for (var i = 0, len = res.data[selName].length; i < len; i++) {
+                                        var item = res.data[selName][i];
+                                        if (item) {
+                                            if (history && history[selName] == item) {
+                                                $('#' + selName).append('<option value="' + item + '" selected>' + item + '</option>');
+                                            } else {
+                                                $('#' + selName).append('<option value="' + item + '">' + item + '</option>');
+                                            }
+
+                                        }
+                                    }
+                                } else {
+                                    $('#' + selName).append('<option value="">请选择</option>');
+                                }
+                                form.render('select');
+                            }
+
+                        }
+                    }
+                }, {
+                    method: 'POST'
+                });
+            }
+
+            /**
+             * @Desc项目墙数据加载
+             * @Date 2018-12-12 13:38:03
+             * @Author qitian
+             */
+            loadDatas = function () {
+                //查询参数对象的赋值
+                //获取参数
+                $('.params-item').each(function (index, item) {
+                    var name = $(item).attr('name');
+                    var value = $(item).val();
+                    if (name == 'pcartype') {
+                        if (value == '全部') {
+                            requestObj[name] = '';
+                        } else {
+                            requestObj[name] = value;
+                        }
+                    } else {
+                        if (item.localName == 'input') {
+                            requestObj[name] = value;
+                        } else {
+                            form.on('select(' + name + ')', function (obj) {
+                                requestObj[name] = obj.value
+                            });
+                        }
+
+                    }
+                })
+                var formSelects = layui.formSelects;
+                if (formSelects.value('pcartype').length) {
+                    var pcartype = '';
+                    for (var i = 0; i < formSelects.value('pcartype').length; i++) {
+                        if (formSelects.value('pcartype')[i].name) {
+                            pcartype = pcartype + formSelects.value('pcartype')[i].name + ",";
+                        }
+                    }
+                    requestObj["pcartype"] = pcartype;
+                }
+                if (formSelects.value('pfollowcode').length) {
+                    var pfollowcode = '';
+                    console.log(formSelects.value('pfollowcode'))
+                    for (var i = 0; i < formSelects.value('pfollowcode').length; i++) {
+                        if (formSelects.value('pfollowcode')[i].name) {
+                            pfollowcode = pfollowcode + formSelects.value('pfollowcode')[i].name + ",";
+                        }
+                    }
+                    console.log(pfollowcode);
+                    requestObj["pfollowcode"] = pfollowcode;
+                }
+				requestObj["share"] = '已共享'
+				var config = layui.config.getAccount();
+				requestObj["updateperson"] = config.userName;
+                //需要添加背景颜色的单元格
+                var redList = [];
+                //项目查询页面，不可以进行编辑
+                var tableCols1 = [
+                    [{
+                        type: 'checkbox',
+                        fixed: 'left',
+                        align: 'center',
+                        width: '50'
+                    }, {
+                        field: 'num',
+                        title: '序号',
+                        type: 'numbers',
+                        fixed: 'left',
+                        align: 'center',
+                        width: '60'
+                    }, {
+                        field: 'pfollowcode',
+                        title: '项目单编号',
+                        align: 'center',
+                        fixed: 'left',
+                        width: 150
+                    }, {
+                        field: 'pcartype',
+                        title: '项目车型/机型',
+                        align: 'center',
+                        fixed: 'left',
+                        width: 160
+                    }, {
+                        field: 'power',
+                        title: '动力',
+                        align: 'center',
+                        fixed: 'left',
+                        width: 60
+                    }, {
+                        field: 'config',
+                        title: '配置',
+                        align: 'center',
+                        fixed: 'left',
+                        width: 60
+                    }, {//updated by qitian 2019-01-16 变更
+                        field: 'projecttype',
+                        title: '项目类型',
+                        /*fixed: 'left',*/
+                        align: 'center',
+                        templet: function (d) {
+                            if (!d.projecttype) {
+                                return '';
+                            } else if (d.projecttype == '1') {
+                                return '整车';
+                            } else {
+                                return '发动机';
+                            }
+                        },
+                        width: 120
+                    }, {
+                        field: 'ots1',
+                        title: 'BETA/OTS1',
+                        align: 'center',
+                        width: 150
+                    }, {
+                        field: 'ots2',
+                        title: 'GAMMA/OTS2',
+                        align: 'center',
+                        width: 150
+                    }, {
+                        field: 'ns',
+                        title: '3C Pilot/NS',
+                        align: 'center',
+                        width: 150
+                    }, {
+                        field: 'stime',
+                        title: 'Pilot/S',
+                        align: 'center',
+                        width: 120
+                    }, {
+                        field: 'soptime',
+                        title: 'SOP',
+                        align: 'center',
+                        width: 120
+                    }, {
+                        field: 'padmin',
+                        title: '项目管理员',
+                        align: 'center',
+                        width: 150
+                    }, {
+                        field: 'capacityreq',
+                        title: '产能需求',
+                        align: 'center',
+                        width: 100
+                    }, {
+                        field: 'pstatus',
+                        title: '项目状态标识',
+                        align: 'center',
+                        width: 120
+                    }, {
+                        field: 'pdirector',
+                        title: '项目总监',
+                        align: 'center',
+                        width: 100
+                    }, {
+                        field: 'tdcchiefengineer',
+                        title: 'TDC平台总工',
+                        align: 'center',
+                        width: 120
+                    }, {
+                        field: 'travelwbs',
+                        title: '差旅WBS',
+                        align: 'center',
+                        width: 120
+                    }, {
+                        field: 'status',
+                        title: '状态',
+                        align: 'center',
+                        templet: function (d) {
+                            if (d.isred == 1) {
+                                redList.push(d.LAY_TABLE_INDEX);
+                            }
+                            return '<div id="status_' + d.LAY_TABLE_INDEX + '">' + d.status + '</div>';
+                        },
+                        width: 80
+                    }, {
+                        field: 'updateperson',
+                        title: '更新人',
+                        align: 'center',
+                        width: 90
+                    }, {
+                        field: 'updatetime',
+                        title: '更新时间',
+                        align: 'center',
+                        width: 120
+                    }]
+                ]
+
+                // 渲染数据表格
+                table.render({
+                    elem: '#project-table',
+                    id: 'project-table',
+                    method: 'post',
+                    url: admin.formatUrl('/api-edu/ppap/projectwall/searchAllInfo'),
+                    where: requestObj,
+                    // 格式化后台返回的数据
+                    parseData: function (res) {
+                        if (res.respCode != -1 && res.data && res.data.page) {
+                            sessionStorage.setItem('requestObj', JSON.stringify(requestObj));
+                            res.data.page = admin.redefinedForObject(res.data.page);
+                            /*for (var data of res.data.page) {*/
+                            for (var i = 0, len = res.data.page.length; i < len; i++) {
+                                var data = res.data.page[i];
+                                data.updatetime = data.updatetime ? new Date(data.updatetime).Format("yyyy-MM-dd") : '';
+                                data.createtime = data.createtime ? new Date(data.createtime).Format("yyyy-MM-dd") : '';
+                                data.ots1 = data.ots1 ? new Date(data.ots1).Format("yyyy-MM-dd") : '';
+                                data.ots2 = data.ots2 ? new Date(data.ots2).Format("yyyy-MM-dd") : '';
+                                data.ns = data.ns ? new Date(data.ns).Format("yyyy-MM-dd") : '';
+                                data.stime = data.stime ? new Date(data.stime).Format("yyyy-MM-dd") : '';
+                                data.soptime = data.soptime ? new Date(data.soptime).Format("yyyy-MM-dd") : '';
+                            }
+                            return {
+                                "code": res.respCode != -1 ? 0 : -1, //解析接口状态
+                                "msg": res.message, //解析提示文本
+                                "count": res.data.count, //解析数据长度
+                                "data": res.data && res.data.page ? res.data.page : [] //解析数据列表
+                            };
+                        } else {
+                            return {
+                                "code": 0, //解析接口状态
+                                "msg": res.message, //解析提示文本
+                                "count": 0, //解析数据长度
+                                "data": [] //解析数据列表
+                            };
+                        }
+
+                    },
+                    done: function (res, curr, count) {
+                        //by ma 2019-03-13 设置为单选
+                        $("th[data-field='0']").find("i").remove();
+                        $("th[data-field='0']").find("input").remove();
+
+                        if (res.data.length != 0) {
+                            //updated by qitian 2019-01-22
+                            setTimeout(function () {
+                                $('.table-round .layui-table-box').css('overflow-x', 'hidden');
+                                $('.table-round .layui-table-header').css('overflow', 'hidden');
+                                $(window).resize();
+                            }, 1);
+                        }
+                        //单元格背景颜色渲染
+                        for (var i = 0, len = redList.length; i < len; i++) {
+                            var item = redList[i];
+                            $('.layui-table-main #status_' + redList[i]).css('color', '#fff');
+                            $('.layui-table-main #status_' + redList[i]).css('background', '#fa5250ab');
+                            $('.layui-table-main #status_' + redList[i]).parent().parent().css('background', '#fc0d0bab');
+                        }
+                        //模板日期控件渲染
+                        $('.for-lay-date').each(function (index, item) {
+                            laydate.render({
+                                elem: item
+                                , done: function (value, date) {
+                                    if (value) {
+                                        var obj = JSON.parse($(item).attr('data'));
+                                        obj[item.name] = value;
+                                        saveItemRequest(obj);
+                                    }
+                                }
+                            });
+                        });
+                    },
+                    cols: tableCols1,
+                    cellMinWidth: 120,
+                    height: 'full-310',
+                    page: {
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                    },
+                    limits: [10, 50, 100],
+                    request: {
+                        //自定义分页参数名
+                        pageName: 'page'
+                        , limitName: 'pageSize'
+                    }
+                });
+                //表格title颜色处理
+                showTrColor();
+            };
+
+            //搜索功能中 下拉框 内容加载
+            loadSearch();
+            //页面初始化时需要加载表格
+            loadDatas();
+
+            // 将 table ID 存入数组
+            layui.adc.addTableCache('tip-form');
+            layui.adc.addTableCache('project-table');
+            /**
+             * 复选框监听事件
+             * by ma 2019-03-13
+             */
+            table.on('checkbox(project-table)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+                $("th[data-field='0']").find("i").remove();
+                $("th[data-field='0']").find("input").remove();
+                $(".layui-form-checkbox").removeClass("layui-form-checked");
+                $(this).next().addClass("layui-form-checked");
+                danxuanId = obj.data;
+            });
+
+
+            /**
+             * @Desc 编辑框失焦-保存事件
+             * @Date 2018-12-12 13:37:42
+             * @Author qitian
+             */
+            table.on('edit(project-table)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+                // console.log(obj.value); //得到修改后的值
+                // console.log(obj.field); //当前编辑的字段名
+                // console.log(obj.data); //所在行的所有相关数据
+                if (obj.value.length > 15) {
+                    layer.alert('此项的输入长度不可超过15位！', {
+                        icon: 5
+                        , btn: ['关闭']
+                    });
+                    return false;
+                }
+                if (obj.field === 'pcartype' && obj.value.indexOf('-') === -1) {
+                    layer.alert('此项必须存在英文中划线符号(-)，且不能位于首尾位置', {
+                        icon: 5
+                        , btn: ['关闭']
+                    })
+                    return false;
+                }
+                saveItemRequest(obj.data);
+            });
+
+            /**
+             * @Desc 查询按钮点击事件
+             * @Date 2018-12-12 13:37:42
+             * @Author qitian
+             */
+            form.on('submit(searchByCondition)', function () {
+                loadDatas();
+            });
+
+            /**
+             * @Desc 重置
+             * @Date 2018-12-16 17:21:36
+             * @Author qitian
+             */
+            form.on('submit(resetSearcher)', function () {
+
+                //时间控件置空
+                $('.params-item').each(function (index, item) {
+                    $(item).val('');
+                });
+                form.render('select', 'search-form-content');
+                $('#search-input-ots1').val('');
+                $('#search-input-ots2').val('');
+                $('#search-input-ns').val('');
+                $('#search-input-stime').val('');
+                $('#search-input-soptime').val('');
+                requestObj = {};
+                $('#search-input-pcartype').val('');
+
+                $('.pcartype .layui-form-checkbox').each(function (index, item) {
+                    $(item).removeClass('layui-form-checked');
+                    $(item).prev().removeAttr('checked');
+                });
+                var formSelects = layui.formSelects;
+                formSelects.value('pcartype', []);
+                formSelects.value('pfollowcode', []);
+
+                table.reload('project-table', {
+                    where: null,
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    done: function (res) {
+                        if (res.count != 0) {
+                            setTimeout(function () {
+                                $('.table-round .layui-table-box').css('overflow-x', 'hidden');
+                                $('.table-round .layui-table-header').css('overflow', 'hidden');
+                                $(window).resize();
+                            }, 1);
+                        }
+                    }
+                });
+                form.render('checkbox', 'search-form-content');
+
+            });
+
+            /**
+             * @Desc 表格数据根据不同的状态显示不同的颜色
+             * @Date 2018-12-12 13:37:31
+             * @Author qitian
+             */
+            function showTrColor() {
+                $('.table-round th[data-field =\'0\']').css("background-color", "#C8E0F0");
+                $('.table-round th[data-field =\'num\']').css("background-color", "#C8E0F0");
+                /*$('.table-round th[data-field =\'projecttype\']').css("background-color", "#C8E0F0");*/
+                $('.table-round th[data-field =\'pfollowcode\']').css("background-color", "#C8E0F0");
+                $('.table-round th[data-field =\'pcartype\']').css("background-color", "#C8E0F0");
+                $('.table-round th[data-field =\'power\']').css("background-color", "#C8E0F0");
+                $('.table-round th[data-field =\'config\']').css("background-color", "#C8E0F0");
+            }
+
+            /**
+             * @Desc 以下方法为模态框中的监听事件
+             * @Date 2018-12-11 09:57:48
+             * @Author qitian
+             */
+
+            // 弹出框取消按钮
+            form.on('submit(popCancle)', function () {
+                admin.closePopupCenter();
+            });
+
+            //模态框提交按钮事件
+            form.on('submit(popSubmit)', function () {
+                var opreate = $('#origin').val();
+                var table = layui.table;
+                var checkStatus = table.checkStatus('project-table');//获取选中项
+                if (opreate === 'import') {//导入
+                    console.log('import')
+                    /*admin.req('/api-edu/ppap/partsprojectsupplier/importProjectWall', {pwkey: checkStatus.data[0].pwkey}, function (data) {
+                        console.log(data.respCode);
+                        if (data.respCode == 200) {
+                            layer.alert(data.message, {
+                                icon: 1
+                                , btn:['关闭']
+                            });
+                            loadDatas();
+                            admin.closePopupCenter();
+                        }
+                    }, {
+                        method: 'POST'
+                    });*/
+                } else if (opreate === 'export') {//导出
+                    console.log('export');
+                    if ($('.selected').length === 0) {
+                        layer.alert('请选择导出模板', {
+                            icon: 5
+                            , btn: ['关闭']
+                        });
+                    } else {
+                        window.location = admin.formatUrl('/api-edu/ppap/partsprojectsupplier/exportProjectWallInfo?pwkey=' + checkStatus.data[0].pwkey + '&projectTrackingType=' + $('.selected').attr('data'));
+                        admin.closePopupCenter();
+                    }
+                } else {//查看详情
+                    console.log('view');
+                    if ($('.selected').length === 0) {
+                        layer.alert('请选择需要查看的项目单', {
+                            icon: 5
+                            , btn: ['关闭']
+                        });
+                    } else {
+                        var checkStatus = table.checkStatus('project-table');//获取选中项
+                        if ($('.selected').attr('data') === '1') {
+                            admin.closePopupCenter();
+                            localStorage.setItem('EDIT_LICENSE', 'FALSE');
+                            // 马 2019-03-12 项目详情查阅增加关闭按钮，操作舒适性优化
+                            // var url = './index.html#!project1?' + checkStatus.data[0].pwkey + '&' + encodeURI(checkStatus.data[0].pstatus ? checkStatus.data[0].pstatus : 'QT');
+                            // frameWindow.openWindow(' ', url)
+                            /*杨琴琴  2019-04-16 项目主表详情查询新开页*/
+                            //location.href = './index.html#!project1?' + checkStatus.data[0].pwkey + '&' + encodeURI(checkStatus.data[0].pstatus ? checkStatus.data[0].pstatus : 'QT');
+                            window.open('./index.html#!project1?' + checkStatus.data[0].pwkey + '&' + encodeURI(checkStatus.data[0].pstatus ? checkStatus.data[0].pstatus : 'QT'), "_blank");
+                            // 马 2019-03-12 结束
+                        } else {
+                            admin.closePopupCenter();
+                            /*杨琴琴  2019-04-16 项目副标详情查询新开页*/
+                            //location.href = './index.html#!project2?' + checkStatus.data[0].pwkey;
+                            window.open('./index.html#!project2?' + checkStatus.data[0].pwkey, "_blank");
+                        }
+                    }
+                }
+            });
+
+            //模态框类型选择
+            form.on('submit(chooseTheType)', function (t) {
+                $('.type').removeClass('selected');
+                $(t.elem).addClass('selected');
+                var opreate = $('#origin').val();
+                if (opreate === 'import') {//导入
+                    $('#submitFile').attr('onclick', '$(this).next().click()');
+                }
+                console.log(t)
+                $('#submitFile').click();
+            });
+
+        }
+    );
+
+    /**
+     * @Desc  即时保存的请求
+     * @Param obj :请求参数对象
+     * @Date 2018-12-21 13:46:26
+     * @Author qitian
+     */
+    function saveItemRequest(obj) {
+        if (obj) {
+            var admin = layui.adc;
+            admin.req('/api-edu/ppap/projectwall/saveProjectWall', obj, function (res) {
+                if (res.respCode == 200) {
+                    //更新表格数据
+                    loadDatas();
+                    //更新搜索面板下拉数据
+                    loadSearch();
+                } else {
+                    layer.alert(res.message, {
+                        icon: 5
+                        , btn: ['关闭']
+                    })
+                }
+            }, {method: 'POST'})
+        }
+    }
+
+    /**
+     * @Desc 可编辑表格中的下拉选择监听事件
+     * @Param itemName 元素name;index:表格索引
+     * @Date 2018-12-14 18:40:16
+     * @Author qitian
+     */
+    function tplSelected(itemName, index) {
+        var admin = layui.adc;
+        if (itemName) {
+            var obj = JSON.parse($('#' + itemName + '_selected_' + index + '').attr('data'));
+            /*if (itemName === 'pstatus') {
+                obj[itemName] = $('.tableList #'+itemName+'_selected_'+index+'').val();
+            } else {
+                obj[itemName] = $('.tableList .layui-table-fixed #'+itemName+'_selected_'+index+'').val();
+            }*/
+            obj[itemName] = $('.tableList #' + itemName + '_selected_' + index + '').val();
+            saveItemRequest(obj);
+        }
+    }
+
+    /**
+     * @Desc 导入文件选择
+     * @Date 2018-12-12 08:54:48
+     * @Author qitian
+     */
+    function chooseImportFile($this) {
+        var table = layui.table
+            , file = $this.files[0]
+            , checkStatus = table.checkStatus('project-table');//获取选中项
+        if (file) {
+            var formFile = new FormData();
+            formFile.append('file', file);
+            formFile.append('pwkey', checkStatus.data[0].pwkey);
+            var admin = layui.adc;
+            console.log(file);
+            $.ajax({
+                url: admin.formatUrl('/api-edu/ppap/partsprojectsupplier/importProjectWall'),
+                data: formFile,
+                type: 'post',
+                dataType: 'json',
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (data) {
+                    if (data.respCode == 200) {
+                        layer.alert(data.message, {
+                            icon: 1
+                            , btn: ['关闭']
+                        });
+                        loadDatas();
+                        admin.closePopupCenter();
+                    } else {
+                        layer.alert(data.message, {
+                            icon: 5
+                            , btn: ['关闭']
+                        });
+                    }
+                    var $inputfile = '<input type="file" onchange="chooseImportFile(this)" class="hide" id="chooseFileInput"/>';
+                    //替换原来的input file
+                    $('#chooseFileInput').replaceWith($($inputfile));
+                },
+                error: function (data) {
+                    layer.alert(data.message, {
+                        icon: 5
+                        , btn: ['关闭']
+                    });
+                }
+            });
+        }
+    }
+
+    /**
+     * 面板 显示
+     * @param _this  当前元素this
+     */
+    function openPanel(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('收起');
+                $('#flex1').next().next().removeClass('hide');
+                $('#flex1').next().addClass('hide');
+            } else {
+                $('#flex2').html('收起')
+                $('#flex2').next().next().removeClass('hide');
+                $('#flex2').next().addClass('hide');
+            }
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            if (_this && _this.className === 'tip-title') {
+                $('#flex1').html('展开');
+                $('#flex1').next().next().addClass('hide');
+                $('#flex1').next().removeClass('hide');
+            } else {
+                $('#flex2').html('展开')
+                $('#flex2').next().next().addClass('hide');
+                $('#flex2').next().removeClass('hide');
+            }
+        }
+    }
+
+    /**
+     * @Desc 发布任务
+     * @Date 2018-12-10 19:12:20
+     * @Author qitian
+     */
+    function publishItem() {
+        var table = layui.table
+            , checkStatus = table.checkStatus('project-table');//获取选中项
+        if (checkStatus.data && checkStatus.data.length !== 1) {
+            layer.alert('请选择一条需要发布的项目', {
+                icon: 5
+                , btn: ['关闭']
+            });
+            return;
+        } else {
+            var admin = layui.adc;
+            admin.req('/api-edu/ppap/projectwall/publishMission', {pwkey: checkStatus.data[0].pwkey}, function (data) {
+                console.log(data.respCode);
+                if (data.respCode != -1) {
+                    layer.alert(data.message, {
+                        icon: 1
+                        , btn: ['关闭']
+                    });
+                    loadDatas();
+                }
+            }, {
+                method: 'POST'
+            });
+        }
+    }
+
+    /**
+     * @Desc 新建项目
+     * @Date 2018-12-10 19:12:58
+     * @Author qitian
+     */
+    function addItem() {
+        var allDatas = layui.table.cache['project-table']
+            , can = true;//是否可以添加标识
+        if (allDatas) {
+            /*for (var item of allDatas) {*/
+            for (var i = 0, len = allDatas.length; i < len; i++) {
+                var item = allDatas[i];
+                //当项目类型/项目单编号/项目车型机型未填写时，不可以添加新行，暂时这么写，需要核实
+                if (!item.projecttype || !item.pfollowcode || !item.pcartype) {
+                    can = false;
+                }
+            }
+        }
+        if (can) {
+            var admin = layui.adc;
+            admin.req('/api-edu/ppap/projectwall/addProjictWall', {}, function (data) {
+                if (data.respCode != -1) {
+                    loadDatas();
+                }
+            }, {
+                method: 'POST'
+            });
+        } else {
+            layer.alert('请先完善项目类型和项目车型/机型信息', {
+                icon: 5
+                , btn: ['关闭']
+            })
+        }
+    }
+
+    /**
+     * @Desc 删除项目
+     * @Date 2018-12-10 19:12:58
+     * @Author qitian
+     */
+    function deleteItem() {
+        var table = layui.table
+            , checkStatus = table.checkStatus('project-table');//获取选中项
+        if (checkStatus.data && checkStatus.data.length !== 1) {
+            layer.alert('请选择一条需要删除的项目', {
+                icon: 5
+                , btn: ['关闭']
+            });
+            return;
+        } else {
+            var admin = layui.adc;
+            admin.req('/api-edu/ppap/projectwall/delProjectWall', {pwkey: checkStatus.data[0].pwkey}, function (data) {
+                if (data.respCode == 200) {
+                    layer.alert(data.message, {
+                        icon: 1
+                        , btn: ['关闭']
+                    });
+                    loadDatas();
+                    //搜索功能中 下拉框 内容加载
+                    loadSearch();
+                } else {
+                    layer.alert(data.message, {
+                        icon: 5
+                        , btn: ['关闭']
+                    });
+                }
+            }, {
+                method: 'POST'
+            });
+        }
+
+    }
+
+    /**
+     * @Desc 导入项目单
+     * @Date 2018-12-10 19:12:20
+     * @Author qitian
+     */
+    function importItemInfo() {
+        var admin = layui.adc
+            , table = layui.table
+            , checkStatus = table.checkStatus('project-table')
+            , can = true;//是否可以导出标识
+        if (checkStatus.data.length !== 1) {
+            layer.alert('请选择一条需要导入的项目', {
+                icon: 5
+                , btn: ['关闭']
+            });
+            return;
+        } else {
+            /*for (var item of checkStatus.data) {*/
+            for (var i = 0, len = checkStatus.data.length; i < len; i++) {
+                var item = checkStatus.data[i];
+                //当项目单编号未填写时，不可以导入
+                if (!item.pfollowcode) {
+                    can = false;
+                }
+            }
+
+            if (can) {
+                var title = '<i class="layui-icon layui-icon-tips import-title"></i>' + '请选择导入模板';
+                admin.popupCenter({
+                    title: title,
+                    path: 'components/tpl/project_manage_import.html',
+                    success: function () {
+                        $('#origin').val('import');
+                        $('.type')[0].innerHTML = '导入项目管理主表';
+                        $('.btn1').css('display', 'block');
+                        $('.btn2').css('display', 'none');
+                    }
+                });
+            } else {
+                layer.alert('请先完善项目信息', {
+                    icon: 5
+                    , btn: ['关闭']
+                });
+            }
+        }
+
+    }
+
+    /**
+     * @Desc 查看项目单详情
+     * @Date 2018-12-10 19:12:58
+     * @Author qitian
+     */
+    function viewItemInfo() {
+        var admin = layui.adc
+            , table = layui.table;
+        //by ma 2018-03-13
+        //判断danxuanId对象是否为null
+        if($.isEmptyObject(danxuanId)){
+            layer.alert('请先勾选一条数据', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        }
+        var data=[danxuanId]
+        var checkStatus ={data:data}
+        if (checkStatus.data && checkStatus.data.length !== 1) {
+            layer.alert('请选择一条需要查看的项目', {
+                icon: 5
+                , btn: ['关闭']
+            });
+            return;
+        } else {
+            var title = '<i class="layui-icon layui-icon-tips import-title"></i>' + '请选择项目单查看';
+            admin.popupCenter({
+                title: title,
+                path: 'components/tpl/project_manage_import.html',
+                success: function () {
+                    $('#origin').val('view');
+                    $('.type')[0].innerHTML = '查看项目管理主表';
+                    $('.type')[1].innerHTML = '查看项目管理副表';
+                    $('.btn1').css('display', 'block');
+                    $('.btn2').css('display', 'block');
+                }
+            });
+        }
+
+    }
+
+    $(document).ready(function () {
+        $('#dianxuan').hide();
+        $('#dianxuan2').hide();
+    });
+
+
+
+    /**
+     * @Desc 导出项目单
+     * @Date 2018-12-10 19:12:58
+     * @Author qitian
+     */
+    function exportItemInfo() {
+        var admin = layui.adc
+            , table = layui.table;
+        //by ma 2019/03/13 修改单选获取数据
+        //判断danxuanId对象是否为null
+        if($.isEmptyObject(danxuanId)){
+            layer.alert('请先勾选一条数据', {
+                icon: 5
+                ,btn:['关闭']
+            });
+            return;
+        }
+        var data=[danxuanId]
+        var checkStatus ={data:data}
+        if (checkStatus.data && checkStatus.data.length !== 1) {
+            layer.alert('请选择一条需要导出的项目', {
+                icon: 5
+                , btn: ['关闭']
+            });
+            return;
+        } else {
+            if (checkStatus.data[0].pfollowcode && checkStatus.data[0].projecttype && checkStatus.data[0].pcartype) {
+                var title = '<i class="layui-icon layui-icon-tips import-title"></i>' + '请选择导出模板';
+                admin.popupCenter({
+                    title: title,
+                    path: 'components/tpl/project_manage_import.html',
+                    success: function () {
+                        $('#origin').val('export');
+                        $('.type')[0].innerHTML = '导出项目管理主表';
+                        $('.type')[1].innerHTML = '导出项目管理副表';
+                        $('.btn1').css('display', 'block');
+                        $('.btn2').css('display', 'block');
+                    }
+                });
+            } else {
+                layer.alert('请先完善项目类型和项目车型/机型信息', {
+                    icon: 5
+                    , btn: ['关闭']
+                });
+            }
+        }
+    }
+
+    /**
+     * @Desc 导出项目墙
+     * @Date 2018-12-10 19:12:58
+     * @Author qitian
+     */
+    function exportItemList() {
+        var admin = layui.adc,
+            form = layui.form
+            , reqObj = {}; //查询参数对象的赋值
+        reqObj = sessionStorage.getItem('requestObj') ? JSON.parse(sessionStorage.getItem('requestObj')) : {};
+        admin.req('/api-edu/ppap/projectwall/getExportProjectWall', reqObj, function (data) {
+            if (data.respCode == 200) {
+                window.location = admin.formatUrl('/api-edu/ppap/projectwall/exportProjectWall?saveCode=' + data.message);
+            }
+        }, {
+            method: 'POST'
+        });
+    }
+
+    /**
+     * @Desc 车型/机型下拉面板打开关闭事件；触发事件的元素为搜索title的class
+     * @Date 2018-12-19 19:56:46
+     * @Author qitian
+     */
+    $(".downpanel").on("click", ".pcartype-title", function (e) {
+        var $select = $(this).parents(".layui-form-select");
+        if ($select.hasClass('layui-form-selected')) {
+            $select.removeClass("layui-form-selected");
+        } else {
+            $select.addClass("layui-form-selected");
+        }
+
+        e.stopPropagation();
+        /**
+         * @Desc 车型/机型下拉面板选中事件
+         * @Date 2018-12-19 19:56:46
+         * @Author qitian
+         */
+    }).on("click", ".layui-form-checkbox", function (e) {
+        //监听checkbox选择事件
+        //防止冒泡
+        e.stopPropagation();
+        var checkeds = $('#search-input-pcartype').val()//获取历史选中的所有值
+            , checkList = [];//现选中的值
+        if (checkeds) {
+            checkList = checkeds.split(',');
+        }
+        //判断是否选中
+        if ($(e.currentTarget).hasClass('layui-form-checked')) {
+            checkList.push(e.currentTarget.textContent);
+        } else {
+            checkList.forEach(function (item, index) {
+                if (item === e.currentTarget.textContent) {
+                    checkList.splice(index, 1);
+                }
+            })
+        }
+        //文本框赋值
+        var str = '';
+        checkList.forEach(function (item, index) {
+            if (index < checkList.length - 1) {
+                str += item + ',';
+            } else {
+                str += item;
+            }
+
+        });
+        $('#search-input-pcartype').val(str);
+        //防止文本框内内容过长遮挡问题
+        $('#search-input-pcartype').attr('title', str);
+    });
+</script>
+<script>
+    layui.use(['table', 'formSelects'], function () {
+        var admin = layui.adc,
+            formSelects = layui.formSelects;
+        formSelects.render();
+
+        admin.req('/api-edu/ppap/projectwall/getQueryItems', {}, function (res) {
+            var data = res.data;
+            var selectData = [];
+            var selectData1 = [];
+            for (var j = 0, length = data.pcartype.length; j < length; j++) {
+                var selectObj = {};
+                selectObj.name = data.pcartype[j];
+                selectObj.value = data.pcartype[j];
+                selectData.push(selectObj);
+
+                var selectObj1 = {};
+                selectObj1.name = data.pfollowcode[j];
+                selectObj1.value = data.pfollowcode[j];
+                selectData1.push(selectObj1);
+            }
+            //formSelect-v4下拉树插件渲染
+            formSelects.data('pcartype', 'local', {
+                arr: selectData
+            });
+            formSelects.btns('pcartype', []);
+            formSelects.data('pfollowcode', 'local', {
+                arr: selectData1
+            });
+            formSelects.btns('pfollowcode', []);
+        }, {
+            method: 'POST'
+        })
+
+        //监听项目车型/机型下拉框选择和取消事件
+        layui.formSelects.on('pcartype', function (id, vals, val, isAdd, isDisabled) {
+            admin.req("/api-edu/ppap/projectwall/getPfollowcodeByPcartype?pcartype=" + val.value, {}, function (res) {
+                var data = res.data;
+                if(data.pfollowcode){
+                    if (isAdd) {
+                        layui.formSelects.value('pfollowcode', data.pfollowcode, true);
+                    } else {
+                        layui.formSelects.value('pfollowcode', data.pfollowcode, false);
+                    }
+                }
+                // form.render('select', 'form1');
+            }, {
+                method: 'POST'
+            });
+        });
+        //监听任务单编号下拉框选择和取消事件
+        layui.formSelects.on('pfollowcode', function (id, vals, val, isAdd, isDisabled) {
+            admin.req("/api-edu/ppap/projectwall/getPcartypeByPfollowcode?pfollowcode=" + val.value, {}, function (res) {
+                var data = res.data;
+                if (data.pcartype){
+                    if (isAdd) {
+                        layui.formSelects.value('pcartype', [data.pcartype], true);
+                    } else {
+                        layui.formSelects.value('pcartype', [data.pcartype], false);
+                    }
+                }
+                // form.render('select', 'form1');
+            }, {
+                method: 'POST'
+            });
+        });
+        layui.formSelects.filter('pfollowcode', function(id, inputVal, val, isDisabled){
+            if(
+                val.name.indexOf(inputVal) != -1                                //文本是否包含
+            ){
+                return false;
+            }
+            return true;
+        });
+        layui.formSelects.filter('pcartype', function(id, inputVal, val, isDisabled){
+            if(
+                val.name.indexOf(inputVal) != -1                                //文本是否包含
+            ){
+                return false;
+            }
+            return true;
+        });
+    })
+
+    //by ma 2019/03/10 selectFrom 添加鼠标悬停显示全部
+    $("#project_search").on('mouseover','.xm-form-checkbox',function (){
+        var text = $(this).find("span").text()
+        $(this).attr('title',text)
+    });
+</script>

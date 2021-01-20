@@ -1,0 +1,761 @@
+<!--
+File   : supplier.html
+Created: 2020-09-15
+Author : linzijain
+Description: 基础信息——供应商
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+
+<div class="layui-row layui-col-space15" id="supplier">
+    <!--by ma 2019-04-12-->
+    <div class="layui-col-md12 autoScrollLeft" style="padding-top: 0px">
+        <div class="layui-card">
+            <!--by ma 2019-04-12-->
+            <div class="g-search" style="margin-top: 6px">
+                <form class="layui-form search-form" lay-filter="search-form-ptr-application">
+                    <div class="g-search-title" @click="openPanel(event)">
+                        <div class="g-search-l g-title-l"><label>数据查找</label></div>
+                        <div class="g-search-r "><label id="flex2">展开</label><img
+                                src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                                class="hide"
+                                src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item hide">
+                        <!-- 数据表格顶部控制栏 -->
+                        <div class="layui-form" style="padding: 0 0 1% 0;">
+                            <div class="layui-row">
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商代码：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" v-model="searchParam.supplierCode" placeholder="请输入标题"
+                                                   autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">供应商名称：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" v-model="searchParam.supplierName" placeholder="请输入标题"
+                                                   autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">基地：</label>
+                                        <div class="layui-input-block">
+                                            <select class="layui-input" name="base" id="base" lay-filter="base">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">零件号：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" v-model="searchParam.partNumber" placeholder="请输入标题"
+                                                   autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">零件名称：</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" v-model="searchParam.partName" placeholder="请输入标题"
+                                            autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">发布年月:</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" id="seachHapYear" placeholder="请选择" name="happenYear">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">发布时间:</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" class="layui-input" id="seachHapTime" placeholder="请选择" name="happenTime">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md6">
+                                    <div class="layui-form-item">
+                                        <div style="float:right;padding-right: 2%">
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-normal"
+                                                        type="button"
+                                                        lay-filter="search-btn-ptr-application"
+                                                        lay-submit
+                                                        @click="searchTableDataFunc">查询
+                                                </button>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button
+                                                        class="layui-btn layui-btn-primary"
+                                                        type="reset"
+                                                        @click="resetSearchFunc">重置
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="clear: both"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="g-tableList">
+                <div class="layui-form">
+                    <div class="g-tableList-title">
+                        <div class="g-table-l g-title-l"><label>供应商信息列表</label></div>
+                    </div>
+                    <div class="g-btn-group-div">
+                        <div>
+                            <button class="layui-btn layui-btn-sm g-btn-blue" @click="addTableDataFunc()">新增
+                            </button>
+                            <button class="layui-btn layui-btn-sm g-btn-blue" @click="editTableDataFunc()">编辑
+                            </button>
+                            <button class="layui-btn layui-btn-sm g-btn-green" @click="publishTableDataFunc()">发布
+                            </button>
+                            <button class="layui-btn layui-btn-sm g-btn-red" @click="deleteTableDataFunc()">删除
+                            </button>
+                            <button class="layui-btn layui-btn-sm g-btn-blue" style="width: 120px;" @click="seeTableDataFunc()">统计数据查看
+                            </button>
+                        </div>
+                        <div>
+                            <button class="g-btn-nostyle manage" onclick="importItemInfo()" type="button"><img
+                                    src="../../assets/images/import.png" alt="../../assets/images/import.png"/>下载模板
+                            </button>
+                            <button class="g-btn-nostyle" onclick="exportItemInfo()" type="button"><img
+                                    src="../../assets/images/detail.png" alt="../../assets/images/detail.png"/>导入供应商
+                            </button>
+                            <button class="g-btn-nostyle" onclick="exportItemList()" type="button"><img
+                                    src="../../assets/images/export.png" alt="../../assets/images/export.png"/>导出供应商
+                            </button>
+                        </div>
+                    </div>
+                    <div class="g-table-round">
+                        <!--* search-param: 选择的查询条件的对象-->
+                        <!--* select-interface-arr: 顶部下拉菜单类型的查询条件对应的接口-->
+                        <!--* form-select-interface-arr: 新增或编辑的表单中是下拉菜单类型的查询条件对应的接口-->
+                        <!--* head-data: 表头内容-->
+                        <!--* field-data: 对应字段-->
+                        <!--* fixed-column: 是否固定列,固定在表格什么位置-->
+                        <!--* is-check-box: 是否开启多选列-->
+                        <!--* is-number: 是否开启序号列-->
+                        <!--* align: 表格内容的对齐方式  left左对齐，center居中对齐，right右对齐-->
+                        <!--* operation-text: 带有其他操作按钮的列的列名称-->
+                        <!--* operation-fixed: 是否固定操作列,固定在表格什么位置-->
+                        <!--* operation-btn-list: 带有其他操作按钮的列中的内容-->
+                        <main-public-table-and-method
+                                :search-param="searchParam"
+                                :select-interface-arr="selectInterfaceArr"
+                                :main-form-select-interface-arr="mainFormSelectInterfaceArr"
+                                :head-data="['发生日期', '基地', '通知书编号', '索赔项目', '停线/延迟交货类型', '供应商代码', '供应商名称', '车型','零件号','零件名称', '缺失原因','是否申诉','处罚标准','处罚时间(分或天)','处罚金额','状态','查看时间','发布时间']"
+                                :field-data="['happenTime','baseName', 'number', 'claimItems', 'delayType', 'supplierCode', 'supplierName', 'modelName','partNumber','partName', 'missingReason','ifAppeal','penaltyStandard','penaltyTime','penaltyMoney','state','viewTime','releaseTimeStart']"
+                                :fixed-column="['','','','','','','']"
+                                :is-check-box="true"
+                                :is-number="true"
+                                :align="'center'"
+                                :operation-text="'操作'"
+                                :operation-fixed="'left'"
+                                :operation-btn-list="dataSourceList"
+                                :get-table-data-url="InterfaceMap.claimForCompensation.getAllTableDataUrl"
+                                :add-or-edit-table-data-url="InterfaceMap.claimForCompensation.addOrEditTableDataUrl"
+                                :publish-table-data-url="InterfaceMap.claimForCompensation.publishTableDataUrl"
+                                :delete-table-data-url="InterfaceMap.claimForCompensation.deleteTableDataUrl"
+                                :table-id=2
+                                ref="refCondition">
+                        </main-public-table-and-method>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="layui-form g-form-style" id="layui-form" action="" lay-filter="example" style="display: none; padding: 0 20px;margin-top: 5px;">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>发生日期:</label>
+                <div class="layui-input-inline">
+                    <input type="text" id= 'happenTime' name="happenTime" lay-verify="required" autocomplete="off" class="layui-input"
+                           placeholder="发生日期">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>基地:</label>
+                <div class="layui-input-inline">
+                    <select class="layui-input" name="base" id="base_name" lay-filter="form_base_name" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>通知书编号:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="number" lay-verify="required" autocomplete="off" class="layui-input"
+                           placeholder="通知书编号">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>索赔项目:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="claimItems" lay-verify="required" autocomplete="off" class="layui-input"
+                    placeholder="索赔项目">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>延迟交货类型:</label>
+                <div class="layui-input-inline">
+                    <select name="delayType" lay-verify="required">
+                        <option value=""></option>
+                        <option value="1">内资</option>
+                        <option value="1">外资</option>
+                        <option value="1">合资</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>供应商代码:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="supplierCode" lay-verify="required" autocomplete="off" class="layui-input"
+                           placeholder="供应商代码">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>供应商名称:</label>
+                <div class="layui-input-inline">
+                    <select class="layui-input" name="supplierName" id="supplier_name" lay-filter="form_supplier_name" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>零件号:</label>
+                <div class="layui-input-inline">
+                    <select class="layui-input" name="partNumber" id="part_number" lay-filter="form_part_number" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">零件名称:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="partName" autocomplete="off" class="layui-input"
+                           placeholder="零件名称">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>缺件原因:</label>
+                <div class="layui-input-inline g-form-input">
+                    <input type="text" name="missingReason" lay-verify="required" autocomplete="off"
+                           class="layui-input"
+                           placeholder="缺失原因">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>是否申诉:</label>
+                <div class="layui-input-inline">
+                    <select name="ifAppeal" lay-verify="required">
+                        <option value=""></option>
+                        <option value=true>是</option>
+                        <option value=false>否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>处罚标准:</label>
+                <div class="layui-input-inline g-form-input">
+                    <input type="text" name="penaltyStandard" lay-verify="required" autocomplete="off"
+                           class="layui-input"
+                           placeholder="处罚标准">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>处罚时间:</label>
+                <div class="layui-input-inline g-form-input">
+                    <input type="text" name="penaltyTime" lay-verify="required" autocomplete="off"
+                           class="layui-input"
+                           placeholder="处罚标准">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label"><span style="color: red;">*</span>处罚金额:</label>
+                <div class="layui-input-inline g-form-input">
+                    <input type="text" name="penaltyMoney" lay-verify="required" autocomplete="off"
+                           class="layui-input"
+                           placeholder="处罚金额">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="g-form-bottom-btn">
+                <button type="button" class="layui-btn layui-btn-normal" lay-submit="main_form" lay-filter="main_form"
+                        @click="sureAddOrEditFunc()">确定
+                </button>
+                <button type="reset" class="layui-btn layui-btn-primary" @click="closeModalFunc">取消</button>
+            </div>
+        </div>
+    </form>
+    <div class="layui-col-md12 autoScrollLeft" style="padding: 50px; padding-top: 0px; display: none;" id="see_Data">
+        <div class="g-btn-group-div">
+            <div>
+                <button class="layui-btn layui-btn-sm g-btn-blue" @click="addTableDataFunc()">导出
+                </button>
+            </div>
+        </div>
+        <div class="g-table-round">
+            <table id="examineTable" lay-filter="" name=""></table>
+        </div>
+    </div>
+</div>
+<style>
+    .layui-table-edit {
+        height: 100%!important;
+    }
+    .layui-input-inline{
+        margin-right: 0!important;
+    }
+    .layui-laydate-range {
+        width: 550px!important;
+    }
+</style>
+
+<script>
+    var TopVm = new Vue({
+        el: "#supplier",
+        data: {    
+            tableData: [{
+                "id":"e63cfaaff6cabefaac097673bc4b8255",
+                "createBy":"7347",
+                "createTime":1600930000180,
+                "updateBy":null,
+                "updateTime":null,
+                "title":"789",
+                "closingDate":1601424000000,
+                "factoryCode":null,
+                "plannerId":null,
+                "contentType":null,
+                "warningBegins":null,
+                "warningEnd":null,
+                "content":null,
+                "fileIds":null,
+                "ifImportant":null,
+                "releaseStatus":1,
+                "releaseBy":null,
+                "releaseTime":1600942080323,
+                "releaseName":"系统管理员王因杰",
+                "releaseCompany":"上汽通用五菱汽车股份有限公司",
+                "approvalBy":null,
+                "approvalTime":1600942084377,
+                "approvalName":"系统管理员王因杰",
+                "publishedTime":1600942084377,
+                "groupIds":null,
+                "supplierCodes":null,
+                "noticeCount":2,
+                "viewedCount":0,
+                "notViewCount":2,
+                "ifSee":null,
+                "fileManagermentEOS":null,
+                "noticeLogs":null
+            },
+            {
+                "id":"e656a41b23430b32ca6fa1a6a2db2da4",
+                "createBy":"7347",
+                "createTime":1600927244287,
+                "updateBy":null,
+                "updateTime":null,
+                "title":"我去恶趣味",
+                "closingDate":1632441600000,
+                "factoryCode":null,
+                "plannerId":null,
+                "contentType":1,
+                "warningBegins":null,
+                "warningEnd":null,
+                "content":null,
+                "fileIds":null,
+                "ifImportant":null,
+                "releaseStatus":4,
+                "releaseBy":null,
+                "releaseTime":1600942080450,
+                "releaseName":"系统管理员王因杰",
+                "releaseCompany":"上汽通用五菱汽车股份有限公司",
+                "approvalBy":null,
+                "approvalTime":1600942075120,
+                "approvalName":"系统管理员王因杰",
+                "publishedTime":null,
+                "groupIds":null,
+                "supplierCodes":null,
+                "noticeCount":2,
+                "viewedCount":0,
+                "notViewCount":2,
+                "ifSee":null,
+                "fileManagermentEOS":null,
+                "noticeLogs":null
+            },
+            {
+                "id":"acf61da812748a6a66f0bf5f217664c0",
+                "createBy":"7347",
+                "createTime":1600926930603,
+                "updateBy":null,
+                "updateTime":null,
+                "title":"请问",
+                "closingDate":1601078400000,
+                "factoryCode":null,
+                "plannerId":null,
+                "contentType":2,
+                "warningBegins":null,
+                "warningEnd":null,
+                "content":null,
+                "fileIds":null,
+                "ifImportant":null,
+                "releaseStatus":1,
+                "releaseBy":null,
+                "releaseTime":1600927065213,
+                "releaseName":"系统管理员王因杰",
+                "releaseCompany":"上汽通用五菱汽车股份有限公司",
+                "approvalBy":null,
+                "approvalTime":1600927070850,
+                "approvalName":"系统管理员王因杰",
+                "publishedTime":1600927070850,
+                "groupIds":null,
+                "supplierCodes":null,
+                "noticeCount":2,
+                "viewedCount":0,
+                "notViewCount":2,
+                "ifSee":null,
+                "fileManagermentEOS":null,
+                "noticeLogs":null
+            },
+            {
+                "id":"69c490bd94429a4b99c2dbecb11e3f93",
+                "createBy":"7347",
+                "createTime":1600917031427,
+                "updateBy":null,
+                "updateTime":null,
+                "title":"阿瓦达无大无大",
+                "closingDate":1601424000000,
+                "factoryCode":null,
+                "plannerId":null,
+                "contentType":6,
+                "warningBegins":null,
+                "warningEnd":null,
+                "content":null,
+                "fileIds":null,
+                "ifImportant":null,
+                "releaseStatus":1,
+                "releaseBy":null,
+                "releaseTime":1600917073447,
+                "releaseName":"系统管理员王因杰",
+                "releaseCompany":"上汽通用五菱汽车股份有限公司",
+                "approvalBy":null,
+                "approvalTime":1600917077530,
+                "approvalName":"系统管理员王因杰",
+                "publishedTime":1600917077530,
+                "groupIds":null,
+                "supplierCodes":null,
+                "noticeCount":2,
+                "viewedCount":0,
+                "notViewCount":2,
+                "ifSee":null,
+                "fileManagermentEOS":null,
+                "noticeLogs":null
+            },],
+            searchParam: {
+                happenYear:'',//发生年月
+                happenTime:'',//发生日期
+                happenTimeStart:'',//发生开始时间
+                happenTimeEnd:'',//发生结束时间
+                supplierCode:'',//供应商代码
+                supplierName:'',//供应商名称
+                base:'',//基地为一值
+                partNumber:'',//零件号
+                partName:'',//零件名称
+            },
+            //定义存储下拉菜单中的数据的接口
+            selectInterfaceArr: [
+                {"base": InterfaceMap.claimForCompensation.getSelectLevelUrl,}, //查询条件中，查询基地下拉菜单中的数据的接口（填入基地接口）
+                {"partnumber": InterfaceMap.claimForCompensation.getSelectLevelUrl}, //查询条件中，查询零件号下拉菜单中的数据的接口（填入零件接口）
+                {"partname": InterfaceMap.claimForCompensation.getSelectLevelUrl} //查询条件中，查询零件名称下拉菜单中的数据的接口（填入零件接口）
+            ],
+            //定义新增或修改的表单中下拉菜单中的数据的接口
+            mainFormSelectInterfaceArr: [
+                {"base_name": InterfaceMap.claimForCompensation.getSelectLevelUrl}, //新增或编辑弹框中，查询供应商级别下拉菜单中的数据的接口
+                {"supplier_name": InterfaceMap.claimForCompensation.getSelectLevelUrl}, //新增或编辑弹框中，查询供应商级别下拉菜单中的数据的接口
+                {"part_number": InterfaceMap.claimForCompensation.getSelectLevelUrl}, //新增或编辑弹框中，查询供应商级别下拉菜单中的数据的接口
+            ],
+            cols:[[
+                {type: 'numbers', title: '序号', fixed: 'left', event: 'setSign'},
+                {field: 'year', title: '年份', align: 'center',width:150,},
+                {field: 'month', title: '月份', align: 'center',width:100},
+                {field: 'supplierCode', title: '供应商代码', align: 'center',width:200,},
+                {field: 'supplierName', title: '供应商名称', align: 'center',width:100,},
+                {field: 'viewTime', title: '查看时间', align: 'center',width:100,},
+                {field: 'closingDate', title: '查看状态', align: 'center',width:100,},
+            ]],
+            
+        },
+        computed: {
+            dataSourceList: function () {
+                return [
+                    {"name": "编辑", "classed": "g-btn-blue", "trigger": "edit"},
+                ]
+            }
+        },
+        mounted() {
+            var _this = this;
+            _this.renderTime();
+        },
+        methods: {
+            /**
+             * description:数据查找模块的显示或隐藏
+             * @param event: 当前元素
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            openPanel: function (event) {
+                if ($(event.currentTarget).next('.layui-form-item').css('display') === 'none') {
+                    $(event.currentTarget).next('.layui-form-item').css('display', 'block');
+                    if (event.currentTarget && event.currentTarget.className === 'tip-title') {
+                        $('#flex1').html('收起');
+                        $('#flex1').next().next().removeClass('hide');
+                        $('#flex1').next().addClass('hide');
+                    } else {
+                        $('#flex2').html('收起')
+                        $('#flex2').next().next().removeClass('hide');
+                        $('#flex2').next().addClass('hide');
+                    }
+                } else {
+                    $(event.currentTarget).next('.layui-form-item').css('display', 'none');
+                    if (event.currentTarget && event.currentTarget.className === 'tip-title') {
+                        $('#flex1').html('展开');
+                        $('#flex1').next().next().addClass('hide');
+                        $('#flex1').next().removeClass('hide');
+                    } else {
+                        $('#flex2').html('展开')
+                        $('#flex2').next().next().addClass('hide');
+                        $('#flex2').next().removeClass('hide');
+                    }
+                }
+            },
+            /**
+             * description: 渲染实际选择框方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+             renderTime: function (data) {
+                var _this = this;
+                layui.use('laydate', function () {
+                    laydate = layui.laydate;
+                    var startDate= laydate.render({//渲染开始时间选择
+                            elem: '#seachHapYear',//通过id绑定html中插入的start
+                            type: 'month',
+                            max:"2099-12-31",//设置一个默认最大值	
+                            done: function (value, dates) { 
+                                console.log(value);  
+                                _this.searchParam.happenYear = value;
+                                endDate.config.min ={
+                                        year:dates.year, 
+                                        month:dates.month-1, //关键
+                                        date: 1, 
+                                        hours: 0, 
+                                        minutes: 0, 
+                                        seconds : 0
+                                };
+                                endDate.config.max ={
+                                        year:dates.year, 
+                                        month:dates.month-1, //关键
+                                        date: 30, 
+                                        hours: 0, 
+                                        minutes: 0, 
+                                        seconds : 0
+                                };       
+                            }
+                        });
+                    var endDate= laydate.render({//渲染结束时间选择
+                            elem: '#seachHapTime',//通过id绑定html中插入的end
+                            type: 'datetime', 
+                            min:"1970-1-1",//设置min默认最小值
+                            range: true,
+                            done: function (value, dates) {
+                                _this.searchParam.happenTimeStart = value.substring(0, 19);;
+                                _this.searchParam.happenTimeEnd = value.substring(value.length-19,value.length);
+                            }
+                        });
+
+                })
+
+            },
+            /**
+             * description: 点击顶部查询条件中，查询按钮执行的方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            searchTableDataFunc: function () {
+                var _this = this;
+                //执行子组件中，根据查询条件获取表格数据的方法
+                _this.$refs.refCondition.getTableDataFunc();
+            },
+
+            /**
+             * description: 点击顶部查询条件中，重置按钮执行的方法，然后调用Tool.js中的resetSearchParamFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            resetSearchFunc: function () {
+                var _this = this;
+                //执行子组件中，重置查询条件的方法
+                _this.$refs.refCondition.resetSearchParamFunc();
+            },
+
+            /**
+             * description:点击表格上方‘新增’按钮执行的方法，然后调用Tool.js中的addDataFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            addTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.addDataFunc({width:750,height:550});
+                layui.use('laydate', function () {
+                    laydate = layui.laydate;
+                    laydate.render({ 
+                        elem: '#happenTime',
+                        fromat: '18/08/2017',
+                        type: 'date',
+                    });
+                })
+            },
+
+            /**
+             * description:点击表格上方‘编辑’按钮执行的方法，然后调用Tool.js中的editDataFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            editTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.editDataFunc({width:750,height:550});
+                layui.use('laydate', function () {
+                    laydate = layui.laydate;
+                    laydate.render({ 
+                        elem: '#happenTime',
+                        fromat: '18/08/2017',
+                        type: 'date',
+                    });
+                })
+            },
+
+            /**
+             * description:点击表格上方‘删除’按钮执行的方法，然后调用Tool.js中的deleteDataFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            deleteTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.deleteDataFunc({width:750,height:550});
+            },
+            /**
+             * description:点击表格上方‘数据查看’按钮执行的方法，然后调用Tool.js中的deleteDataFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+             seeTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.seeDataFunc({width:850,height:550},'see_Data',function(data){
+                    _this.setTableData(data);
+                });
+                
+            },
+            /**
+             * description:点击表格上方‘数据查看’按钮执行的方法，然后调用Tool.js中的deleteDataFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+             setTableData: function (data) {
+                var _this = this;
+                console.log(data);
+                layui.use('table', function () {
+                     var table = layui.table
+                    //展示已知数据
+                    table.render({
+                        elem: '#examineTable',
+                        // url: _this.getTableDataUrl,
+                        data: data.records,
+                        cols: _this.cols,
+                        cellMinWidth: 120,
+                        height:380,
+                        width:800,
+                        request: {
+                            pageName: 'count', //页码的参数名称，默认：page
+                            limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                        },
+                        page: true, //开启分页
+                    });
+                });
+            },
+            /**
+             * description:点击表格上方‘发布’按钮执行的方法，然后调用Tool.js中的deleteDataFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+             publishTableDataFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.publishDataFunc();
+            },
+
+            /**
+             * description:点击新增或编辑弹出框中的‘确定’按钮执行的方法，然后调用Tool.js中的submitFormFunc()方法
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            sureAddOrEditFunc: function () {
+                var _this = this;
+                _this.$refs.refCondition.submitFormFunc();
+            },
+
+            /**
+             * description:点击新增或编辑弹出框中的‘取消’按钮执行的方法、
+             * author:linzijain
+             * time: 2020-09-24
+             */
+            closeModalFunc: function () {
+                var _this = this;
+                layer.closeAll();
+            },
+
+        },
+    });
+</script>
+
+
+
+
+
+

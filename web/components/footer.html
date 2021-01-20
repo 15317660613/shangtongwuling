@@ -1,0 +1,136 @@
+<div>
+    <div class="footer_in">
+        <div class="ri">
+            <span class="index2hidden">
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="BM">我的部门</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="YWGL">我的业务</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="ZLKF">质量开发</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="ZLBZ">质量保障</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="QJNLGL">Q+能力管理</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="QJGLXY">Q+管理学院</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="GXGL">风险管理</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="CNGL">产能管理</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="CLTP">材料图谱</a>
+                &nbsp; | &nbsp;
+                <a href="javascript:void(0)" onclick="jump($(this),event)" point="XTGL">系统管理</a>
+            </span>
+            <p>Copyright@2017 上汽通用五菱汽车股份有限公司 | 桂ICP备案号05006817号-1 | 桂公网安备45020402000009号</p>
+        </div>
+    </div>
+</div>
+<style>
+    .footer_in {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .ri {
+        color: #fff;
+        padding-top: 8px;
+        padding-right: 12px
+    }
+    
+    .footer_in div.ri a {
+        color: #fff;
+    }
+    
+    .footer_in div.ri p {
+        color: #9badc7;
+        padding-top: 15px;
+    }
+</style>
+<script>
+    var list;
+    layui.use('layer', function() {
+        var layer = layui.layer;
+        var config = layui.config;
+        list = config.getAccount().sysCodes;
+        /**
+         *   根据点击事件判断是否有权限跳转页面
+         * @param $this
+         */
+
+    });
+
+    function jump($this, event) {
+        //页面地址 ==> div的name值
+        var point = $this.attr('point');
+        var href = "",
+            key = '';
+        /**
+         * 根据点击效果 判断调转
+         */
+        if (list.indexOf(point) === -1) {
+            layui.use('layer', function() {
+                var layer = layui.layer;
+                layer.msg('您没有相关权限！');
+            });
+            return;
+        }
+
+        // for(var i  in list){
+        // if( point ===  list[i]){
+        switch (point) {
+            case 'BM':
+                href = 'smsh?re=bmgkTab/tabs1-1';
+                break;
+            case 'YWGL':
+                href = 'smsh?re=jbpm/taskpersonal';
+                break;
+            case 'ZLKF':
+                href = 'index.html#!ADC_parts_part_info_query';
+                break;
+            case 'ZLBZ':
+                href = 'smsh?re=bpm/tabs2-2';
+                break;
+            case 'QJNLGL':
+                href = 'smsh?re=gysnlpjTab/tabs2-2';
+                break;
+            case 'GXGL':
+                href = 'components/risk/riskMap.html';
+                break;
+            case 'CNGL':
+                href = 'smsh';
+                break;
+            case 'CLTP':
+                href = 'smsh';
+                break;
+            case 'XTGL':
+                href = 'index.html#!ADC_system_user';
+                break;
+            case 'QJGLXY':
+                href = 'index.html#!ADC_academy_course';
+                break;
+        }
+        // } else{
+        //     alert("您没有相关权限！");
+        // }
+        // }
+
+        //动态获取地址 IP地址+端口号
+        // window.location.href = 'http://'+address +'/'+ $this.attr('name')+'';
+        var protocol = 'http:';
+        if ('https:' === window.location.protocol) {
+            protocol = window.location.protocol;
+        }
+
+        var path = protocol + '//' + window.location.host + '/' + href + '';
+        console.log(event);
+        // 获取页面链接，做跳转
+        if (event.button === 0) {
+            window.location.href = path;
+        }
+        if (event.button === 2) {
+            window.open(path);
+        }
+    }
+</script>

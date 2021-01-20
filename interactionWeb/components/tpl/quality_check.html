@@ -1,0 +1,273 @@
+<div class="layui-card-body">
+    <table id="tableContent_ability_check" lay-filter="tableContent_ability_check">
+        <table id="tableContent_detial_check" lay-filter="tableContent_detial_check">
+</div>
+
+<style type="text/css">
+    #layer-form .table-top-bar .layui-form-label {
+        width: auto;
+    }
+    
+    #layer-form .layui-form-label {
+        float: left;
+        margin-top: 1%;
+    }
+    
+    #layer-form .layui-inline {
+        width: 20%;
+        float: left;
+        margin-top: 1%;
+    }
+    
+    #layer-form .layui-form-select .layui-input {
+        width: 100%
+    }
+</style>
+<script type="text/javascript">
+    //console.log($("input[name='planId']").val())
+    //console.log($("input[name='partsCode']").val())
+    //console.log($("input[name='partsName']").val())
+    //console.log($("input[name='carType']").val())
+    //console.log($("input[name='planName']").val())
+    //console.log($("input[name='partsVersion']").val())
+    layui.use(['laydate', 'element', 'table', 'formSelects', 'upload'], function() {
+        var table = layui.table,
+            form = layui.form,
+            upload = layui.upload,
+            laydate = layui.laydate,
+            config = layui.config,
+            tableParmas = {},
+            formSelects = layui.formSelects,
+            admin = layui.admin,
+            tableBak = [];
+        var renderTable = function(search) {
+            if (!search) {
+                search = {};
+            }
+            // 渲染表格
+            table.render({
+                elem: '#tableContent_ability_check',
+                id: 'tableContent_ability_check',
+                url: admin.formatUrl('/api-edu/interaction/qualityInspectionPlan/updateHistory' +
+                    '?partsCode=' + $("input[name='partsCode']").val() + '&planName=' + $("input[name='planName']").val()),
+                // 格式化后台返回的数据
+
+                parseData: function(res) { //res 即为原始返回的数据
+                    // 返回结果，进行渲染表格
+                    return {
+                        "code": res.respCode, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.data.list.length != 0 ? res.data.list.length : 0, //解析数据长度
+                        "data": res.data.list.length != 0 ? res.data.list : [] //解析数据列表
+                    };
+                },
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        rowspan: '2',
+                    }, {
+                        type: 'numbers',
+                        rowspan: '2',
+                        title: 'No.'
+                    }, {
+                        field: 'partsCode',
+                        rowspan: '2',
+                        title: '零件号'
+                    }, {
+                        field: 'partsName',
+                        rowspan: '2',
+                        templet: function(d) {
+                            var value = d.partsName ? d.partsName : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '零件名称'
+                    }, {
+                        field: 'carType',
+                        rowspan: '2',
+                        templet: function(d) {
+                            var value = d.carType ? d.carType : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '车型/机型'
+                    }, {
+                        field: 'planName',
+                        rowspan: '2',
+                        title: '测量计划名称',
+                        //edit: 'text'
+                    }, {
+                        field: 'partsVersion',
+                        rowspan: '2',
+                        title: '版本号'
+                    }, {
+                        field: 'updaterDate',
+                        rowspan: '2',
+                        templet: function(d) {
+                            var value = d.updaterDate ? d.updaterDate : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '更新日期'
+                    }, {
+                        field: 'fileName',
+                        rowspan: '2',
+                        templet: function(d) {
+                            var value = d.fileName ? d.fileName : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '导入文件名称',
+                        templet: function(d) {
+                            var temp = ''
+                            if (d.fileName) {
+                                temp = '<a href="javascript:void(0)" class="layui-table-link" data-url=' + d.fileId + '>' + d.fileName + '</a>'
+                            }
+                            return temp
+                        }
+                    }, {
+                        field: 'remark',
+                        rowspan: '2',
+                        templet: function(d) {
+                            var value = d.remark ? d.remark : ''
+                            return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                        },
+                        title: '备注'
+                    }]
+                ],
+                cellMinWidth: 90,
+                request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                        ,
+                    limitName: 'pageSize' //每页数据量的参数名，默认：limit
+                },
+                page: {
+                    layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                },
+                where: search
+            });
+            table.on('edit(tableContent_ability_check)', function(obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+                //console.log(obj.value); //得到修改后的值
+                //console.log(obj.field); //当前编辑的字段名
+                //console.log(obj.data); //所在行的所有相关数据
+                //alert(obj.value);
+            });
+            table.on('row(tableContent_ability_check)', function(obj) {
+
+                renderDetialTable(obj.data.id);
+
+            });
+        }
+
+        var renderDetialTable = function(id) {
+                // 渲染表格
+                table.render({
+                    elem: '#tableContent_detial_check',
+                    id: 'tableContent_detial_check',
+                    url: admin.formatUrl('/api-edu/interaction/qualityInspectionPlan/' + id),
+                    // 格式化后台返回的数据
+                    parseData: function(res) { //res 即为原始返回的数据
+                        // 返回结果，进行渲染表格
+                        return {
+                            "code": res.respCode, //解析接口状态
+                            "msg": res.message, //解析提示文本
+                            "count": res.data.list.length != 0 ? res.data.list.length : 0, //解析数据长度
+                            "data": res.data.list.length != 0 ? res.data.list : [] //解析数据列表
+                        };
+                    },
+                    cols: [
+                        [{
+                            type: 'numbers',
+                            rowspan: '2',
+                            title: 'No.'
+                        }, {
+                            field: 'sizeNumber',
+                            rowspan: '2',
+                            title: '尺寸编号'
+                        }, {
+                            field: 'specialCharacteristics',
+                            rowspan: '2',
+                            title: '特殊特性分类'
+                        }, {
+                            field: 'characterName',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.characterName ? d.characterName : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '特性名称'
+                        }, {
+                            field: 'standardValue',
+                            rowspan: '2',
+                            title: '标准值'
+                        }, {
+                            field: 'upperTolerance',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.upperTolerance ? d.upperTolerance : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '上公差'
+                        }, {
+                            field: 'lowerTolerance',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.lowerTolerance ? d.lowerTolerance : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '下公差'
+                        }, {
+                            field: 'inspectionEquipment',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.inspectionEquipment ? d.inspectionEquipment : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '检验用具'
+                        }, {
+                            field: 'frequency',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.frequency ? d.frequency : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '频次'
+                        }, {
+                            field: 'remark',
+                            rowspan: '2',
+                            templet: function(d) {
+                                var value = d.remark ? d.remark : ''
+                                return '<div title="' + value + '"><span>' + value + '</span></div>'
+
+                            },
+                            title: '备注'
+                        }]
+                    ],
+                    cellMinWidth: 90,
+                    page: {
+                        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip']
+                    }
+                });
+                table.on('edit(tableContent_detial_check)', function(obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+                    //console.log(obj.value); //得到修改后的值
+                    //console.log(obj.field); //当前编辑的字段名              
+                    //obj.data.LAY_CHECKED=true;
+                    //obj.update({LAY_CHECKED: true})
+                    //console.log($(obj.tr).eq(0).find('input').eq(1).prop('checked',true))
+                    //$('input[type="checked"],obj').prop('checked',true)
+                    console.log(table.checkStatus('tableContent_detial_check')); //所在行的所有相关数据
+                    //alert(obj.value);
+                });
+            }
+            // 初始化，执行一次渲染表格
+        renderTable();
+
+
+    })
+</script>

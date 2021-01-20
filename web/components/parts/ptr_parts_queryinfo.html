@@ -1,0 +1,242 @@
+  <!--
+File   : ptr_parts_query.html
+Created: 2019-01-04
+Author : 苑立杰
+Description: PTR清单查询
+-----
+Last Modified:
+Modified By  :
+Description:
+-----
+-->
+<link rel="stylesheet" href="../../assets/css/ptr_parts_createinfo.css"/>
+<div class="layui-row layui-col-space15" id="ptr_parts_queryinfo">
+    <div class="layui-col-md12 autoScrollLeft">
+        <div style="background-color: #ffffff;height: 40px;text-align: center;padding-top: 9px">
+            <h2 style="position: absolute; margin-left: 40%">PTR申请单</h2>
+            <p style="float: left; padding-right: 10px">系统编码: <span id="syscode"></span></p>
+            <p style="float: right; margin-right: 120px">PTR编号:<span id="ptrnum"></span></p>
+            <div style="clear: both"></div>
+        </div>
+        <div class="layui-card">
+            <div class="tableList">
+                <div class="layui-form">
+                    <!--<div class="tableList-title" onclick="openPanel(this)">-->
+                    <!--<div class="table-l title-l"><label>PTR申请单</label></div>-->
+                    <!--</div>-->
+                    <div class="table-round">
+                        <div id="task-ptr-info-round">
+                            <table id="task-ptr-info-table" class="table-form" lay-filter="task-ptr-info-table"></table>
+                        </div>
+                    </div>
+                    <div class="layui-form">
+                        <div class="layui-row">
+                            <div class="layui-col-md12">
+                                <div style="float: left">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">申请人:</label>
+                                        <div class="layui-input-block">
+                                            <input id="applicantperson" disabled type="text" class="layui-input"
+                                                   placeholder="申请人">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="float: left">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">申请时间:</label>
+                                        <div class="layui-input-block">
+                                            <input id="createtime" disabled type="text" class="layui-input"
+                                                   placeholder="申请时间">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row" style="padding: 1%">
+                            <h4>说明：如未完成PPAP需紧急申请PTR验证，需填写PAA编号。</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- 分发与报送 -->
+        <div class="search">
+            <form class="layui-form search-form" lay-filter="search-form-content">
+                <div class="search-title" onclick="openPanel3(this)">
+                    <div class="search-l title-l"><label><span style="color: red">*</span>分发与报送</label></div>
+                    <div class="search-r "><label id="flex23">收起</label><img class="hide"
+                                                                             src="../../assets/images/arrowdown.png" alt="../../assets/images/arrowdown.png"/><img
+                            src="../../assets/images/arrowup.png" alt="../../assets/images/arrowup.png"/>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="padding: 0 0 0 0">
+                    <!-- 数据表格顶部控制栏 -->
+                    <div class="layui-form" style="padding: 0 0 1% 0;">
+                        <!--layui表格-->
+                        <table id="table_f" class="layui-table">
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 底部按钮 -->
+        <div style="text-align: center">
+            <button onclick="exportPdf()" class="layui-btn layui-btn-normal detail">下载</button>
+            <button type="button" onclick="closePage()" class="layui-btn layui-btn-normal detail">关闭</button>
+        </div>
+
+    </div>
+</div>
+<script>
+    //获取跳转参数
+    var param = window.location.hash;//路径参数---declared by qitian 20181216
+    if (param.indexOf('?') === -1) {
+        window.history.go(-1);
+    }
+    var ptrNumber = param.split('?')[1];
+    $('#syscode').html(ptrNumber)
+    var fenfaflag = true;
+    var table, admin, form, layer, laydate, config;
+    layui.use(['table', 'laydate', 'form', 'layer', 'adc'], function () {
+        table = layui.table,
+            admin = layui.adc,
+            form = layui.form,
+            config = layui.config,
+            layer = layui.layer,
+            laydate = layui.laydate;
+
+        table.render({
+            elem: '#task-ptr-info-table'
+            , id: 'task-ptr-info-table'
+            , url: admin.formatUrl('/api/ppap/ptrpartsdetail/getPartsBySyscode?syscode=' + ptrNumber)
+            , method: 'POST'
+            // 格式化后台返回的数据
+            , parseData: function (res) { //res 即为原始返回的数据
+                // 返回结果，进行渲染表格
+                if (res.respCode == 200) {
+                    res.respCode = 0;
+                }
+                console.log(res)
+                if (res.data.ptrnumber != '' && res.data.ptrnumber != null) {
+                    $('#ptrnum').html(res.data.ptrnumber)
+                } else {
+                    $('#ptrnum').html('')
+                }
+                $('#paa').val(res.data.paanum != '' ? res.data.paanum : '')
+                $('#applicantperson').val(res.data.applicantperson != '' ? res.data.applicantperson : '')
+                $('#createtime').val(res.data.createtime != '' ? new Date(res.data.createtime).Format('yyyy-MM-dd') : '')
+                var data = admin.redefinedForObject(res.data.ptrtaskdistributeEOList);
+                var html = ''
+                $('#table_f').empty()
+                if (data.length != 0){
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<tr>\n' +
+                            '       <td style="min-width: 100px">职务</td>\n' +
+                            '       <td>'+data[i].publisher+'</td>\n' +
+                            '       <td style="min-width: 100px">分发人</td>\n' +
+                            '       <td>'+data[i].name+'</td>\n' +
+                            '       <td>邮箱</td>\n' +
+                            '       <td>'+data[i].email+'</td>\n' +
+                            '       <td>分发日期</td>\n' +
+                            '       <td>'+data[i].distributetime+'</td>\n' +
+                            '       </tr>'
+
+                    }
+                    $('#table_f').html(html)
+                }else {
+                    $('#table_f').html('<p style="text-align: center">无数据</p>')
+                }
+                return {
+                    "code": res.respCode, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.ptrpartsdetailVOList.length, //解析数据长度
+                    "data": admin.redefinedForObject(res.data.ptrpartsdetailVOList) //解析数据列表
+                };
+            }
+            , height: 'full-470'
+            , cols: [[
+                {type: 'numbers', title: '序号', align: 'center'}
+                , {field: 'latestpartnum', title: 'PTR P/N PTR零件号', minWidth: 160, align: 'center'}
+                , {field: 'partsname', title: 'Part Name零件名', minWidth: 140, align: 'center'}
+                , {field: 'initialpartnum', title: 'P/N 当前零件号', minWidth: 140, align: 'center'}
+                , {
+                    field: 'causecontentdescription',
+                    title: 'PTR原因及内容描述',
+                    minWidth: 160,
+                    align: 'center'
+                }
+                , {field: 'ppapnum', title: 'PPAP编号', minWidth: 100, align: 'center'}
+                , {
+                    field: 'latestapprovaltime', title: 'PPAP完成时间', minWidth: 130, align: 'center'
+                    , templet: function (d) {
+                        return d.latestapprovaltime != '' ? new Date(d.latestapprovaltime).Format("yyyy-MM-dd") : ''
+                    }
+                }
+                , {field: 'responsiblesqe', title: 'SQE', minWidth: 100, align: 'center'}
+                , {field: 'sqecontact', title: 'SQE联系方式', minWidth: 120, align: 'center'}
+                , {field: 'responsiblepe', title: 'PE', minWidth: 100, align: 'center'}
+                , {field: 'pecontact', title: 'PE联系方式', minWidth: 120, align: 'center'}
+                , {field: 'latestewo', title: 'EWO', minWidth: 100, align: 'center'}
+                , {
+                    field: 'verificationrequirements',
+                    title: 'PTR验证项目及要求',
+                    minWidth: 160,
+                    align: 'center'
+                }
+                , {field: 'suppliername', title: '供应商', minWidth: 100, align: 'center'}
+                , {field: 'amountpervehicle', title: '每车用量', minWidth: 100, align: 'center'}
+                , {field: 'applicablevehicletype', title: '适用车辆', minWidth: 100, align: 'center'}
+                , {
+                    field: 'iskeycomponent', title: '是否关键零部件', minWidth: 140, align: 'center'
+                    , templet: function (d) {
+                        if (1 == d.iskeycomponent) {// + "&" + "'++'"
+                            return '是'
+                        } else if (2 == d.iskeycomponent) {
+                            return '否'
+                        } else {
+                            return ''
+                        }
+                    }
+                }
+                , {field: 'paanum', title: 'PAA编号', minWidth: 100, align: 'center'}
+            ]],
+            done: function (res, curr, count) {
+            },
+            cellMinWidth: 110,
+            page: false,
+            request: {},
+            where: {}
+        });
+    });
+
+    function exportPdf() {
+        window.location.href = "/api/ppap/ptrpartsdetailedlist/singlePtrExportExcel?sysCode=" + ptrNumber;
+    }
+
+    //关闭
+    //updated by qitian 2019-01-25 解决页面跳转问题
+    function closePage() {
+        location.replace( './index.html#!ADC_parts_ptr_list_query');
+    }
+
+    //分发与报送 显示/隐藏
+    function openPanel3(_this) {
+        if ($(_this).next('.layui-form-item').css('display') === 'none') {
+            $(_this).next('.layui-form-item').css('display', 'block');
+            $('#flex23').html('收起')
+            $('#flex23').next().next().removeClass('hide');
+            $('#flex23').next().addClass('hide');
+        } else {
+            $(_this).next('.layui-form-item').css('display', 'none');
+            $('#flex23').html('展开')
+            $('#flex23').next().next().addClass('hide');
+            $('#flex23').next().removeClass('hide');
+        }
+    }
+    //by ma 2019/03/10 selectFrom 添加鼠标悬停显示全部
+    $("#ptr_parts_queryinfo").on('mouseover','.xm-form-checkbox',function (){
+        var text = $(this).find("span").text()
+        $(this).attr('title',text)
+    });
+</script>

@@ -1,0 +1,158 @@
+<!-- 查询条件设置 -->
+<div class="layui-row" style="margin-top: 4px;">
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">查询条件设置
+                <a href="javascript:void(0);" onclick="slideDiv(this)"><span class="slide">展开 </span><img src="../../assets/images/icon-slideup.png" alt="" class="img"></a>
+            </div>
+            <div class="layui-card-body layui-form" class="showDiv" style="padding-top: 10px;display: none" lay-filter="form">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">日期：</label>
+                            <div class="layui-input-block">
+                                <i class="layui-icon layui-icon-date"></i>
+                                <input type="text" name="date" placeholder="" class="layui-input" id="date-1" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md9">
+                        <div class="layui-form-item" style="padding-left: 10px">
+                            <input type="radio" name="sex" value="0" title="3个月滚动风险" checked>
+                            <input type="radio" name="sex" value="1" title="12个月滚动风险">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">业务模块：</label>
+                            <div class="layui-input-block">
+                                <select name="ywmk" id="ywmk1" xm-select="functionSelect"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">供应商代码：</label>
+                            <div class="layui-input-block" style="margin-left: 100px;">
+                                <select name="gysdm" id="gysdm1" lay-filter="gysdm1" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">供应商名称：</label>
+                            <div class="layui-input-block">
+                                <select name="gysmc" id="gysmc1" lay-filter="gysmc1" lay-search>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">风险程度：</label>
+                            <div class="layui-input-block">
+                                <select name="fxcd" id="fxcd1" xm-select="level">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item" style=" margin-bottom: 0;">
+                            <div class="layui-input-block" style="margin: 0;text-align: center;">
+                                <button class="layui-btn layui-btn-sm layui-btn-normal blue" style="padding: 0 30px;" lay-submit lay-filter="search" id="searchAll">查询
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-primary" style="padding: 0 30px;" id="reset">重置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 统计表格 -->
+<div class="layui-row" style="margin-top: 10px;">
+    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">风险信息详情</div>
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                        <button class="layui-btn layui-btn-primary green" id="top10" value="1">TOP10</button>
+                        <button class="layui-btn layui-btn-primary" id="top20" value="2">TOP20</button>
+                        <button class="layui-btn layui-btn-primary" id="top30" value="3">TOP30</button>
+                        <button class="layui-btn layui-btn-primary" id="top50" value="5">TOP50</button>
+                    </div>
+                    <div class="pull-right" id="analysisBtn">
+                        <!-- <button class="layui-btn layui-btn-normal layui-btn-radius blue" id="exportList">总清单导出</button>
+                        <button class="layui-btn layui-btn-normal layui-btn-radius blue" id="exportSingle">单一页面导出</button>
+                        <button class="layui-btn layui-btn-normal layui-btn-radius blue" id="push">风险信息推送</button>
+                        <button class="layui-btn layui-btn-normal layui-btn-radius blue" id="pushList">推送清单</button> -->
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" id="table_and_page_div_id">
+                        <table id="demo-table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 统计图 + 空白图表 -->
+<div class="layui-row layui-col-space8" style="margin-top: 4px;">
+    <div class="layui-col-xs12 layui-col-sm6 layui-col-md7">
+        <div class="layui-card">
+            <div class="layui-card-header" id="bar-title"></div>
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div id="chart-bar" style="width: 96%;height: 290px;margin: 0 auto;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-xs12 layui-col-sm6 layui-col-md5">
+        <div class="layui-card">
+            <div class="layui-card-header" id="pie-title"></div>
+            <div class="layui-card-body" id="pieBody">
+                <div class="layui-row" id="chart-pie-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <img src="../../assets/images/nodata.png" style="height: 100px;margin-left: 41%;padding: 80px 0" id="async-img">
+                        <div id="chart-pie" style="width: 96%;height: 260px;margin: 0 auto;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .layui-col-space8>* {
+        padding: 5px;
+    }
+    
+    .layui-table-body {
+        /* height: 347px; */
+        max-height: 347px;
+    }
+    
+    #gysList .layui-table-body {
+        /* height: 330px; */
+        max-height: 330px;
+    }
+    
+    #pushListTpl .layui-table-body {
+        height: 330px;
+        max-height: 330px;
+    }
+</style>
+<script src="../../assets/js/riskAnalysis.js"></script>
